@@ -1,0 +1,64 @@
+{
+  "name": "theheadoffice",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run server",
+    "server": "webpack-dev-server --history-api-fallback --inline --progress",
+    "build": "rimraf dist && webpack --bail --progress --profile",
+    "stats": "webpack --json | webpack-bundle-size-analyzer",
+    "analyse": "webpack --profile --json > stats.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sharavanth/TheHeadOffice.git"
+  },
+  "author": "Sharavanth, Bala",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sharavanth/TheHeadOffice/issues"
+  },
+  "homepage": "https://github.com/Sharavanth/TheHeadOffice#readme",
+  "dependencies": {
+    "async": "^1.5.2",
+    "async-foreach": "^0.1.3",
+    "bcrypt-nodejs": "^0.0.3",
+    "body-parser": "^1.14.2",
+    "composable-middleware": "^0.3.0",
+    "crypto": "^0.0.3",
+    "express": "^4.13.3",
+    "fs": "^0.0.2",
+    "glob": "^7.0.3",
+    "http": "^0.0.0",
+    "less": "^2.6.1",
+    "lodash": "^4.0.1",
+    "method-override": "^2.3.5",
+    "moment": "^2.13.0",
+    "moment-timezone": "^0.5.1",
+    "mongoose": "^4.4.6",
+    "morgan": "^1.7.0",
+    "passport": "^0.3.2",
+    "passport-http-bearer": "^1.0.1",
+    "passport-local": "^1.0.0",
+    "react": "^15.0.2",
+    "react-dom": "^15.0.2",
+    "underscore": "^1.8.3",
+    "uuid": "^2.0.1"
+  },
+  "devDependencies": {
+    "css-loader": "^0.23.1",
+    "file-loader": "^0.8.5",
+    "less-loader": "^2.2.3",
+    "source-map-loader": "^0.1.5",
+    "style-loader": "^0.13.1",
+    "ts-loader": "^0.8.2",
+    "tslint": "^3.8.1",
+    "tslint-loader": "^2.1.4",
+    "url-loader": "^0.5.7",
+    "webpack": "^1.13.0"
+  },
+  "optionalDependencies": {
+    "webpack-bundle-size-analyzer": "^2.0.1"
+  }
+}

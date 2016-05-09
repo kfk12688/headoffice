@@ -1,0 +1,37 @@
+/////////////////////////////////////////////////////
+//               Mixin Functions                   //
+/////////////////////////////////////////////////////
+
+/** .hs-border */
+
+.hs-border (@top, @right, @bottom, @left, @bordercolor: @border-color-dark) {
+  border-style: solid;
+  border-color: @bordercolor;
+  border-width: unit(@top, px) unit(@right, px) unit(@bottom, px) unit(@left, px);
+  border-radius: unit(0, px);
+}
+
+.hs-border (@width, @bordercolor: @border-color-dark) {
+  border-style: solid;
+  border-color: @bordercolor;
+  border-width: unit(@width, px);
+  border-radius: unit(0, px);
+}
+
+.hs-border (@width1, @width2, @bordercolor: @border-color-dark) {
+  border-style: solid;
+  border-color: @bordercolor;
+  border-width: unit(@width, px) unit(@width2, px);
+  border-radius: unit(0, px);
+}
+
+
+/** .hs-position */
+
+.hs-position (@position: absolute, @top: 0, @bottom : 0, @left : 0, @right : 0) {
+  position: @position;
+  top: @top;
+  bottom: @bottom;
+  left: @left;
+  right: @right;
+}

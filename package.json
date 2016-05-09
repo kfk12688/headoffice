@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "clean": "rimraf dist",
     "start": "npm run server",
-    "server": "webpack-dev-server --history-api-fallback --inline --progress",
-    "build": "rimraf dist && webpack --bail --progress --profile",
+    "server": "webpack-dev-server --history-api-fallback --hot --inline --progress",
+    "build": "npm run clean && webpack --bail --progress --profile",
     "stats": "webpack --json | webpack-bundle-size-analyzer",
     "analyse": "webpack --profile --json > stats.json"
   },
@@ -42,14 +43,20 @@
     "passport-http-bearer": "^1.0.1",
     "passport-local": "^1.0.0",
     "react": "^15.0.2",
+    "react-datepicker": "^0.27.0",
     "react-dom": "^15.0.2",
     "underscore": "^1.8.3",
     "uuid": "^2.0.1"
   },
   "devDependencies": {
     "css-loader": "^0.23.1",
+    "expose-loader": "^0.7.1",
+    "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
+    "html-loader": "^0.4.3",
+    "html-webpack-plugin": "^2.16.1",
     "less-loader": "^2.2.3",
+    "react-hot-loader": "^1.3.0",
     "source-map-loader": "^0.1.5",
     "style-loader": "^0.13.1",
     "ts-loader": "^0.8.2",
@@ -59,6 +66,7 @@
     "webpack": "^1.13.0"
   },
   "optionalDependencies": {
+    "rimraf": "^2.5.2",
     "webpack-bundle-size-analyzer": "^2.0.1"
   }
 }

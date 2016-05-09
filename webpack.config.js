@@ -1,29 +1,40 @@
 var path = require("path");
 var webpack = require('webpack');
 
+// Plugins
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var ContextReplacementPlugin = require("webpack/lib/ContextReplacementPlugin");
+
 var nodeModulesPath = path.join(__dirname, 'node_modules');
 
 var config = {
+  // or devtool: 'eval' to debug issues with compiled output:
+  devtool: 'cheap-module-eval-source-map',
+
+  // The base directory (absolute path!) for resolving the entry option.
+  context: path.resolve(__dirname),
+
   entry: {
-    vendors: ['react', 'react-dom'],
-    app: path.join(__dirname, 'app', 'js', 'index.tsx')
+    // html : path.join(__dirname, "app", "index.html"),
+    app: path.join(__dirname, "app", 'client', 'index.tsx')
   },
   resolveLoader: {
     root: nodeModulesPath
   },
   resolve: {
+    root: path.resolve(__dirname),
+    alias: {
+      components: path.resolve(__dirname, "app", "components")
+    },
     // Add '.ts' and '.tsx' as resolvable extensions.
     extensions: ["", ".webpack.js", ".web.js", ".ts", ".tsx", ".js"],
-    modulesDirectories: ["node_modules", "resources"],
-    alias: {
-      'react': path.join(nodeModulesPath, 'react', 'react.js'),
-      'react-dom': path.join(nodeModulesPath, 'react-dom', 'dist', 'react-dom.js')
-    }
+    modulesDirectories: ["node_modules"]
   },
 
   output: {
-    path: path.join(__dirname, 'dist'),
-    filename: '[name]_[chunk].js'
+    filename: "[name].js",
+    path: path.join(__dirname, 'dist')
   },
 
 
@@ -31,7 +42,10 @@ var config = {
     preLoaders: [{
       test: /\.tsx?$/,
       loader: "tslint",
-      include: path.resolve(__dirname, "app", 'js')
+      include: [
+        path.resolve(__dirname, "app", "client"),
+        path.resolve(__dirname, "app", "components")
+      ]
     }],
     noParse: [],
     loaders: [{
@@ -45,23 +59,39 @@ var config = {
       loader: "file-loader?name=[name].[ext]"
     }, {
       test: /\.tsx?$/,
-      loader: 'ts',
-      include: path.resolve(__dirname, "app", 'js')
+      loaders: ['react-hot', 'ts-loader'],
+      include: [
+        path.resolve(__dirname, "app", "client"),
+        path.resolve(__dirname, "app", "components")
+      ]
+    }, {
+      // HTML LOADER
+      // Reference: https://github.com/webpack/raw-loader
+      // Allow loading html through js
+      test: /\.html$/,
+      loader: "html?name=[name].[ext]",
     }]
   },
 
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors_[chunk].js'),
-    // Used for hot-reload
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
-  ],
+    //   new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js'),
 
-  tslint: {
-    // Rules are in tslint.json
-    emitErrors: true, // false = WARNING for webpack, true = ERROR for webpack
-    formattersDirectory: path.join(nodeModulesPath, 'tslint-loader', 'formatters')
-  },
+    // Used for hot-reload
+    // new webpack.HotModuleReplacementPlugin(),
+
+    new HtmlWebpackPlugin({
+      template: './app/client/index.html',
+      inject: 'body'
+    }),
+
+    // Uses only the en locale of the moment plugin in build
+    new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en)$/),
+
+    // Reference: https://github.com/webpack/extract-text-webpack-plugin
+    // Extract css files
+    // Disabled when in test mode or not in build mode
+    // new ExtractTextPlugin('[name].[hash].css')
+  ],
 
   /**
    * Dev server configuration
@@ -69,7 +99,7 @@ var config = {
    * Reference: http://webpack.github.io/docs/webpack-dev-server.html
    */
   devServer: {
-    contentBase: path.resolve(__dirname, 'app', 'js'),
+    contentBase: path.resolve(__dirname, 'app'),
     stats: 'minimal'
   }
 };

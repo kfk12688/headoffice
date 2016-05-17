@@ -1,12 +1,17 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
-import { DatePicker } from "../components/DatePicker/DatePicker";
-import { Grid } from "../components/Grid";
-import { Row } from "../components/Row";
-import { Col } from "../components/Col";
-// noinspection TypeScriptCheckImport
-import { Checkbox } from "components/Checkbox";
+import "./styles/lib.less";
+import {
+  Grid,
+  Row,
+  Col,
+  Divider,
+} from "../components";
+import { MainNavContainer } from "./MainNavContainer";
+import { TabContainer } from "./TabContainer";
+import { ActionContainer } from "./ActionContainer";
+import { SearchContainer } from "./SearchContainer";
 
 interface IState {
   /**
@@ -17,39 +22,45 @@ interface IState {
 
 class HOApp extends React.Component <{}, IState> {
   state: IState = {
-    checked: false
+    checked: false,
   };
 
-  constructor ( props ) {
-    super( props );
-    this.handleCheckboxChange = this.handleCheckboxChange.bind( this );
+  constructor(props: {}) {
+    super(props);
+    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
   }
 
-  handleCheckboxChange ( event ) {
-    this.setState( {
-      checked: event.target.checked
-    } );
-  }
+  render(): JSX.Element {
+    const contentContainerStyle = {
+      margin : 0,
+      padding: 0,
+    };
 
-  render () {
     return (
-      <div>
-        <Grid>
-          <Row fullWidth={true} height={50}>Hello World</Row>
-          <Row height={50}>HQ is going to be the best app ever</Row>
-          <Row height={30}>
-            <Col size={12}>
-              <DatePicker />
-              <Checkbox checked={this.state.checked} handler={this.handleCheckboxChange}></Checkbox>
-            </Col>
-          </Row>
-        </Grid>
-      </div>
+      <Grid>
+        <MainNavContainer></MainNavContainer>
+        <TabContainer></TabContainer>
+        <Divider size={6} fullSpan></Divider>
+        <ActionContainer></ActionContainer>
+        <Divider fullSpan></Divider>
+        <Row style={contentContainerStyle}>
+          <SearchContainer></SearchContainer>
+          <Col size={10} style={{position: "absolute", right: 0}}>
+          </Col>
+        </Row>
+      </Grid>
     );
+  }
+
+  private handleCheckboxChange: React.MouseEventHandler = (event: React.MouseEvent) => {
+    let target: any = event.target;
+    this.setState({
+      checked: target.checked,
+    });
   }
 }
 
 ReactDOM.render(
   <HOApp />,
-  document.getElementById( "HOApp" )
+  document.getElementById("HOApp")
 );

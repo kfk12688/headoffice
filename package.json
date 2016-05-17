@@ -39,12 +39,14 @@
     "moment-timezone": "^0.5.1",
     "mongoose": "^4.4.6",
     "morgan": "^1.7.0",
+    "object-assign": "^4.1.0",
     "passport": "^0.3.2",
     "passport-http-bearer": "^1.0.1",
     "passport-local": "^1.0.0",
     "react": "^15.0.2",
     "react-datepicker": "^0.27.0",
     "react-dom": "^15.0.2",
+    "react-router": "^2.4.0",
     "underscore": "^1.8.3",
     "uuid": "^2.0.1"
   },
@@ -63,7 +65,8 @@
     "tslint": "^3.8.1",
     "tslint-loader": "^2.1.4",
     "url-loader": "^0.5.7",
-    "webpack": "^1.13.0"
+    "webpack": "^1.13.0",
+    "webpack-dev-server": "^1.14.1"
   },
   "optionalDependencies": {
     "rimraf": "^2.5.2",

@@ -10,13 +10,13 @@ var nodeModulesPath = path.join(__dirname, 'node_modules');
 
 var config = {
   // or devtool: 'eval' to debug issues with compiled output:
-  devtool: 'cheap-module-eval-source-map',
+  devtool: 'eval',
 
   // The base directory (absolute path!) for resolving the entry option.
   context: path.resolve(__dirname),
 
   entry: {
-    // html : path.join(__dirname, "app", "index.html"),
+    vendor: ["react", "react-dom", "object-assign"],
     app: path.join(__dirname, "app", 'client', 'index.tsx')
   },
   resolveLoader: {
@@ -33,20 +33,20 @@ var config = {
   },
 
   output: {
-    filename: "[name].js",
+    filename: "bundle.js",
     path: path.join(__dirname, 'dist')
   },
 
 
   module: {
-    preLoaders: [{
-      test: /\.tsx?$/,
-      loader: "tslint",
-      include: [
-        path.resolve(__dirname, "app", "client"),
-        path.resolve(__dirname, "app", "components")
-      ]
-    }],
+    // preLoaders: [{
+    //   test: /\.tsx?$/,
+    //   loader: "tslint",
+    //   include: [
+    //     path.resolve(__dirname, "app", "client"),
+    //     path.resolve(__dirname, "app", "components")
+    //   ]
+    // }],
     noParse: [],
     loaders: [{
       test: /\.less$/,
@@ -74,7 +74,7 @@ var config = {
   },
 
   plugins: [
-    //   new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js'),
+    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
 
     // Used for hot-reload
     // new webpack.HotModuleReplacementPlugin(),
@@ -100,7 +100,8 @@ var config = {
    */
   devServer: {
     contentBase: path.resolve(__dirname, 'app'),
-    stats: 'minimal'
+    stats: 'minimal',
+    devtool: 'eval'
   }
 };
 

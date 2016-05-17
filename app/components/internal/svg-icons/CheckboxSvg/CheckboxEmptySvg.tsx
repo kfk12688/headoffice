@@ -3,7 +3,7 @@
  */
 
 import * as React from "react";
-import {SvgIcon} from "../SvgIcon";
+import {SvgIcon} from "../../../SvgIcon";
 
 const CheckboxEmptySvg: React.StatelessComponent<{}> = (props) => (
   <SvgIcon {...props} >

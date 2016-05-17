@@ -3,4 +3,4 @@
  */
 
 export {CheckboxEmptySvg} from "./CheckboxEmptySvg";
-export {CheckboxCheckedSvg} from "./CheckboxcheckedSvg";
+export {CheckboxCheckedSvg} from "./CheckboxCheckedSvg";

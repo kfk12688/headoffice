@@ -3,13 +3,13 @@
  */
 
 import * as React from "react";
-import * as colors from "../../styles/colors";
+import * as colors from "../internal/styles/colors";
 
 interface IProps {
   /**
    * Elements passed into the SVG Icon.
    */
-  children?: Element;
+  children?: React.ReactNode;
   /**
    * This is the fill color of the svg icon.
    * If not specified, this component will default
@@ -26,11 +26,11 @@ interface IProps {
   /**
    * Function called when mouse leaves this element.
    */
-  onMouseLeave?: Function;
+  onMouseLeave?: (event?: React.SyntheticEvent) => void;
   /**
    * Function called when mouse enters this element.
    */
-  onMouseEnter?: Function;
+  onMouseEnter?: (event?: React.SyntheticEvent) => void;
   /**
    * Allows you to redifine what the coordinates
    * without units mean inside an svg element. For example,
@@ -41,7 +41,7 @@ interface IProps {
    */
   viewBox?: string;
   // fixme: To be changed/analysed better
-  other?: {};
+  other?: any;
 }
 
 interface IState {
@@ -52,48 +52,35 @@ interface IState {
 }
 
 class SvgIcon extends React.Component <IProps, IState> {
-  static defaultProps = {
-    onMouseEnter: () => {
-    },
-    onMouseLeave: () => {
-    },
+  static defaultProps: IProps = {
     viewBox     : "0 0 24 24",
   };
 
   state: IState = {
-    hovered: false
+    hovered: false,
   };
 
-  constructor ( props: IProps ) {
-    super( props );
+  constructor(props: IProps) {
+    super(props);
   }
 
-  handleMouseLeave = ( event ) => {
-    this.setState( { hovered: false } );
-    this.props.onMouseLeave( event );
-  };
-
-  handleMouseEnter = ( event ) =>  {
-    this.setState( { hovered: true } );
-    this.props.onMouseEnter( event );
-  };
-
-  render () {
-    const { children, viewBox } = this.props;
+  render(): JSX.Element {
+    const {children, viewBox} = this.props;
     const other = this.props;
-
     const onColor = this.props.hoverColor ?
-                    this.props.hoverColor :
-                    colors.fullBlack;
-    const offColor = colors.faintBlack;
+      this.props.hoverColor :
+      colors.blackDark;
+    const offColor = this.props.color ?
+      this.props.color :
+      colors.blackLight;
 
-    const style: React.CSSProperties = {
+    const style = {
       display   : "inline-block",
-      height    : 22,
-      width     : 22,
-      userSelect: "none",
       fill      : this.state.hovered ? onColor : offColor,
-      position  : "absolute"
+      height    : 24,
+      position  : "absolute",
+      userSelect: "none",
+      width     : 24,
     };
 
     return (
@@ -108,6 +95,16 @@ class SvgIcon extends React.Component <IProps, IState> {
       </svg>
     );
   }
+
+  private handleMouseLeave: Function = (event: React.MouseEvent) => {
+    this.setState({hovered: false});
+    this.props.onMouseLeave(event);
+  };
+
+  private handleMouseEnter: Function = (event: React.MouseEvent) => {
+    this.setState({hovered: true});
+    this.props.onMouseEnter(event);
+  };
 }
 
-export { SvgIcon }
+export {SvgIcon}

@@ -14,16 +14,16 @@ interface IProps {
 
 }
 
-interface IState {}
-
-class Card extends React.Component <IProps, IState> {
-  static defaultProps = {};
-
+class Card extends React.Component <IProps, {}> {
   constructor(props: IProps) {
     super(props);
   };
 
-  render() {
-    return (null);
+  render(): JSX.Element {
+    return (
+      <div></div>
+    );
   }
 }
+
+export {Card}

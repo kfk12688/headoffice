@@ -13,16 +13,16 @@ class DatePicker extends React.Component<{}, IState> {
   displayName: string = "DatePicker";
 
   state: IState = {
-    date : null
+    date : null,
   };
 
   handleChange: Function = (date: moment.Moment) => {
     this.setState({
-      date : date
+      date : date,
     });
   };
 
-  render () {
+  render (): JSX.Element {
     return (
       <ZippyDatePicker dateFormat="DD-MM-YYYY" selected={this.state.date} onChange={this.handleChange} />
     );

@@ -11,15 +11,9 @@ import {
 import { MainNavContainer } from "./MainNavContainer";
 import { TabContainer } from "./TabContainer";
 import { ActionContainer } from "./ActionContainer";
+import { DataGridContainer } from "./DataGridContainer";
 
-interface IState {
-  /**
-   * Manages the checkbox state
-   */
-  checked: boolean;
-}
-
-class HOApp extends React.Component <{}, IState> {
+class HOApp extends React.Component <{}, {}> {
   render(): JSX.Element {
     return (
       <Grid>
@@ -32,6 +26,7 @@ class HOApp extends React.Component <{}, IState> {
           <Col className="search-container">
           </Col>
           <Col className="data-container">
+            <DataGridContainer></DataGridContainer>
           </Col>
         </Row>
       </Grid>

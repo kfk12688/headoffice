@@ -12,3 +12,4 @@ export { Grid } from "./Grid";
 export { Button } from "./Button";
 export { TabGroup, Tab, TabMeta } from "./TabGroup";
 export { Divider } from "./Divider";
+export { DataGrid } from "./DataGrid";

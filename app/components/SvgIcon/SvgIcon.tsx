@@ -3,7 +3,7 @@
  */
 
 import * as React from "react";
-import * as colors from "../internal/styles/colors";
+import * as colors from "../../client/styles/colors";
 
 interface IProps {
   /**
@@ -69,18 +69,18 @@ class SvgIcon extends React.Component <IProps, IState> {
     const other = this.props;
     const onColor = this.props.hoverColor ?
       this.props.hoverColor :
-      colors.blackDark;
+      colors.grey700;
     const offColor = this.props.color ?
       this.props.color :
-      colors.blackLight;
+      colors.grey300;
 
     const style = {
       display   : "inline-block",
       fill      : this.state.hovered ? onColor : offColor,
-      height    : 24,
+      height    : 20,
       position  : "absolute",
       userSelect: "none",
-      width     : 24,
+      width     : 20,
     };
 
     return (

@@ -8,6 +8,7 @@ import {
   Button,
   Divider,
 } from "../components";
+import { grey50 } from "./styles/colors";
 
 interface IProps {
 }
@@ -18,7 +19,7 @@ interface IState {
 class ActionContainer extends React.Component <IProps, IState> {
   render(): JSX.Element {
     return (
-      <Row fullWidth>
+      <Row fullWidth style={{ backgroundColor: grey50, padding: "5.5px 0" }}>
         <Row>
           <Col size={6}>
             <span>
@@ -39,6 +40,4 @@ class ActionContainer extends React.Component <IProps, IState> {
   }
 }
 
-export { ActionContainer }
-
-
+export { ActionContainer };

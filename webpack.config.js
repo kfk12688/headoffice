@@ -49,14 +49,17 @@ var config = {
     // }],
     noParse: [],
     loaders: [{
+      test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+      loader: "url-loader?limit=10000&minetype=application/font-woff"
+    }, {
+      test: /\.(jpg|png|jpg|png|eot|ttf|svg|gif)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+      loader: "file-loader?name=[name].[ext]"
+    }, {
       test: /\.less$/,
       loader: "style!css!less"
     }, {
       test: /\.css$/,
       loader: "style!css"
-    }, {
-      test: /\.(jpg|png|jpg|png|woff|eot|ttf|svg|gif)$/,
-      loader: "file-loader?name=[name].[ext]"
     }, {
       test: /\.tsx?$/,
       loaders: ['react-hot', 'ts-loader'],

@@ -63,8 +63,8 @@ class Checkbox extends React.Component < IProps, IState > {
   render(): JSX.Element {
     const style        = getStyles(this.props);
     const rootStyle    = Object.assign({}, style.root, {
-      height: 24,
-      width : 24,
+      height: 20,
+      width : 20,
     });
     const elementStyle = Object.assign({}, style.root, { display: "flex" });
     const inputStyle   = Object.assign({}, style.input, style.root);

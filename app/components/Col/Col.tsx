@@ -11,7 +11,7 @@ interface IProps {
   /**
    * Specifies the col width (of 12 column grid)
    */
-  size: number;
+  size?: number;
   /**
    * custom CSS style properties
    */
@@ -31,8 +31,5 @@ const Col: React.StatelessComponent<IProps> = (props: IProps) => {
 };
 
 Col.displayName  = "Col";
-Col.defaultProps = {
-  size: 1,
-};
 
 export { Col }

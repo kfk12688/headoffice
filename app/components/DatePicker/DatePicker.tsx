@@ -10,10 +10,8 @@ interface IState {
 }
 
 class DatePicker extends React.Component<{}, IState> {
-  displayName: string = "DatePicker";
-
   state: IState = {
-    date : null,
+    date : undefined,
   };
 
   handleChange: Function = (date: moment.Moment) => {

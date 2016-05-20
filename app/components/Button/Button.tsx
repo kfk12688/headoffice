@@ -3,7 +3,7 @@
  */
 
 import * as React from "react";
-import { blackLight, blackDark } from "../internal/styles/colors";
+import { grey300, grey700 } from "../../client/styles/colors";
 
 interface IProps {
   /**
@@ -40,8 +40,8 @@ class Button extends React.Component <IProps, IState> {
   };
 
   defaultProps: IProps = {
-    color     : blackLight,
-    hoverColor: blackDark,
+    color     : grey300,
+    hoverColor: grey700,
   };
 
   constructor(props: IProps) {

@@ -3,7 +3,7 @@
  */
 
 import * as React from "react";
-import { blackLightest } from "../internal/styles/colors";
+import { grey100 } from "../../client/styles/colors";
 
 
 function getStyles(props: IProps): Object {
@@ -19,7 +19,7 @@ function getStyles(props: IProps): Object {
                      height: size,
                    };
   let defSetting = {
-    backgroundColor: blackLightest,
+    backgroundColor: grey100,
     border         : "none",
     margin         : fullSpan ? "0 -10px" : 0,
   };

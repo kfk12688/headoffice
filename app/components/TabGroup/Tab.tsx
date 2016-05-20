@@ -4,7 +4,7 @@
 
 import * as React from "react";
 import { Button } from "../Button";
-import { black, blackDarkest } from "../internal/styles/colors";
+import { grey500, grey900 } from "../../client/styles/colors";
 
 interface IProps {
   /**
@@ -48,8 +48,8 @@ const Tab: React.StatelessComponent<IProps> = (props: IProps) => {
 
 Tab.displayName  = "Tab";
 Tab.defaultProps = {
-  color     : black,
-  hoverColor: blackDarkest,
+  color     : grey500,
+  hoverColor: grey900,
 };
 
 export { Tab };

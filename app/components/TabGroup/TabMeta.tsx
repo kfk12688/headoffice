@@ -3,7 +3,7 @@
  */
 
 import * as React from "react";
-import { accentDark, blackDark } from "../internal/styles/colors";
+import { accentDark, grey700 } from "../../client/styles/colors";
 import { Tab } from "./Tab";
 
 interface IProps {
@@ -56,7 +56,7 @@ const TabMeta: React.StatelessComponent<IProps> = (props: IProps) => {
 
 TabMeta.displayName  = "TabMeta";
 TabMeta.defaultProps = {
-  color     : blackDark,
+  color     : grey700,
   hoverColor: accentDark,
 };
 

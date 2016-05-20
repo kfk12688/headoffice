@@ -8,7 +8,7 @@ import {
   TabGroup,
   TabMeta,
 } from "../components";
-import { blackLight, blackDark } from "../components/internal/styles/colors";
+import { grey300, grey700, grey50 } from "./styles/colors";
 
 interface IProps {
 }
@@ -19,6 +19,7 @@ interface IState {
 class TabContainer extends React.Component <IProps, IState> {
   render(): JSX.Element {
     const rowStyle = {
+      backgroundColor : grey50,
       paddingBottom : 0,
     };
 
@@ -26,7 +27,7 @@ class TabContainer extends React.Component <IProps, IState> {
       <Row fullWidth style={rowStyle}>
         <Row style={rowStyle}>
           <Col size={12}>
-            <TabGroup color={blackLight} hoverColor={blackDark}>
+            <TabGroup color={grey300} hoverColor={grey700}>
               <TabMeta meta={{ count: 3 }}>Groups</TabMeta>
               <TabMeta meta={{ count: 10 }}>Templates</TabMeta>
             </TabGroup>

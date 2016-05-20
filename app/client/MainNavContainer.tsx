@@ -8,8 +8,7 @@ import {
   TabGroup,
   Tab,
 } from "../components";
-import { white, whiteLightest, blackDark } from "../components/internal/styles/colors";
-
+import { grey50, grey700, grey100 } from "./styles/colors";
 
 interface IProps {
 }
@@ -20,8 +19,8 @@ interface IState {
 class MainNavContainer extends React.Component <IProps, IState> {
   render(): JSX.Element {
     const primaryRowStyle = {
-      backgroundColor: blackDark,
-      color          : whiteLightest,
+      backgroundColor: grey700,
+      color          : grey50,
     };
 
     return (
@@ -31,7 +30,7 @@ class MainNavContainer extends React.Component <IProps, IState> {
             <div style={{padding: 4}}> Head Office App</div>
           </Col>
           <Col size={9} style={{ textAlign : "right" }}>
-            <TabGroup color={white} hoverColor={whiteLightest}>
+            <TabGroup color={grey100} hoverColor={grey50}>
               <Tab>Alerts</Tab>
               <Tab>Help</Tab>
               <Tab>Sharavanth R</Tab>
@@ -40,7 +39,7 @@ class MainNavContainer extends React.Component <IProps, IState> {
         </Row>
         <Row>
           <Col size={12}>
-            <TabGroup color={white} hoverColor={whiteLightest}>
+            <TabGroup color={grey100} hoverColor={grey50}>
               <Tab>Templates</Tab>
               <Tab>Content</Tab>
               <Tab>Reports</Tab>

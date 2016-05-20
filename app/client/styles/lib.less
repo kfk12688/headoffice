@@ -1,3 +1,5 @@
+@import url("./colors.less");
+
 * {
   box-sizing: border-box;
 }
@@ -41,15 +43,15 @@ body {
 .tab-meta {
   margin-right: 18px;
   &-data {
-  color: hsl(0, 0%, 70%);
-  padding: 3px 6px;
-  font-size: 15px;
+    color: @grey300;
+    padding: 3px 6px;
+    font-size: 15px;
   }
 }
 
 .button {
   outline: none;
-  background-color: transparent;
+  background-color: @transparent;
   cursor: pointer;
   text-align: center;
   border: solid 1px grey;
@@ -66,4 +68,30 @@ body {
   font-size: 12px;
   padding: 5px 0;
   line-height: 12px;
+}
+
+.content-container {
+  position: absolute;
+  top: 139;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.search-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  paddingTop: 10;
+  width: 230;
+}
+
+.data-container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 230;
+  right: 0;
 }

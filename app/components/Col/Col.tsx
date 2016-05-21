@@ -1,4 +1,5 @@
 import * as React from "react";
+import * as classnames from "classnames";
 import "./Col.less";
 
 function getStyles(props: IProps): Object {
@@ -17,14 +18,15 @@ interface IProps {
    * custom CSS style properties
    */
   style?: Object;
+  className?: string;
 }
 
 const Col: React.StatelessComponent<IProps> = (props: IProps) => {
-  const { children, style } = props;
+  const { children, style, className } = props;
   return (
     <div
       style={ Object.assign({}, getStyles(props),style) }
-      className="ho-col"
+      className={ classnames("ho-col", className) }
     >
       {children}
     </div>

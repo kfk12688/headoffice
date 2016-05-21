@@ -11,7 +11,6 @@ import {
 import { MainNavContainer } from "./MainNavContainer";
 import { TabContainer } from "./TabContainer";
 import { ActionContainer } from "./ActionContainer";
-import { SearchContainer } from "./SearchContainer";
 
 interface IState {
   /**
@@ -21,21 +20,7 @@ interface IState {
 }
 
 class HOApp extends React.Component <{}, IState> {
-  state: IState = {
-    checked: false,
-  };
-
-  constructor(props: {}) {
-    super(props);
-    this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
-  }
-
   render(): JSX.Element {
-    const contentContainerStyle = {
-      margin : 0,
-      padding: 0,
-    };
-
     return (
       <Grid>
         <MainNavContainer></MainNavContainer>
@@ -43,20 +28,14 @@ class HOApp extends React.Component <{}, IState> {
         <Divider size={6} fullSpan></Divider>
         <ActionContainer></ActionContainer>
         <Divider fullSpan></Divider>
-        <Row style={contentContainerStyle}>
-          <SearchContainer></SearchContainer>
-          <Col size={10} style={{position: "absolute", right: 0}}>
+        <Row fullWidth className="content-container">
+          <Col className="search-container">
+          </Col>
+          <Col className="data-container">
           </Col>
         </Row>
       </Grid>
     );
-  }
-
-  private handleCheckboxChange: React.MouseEventHandler = (event: React.MouseEvent) => {
-    let target: any = event.target;
-    this.setState({
-      checked: target.checked,
-    });
   }
 }
 

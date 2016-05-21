@@ -1,10 +1,8 @@
 /**
  * Created by sharavan on 16/05/16.
  */
-
 import * as React from "react";
-import { grey100 } from "../../client/styles/colors";
-
+import { grey200 } from "../../client/styles/colors";
 
 function getStyles(props: IProps): Object {
   const { fullSpan, vertical, size }: IProps = props;
@@ -19,7 +17,7 @@ function getStyles(props: IProps): Object {
                      height: size,
                    };
   let defSetting = {
-    backgroundColor: grey100,
+    backgroundColor: grey200,
     border         : "none",
     margin         : fullSpan ? "0 -10px" : 0,
   };

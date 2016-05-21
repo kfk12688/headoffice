@@ -3,7 +3,7 @@
  */
 
 import * as React from "react";
-import { accentDark, grey700 } from "../../client/styles/colors";
+import { redA200, grey500 } from "../../client/styles/colors";
 import { Tab } from "./Tab";
 
 interface IProps {
@@ -32,7 +32,7 @@ interface IProps {
 // tslint-disable : no-unused-variable
 function getStyles(props: IProps): Object {
   return {
-    borderBottom : accentDark + " solid 3px",
+    borderBottom : redA200 + " solid 3px",
     borderLeft   : 0,
     borderRight  : 0,
     borderTop    : 0,
@@ -56,8 +56,8 @@ const TabMeta: React.StatelessComponent<IProps> = (props: IProps) => {
 
 TabMeta.displayName  = "TabMeta";
 TabMeta.defaultProps = {
-  color     : grey700,
-  hoverColor: accentDark,
+  color     : grey500,
+  hoverColor: redA200,
 };
 
 export { TabMeta };

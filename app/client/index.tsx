@@ -1,6 +1,5 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-
 import "./styles/lib.less";
 import {
   Grid,
@@ -11,6 +10,7 @@ import {
 import { MainNavContainer } from "./MainNavContainer";
 import { TabContainer } from "./TabContainer";
 import { ActionContainer } from "./ActionContainer";
+import { SearchContainer } from "./SearchContainer";
 
 interface IState {
   /**
@@ -30,6 +30,7 @@ class HOApp extends React.Component <{}, IState> {
         <Divider fullSpan></Divider>
         <Row fullWidth className="content-container">
           <Col className="search-container">
+            <SearchContainer></SearchContainer>
           </Col>
           <Col className="data-container">
           </Col>

@@ -2,26 +2,25 @@
  * Created by sharavan on 16/05/16.
  */
 import * as React from "react";
-import { grey200 } from "../../client/styles/colors";
+import "./Divider.less";
+let classnames: any = require("classnames");
 
 function getStyles(props: IProps): Object {
   const { fullSpan, vertical, size }: IProps = props;
-  let dynSetting = vertical ?
-                   {
-                     display      : "inline-block",
-                     height       : size.h,
-                     verticalAlign: "top",
-                     width        : size.w,
-                   } :
-                   {
-                     height: size,
-                   };
-  let defSetting = {
-    backgroundColor: grey200,
-    border         : "none",
-    margin         : fullSpan ? "0 -10px" : 0,
-  };
-  return Object.assign({}, dynSetting, defSetting);
+  if (vertical) {
+    return {
+      display      : "inline-block",
+      height       : size.h,
+      margin       : fullSpan ? "0 -10px" : 0,
+      verticalAlign: "top",
+      width        : size.w,
+    };
+  } else {
+    return {
+      height: size,
+      margin: fullSpan ? "0 -10px" : 0,
+    };
+  }
 }
 
 interface IProps {
@@ -29,15 +28,17 @@ interface IProps {
   vertical?: boolean;
   fullSpan?: boolean;
   style?: Object;
+  className?: Object;
 }
 
 const Divider: React.StatelessComponent<IProps> = (props: IProps) => {
-  const { style, vertical } = props;
+  const { style, vertical, className } = props;
   const dividerStyle = Object.assign({}, getStyles(props), style);
+
   if (vertical) {
-    return <span style={dividerStyle}/>;
+    return <span className={classnames("ho-divider", className)} style={dividerStyle}/>;
   } else {
-    return <hr style={dividerStyle}/> ;
+    return <hr className={classnames("ho-divider", className)} style={dividerStyle}/> ;
   }
 };
 

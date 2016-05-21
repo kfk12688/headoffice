@@ -1,0 +1,35 @@
+@import url("../../client/styles/colors");
+
+.ho-popup-menu-button {
+  position: relative;
+  height: 24px;
+  line-height: 24px;
+  border: 1px solid @grey500;
+  background-color: @white;
+  cursor: pointer;
+  outline: none;
+  &:hover,
+  &:focus {
+    border: 1px solid @grey900;
+  }
+  &-fa-icon {
+    padding: 4px 5px;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  &-divider {
+    background-color: @grey500;
+    bottom: 0;
+    position: absolute;
+    right: 18px;
+    top: 0;
+  }
+  &-divider-hovered {
+    background-color: @grey900;
+    bottom: 0;
+    position: absolute;
+    right: 18px;
+    top: 0;
+  }
+}

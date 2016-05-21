@@ -27,7 +27,7 @@ class ActionContainer extends React.Component <IProps, IState> {
               <Button>0 selected</Button>
             </span>
             <span>
-              <Divider vertical size={{h:21, w:1}} style={{ marginLeft: 6, marginRight:10 }}></Divider>
+              <Divider vertical size={{h:22, w:1}} style={{ marginLeft: 6, marginRight:10 }}></Divider>
               <Button>Actions</Button>
             </span>
           </Col>

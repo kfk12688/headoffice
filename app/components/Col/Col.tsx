@@ -1,4 +1,5 @@
 import * as React from "react";
+import "./Col.less";
 
 function getStyles(props: IProps): Object {
   return {
@@ -23,7 +24,7 @@ const Col: React.StatelessComponent<IProps> = (props: IProps) => {
   return (
     <div
       style={ Object.assign({}, getStyles(props),style) }
-      className="col"
+      className="ho-col"
     >
       {children}
     </div>

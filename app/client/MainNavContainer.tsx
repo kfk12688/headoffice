@@ -26,10 +26,10 @@ class MainNavContainer extends React.Component <IProps, IState> {
     return (
       <Row fullWidth style={primaryRowStyle}>
         <Row>
-          <Col size={3}>
+          <Col size={5}>
             <div style={{padding: 4}}> Head Office App</div>
           </Col>
-          <Col size={9} style={{ textAlign : "right" }}>
+          <Col size={7} style={{ float : "right", textAlign: "right" }}>
             <TabGroup color={grey400} hoverColor={grey50}>
               <Tab>Alerts</Tab>
               <Tab>Help</Tab>

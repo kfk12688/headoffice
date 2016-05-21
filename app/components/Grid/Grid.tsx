@@ -1,4 +1,5 @@
 import * as React from "react";
+import "./Grid.less";
 
 interface IProps {
   children?: React.ReactNode;
@@ -10,7 +11,7 @@ const Grid: React.StatelessComponent<IProps> = (props: IProps) => {
   const { children } = props;
   return (
     <div
-    className="grid"
+    className="ho-grid"
   >
     {children}
   </div>

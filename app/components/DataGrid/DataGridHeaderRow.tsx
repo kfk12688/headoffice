@@ -16,7 +16,6 @@ class DataGridHeaderRow extends React.Component <IDataGridHeaderRowProps, {}> {
 
     const dataGridHeaderColumns = cols.map((headerColumn: IColProps, index: number) => {
       let colName = headerColumn.name;
-
       return (
         <DataGridHeaderColumn
           key={index}

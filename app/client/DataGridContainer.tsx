@@ -15,12 +15,19 @@ interface IState {
 
 let cols = [
   {
-    dataKey   : "hasAlert",
-    headerStyle : { borderRight : 0 },
-    name      : "has-alert-col",
-    renderType: "checkbox",
-    sortable  : false,
-    text      : "",
+    headerStyle: { borderRight: 0 },
+    name       : "has-alert-col",
+    renderType : "checkbox",
+    sortable   : false,
+    text       : "",
+  },
+  {
+    dataKey    : "isFavorite",
+    headerStyle: { borderRight: 0 },
+    name       : "favorite-col",
+    renderType : "favorite",
+    sortable   : false,
+    text       : "",
   },
   {
     dataKey: "name",
@@ -34,11 +41,11 @@ let cols = [
     text      : "Sheets",
   },
   {
-    cellFormatter : formatBytes,
-    dataKey   : "size",
-    name      : "size-col",
-    renderType: "number",
-    text      : "Size",
+    cellFormatter: formatBytes,
+    dataKey      : "size",
+    name         : "size-col",
+    renderType   : "number",
+    text         : "Size",
   },
   {
     dataKey   : "ownerId",
@@ -62,6 +69,7 @@ let data = [
     "name"          : "Analyze Superstore",
     "id"            : "1027905",
     "size"          : 1088355,
+    "isFavorite"    : true,
     "usageInfo"     : {
       "hitsTotal"                : 0,
       "favoritesTotal"           : 0,

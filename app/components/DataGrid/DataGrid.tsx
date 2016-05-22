@@ -11,7 +11,8 @@ import { IDataGridProps, IDataGridState, IRowProps } from "./DataGridInterfaces"
 class DataGrid extends React.Component <IDataGridProps, IDataGridState> {
   state: IDataGridState = {
     colWidths: {
-      "has-alert-col"  : 44,
+      "has-alert-col"  : 38,
+      "favorite-col"  : 38,
       "sheet-count-col": 80,
       "name-col"       : 150,
       "owner-id-col"   : 100,

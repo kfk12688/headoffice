@@ -5,20 +5,20 @@
 import * as React from "react";
 import { DataGridBodyCell } from "./DataGridBodyCell";
 import { IDataGridBodyRowProps, IColProps } from "./DataGridInterfaces";
-import { grey50, transparent } from "../../client/styles/colors";
+import { grey50, transparent, blueGrey50 } from "../../client/styles/colors";
 
 class DataGridBodyRow extends React.Component<IDataGridBodyRowProps, IDataGridBodyRowState> {
   state: IDataGridBodyRowState = {
-    hovered : false,
+    hovered   : false,
     isSelected: false,
   };
 
-  render (): JSX.Element {
+  render(): JSX.Element {
     const dataGridBodyCells = this.props.cols.map((col: IColProps, index: number) => {
       let colName = col.name;
       return (
         <DataGridBodyCell
-          key={index}
+          key={+(this.props.row.id + "" + index)}
           col={col}
           colWidth={this.props.colWidths[colName]}
           row={this.props.row}
@@ -28,27 +28,32 @@ class DataGridBodyRow extends React.Component<IDataGridBodyRowProps, IDataGridBo
       );
     });
 
-    const rowHoverStyle = {
-      backgroundColor : this.state.hovered ? grey50 : transparent,
+    let rowStyle = {
+      backgroundColor: this.state.isSelected ?
+                       blueGrey50 :
+                       this.state.hovered ?
+                       grey50 :
+                       transparent,
     };
 
     return (
       <div
-        style={rowHoverStyle}
+        style={rowStyle}
         className="ho-datagrid-body-row"
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
+        onClick={this.handleClick}
       >
         {dataGridBodyCells}
       </div>
     );
   }
 
-  private handleClick = () => {
+  private handleClick: React.MouseEventHandler      = () => {
     if (this.state.isSelected) {
-      this.setState({ isSelected : false });
+      this.setState({ isSelected: false });
     } else {
-      this.setState({ isSelected : true });
+      this.setState({ isSelected: true });
     }
   };
   private handleMouseEnter: React.MouseEventHandler = () => {
@@ -57,8 +62,6 @@ class DataGridBodyRow extends React.Component<IDataGridBodyRowProps, IDataGridBo
   private handleMouseLeave: React.MouseEventHandler = () => {
     this.setState({ hovered: false });
   };
-};
-
-DataGridBodyRow.displayName = "DataGridBodyRow";
+}
 
 export { DataGridBodyRow }

@@ -19,6 +19,7 @@ class DataGrid extends React.Component <IDataGridProps, IDataGridState> {
       "size-col"       : 100,
       "updated-at-col" : 150,
     },
+    // fixme : Rows is both props and state
     rows     : this.props.rows,
     sortKey  : "name",
   };
@@ -43,7 +44,8 @@ class DataGrid extends React.Component <IDataGridProps, IDataGridState> {
     );
   }
 
-  private onColumnResize = (colName: string, event: React.MouseEvent) => {
+  private onColumnResize: Function = (colName: string, event: React.MouseEvent) => {
+    // fixme: immutability??? how --> refer to redux egghead videos
     let newColWidths = Object.assign({}, this.state.colWidths, {}[colName] = event.clientX);
 
     this.setState({
@@ -51,7 +53,7 @@ class DataGrid extends React.Component <IDataGridProps, IDataGridState> {
     });
   };
 
-  private onClickSortColumn = (dataKey: string, event: React.MouseEvent, sortOrder: string) => {
+  private onClickSortColumn: Function = (dataKey: string, event: React.MouseEvent, sortOrder: string) => {
     let sortedRows: IRowProps = undefined;
     this.setState({ sortKey: dataKey });
 

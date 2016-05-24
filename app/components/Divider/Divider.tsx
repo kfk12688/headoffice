@@ -4,19 +4,20 @@
 import * as React from "react";
 import { grey200 } from "../../client/styles/colors";
 
-function getStyles(props: IProps): Object {
-  const { fullSpan, vertical, size }: IProps = props;
-  let dynSetting = vertical ?
-                   {
-                     display      : "inline-block",
-                     height       : size.h,
-                     verticalAlign: "top",
-                     width        : size.w,
-                   } :
-                   {
-                     height: size,
-                   };
-  let defSetting = {
+// fixme : Incorrect type for props... however, generates a tsint error
+function getStyles(props: any): Object {
+  const { fullSpan, vertical, size } = props;
+  let dynSetting: any = vertical ?
+                        {
+                          display      : "inline-block",
+                          height       : size.h,
+                          verticalAlign: "top",
+                          width        : size.w,
+                        } :
+                        {
+                          height: size,
+                        };
+  let defSetting      = {
     backgroundColor: grey200,
     border         : "none",
     margin         : fullSpan ? "0 -10px" : 0,
@@ -25,7 +26,12 @@ function getStyles(props: IProps): Object {
 }
 
 interface IProps {
-  size?: number | string | { h?: number | string, w: number | string };
+  size?: number |
+    string |
+    {
+      h?: number | string;
+      w?: number | string;
+    };
   vertical?: boolean;
   fullSpan?: boolean;
   style?: Object;

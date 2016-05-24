@@ -4,9 +4,9 @@
 
 import "font-awesome-webpack";
 import * as React from "react";
-import * as FontAwesome from "react-fontawesome";
 import { IDataGridHeaderColumnProps, IDataGridHeaderColumnState } from "./DataGridInterfaces";
 import { grey50 } from "../../client/styles/colors";
+let FontAwesome: any = require("react-fontawesome");
 
 class DataGridHeaderColumn extends React.Component <IDataGridHeaderColumnProps, IDataGridHeaderColumnState> {
   state: IDataGridHeaderColumnState = {
@@ -72,7 +72,7 @@ class DataGridHeaderColumn extends React.Component <IDataGridHeaderColumnProps, 
     this.setState({ hovered: false });
   }
 
-  private onClick: React.MouseEventHandler = (dataKey: string, event: React.MouseEvent) => {
+  private onClick: Function = (dataKey: string, event: React.MouseEvent) => {
     if (this.state.sortAscending) {
       this.props.onClick(dataKey, event, "asc");
       this.setState({ sortAscending: false });

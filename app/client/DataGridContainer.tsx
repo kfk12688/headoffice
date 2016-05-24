@@ -7,12 +7,6 @@ import {
 } from "../components";
 import { formatBytes, formatDate } from "../components/utils";
 
-interface IProps {
-}
-
-interface IState {
-}
-
 let cols = [
   {
     headerStyle: { borderRight: 0 },
@@ -57,7 +51,6 @@ let cols = [
   {
     cellFormatter : formatDate,
     dataKey   : "updatedAt",
-    headerStyle : { borderRight : 0 },
     name      : "updated-at-col",
     renderType: "date",
     sortable  : true,
@@ -145,7 +138,7 @@ let data = [
   },
 ];
 
-class DataGridContainer extends React.Component <IProps, IState> {
+class DataGridContainer extends React.Component <{}, {}> {
   render(): JSX.Element {
     return (
       <DataGrid

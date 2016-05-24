@@ -3,7 +3,7 @@
  */
 
 interface IColProps {
-  dataKey: string;
+  dataKey?: string;
   name: string;
   text: string;
   renderType?: string;
@@ -25,16 +25,17 @@ type IRowProps = any;
  */
 // Props
 interface IDataGridProps {
+  rows: Array<IRowProps>;
   cols: Array<IColProps>;
-  onColumnResize: Function;
-  onClickSortColumn: Function;
-  selectedKeys: any;
+  onColumnResize?: Function;
+  onClickSortColumn?: Function;
+  selectedKeys?: any;
 }
 // State
 interface IDataGridState {
-  rows: Array<IRowProps>;
-  colWidths: any;
-  sortKey: string;
+  rows?: Array<IRowProps>;
+  colWidths?: any;
+  sortKey?: string;
 }
 
 // ********************************************************************************************************** //
@@ -66,7 +67,7 @@ interface IDataGridHeaderColumnProps {
 }
 // State
 interface IDataGridHeaderColumnState {
-  hovered: boolean;
+  hovered?: boolean;
   sortAscending?: boolean;
 }
 
@@ -92,12 +93,12 @@ interface IDataGridBodyRowProps {
   cols: Array<IColProps>;
   colWidths: any;
   row: IRowProps;                               // the object from IDataGridBody rows
-  handleClick: Function;
+  selectedKeys: any;
 }
 // State
 interface IDataGridBodyRowState {
-  hovered: boolean;
-  isSelected: boolean;
+  hovered?: boolean;
+  isSelected?: boolean;
 }
 
 /**
@@ -121,5 +122,6 @@ export {
   IDataGridHeaderColumnState,
   IDataGridBodyProps,
   IDataGridBodyRowProps,
+  IDataGridBodyRowState,
   IDataGridBodyCellProps,
 };

@@ -4,9 +4,9 @@
 
 import "font-awesome-webpack";
 import * as React from "react";
-import * as FontAwesome from "react-fontawesome";
 import { IDataGridBodyCellProps, IRowProps, IColProps } from "./DataGridInterfaces";
 import { red500 } from "../../client/styles/colors";
+let FontAwesome: any = require("react-fontawesome");
 
 function formatCell(row: IRowProps, col: IColProps): string | number {
   let value: string | number = undefined;
@@ -20,7 +20,7 @@ function formatCell(row: IRowProps, col: IColProps): string | number {
 }
 
 class CellElementFactory {
-  public getElement(renderType: string): React.ReactNode {
+  public getElement(renderType: string) {
     switch (renderType) {
       case "number":
       case "date":
@@ -35,7 +35,7 @@ class CellElementFactory {
     }
   }
 
-  private TextCell(props: any): React.StatelessComponent<any> {
+  private TextCell(props: any): React.ReactElement<any> {
     const style = {
       textAlign: "left",
     };
@@ -46,7 +46,7 @@ class CellElementFactory {
     );
   };
 
-  private NumericCell(props: any): React.StatelessComponent<any> {
+  private NumericCell(props: any): React.ReactElement<any> {
     const style = {
       textAlign: "right",
     };
@@ -58,12 +58,12 @@ class CellElementFactory {
     );
   };
 
-  private CheckboxCell(props: any): React.StatelessComponent<any> {
-    const faStyle                        = {
+  private CheckboxCell(props: any): React.ReactElement<any> {
+    const faStyle                                = {
       fontSize: 15,
     };
-    const isSelected: boolean            = props.isSelected;
-    let selectedElement: React.ReactNode = undefined;
+    const isSelected: boolean                    = props.isSelected;
+    let selectedElement: React.ReactElement<any> = undefined;
 
     if (isSelected) {
       selectedElement = <FontAwesome name="check-square" style={faStyle}/>;
@@ -74,13 +74,13 @@ class CellElementFactory {
     return selectedElement;
   };
 
-  private FavoriteCell(props: any): React.StatelessComponent<any> {
-    const isStarred: boolean            = props.value;
-    const faStyle                       = {
+  private FavoriteCell(props: any): React.ReactElement<any> {
+    const isStarred: boolean                    = props.value;
+    const faStyle                               = {
       color   : isStarred ? red500 : "inherit",
       fontSize: 15,
     };
-    let starredElement: React.ReactNode = undefined;
+    let starredElement: React.ReactElement<any> = undefined;
 
     if (isStarred) {
       starredElement = <FontAwesome name="star" style={faStyle}/>;
@@ -93,7 +93,7 @@ class CellElementFactory {
 }
 
 class DataGridBodyCell extends React.Component <IDataGridBodyCellProps, {}> {
-  node: React.ReactNode;
+  node: React.StatelessComponent<any>;
 
   componentWillMount(): void {
     let factory = new CellElementFactory();

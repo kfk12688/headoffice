@@ -4,7 +4,7 @@
 
 import * as React from "react";
 import { DataGridBodyCell } from "./DataGridBodyCell";
-import { IDataGridBodyRowProps, IColProps } from "./DataGridInterfaces";
+import { IDataGridBodyRowProps, IDataGridBodyRowState, IColProps } from "./DataGridInterfaces";
 import { grey50, transparent, blueGrey50 } from "../../client/styles/colors";
 
 class DataGridBodyRow extends React.Component<IDataGridBodyRowProps, IDataGridBodyRowState> {

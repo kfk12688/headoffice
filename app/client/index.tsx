@@ -35,6 +35,7 @@ class HOApp extends React.Component <{}, IState> {
           <Col className="data-container">
           </Col>
         </Row>
+        <div ref="popupContainer"></div>
       </Grid>
     );
   }

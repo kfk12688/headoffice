@@ -3,4 +3,4 @@
  */
 
 export {Button} from "./Button";
-export {SearchButton} from "./SearchButton";
+export {SearchBox} from "./SearchBox";

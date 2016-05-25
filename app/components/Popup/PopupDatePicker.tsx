@@ -23,32 +23,25 @@ class PopupDatePicker extends React.Component<{}, IState> {
     return (
       <div
         tabIndex="0"
-        className="ho-popup-menu-button"
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
+        className="ho-popup-text-box"
+        onMouseEnter={() => this.setState({ hovered : true })}
+        onMouseLeave={() => this.setState({ hovered : false })}
       >
         <Divider
           vertical
           className={
-            classnames("ho-popup-menu-button-divider", {"ho-popup-menu-button-divider-hovered" : this.state.hovered})
+            classnames("ho-popup-text-box-divider", {"ho-popup-text-box-divider-hovered" : this.state.hovered})
           }
           size={{h:"auto", w:1}}
         />
         <FontAwesome
-          className="ho-popup-menu-button-fa-icon"
+          className="ho-popup-text-box-fa-icon"
           name="caret-down"
         />
         <DatePicker/>
       </div>
     );
   }
-
-  private handleMouseEnter: React.MouseEventHandler = () => {
-    this.setState({ hovered: true });
-  };
-  private handleMouseLeave: React.MouseEventHandler = () => {
-    this.setState({ hovered: false });
-  };
 }
 
 export { PopupDatePicker }

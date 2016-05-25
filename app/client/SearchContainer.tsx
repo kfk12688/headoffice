@@ -4,9 +4,9 @@
 import * as React from "react";
 import {
   Divider,
-  Popup,
+  PopupSearchBox,
   PopupDatePicker,
-  SearchButton,
+  SearchBox,
 } from "../components";
 
 class SearchContainer extends React.Component <{}, {}> {
@@ -21,7 +21,7 @@ class SearchContainer extends React.Component <{}, {}> {
     return (
       <div>
         <div className="ho-search-text-box">
-          <SearchButton></SearchButton>
+          <SearchBox/>
         </div>
         <Divider fullSpan size={1}/>
         <div>
@@ -29,7 +29,7 @@ class SearchContainer extends React.Component <{}, {}> {
           <div className="ho-general-filter">
             <div className="block">
               <div className="label">Owner</div>
-              <Popup/>
+              <PopupSearchBox matchParentWidth/>
             </div>
             <div className="block">
               <div className="label">Created on or after</div>

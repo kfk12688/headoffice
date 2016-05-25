@@ -1,10 +1,24 @@
-@import url("./colors.less");
+@import url("../../client/styles/colors");
 
 .tab-meta {
-  margin-right: 18px;
+  margin-right: 15px;
+  &-btn {
+    color: @grey600;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 10px 0;
+    &:hover {
+      color: @black;
+      border: none;
+    }
+  }
   &-data {
-    color: @grey200;
-    padding: 3px 6px;
-    font-size: 15px;
+    color: @grey300;
+    padding: 3px 8px;
+    font-size: 12px;
+    font-weight: 100;
   }
 }

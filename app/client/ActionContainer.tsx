@@ -10,7 +10,6 @@ import {
   PopupButton,
   PopupTextBox,
 } from "../components";
-import { grey50 } from "./styles/colors";
 
 interface IProps {
 }
@@ -21,11 +20,11 @@ interface IState {
 class ActionContainer extends React.Component <IProps, IState> {
   render(): JSX.Element {
     return (
-      <Row fullWidth style={{ backgroundColor: grey50, padding: "5.5px 0" }}>
+      <Row fullWidth className="ho-action-cont">
         <Row>
-          <Col size={6}>
+          <Col size={6} className="left">
             <span>
-              <Button>III</Button>
+              <Button faName="navicon" className="icon"/>
               <PopupButton label="0 selected">
                 <div>Select All</div>
                 <div>Clear selection</div>
@@ -40,9 +39,9 @@ class ActionContainer extends React.Component <IProps, IState> {
               </PopupButton>
             </span>
           </Col>
-          <Col size={6} style={{ textAlign : "right" }}>
+          <Col size={6} className="right">
             <span>Sort by : </span>
-            <span style={{ display: "inline-block", height: 20, width: 230 }}>
+            <span className="sort-block">
               <PopupTextBox matchParentWidth label="Name (A-Z)">
                 <div>Name (Z-A)</div>
                 <div>Count (least-most)</div>
@@ -50,6 +49,10 @@ class ActionContainer extends React.Component <IProps, IState> {
                 <div>Date Modified (old - new)</div>
                 <div>Date Modified (new - old)</div>
               </PopupTextBox>
+            </span>
+            <span>
+              <Button faName="th" className="icon"/>
+              <Button faName="th-list" className="icon"/>
             </span>
           </Col>
         </Row>

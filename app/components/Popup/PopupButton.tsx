@@ -19,6 +19,10 @@ interface IState {
 }
 
 class PopupButton extends React.Component <IProps, IState> {
+  ctrls: {
+    target?: HTMLElement,
+  } = {};
+
   state: IState = {
     hovered  : false,
     showPopup: false,
@@ -37,7 +41,7 @@ class PopupButton extends React.Component <IProps, IState> {
       this.popupMenuStyle = Object.assign({}, this.props.childrenStyle);
     }
 
-    this.popupMenuItems = React.Children.map(this.props.children, (child) => {
+    this.popupMenuItems = React.Children.map(this.props.children, (child: React.ReactElement<any>) => {
       return React.cloneElement(child, {
         className: classnames(this.childrenStyle, {
           "ho-popup-button-menu-item": !this.props.childrenStyle,
@@ -50,7 +54,7 @@ class PopupButton extends React.Component <IProps, IState> {
     return (
       <span
         tabIndex="0"
-        ref="target"
+        ref={this.assignTarget}
         className="ho-popup-button"
         onClick={this.handleClick}
         onMouseEnter={() => this.setState({ hovered : true })}
@@ -69,8 +73,7 @@ class PopupButton extends React.Component <IProps, IState> {
           show={this.state.showPopup}
           onHide={() => this.setState({ showPopup: false })}
           placement="bottom"
-          container={() => this.refs.popupContainer}
-          target={ () => this.refs.target}
+          target={ () => this.ctrls.target}
         >
           <div className="ho-popup-button-menu">
             {this.popupMenuItems}
@@ -79,6 +82,8 @@ class PopupButton extends React.Component <IProps, IState> {
       </span>
     );
   }
+
+  private assignTarget: Function = (target: HTMLElement) => this.ctrls.target = target;
 
   private handleClick: Function = () => {
     if (this.state.showPopup) {

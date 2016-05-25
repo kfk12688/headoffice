@@ -32,10 +32,8 @@ class HOApp extends React.Component <{}, IState> {
           <Col className="search-container">
             <SearchContainer></SearchContainer>
           </Col>
-          <Col className="data-container">
-          </Col>
+          <Col className="data-container"></Col>
         </Row>
-        <div ref="popupContainer"></div>
       </Grid>
     );
   }

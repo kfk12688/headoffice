@@ -1,4 +1,4 @@
-@import url("./colors.less");
+@import "./colors";
 
 * {
   box-sizing: border-box;
@@ -17,18 +17,41 @@ a {
   color: @indigo400;
 }
 
-.button {
-  outline: none;
-  background-color: @transparent;
-  cursor: pointer;
-  text-align: center;
-  border: solid 1px grey;
-  margin-right: 4px;
+.content-container {
+  position: absolute;
+  padding: 0;
+  top: 152px;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 
+//MainNavContainer
+.ho-brand {
+  padding: 5px 0;
+  font-size: 16px;
+}
+
+.ho-main-nav {
+  &-header {
+    font-size: 13px;
+    border: none;
+    color: @grey400;
+    margin-right: 10px;
+    padding-left: 0;
+    padding-right: 0;
+    &:hover {
+      border: none;
+      color: @white;
+    }
+  }
+}
+
+//Search Container
 .ho-search-text-box {
   padding: 15px 0;
 }
+
 .ho-general-filter {
   &-header {
     font-size: 16px;
@@ -43,15 +66,6 @@ a {
   }
 }
 
-.content-container {
-  position: absolute;
-  padding: 0;
-  top: 146px;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
 .search-container {
   position: absolute;
   top: 0;
@@ -60,8 +74,10 @@ a {
   right: 0;
   padding: 10px 15px 0 10px;
   width: 230px;
+  background-color: @grey50;
 }
 
+//DataGrid Container
 .data-container {
   padding: 10px;
   position: absolute;
@@ -69,4 +85,46 @@ a {
   bottom: 0;
   left: 230px;
   right: 0;
+}
+
+// ActionContainer
+.ho-action-cont {
+  background-color: @grey50;
+  padding: 5.5px 0;
+  .left {
+    color: @grey600;
+    font-size: 12px;
+    .icon {
+    height: 24px;
+    font-size: 14px;
+    width: 28px;
+    margin-right: 5px;
+    padding: 0 5px;
+    border: solid 1px @grey500;
+    color: @grey800;
+    background-color: transparent;
+    &:hover {
+      border: solid 1px @grey900;
+    }
+    &-selected {
+      background-color: @grey600;
+      color: @white;
+    }
+  }
+  }
+  .right {
+    color: @grey600;
+    font-size: 12px;
+    text-align: right;
+    .icon {
+      .ho-action-cont .left .icon();
+      margin-right: -1px;
+    }
+    .sort-block {
+      display: inline-block;
+      height: 20px;
+      width: 230px;
+      margin-right: 10px;
+    }
+  }
 }

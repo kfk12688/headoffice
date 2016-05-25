@@ -1,79 +1,39 @@
 /**
  * Created by sharavan on 12/05/16.
  */
-
 import * as React from "react";
-import { grey300, grey700 } from "../../client/styles/colors";
+import "font-awesome-webpack";
+let FontAwesome: any = require("react-fontawesome");
+const cx: any = require("classnames");
 
 interface IProps {
-  /**
-   * Specifies the hovercolor for the button element
-   */
-  hoverColor?: string;
-  /**
-   * Specifies the default color for the button element
-   */
-  color?: string;
-  /**
-   * Custom user style for button component
-   */
   style?: Object;
+  className?: string;
+  faName?: string;
+  faClassName?: string;
+  children?: React.ReactChildren;
 }
 
-interface IState {
-  /**
-   * Controls the hovered state of the button element
-   */
-  hovered: boolean;
-}
-
-function getStyles(props: IProps): Object {
-  return {
-    backgroundColor: "transparent",
-    fontSize       : 12,
+const Button: React.StatelessComponent<IProps> = (props: IProps) => {
+  const { style, className, faName, faClassName } = props;
+  const classes: any = {
+    "ho-btn" : !className,
   };
-}
+  classes[className] = !!className;
 
-class Button extends React.Component <IProps, IState> {
-  state: IState = {
-    hovered: false,
-  };
+  const faIcon = faName && <FontAwesome name={faName} className={faClassName}></FontAwesome>;
 
-  defaultProps: IProps = {
-    color     : grey300,
-    hoverColor: grey700,
-  };
+  return (
+    <button
+      style={style}
+      className={ cx(classes) }
+    >
+      {faIcon}
+      {props.children}
+    </button>
+  );
+};
 
-  constructor(props: IProps) {
-    super(props);
-  }
-
-  render(): JSX.Element {
-    const { color, hoverColor, style } = this.props;
-    const colorStyle = Object.assign({}, style, {
-      color: this.state.hovered ? hoverColor : color,
-    });
-
-    const buttonStyle = Object.assign({}, getStyles(this.props), colorStyle);
-
-    return (
-      <button className="button"
-              style={buttonStyle}
-              onMouseEnter={this.handleMouseEnter}
-              onMouseLeave={this.handleMouseLeave}
-      >
-        {this.props.children}
-      </button>
-    );
-  }
-
-  private handleMouseEnter: React.MouseEventHandler = () => {
-    this.setState({ hovered: true });
-  };
-
-  private handleMouseLeave: React.MouseEventHandler = () => {
-    this.setState({ hovered: false });
-  };
-}
+Button.displayName = "Button";
 
 export { Button }

@@ -8,7 +8,7 @@ import "./Button.less";
 let FontAwesome: any = require("react-fontawesome");
 
 interface IProps {
-  placeHolder: boolean | string;
+  placeHolder?: boolean | string;
 }
 
 class SearchBox extends React.Component <IProps, {}> {

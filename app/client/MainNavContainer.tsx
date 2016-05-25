@@ -27,10 +27,10 @@ class MainNavContainer extends React.Component <IProps, IState> {
       <Row fullWidth style={primaryRowStyle}>
         <Row>
           <Col size={5}>
-            <div style={{padding: 4}}> Head Office App</div>
+            <div className="ho-brand"> Head Office App</div>
           </Col>
           <Col size={7} style={{ float : "right", textAlign: "right" }}>
-            <TabGroup color={grey400} hoverColor={grey50}>
+            <TabGroup className="ho-main-nav-header">
               <Tab>Alerts</Tab>
               <Tab>Help</Tab>
               <Tab>Sharavanth R</Tab>
@@ -39,7 +39,7 @@ class MainNavContainer extends React.Component <IProps, IState> {
         </Row>
         <Row>
           <Col size={12}>
-            <TabGroup color={grey400} hoverColor={grey50}>
+            <TabGroup className="ho-main-nav-header">
               <Tab>Templates</Tab>
               <Tab>Content</Tab>
               <Tab>Reports</Tab>

@@ -27,7 +27,7 @@ class TabContainer extends React.Component <IProps, IState> {
       <Row fullWidth style={rowStyle}>
         <Row style={rowStyle}>
           <Col size={12}>
-            <TabGroup color={grey300} hoverColor={grey700}>
+            <TabGroup>
               <TabMeta meta={{ count: 3 }}>Groups</TabMeta>
               <TabMeta meta={{ count: 10 }}>Templates</TabMeta>
             </TabGroup>

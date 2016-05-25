@@ -12,6 +12,7 @@ let classnames: any  = require("classnames");
 
 interface IProps {
   matchParentWidth?: boolean;
+  childrenStyle?: any;
 }
 interface IState {
   hovered?: boolean;
@@ -20,17 +21,21 @@ interface IState {
 }
 
 class PopupSearchBox extends React.Component <IProps, IState> {
+  ctrls: {
+    target?: HTMLElement,
+  } = {};
+
   state: IState = {
     hovered  : false,
     showPopup: false,
-    width: "auto",
+    width    : "auto",
   };
 
-  popupMenuStyle: any             = undefined;
+  popupMenuStyle: any = undefined;
 
   componentDidMount(): void {
     if (this.props.matchParentWidth) {
-      this.popupMenuStyle = Object.assign({}, { width: this.refs.target.getBoundingClientRect().width }, this.props.childrenStyle);
+      this.popupMenuStyle = Object.assign({}, { width: this.ctrls.target.getBoundingClientRect().width }, this.props.childrenStyle);
     } else {
       this.popupMenuStyle = Object.assign({}, this.props.childrenStyle);
     }
@@ -40,7 +45,7 @@ class PopupSearchBox extends React.Component <IProps, IState> {
     return (
       <div
         tabIndex="0"
-        ref="target"
+        ref={this.assignTarget}
         className="ho-popup-search-box"
         onClick={this.handleClick}
         onMouseEnter={() => this.setState({ hovered : true })}
@@ -64,8 +69,7 @@ class PopupSearchBox extends React.Component <IProps, IState> {
           show={this.state.showPopup}
           onHide={() => this.setState({ showPopup: false })}
           placement="bottom"
-          container={() => this.refs.popupContainer}
-          target={ () => this.refs.target}
+          target={ () => this.ctrls.target}
         >
           <div className="ho-popup-search-box-menu" style={this.popupMenuStyle}>
             <SearchBox placeHolder/>
@@ -74,6 +78,8 @@ class PopupSearchBox extends React.Component <IProps, IState> {
       </div>
     );
   }
+
+  private assignTarget: Function = (target: HTMLElement) => this.ctrls.target = target;
 
   private handleClick: Function = () => {
     if (this.state.showPopup) {

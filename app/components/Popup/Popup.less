@@ -1,0 +1,146 @@
+@import url("../../client/styles/colors");
+
+.ho-popup-text-box {
+  position: relative;
+  height: 24px;
+  line-height: 24px;
+  border: 1px solid @grey500;
+  background-color: @white;
+  color: @grey900;
+  cursor: pointer;
+  outline: none;
+  text-align: left;
+  padding: 0 0 0 4px;
+  font-size: 12px;
+  &:hover,
+  &:focus {
+    border: 1px solid @grey900;
+  }
+  &-fa-icon {
+    padding: 5px 6px;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  &-divider {
+    background-color: @grey500;
+    bottom: 0;
+    position: absolute;
+    right: 18px;
+    top: 0;
+  }
+  &-divider-hovered {
+    background-color: @grey900;
+    bottom: 0;
+    position: absolute;
+    right: 18px;
+    top: 0;
+  }
+
+  &-menu {
+    background: @white;
+    border: 1px solid @grey500;
+    font-size: 12px;
+    color: @grey700;
+    padding: 2px;
+    position: absolute;
+    &-item {
+      text-overflow: ellipsis;
+      padding: 5px 2px;
+      &:hover {
+        color: @grey900;
+        background-color: @grey200;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.ho-popup-search-box {
+  position: relative;
+  height: 24px;
+  line-height: 24px;
+  border: 1px solid @grey500;
+  background-color: @white;
+  cursor: pointer;
+  outline: none;
+  text-align: left;
+  padding: 0 0 0 4px;
+  font-size: 12px;
+  &:hover,
+  &:focus {
+    border: 1px solid @grey900;
+  }
+  &-fa-icon {
+    padding: 5px 6px;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  &-divider {
+    background-color: @grey500;
+    bottom: 0;
+    position: absolute;
+    right: 18px;
+    top: 0;
+  }
+  &-divider-hovered {
+    background-color: @grey900;
+    bottom: 0;
+    position: absolute;
+    right: 18px;
+    top: 0;
+  }
+
+  &-menu {
+    background: @white;
+    border: 1px solid @grey500;
+    font-size: 12px;
+    padding: 4px;
+    color: @grey700;
+    position: absolute;
+    height : 200px;
+    overflow-y: auto;
+    &-item {
+      text-overflow: ellipsis;
+      padding: 5px 2px;
+      &:hover {
+        color: @grey900;
+        background-color: @grey200;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+.ho-popup-button {
+  padding: 3px;
+  font-size: 12px;
+  outline: none;
+  color: @grey600;
+  &:hover {
+    color: @black;
+    cursor: pointer;
+  }
+  &-fa-icon {
+    padding: 0 4px;
+  }
+
+  &-menu {
+    background: @white;
+    border: 1px solid @grey500;
+    font-size: 12px;
+    color: @grey700;
+    padding: 2px;
+    position: absolute;
+    &-item {
+      text-overflow: ellipsis;
+      padding: 5px 2px;
+      &:hover {
+        color: @grey900;
+        background-color: @grey200;
+        cursor: pointer;
+      }
+    }
+  }
+}

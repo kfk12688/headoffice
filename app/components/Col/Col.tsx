@@ -1,6 +1,6 @@
 import * as React from "react";
-import * as classnames from "classnames";
 import "./Col.less";
+let classnames: any = require("classnames");
 
 function getStyles(props: IProps): Object {
   return {

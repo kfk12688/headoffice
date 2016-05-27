@@ -5,42 +5,13 @@
 import * as React from "react";
 import { redA200, grey500 } from "../../client/styles/colors";
 import { Tab } from "./Tab";
+import "./TabGroup.less";
 
 interface IProps {
-  /**
-   * Children content for the tab
-   */
   children?: React.ReactNode;
-  /**
-   * Normal css color of the Tab component
-   */
-  color?: string;
-  /**
-   * Hover color for the Tab button
-   */
-  hoverColor?: string;
-  /**
-   * Custom style CSS for the component
-   */
   style?: Object;
-  /**
-   * Additional meta information for the component
-   */
   meta?: { count: number };
-}
-
-// tslint-disable : no-unused-variable
-function getStyles(props: IProps): Object {
-  return {
-    borderBottom : redA200 + " solid 3px",
-    borderLeft   : 0,
-    borderRight  : 0,
-    borderTop    : 0,
-    fontSize     : 16,
-    fontWeight   : 500,
-    paddingBottom: 10,
-    paddingTop   : 10,
-  };
+  className?: string;
 }
 
 const TabMeta: React.StatelessComponent<IProps> = (props: IProps) => {
@@ -48,16 +19,22 @@ const TabMeta: React.StatelessComponent<IProps> = (props: IProps) => {
 
   return (
     <span className="tab-meta">
-      <Tab style={ Object.assign({}, getStyles(props), style) }>{children}</Tab>
+      <Tab
+        className="tab-meta-btn"
+        style={ Object.assign(
+          {}, {
+            borderBottom: redA200 + " solid 3px",
+          },
+          style
+        )}
+      >
+        {children}
+      </Tab>
       <span className="tab-meta-data">{meta.count}</span>
     </span>
   );
 };
 
-TabMeta.displayName  = "TabMeta";
-TabMeta.defaultProps = {
-  color     : grey500,
-  hoverColor: redA200,
-};
+TabMeta.displayName = "TabMeta";
 
 export { TabMeta };

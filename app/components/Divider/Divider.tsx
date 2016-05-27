@@ -2,7 +2,9 @@
  * Created by sharavan on 16/05/16.
  */
 import * as React from "react";
+import "./Divider.less";
 import { grey200 } from "../../client/styles/colors";
+let classnames: any = require("classnames");
 
 // fixme : Incorrect type for props... however, generates a tsint error
 function getStyles(props: any): Object {
@@ -35,15 +37,17 @@ interface IProps {
   vertical?: boolean;
   fullSpan?: boolean;
   style?: Object;
+  className?: Object;
 }
 
 const Divider: React.StatelessComponent<IProps> = (props: IProps) => {
-  const { style, vertical } = props;
+  const { style, vertical, className } = props;
   const dividerStyle = Object.assign({}, getStyles(props), style);
+
   if (vertical) {
-    return <span style={dividerStyle}/>;
+    return <span className={classnames("ho-divider", className)} style={dividerStyle}/>;
   } else {
-    return <hr style={dividerStyle}/> ;
+    return <hr className={classnames("ho-divider", className)} style={dividerStyle}/> ;
   }
 };
 

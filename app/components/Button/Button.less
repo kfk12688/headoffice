@@ -1,0 +1,53 @@
+@import url("../../client/styles/colors");
+
+.ho-search-btn {
+  height: 25px;
+  background-color: @white;
+  width: 100%;
+  border: 1px solid @grey500;
+  &:hover {
+    border: 1px solid @grey900;
+    cursor: pointer;
+  }
+
+  &-input {
+    outline: none;
+    width: 90%;
+    height: 100%;
+    background-color: @white;
+    border: none;
+    padding: 0 5px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &-fa-icon {
+    font-size: 13px;
+    padding: 5px 4px;
+    width: 10%;
+  }
+}
+
+.ho-btn {
+  height: 25px;
+  margin-right: 5px;
+  padding-left: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-right: 5px;
+  border: solid 1px @grey600;
+  font-size: inherit;
+  color: @grey500;
+  &:hover {
+    border: solid 1px @grey900;
+    color: @grey900;
+  }
+}
+
+button {
+  cursor: pointer;
+  text-align: center;
+  outline: none;
+  background-color: transparent;
+}

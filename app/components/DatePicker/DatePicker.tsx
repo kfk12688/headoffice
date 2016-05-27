@@ -2,8 +2,7 @@
 import "./DatePicker.less";
 import * as React from "react";
 import * as moment from "moment/moment";
-
-var ZippyDatePicker = require("react-datepicker");
+let ZippyDatePicker: any = require("react-datepicker");
 
 interface IState {
   date: moment.Moment;
@@ -11,20 +10,18 @@ interface IState {
 
 class DatePicker extends React.Component<{}, IState> {
   state: IState = {
-    date : undefined,
+    date: undefined,
   };
 
-  handleChange: Function = (date: moment.Moment) => {
-    this.setState({
-      date : date,
-    });
-  };
-
-  render (): JSX.Element {
+  render(): JSX.Element {
     return (
-      <ZippyDatePicker dateFormat="DD-MM-YYYY" selected={this.state.date} onChange={this.handleChange} />
+      <ZippyDatePicker
+        dateFormat="DD-MM-YYYY"
+        selected={this.state.date}
+        onChange={(date: moment.Moment) => this.setState({ date: date})}
+      />
     );
   }
 }
 
-export {DatePicker}
+export { DatePicker }

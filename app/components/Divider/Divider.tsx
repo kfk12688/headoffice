@@ -3,28 +3,25 @@
  */
 import * as React from "react";
 import "./Divider.less";
-import { grey200 } from "../../client/styles/colors";
 let classnames: any = require("classnames");
 
 // fixme : Incorrect type for props... however, generates a tsint error
 function getStyles(props: any): Object {
-  const { fullSpan, vertical, size } = props;
+  const { vertical, size } = props;
   let dynSetting: any = vertical ?
                         {
                           display      : "inline-block",
                           height       : size.h,
+                          margin       : 0,
                           verticalAlign: "top",
                           width        : size.w,
                         } :
                         {
                           height: size,
+                          margin: 0,
+                          width : "100%",
                         };
-  let defSetting      = {
-    backgroundColor: grey200,
-    border         : "none",
-    margin         : fullSpan ? "0 -10px" : 0,
-  };
-  return Object.assign({}, dynSetting, defSetting);
+  return Object.assign({}, dynSetting);
 }
 
 interface IProps {

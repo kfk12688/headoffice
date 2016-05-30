@@ -8,13 +8,14 @@ interface IProps {
   style?: Object;
   children?: React.ReactNode;
   className?: string;
+  childClassName?: string;
 }
 
 const TabGroup: React.StatelessComponent<IProps> = (props: IProps) => {
-  const { children, style, className } = props;
+  const { children, style, className, childClassName } = props;
 
   const classes: any = {};
-  classes[className] = !!className;
+  classes[childClassName] = !!childClassName;
 
   const tabs = React.Children.map(children, (child: React.ReactElement<any>, index: number) => {
     return React.cloneElement(child, {
@@ -23,7 +24,7 @@ const TabGroup: React.StatelessComponent<IProps> = (props: IProps) => {
     });
   });
 
-  return <div>{tabs}</div>;
+  return <div className={className}>{tabs}</div>;
 };
 
 TabGroup.displayName = "TabGroup";

@@ -2,14 +2,12 @@
  * Created by sharavan on 15/05/16.
  */
 import * as React from "react";
-import {
-  Divider,
-  PopupSearchBox,
-  PopupDatePicker,
-  SearchBox,
-} from "../components";
+import { Divider, PopupSearchBox, PopupDatePicker, SearchBox } from "components";
 
-class SearchContainer extends React.Component <{}, {}> {
+interface IProps {
+}
+
+class SearchContainer extends React.Component <IProps, {}> {
   render(): JSX.Element {
     const dividerStyle = {
       bottom  : 0,

@@ -1,8 +1,6 @@
 {
   "compilerOptions": {
     "outDir": "./dist/",
-    "sourceMap": true,
-    "noImplicitAny": true,
     "module": "amd",
     "target": "es6",
     "jsx": "react"
@@ -11,7 +9,6 @@
     "node_modules",
     "dist",
     "db",
-    "server",
     "**/*.html",
     "**/*.less",
     "typings/main",

@@ -72,7 +72,7 @@ class PopupSearchBox extends React.Component <IProps, IState> {
           target={ () => this.ctrls.target}
         >
           <div className="ho-popup-search-box-menu" style={this.popupMenuStyle}>
-            <SearchBox placeHolder/>
+            <SearchBox placeHolder />
           </div>
         </Overlay>
       </div>

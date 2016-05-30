@@ -18,7 +18,7 @@ class DatePicker extends React.Component<{}, IState> {
       <ZippyDatePicker
         dateFormat="DD-MM-YYYY"
         selected={this.state.date}
-        onChange={(date: moment.Moment) => this.setState({ date: date})}
+        onChange={(date: moment.Moment) => this.setState({ date: date })}
       />
     );
   }

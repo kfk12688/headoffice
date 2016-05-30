@@ -1,13 +1,10 @@
 /**
- * Created by sharavan on 18/05/16.
+ * Created by sharavan on 06/06/16.
  */
-import * as React from "react";
-import {
-  DataGrid,
-} from "../components";
-import { formatBytes, formatDate } from "../components/utils";
+import { formatBytes, formatDate } from "components/utils";
+import { IColProps } from "components/DataGrid/DataGridInterfaces";
 
-let cols = [
+export let cols: IColProps[] = [
   {
     headerStyle: { borderRight: 0 },
     name       : "has-alert-col",
@@ -24,9 +21,14 @@ let cols = [
     text       : "",
   },
   {
-    dataKey: "name",
-    name   : "name-col",
-    text   : "Name",
+    dataKey   : "name",
+    linkRef : {
+      path : "/template/edit",
+      urlKey : "name",
+    },
+    name      : "name-col",
+    renderType: "link",
+    text      : "Name",
   },
   {
     dataKey   : "sheetCount",
@@ -49,15 +51,24 @@ let cols = [
     text      : "Owner ID",
   },
   {
-    cellFormatter : formatDate,
-    dataKey   : "updatedAt",
-    name      : "updated-at-col",
-    renderType: "date",
-    sortable  : true,
-    text      : "Updated At",
+    cellFormatter: formatDate,
+    dataKey      : "updatedAt",
+    name         : "updated-at-col",
+    renderType   : "date",
+    sortable     : true,
+    text         : "Updated At",
   },
 ];
-let data = [
+export let colWidths         = {
+  "has-alert-col"  : 38,
+  "favorite-col"   : 38,
+  "sheet-count-col": 80,
+  "name-col"       : 150,
+  "owner-id-col"   : 100,
+  "size-col"       : 100,
+  "updated-at-col" : 150,
+};
+export let data              = [
   {
     "name"          : "Analyze Superstore",
     "id"            : "1027905",
@@ -137,17 +148,3 @@ let data = [
     "downloadUrl"          : "/t/sss/workbooks/ExecutiveSalesforce.twb",
   },
 ];
-
-class DataGridContainer extends React.Component <{}, {}> {
-  render(): JSX.Element {
-    return (
-      <DataGrid
-        cols={cols}
-        rows={data}
-        selectedKeys={{}}
-      />
-    );
-  }
-}
-
-export { DataGridContainer };

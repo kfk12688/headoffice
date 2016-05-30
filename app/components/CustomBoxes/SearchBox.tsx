@@ -4,7 +4,7 @@
 
 import * as React from "react";
 import "font-awesome-webpack";
-import "./Button.less";
+import "../Button/Button.less";
 let FontAwesome: any = require("react-fontawesome");
 
 interface IProps {
@@ -22,7 +22,11 @@ class SearchBox extends React.Component <IProps, {}> {
 
     return (
       <div className="ho-search-btn">
-        <input className="ho-search-btn-input" placeholder={placeHolder}/>
+        <input
+          className="ho-search-btn-input"
+          placeholder={placeHolder}
+          ref="searchBox"
+        />
         <FontAwesome
           className="ho-search-btn-fa-icon"
           name="search"
@@ -33,5 +37,3 @@ class SearchBox extends React.Component <IProps, {}> {
 }
 
 export { SearchBox }
-
-

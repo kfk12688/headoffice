@@ -1,9 +1,9 @@
 /**
  * Created by sharavan on 18/05/16.
  */
-
 import "font-awesome-webpack";
 import * as React from "react";
+import { NavLink } from "../NavLink/NavLink";
 import { IDataGridBodyCellProps, IRowProps, IColProps } from "./DataGridInterfaces";
 import { red500 } from "../../client/styles/colors";
 let FontAwesome: any = require("react-fontawesome");
@@ -29,6 +29,8 @@ class CellElementFactory {
         return this.CheckboxCell;
       case "favorite":
         return this.FavoriteCell;
+      case "link":
+        return this.LinkCell;
       default:
       case "text":
         return this.TextCell;
@@ -90,6 +92,16 @@ class CellElementFactory {
 
     return starredElement;
   }
+
+  private LinkCell(props: any): React.ReactElement<any> {
+    let url = props.linkRef.path + "/" + props.row[props.linkRef.urlKey];
+    url     = url.replace(/ /g, "");
+    return (
+      <div style={{textAlign: "left"}}>
+        <NavLink to={url}>{props.value}</NavLink>
+      </div>
+    );
+  }
 }
 
 class DataGridBodyCell extends React.Component <IDataGridBodyCellProps, {}> {
@@ -120,6 +132,8 @@ class DataGridBodyCell extends React.Component <IDataGridBodyCellProps, {}> {
               handleClick: this.props.handleClick,
               isSelected : this.props.isSelected,
               value      : formatCell(this.props.row, this.props.col),
+              linkRef    : this.props.col.linkRef,
+              row        : this.props.row,
             }
           )
         }

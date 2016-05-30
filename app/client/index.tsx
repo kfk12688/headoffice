@@ -1,41 +1,27 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import { Router, Route, hashHistory, IndexRoute } from "react-router";
 import "./styles/lib.less";
-import {
-  Grid,
-  Row,
-  Col,
-  Divider,
-} from "../components";
-import { MainNavContainer } from "./MainNavContainer";
-import { TabContainer } from "./TabContainer";
-import { ActionContainer } from "./ActionContainer";
-import { DataGridContainer } from "./DataGridContainer";
-import { SearchContainer } from "./SearchContainer";
-
-class HOApp extends React.Component <{}, {}> {
-  render(): JSX.Element {
-    return (
-      <Grid>
-        <MainNavContainer></MainNavContainer>
-        <TabContainer></TabContainer>
-        <Divider size={6} fullSpan></Divider>
-        <ActionContainer></ActionContainer>
-        <Divider fullSpan></Divider>
-        <Row fullWidth className="content-container">
-          <Col className="search-container">
-            <SearchContainer></SearchContainer>
-          </Col>
-          <Col className="data-container">
-            <DataGridContainer></DataGridContainer>
-          </Col>
-        </Row>
-      </Grid>
-    );
-  }
-}
+import { AppContainer } from "./Containers/AppContainer";
+import { TemplateContainer, Template, EditTemplate } from "./Routes/Template";
+import { Content } from "./Routes/Content";
+import { UsersContainer, Users, User } from "./Routes/Users";
+import { Views } from "./Routes/View";
 
 ReactDOM.render(
-  <HOApp />,
+  <Router history={hashHistory}>
+    <Route component={AppContainer}>
+      <Route path="/template" component={TemplateContainer}>
+        <IndexRoute component={Template}/>
+        <Route path="/template/edit/:templateName" component={EditTemplate}/>
+      </Route>
+      <Route path="/content" component={Content}/>
+      <Route path="/view" component={Views}/>
+      <Route path="/users" component={UsersContainer}>
+        <IndexRoute component={Users}/>
+        <Route path="/users/:username" component={User}/>
+      </Route>
+    </Route>
+  </Router>,
   document.getElementById("HOApp")
 );

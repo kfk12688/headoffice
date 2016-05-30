@@ -1,0 +1,39 @@
+@import url("../../client/styles/colors");
+@import url("../../client/styles/spacing");
+
+.ho-modal {
+  background: @white;
+  border: 1px solid @grey500;
+  border-radius: 2px;
+  min-width: 400px;
+  max-width: 600px;
+  padding: 10px;
+  outline: none;
+  .caption {
+    font-size: 15px;
+    line-height: 20px;
+    color: @grey600;
+    font-weight: 600;
+  }
+  .times {
+    float: right;
+    color: @grey300;
+    line-height: 20px;
+    &:hover {
+      color: @grey600;
+      cursor: pointer;
+    }
+  }
+
+  .content {
+    padding: 10px 0;
+    width: 100%;
+  }
+}
+
+.ho-modal-backdrop {
+  .absolute-position-mixin();
+  z-index: auto;
+  background-color: @grey900;
+  opacity: 0.5;
+}

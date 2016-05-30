@@ -16,7 +16,7 @@ var config = {
   context: path.resolve(__dirname),
 
   entry: {
-    vendor: ["react", "react-dom", "object-assign"],
+    vendor: ["react", "react-dom", "object-assign", "react-router"],
     app: path.join(__dirname, "app", 'client', 'index.tsx')
   },
   resolveLoader: {
@@ -39,14 +39,14 @@ var config = {
 
 
   module: {
-    // preLoaders: [{
-    //   test: /\.tsx?$/,
-    //   loader: "tslint",
-    //   include: [
-    //     path.resolve(__dirname, "app", "client"),
-    //     path.resolve(__dirname, "app", "components")
-    //   ]
-    // }],
+    preLoaders: [{
+      test: /\.[ts|tsx]?$/,
+      loader: "tslint",
+      include: [
+        path.resolve(__dirname, "app", "client"),
+        path.resolve(__dirname, "app", "components")
+      ]
+    }],
     noParse: [],
     loaders: [{
       test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -73,7 +73,12 @@ var config = {
       // Allow loading html through js
       test: /\.html$/,
       loader: "html?name=[name].[ext]",
-    }]
+    }],
+    tslint : {
+      fileOutput: {
+        dir: path.resolve(__dirname, "linter")
+      }
+    }
   },
 
   plugins: [

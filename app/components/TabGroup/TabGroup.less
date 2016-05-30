@@ -1,24 +1,53 @@
 @import url("../../client/styles/colors");
 
-.tab-meta {
+.clear-a() {
+  a {
+    color: inherit;
+    text-decoration: none;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+.ho-tab {
+  color: @grey500;
+  border-left: 0;
+  border-right: 0;
+  border-top: 0;
+  font-size: 16px;
+  font-weight: 400;
+  padding: 10px 0;
+  &:hover {
+    color: @grey700;
+    border: none;
+    cursor: pointer;
+  }
+  .clear-a();
+}
+
+.ho-tab-meta {
+  padding: 11px 0;
   margin-right: 15px;
-  &-btn {
-    color: @grey600;
+  .btn {
+    color: @grey500;
     border-left: 0;
     border-right: 0;
     border-top: 0;
     font-size: 16px;
     font-weight: 400;
-    padding: 10px 0;
+    padding: 5px 0;
     &:hover {
-      color: @black;
+      color: @grey700;
       border: none;
+      cursor: pointer;
     }
   }
-  &-data {
+  .data {
     color: @grey300;
-    padding: 3px 8px;
+    padding: 13px 8px 14px 8px;
     font-size: 12px;
     font-weight: 100;
   }
+  .clear-a();
 }

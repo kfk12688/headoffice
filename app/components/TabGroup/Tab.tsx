@@ -17,12 +17,12 @@ const Tab: React.StatelessComponent<IProps> = (props: IProps) => {
   classes[className] = !!className;
 
   return (
-    <Button
+    <span
       style={ Object.assign( {}, {border: 0 }, style ) }
-      className = { cx(classes) }
+      className = { cx("ho-tab", classes) }
     >
       {children}
-    </Button>
+    </span>
   );
 };
 

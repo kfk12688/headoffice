@@ -1,12 +1,10 @@
 /**
  * Created by sharavan on 21/05/16.
  */
-
 import * as React from "react";
-import "font-awesome-webpack";
 import "./Popup.less";
+import {Button} from "../Button";
 let Overlay          = require("react-overlays/lib/Overlay");
-let FontAwesome: any = require("react-fontawesome");
 let classnames: any  = require("classnames");
 
 interface IProps {
@@ -60,13 +58,7 @@ class PopupButton extends React.Component <IProps, IState> {
         onMouseEnter={() => this.setState({ hovered : true })}
         onMouseLeave={() => this.setState({ hovered : false })}
       >
-        <span>
-          {this.props.label}
-        </span>
-        <FontAwesome
-          className="ho-popup-button-fa-icon"
-          name="caret-down"
-        />
+        <Button className="ho-popup-button-fa-icon" faName="caret-down" after> {this.props.label} </Button>
 
         <Overlay
           rootClose

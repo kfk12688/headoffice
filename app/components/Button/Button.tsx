@@ -3,8 +3,9 @@
  */
 import * as React from "react";
 import "font-awesome-webpack";
-let FontAwesome: any = require("react-fontawesome");
-const cx: any = require("classnames");
+import "./Button.less";
+const FontAwesome: any = require("react-fontawesome");
+const cx: any          = require("classnames");
 
 interface IProps {
   style?: Object;
@@ -12,26 +13,31 @@ interface IProps {
   faName?: string;
   faClassName?: string;
   children?: React.ReactChildren;
+  onClick?: Function;
+  after?: boolean;
 }
 
 const Button: React.StatelessComponent<IProps> = (props: IProps) => {
-  const { style, className, faName, faClassName } = props;
-  const classes: any = {
-    "ho-btn" : !className,
-  };
-  classes[className] = !!className;
-
+  const { style, className, faName, faClassName, onClick, after } = props;
   const faIcon = faName && <FontAwesome name={faName} className={faClassName}></FontAwesome>;
 
-  return (
-    <button
-      style={style}
-      className={ cx(classes) }
-    >
-      {faIcon}
-      {props.children}
-    </button>
-  );
+  if (after) {
+    return (
+      <button style={style} className={ cx("ho-btn", className) } onClick={onClick}>
+        {props.children}
+        {" "}
+        {faIcon}
+      </button>
+    );
+  } else {
+    return (
+      <button style={style} className={ cx("ho-btn", className) } onClick={onClick}>
+        {faIcon}
+        {" "}
+        {props.children}
+      </button>
+    );
+  }
 };
 
 Button.displayName = "Button";

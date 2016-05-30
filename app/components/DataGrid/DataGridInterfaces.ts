@@ -10,6 +10,10 @@ interface IColProps {
   sortable?: boolean;
   cellFormatter?: Function;
   headerStyle?: any;
+  linkRef?: {
+    path: string;
+    urlKey: string;
+  };
 }
 
 type IRowProps = any;
@@ -27,17 +31,18 @@ type IRowProps = any;
 interface IDataGridProps {
   rows: Array<IRowProps>;
   cols: Array<IColProps>;
-  onColumnResize?: Function;
-  onClickSortColumn?: Function;
-  selectedKeys?: any;
-}
-// State
-interface IDataGridState {
-  rows?: Array<IRowProps>;
   colWidths?: any;
+  colResizeFunction?: Function;
+  colSortFunction?: Function;
+  selectedKeys?: any;
   sortKey?: string;
+  sortAscending?: boolean;
 }
 
+// State
+interface IDataGridState {
+  colWidths?: any;
+}
 // ********************************************************************************************************** //
 // Component - 1 : DataGridHeaderRow
 // ********************************************************************************************************** //
@@ -52,6 +57,7 @@ interface IDataGridHeaderRowProps {
   onClick: Function;
   onColumnResize: Function;
   sortKey: string;
+  sortAscending?: boolean;
 }
 
 /**
@@ -64,11 +70,11 @@ interface IDataGridHeaderColumnProps {
   onClick: Function;
   onColumnResize: Function;
   sorted: boolean;
+  sortAscending?: boolean;
 }
 // State
 interface IDataGridHeaderColumnState {
   hovered?: boolean;
-  sortAscending?: boolean;
 }
 
 // ********************************************************************************************************** //

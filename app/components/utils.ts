@@ -14,7 +14,7 @@ function formatBytes(bytes: number, decimals: number): string {
 
 function formatDate(date: string, format?: string): string {
   let formatString = format || "Mo MMM YYYY, HH:mm";
-  return moment.utc(date, moment.ISO_8601).format(formatString);
+  return moment.utc(date).format(formatString);
 }
 
 export { formatBytes, formatDate };

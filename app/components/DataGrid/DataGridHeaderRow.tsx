@@ -13,6 +13,7 @@ class DataGridHeaderRow extends React.Component <IDataGridHeaderRowProps, {}> {
     const onColumnResize = this.props.onColumnResize;
     const onClick        = this.props.onClick;
     const sortKey        = this.props.sortKey;
+    const sortAscending  = this.props.sortAscending;
 
     const dataGridHeaderColumns = cols.map((headerColumn: IColProps, index: number) => {
       let colName = headerColumn.name;
@@ -23,7 +24,8 @@ class DataGridHeaderRow extends React.Component <IDataGridHeaderRowProps, {}> {
           colWidth={colWidths[colName]}
           onColumnResize={onColumnResize}
           onClick={onClick}
-          sorted={ (sortKey === headerColumn.dataKey) ? true : false }
+          sorted={(sortKey === headerColumn.dataKey) ? true : false}
+          sortAscending={sortAscending}
         />
       );
     });

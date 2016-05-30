@@ -1,7 +1,6 @@
 /**
  * Created by sharavan on 18/05/16.
  */
-
 import "font-awesome-webpack";
 import * as React from "react";
 import { IDataGridHeaderColumnProps, IDataGridHeaderColumnState } from "./DataGridInterfaces";
@@ -11,7 +10,6 @@ let FontAwesome: any = require("react-fontawesome");
 class DataGridHeaderColumn extends React.Component <IDataGridHeaderColumnProps, IDataGridHeaderColumnState> {
   state: IDataGridHeaderColumnState = {
     hovered      : false,
-    sortAscending: false,
   };
 
   render(): JSX.Element {
@@ -40,10 +38,10 @@ class DataGridHeaderColumn extends React.Component <IDataGridHeaderColumnProps, 
     let isColSortable = (col.sortable === undefined) || col.sortable;
 
     if (isColSortable && sorted) {
-      if (this.state.sortAscending) {
-        arrow = <FontAwesome style={faStyle} name="long-arrow-down"/>;
-      } else {
+      if (this.props.sortAscending) {
         arrow = <FontAwesome style={faStyle} name="long-arrow-up"/>;
+      } else {
+        arrow = <FontAwesome style={faStyle} name="long-arrow-down"/>;
       }
     }
 
@@ -73,12 +71,10 @@ class DataGridHeaderColumn extends React.Component <IDataGridHeaderColumnProps, 
   }
 
   private onClick: Function = (dataKey: string, event: React.MouseEvent) => {
-    if (this.state.sortAscending) {
-      this.props.onClick(dataKey, event, "asc");
-      this.setState({ sortAscending: false });
+    if (this.props.sortAscending) {
+      this.props.onClick(dataKey, "desc", event);
     } else {
-      this.props.onClick(dataKey, event, "desc");
-      this.setState({ sortAscending: true });
+      this.props.onClick(dataKey, "asc", event);
     }
   };
 }

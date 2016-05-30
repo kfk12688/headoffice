@@ -5,7 +5,6 @@ let classnames: any = require("classnames");
 function getStyles(props: IProps): Object {
   return {
     height: props.height,
-    margin: props.fullWidth ? "0 -10px" : "0 10px",
   };
 }
 
@@ -41,7 +40,6 @@ const Row: React.StatelessComponent<IProps> = (props: IProps) => {
 Row.displayName  = "Row";
 Row.defaultProps = {
   fullWidth: false,
-  height   : "auto",
 };
 
 export { Row }

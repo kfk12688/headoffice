@@ -30,18 +30,39 @@
 }
 
 .ho-btn {
-  height: 25px;
-  margin-right: 5px;
-  padding-left: 0;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-right: 5px;
+  height: 22px;
+  min-width: 26px;
+  margin-right: 8px;
+  padding: 2px 6px;
   border: solid 1px @grey600;
   font-size: inherit;
   color: @grey500;
   &:hover {
     border: solid 1px @grey900;
     color: @grey900;
+  }
+}
+
+.ho-form-btn {
+  height: 20px;
+  min-width: 21px;
+  margin-right: 8px;
+  padding: 2px 6px;
+  border: solid 1px @grey500;
+  border-radius: 1px;
+  background-color: @grey300;
+  color: @grey50;
+  font-size: 12px;
+  &:hover {
+    border: solid 1px @grey900;
+  }
+
+  &.accent {
+    border: solid 1px @redA200;
+    background-color: @redA200;
+    &:hover {
+      border: solid 1px @red900;
+    }
   }
 }
 

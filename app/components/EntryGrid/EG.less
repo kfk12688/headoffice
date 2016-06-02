@@ -1,0 +1,131 @@
+@import "../../client/styles/colors.less";
+
+.ho-entrygrid {
+  overflow: hidden;
+
+  // Entrygrid body
+  &-body {
+    background-color: @white;
+    overflow: auto;
+    max-height: 6 * 37px;
+    min-height: 3 * 37px;
+    &-cell {
+      height: 37px;
+      line-height: 37px;
+      padding-left: 12px;
+      padding-right: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 13px;
+    }
+    &-row {
+      border-bottom: 1px solid @grey300;
+      height: 37px;
+      white-space: nowrap;
+    }
+  }
+
+  // Entrygrid Header
+  &-header {
+    &-row {
+      background-color: @white;
+      border-bottom: 1px solid @grey300;
+    }
+    &-col {
+      height: 37px;
+      display: inline-block;
+      position: relative;
+      vertical-align: middle;
+      border-right: 1px solid @grey300;
+    }
+    &-cell {
+      height: 37px;
+      line-height: 37px;
+      padding-left: 12px;
+      padding-right: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    &-divider {
+      position: absolute;
+      z-index: 9999;
+      top: 0;
+      right: -6px;
+      bottom: 0;
+      width: 12px;
+      cursor: col-resize;
+    }
+  }
+
+  &-post {
+    font-size: 13px;
+    padding: 4px;
+    margin: 10px 6px;
+    border: 1px solid @grey300;
+    background-color: @white;
+    border-radius: 2px;
+    width: 70%;
+    .tab {
+      margin-bottom: 10px;
+      display: inline-flex;
+      width: 100%;
+      border-bottom: 1px solid @grey300;
+      color: @grey500;
+      & span {
+        line-height: 25px;
+        width: 50%;
+        text-align: center;
+        &:hover {
+          color: @grey900;
+          cursor: pointer;
+        }
+        &.selected {
+          color: @red400;
+          cursor: pointer;
+        }
+      }
+    }
+    .submit {
+      text-align: right;
+      margin: 5px 0;
+      & button.submit {
+        height: 20px;
+        font-size: 12px;
+        min-width: 55px;
+        margin: 0 2px;
+        border: 1px solid @red100;
+        border-radius: 1px;
+        text-align: center;
+        background: @red100;
+        color: @red900;
+        &:active,
+        &:hover {
+          color: @red50;
+          background: @red500;
+          border: 1px solid @red500;
+        }
+      }
+      & button.cancel {
+        height: 20px;
+        font-size: 12px;
+        min-width: 55px;
+        margin: 0 2px;
+        border: 1px solid @grey300;
+        border-radius: 1px;
+        background: @grey300;
+        color: @grey900;
+        text-align: center;
+        &:active,
+        &:hover {
+          color: @grey50;
+          background: @grey500;
+          border: 1px solid @grey500;
+        }
+      }
+    }
+  }
+}

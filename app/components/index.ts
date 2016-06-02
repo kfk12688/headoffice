@@ -13,3 +13,4 @@ export { PopupSearchBox, PopupTextBox, PopupDatePicker, PopupButton } from "./Po
 export { SearchBox } from "./CustomBoxes";
 export { NavLink } from "./NavLink/NavLink";
 export { Modal } from "./Modal";
+export { EG } from "./EntryGrid";

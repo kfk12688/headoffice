@@ -1,6 +1,6 @@
 import "font-awesome-webpack";
 import * as React from "react";
-import { Row, Col, Divider } from "components";
+import { Row, Col, Divider, EG } from "components";
 import "./TemplateRoute.less";
 import { grey700 } from "../../../styles/colors";
 const FontAwesome: any = require("react-fontawesome");
@@ -33,8 +33,7 @@ class EditTemplate extends React.Component <IProps, {}> {
         <Row className="working-area">
           <Col className="search">
           </Col>
-          <Col className="grid">
-          </Col>
+          <Col className="grid"><EG/></Col>
         </Row>
       </div>
     );

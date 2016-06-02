@@ -10,6 +10,7 @@ let classnames: any  = require("classnames");
 interface IProps {
   label: string;
   childrenStyle?: any;
+  faName?: string;
 }
 interface IState {
   hovered?: boolean;

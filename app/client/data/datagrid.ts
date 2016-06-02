@@ -1,8 +1,8 @@
 /**
  * Created by sharavan on 06/06/16.
  */
-import { formatBytes, formatDate } from "components/utils";
 import { IColProps } from "components/DataGrid/DataGridInterfaces";
+import Formatter from "../../components/Utils/Formatter";
 
 export let cols: IColProps[] = [
   {
@@ -37,7 +37,7 @@ export let cols: IColProps[] = [
     text      : "Sheets",
   },
   {
-    cellFormatter: formatBytes,
+    cellFormatter: Formatter.toBytes,
     dataKey      : "size",
     name         : "size-col",
     renderType   : "number",
@@ -51,12 +51,12 @@ export let cols: IColProps[] = [
     text      : "Owner ID",
   },
   {
-    cellFormatter: formatDate,
-    dataKey      : "updatedAt",
-    name         : "updated-at-col",
-    renderType   : "date",
-    sortable     : true,
-    text         : "Updated At",
+    cellFormatter : Formatter.toDate,
+    dataKey   : "updatedAt",
+    name      : "updated-at-col",
+    renderType: "date",
+    sortable  : true,
+    text      : "Updated At",
   },
 ];
 export let colWidths         = {

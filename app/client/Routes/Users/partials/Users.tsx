@@ -1,7 +1,7 @@
 import "font-awesome-webpack";
 import * as React from "react";
 import { SearchContainer } from "../../../Containers/SearchContainer";
-import { Row, Col, Divider, Button, PopupButton, PopupTextBox, DataGrid } from "components";
+import { Row, Col, Divider, Button, PopupButton, PopupTextBox, DataGrid, Modal } from "components";
 import { IRowProps, IColProps } from "../../../../components/DataGrid/DataGridInterfaces";
 import {userCols, userColWidths, usersData} from "../../../data/usersData";
 const cx: any = require("classnames");
@@ -76,7 +76,8 @@ class Users extends React.Component <{}, IState> {
               <Button faName="sliders" onClick={this.toggleSearchContainerCb}
                       className={cx("icon", {"active" : this.state.showSearchContainer})}/>
 
-              <Button className="add-btn" faName="plus"> Add User</Button>
+              <Modal accent faName="plus" caption="Add User">
+              </Modal>
 
               <PopupButton label="0 selected">
                 <div>Select All</div>

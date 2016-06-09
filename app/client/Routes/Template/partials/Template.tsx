@@ -75,7 +75,7 @@ class Template extends React.Component <{}, IState> {
               <Button faName="sliders" onClick={this.toggleSearchContainerCb}
                       className={cx("icon", {"active" : this.state.showSearchContainer})}/>
 
-              <Modal btnClassName="add-btn" faName="plus" caption=" Add Template">
+              <Modal accent faName="plus" caption="Add Template">
                 <form>
                   <div>
                     <div>Enter a name for the new table template:</div>

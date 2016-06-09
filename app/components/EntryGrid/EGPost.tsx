@@ -4,6 +4,7 @@
 import * as React from "react";
 import { EGPostFields } from "./EGPostFields";
 import { Divider } from "../Divider";
+import { FormButton } from "../Button";
 import { IEGCols, IEGRows, IEGRow } from "./EGTypes";
 let cx: any = require("classnames");
 
@@ -80,10 +81,10 @@ class EGPost extends React.Component <IEGPostProps, IEGPostState> {
         <div className="submit">
           {
             this.state.entryState === EntryStateEnum.insert ?
-            <button className="submit">Add</button> :
-            <button className="submit">Edit</button>
+            <FormButton accent>Add</FormButton> :
+            <FormButton accent>Edit</FormButton>
           }
-          <button className="cancel">Cancel</button>
+          <FormButton>Cancel</FormButton>
         </div>
       </div>
     );

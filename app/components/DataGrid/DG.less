@@ -1,0 +1,61 @@
+@import url(../../styles/colors.less);
+
+.ho-datagrid {
+  overflow: hidden;
+
+  // Datagrid body
+  &-body {
+    background-color: @white;
+    overflow: auto;
+    &-cell {
+      height: 37px;
+      line-height: 37px;
+      padding-left: 12px;
+      padding-right: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 13px;
+    }
+    &-row {
+      border-bottom: 1px solid @grey300;
+      height: 37px;
+      white-space: nowrap;
+    }
+  }
+
+  // Datagrid Header
+  &-header {
+    &-row {
+      background-color: @white;
+      border-bottom: 1px solid @grey300;
+    }
+    &-col {
+      height: 37px;
+      display: inline-block;
+      position: relative;
+      vertical-align: middle;
+      border-right: 1px solid @grey300;
+    }
+    &-cell {
+      height: 37px;
+      line-height: 37px;
+      padding-left: 12px;
+      padding-right: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    &-divider {
+      position: absolute;
+      z-index: 9999;
+      top: 0;
+      right: -6px;
+      bottom: 0;
+      width: 12px;
+      cursor: col-resize;
+    }
+  }
+}

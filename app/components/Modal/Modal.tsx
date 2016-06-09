@@ -2,18 +2,19 @@
  * Created by sharavan on 08/06/16.
  */
 import * as React from "react";
-import { FormButton } from "../Button";
+import { FormButton } from "../Button/index";
 import "./Modal.less";
 import "font-awesome-webpack";
 const FontAwesome = require("react-fontawesome");
-const BSModal = require("react-overlays/lib/Modal");
-const cx: any          = require("classnames");
+const BSModal     = require("react-overlays/lib/Modal");
+const cx          = require("classnames");
 
 interface IProps {
   className?: string;
   btnClassName?: string;
   faName?: string;
   caption?: any;
+  accent?: boolean;
 }
 
 interface IState {
@@ -45,7 +46,8 @@ class Modal extends React.Component <IProps, IState> {
 
     return (
       <span>
-        <FormButton className={btnClassName} faName={faName} accent={accent} onClick={() => this.setState({ showModal: true })}>
+        <FormButton className={btnClassName} faName={faName} accent={accent}
+                    onClick={() => this.setState({ showModal: true })}>
            {caption}
         </FormButton>
 

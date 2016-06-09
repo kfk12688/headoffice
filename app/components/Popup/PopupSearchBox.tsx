@@ -52,13 +52,6 @@ class PopupSearchBox extends React.Component <IProps, IState> {
         onMouseLeave={() => this.setState({ hovered : false })}
       >
         {this.props.children}
-        <Divider
-          vertical
-          className={
-            classnames("ho-popup-search-box-divider", {"ho-popup-search-box-divider-hovered" : this.state.hovered})
-          }
-          size={{h:"auto", w:1}}
-        />
         <FontAwesome
           className="ho-popup-search-box-fa-icon"
           name="caret-down"

@@ -2,7 +2,6 @@
  * Created by sharavan on 12/05/16.
  */
 import * as React from "react";
-import { Button } from "../Button";
 const cx: any = require("classnames");
 
 interface IProps {

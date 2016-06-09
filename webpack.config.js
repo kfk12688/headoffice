@@ -9,7 +9,6 @@ var ContextReplacementPlugin = require("webpack/lib/ContextReplacementPlugin");
 var nodeModulesPath = path.join(__dirname, 'node_modules');
 
 var config = {
-  // or devtool: 'eval' to debug issues with compiled output:
   devtool: 'eval',
 
   // The base directory (absolute path!) for resolving the entry option.
@@ -17,11 +16,13 @@ var config = {
 
   entry: {
     vendor: ["react", "react-dom", "object-assign", "react-router"],
-    app: path.join(__dirname, "app", 'client', 'index.tsx')
+    app: path.join(__dirname, "app", 'index.tsx')
   },
+  
   resolveLoader: {
     root: nodeModulesPath
   },
+  
   resolve: {
     root: path.resolve(__dirname),
     alias: {
@@ -39,15 +40,6 @@ var config = {
 
 
   module: {
-    preLoaders: [{
-      test: /\.[ts|tsx]?$/,
-      loader: "tslint",
-      include: [
-        path.resolve(__dirname, "app", "client"),
-        path.resolve(__dirname, "app", "components")
-      ]
-    }],
-    noParse: [],
     loaders: [{
       test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
       loader: "url-loader?limit=10000&minetype=application/font-woff"
@@ -56,49 +48,39 @@ var config = {
       loader: "file-loader?name=[name].[ext]"
     }, {
       test: /\.less$/,
-      loader: "style!css!less"
+      loader: "style!css!less",
+      exclude : /node_modules/
     }, {
       test: /\.css$/,
-      loader: "style!css"
+      loader: "style!css",
+      exclude : /node_modules/
     }, {
       test: /\.tsx?$/,
       loaders: ['react-hot', 'ts-loader'],
-      include: [
-        path.resolve(__dirname, "app", "client"),
-        path.resolve(__dirname, "app", "components")
-      ]
+      exclude : /node_modules/
     }, {
       // HTML LOADER
       // Reference: https://github.com/webpack/raw-loader
       // Allow loading html through js
       test: /\.html$/,
       loader: "html?name=[name].[ext]",
-    }],
-    tslint : {
-      fileOutput: {
-        dir: path.resolve(__dirname, "linter")
-      }
-    }
+      exclude : /node_modules/
+    }]
   },
 
   plugins: [
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
 
     // Used for hot-reload
-    // new webpack.HotModuleReplacementPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
 
     new HtmlWebpackPlugin({
-      template: './app/client/index.html',
+      template: './app/index.html',
       inject: 'body'
     }),
 
     // Uses only the en locale of the moment plugin in build
     new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/(en)$/),
-
-    // Reference: https://github.com/webpack/extract-text-webpack-plugin
-    // Extract css files
-    // Disabled when in test mode or not in build mode
-    // new ExtractTextPlugin('[name].[hash].css')
   ],
 
   /**

@@ -4,7 +4,7 @@
 // <editor-fold desc="Imports">
 import * as React from "react";
 import "font-awesome-webpack";
-import { grey50 } from "../../client/styles/colors";
+import { grey50 } from "../../styles/colors";
 let FontAwesome: any = require("react-fontawesome");
 // </editor-fold>
 

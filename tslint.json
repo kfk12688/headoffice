@@ -3,14 +3,9 @@
     "align": [
       true,
       "parameters",
-      "arguments",
       "statements"
     ],
     "class-name": true,
-    "comment-format": [
-      true,
-      "check-space"
-    ],
     "curly": true,
     "eofline": true,
     "forin": true,
@@ -37,7 +32,6 @@
     "no-angle-bracket-type-assertion": true,
     "no-any": false,
     "no-arg": true,
-    "no-bitwise": true,
     "no-conditional-assignment": true,
     "no-consecutive-blank-lines": false,
     "no-console": [
@@ -51,7 +45,6 @@
     "no-construct": true,
     "no-constructor-vars": true,
     "no-debugger": true,
-    "no-default-export": true,
     "no-duplicate-key": true,
     "no-duplicate-variable": true,
     "no-empty": true,
@@ -78,7 +71,6 @@
     "no-use-before-declare": true,
     "no-var-keyword": true,
     "no-var-requires": false,
-    "object-literal-sort-keys": true,
     "one-line": [
       true,
       "check-open-brace",
@@ -97,18 +89,7 @@
       "avoid-escape"
     ],
     "radix": true,
-    "semicolon": [
-      true,
-      "always"
-    ],
     "switch-default": true,
-    "trailing-comma": [
-      true,
-      {
-        "multiline": "always",
-        "singleline": "never"
-      }
-    ],
     "triple-equals": [
       true,
       "allow-null-check",
@@ -116,9 +97,7 @@
     ],
     "typedef": [
       true,
-      "call-signature",
       "parameter",
-      "arrow-parameter",
       "property-declaration",
       "member-variable-declaration"
     ],

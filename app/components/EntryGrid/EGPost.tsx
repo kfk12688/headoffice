@@ -3,8 +3,8 @@
  */
 import * as React from "react";
 import { EGPostFields } from "./EGPostFields";
-import { Divider } from "../Divider";
-import { FormButton } from "../Button";
+import { Divider } from "../Divider/index";
+import { FormButton } from "../Button/index";
 import { IEGCols, IEGRows, IEGRow } from "./EGTypes";
 let cx: any = require("classnames");
 

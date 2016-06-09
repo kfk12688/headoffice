@@ -1,4 +1,7 @@
 node_modules
 dist
-typings
+typings/globals
+typings/modules
 .idea
+npm-debug.log
+.DS_Store

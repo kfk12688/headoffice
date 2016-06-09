@@ -2,50 +2,43 @@
  * Created by sharavan on 21/05/16.
  */
 import * as React from "react";
-import { Divider } from "../index";
 import "font-awesome-webpack";
 import "./Popup.less";
-let Overlay          = require("react-overlays/lib/Overlay");
-let FontAwesome: any = require("react-fontawesome");
-let classnames: any  = require("classnames");
+let Overlay          = require("react-overlays/lib/Overlay")
+let FontAwesome: any = require("react-fontawesome")
+let classnames: any  = require("classnames")
 
 interface IProps {
-  childrenStyle?: string;
-  matchParentWidth?: boolean;
-  label: string;
+  childrenStyle?: string
+  matchParentWidth?: boolean
+  label: string
 }
 
 interface IState {
-  hovered?: boolean;
-  label?: string;
-  showPopup?: boolean;
+  showPopup?: boolean
 }
 
 class PopupTextBox extends React.Component <IProps, IState> {
   ctrls: {
     target?: HTMLElement,
-  } = {};
+  } = {}
 
-  state: IState = {
-    hovered  : false,
-    label    : this.props.label,
-    showPopup: false,
-  };
+  state: IState = { showPopup: false }
 
-  childrenStyle: any              = undefined;
-  popupMenuStyle: any             = undefined;
-  popupMenuItems: React.ReactNode = undefined;
+  childrenStyle: any              = undefined
+  popupMenuStyle: any             = undefined
+  popupMenuItems: React.ReactNode = undefined
 
   componentDidMount(): void {
     if (this.props.matchParentWidth) {
-      this.popupMenuStyle = Object.assign({}, { width: this.ctrls.target.getBoundingClientRect().width }, this.props.childrenStyle);
+      this.popupMenuStyle = Object.assign({}, { width: this.ctrls.target.getBoundingClientRect().width }, this.props.childrenStyle)
     } else {
-      this.popupMenuStyle = Object.assign({}, this.props.childrenStyle);
+      this.popupMenuStyle = Object.assign({}, this.props.childrenStyle)
     }
 
     if (this.props.childrenStyle) {
       if (typeof this.props.childrenStyle === "string") {
-        this.childrenStyle = this.props.childrenStyle;
+        this.childrenStyle = this.props.childrenStyle
       }
     }
 
@@ -56,8 +49,8 @@ class PopupTextBox extends React.Component <IProps, IState> {
         }),
         key      : index,
         onClick  : this.handlePopupMenuClick.bind(this, child.props.callBack),
-      });
-    });
+      })
+    })
   }
 
   render(): JSX.Element {
@@ -65,21 +58,10 @@ class PopupTextBox extends React.Component <IProps, IState> {
       <div
         tabIndex="0"
         ref={this.assignTarget}
-        className="ho-popup-text-box"
         onClick={this.handleClick}
-        onMouseEnter={() => this.setState({ hovered: true })}
-        onMouseLeave={() => this.setState({ hovered: false })}
+        className="ho-popup-text-box"
       >
-        <span>
-          {this.state.label}
-        </span>
-        <Divider
-          vertical
-          className={
-            classnames("ho-popup-text-box-divider", {"ho-popup-text-box-divider-hovered" : this.state.hovered})
-          }
-          size={{h:"auto", w:1}}
-        />
+        <span className="input">{this.props.label}</span>
         <FontAwesome className="ho-popup-text-box-fa-icon" name="caret-down"/>
 
         <Overlay
@@ -94,29 +76,24 @@ class PopupTextBox extends React.Component <IProps, IState> {
           </div>
         </Overlay>
       </div>
-    );
+    )
   }
 
-  private assignTarget: Function = (target: HTMLElement) => this.ctrls.target = target;
+  private assignTarget: Function = (target: HTMLElement) => this.ctrls.target = target
 
   private handleClick: Function = () => {
     if (this.state.showPopup) {
-      this.setState({ showPopup: false });
+      this.setState({ showPopup: false })
     } else {
-      this.setState({ showPopup: true });
+      this.setState({ showPopup: true })
     }
   }
 
   private handlePopupMenuClick: Function = (cb: Function, e: React.MouseEvent) => {
-    // fixme : anti-pattern
-    let target: any = e.target;
-    e.preventDefault();
-    this.setState({
-      label    : target.innerHTML,
-      showPopup: false,
-    });
-
-    (cb !== undefined) && cb(e);
+    this.setState({ showPopup: false })
+    if (cb !== undefined) {
+      cb(e)
+    }
   }
 }
 

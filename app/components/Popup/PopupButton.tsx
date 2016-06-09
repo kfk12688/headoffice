@@ -3,7 +3,7 @@
  */
 import * as React from "react";
 import "./Popup.less";
-import {Button} from "../Button";
+import {Button} from "../Button/index";
 let Overlay          = require("react-overlays/lib/Overlay");
 let classnames: any  = require("classnames");
 

@@ -1,4 +1,4 @@
-import { formatDate } from "components/utils";
+import Formatter from "components/Utils/Formatter";
 import { IColProps } from "components/DataGrid/DataGridInterfaces";
 
 export let userCols: IColProps[] = [
@@ -36,7 +36,7 @@ export let userCols: IColProps[] = [
     text      : "Groups",
   },
   {
-    cellFormatter: formatDate,
+    cellFormatter: Formatter.toDate,
     dataKey      : "lastSignIn",
     name         : "last-signin-col",
     renderType   : "date",

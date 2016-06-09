@@ -1,7 +1,7 @@
 import * as React from "react";
 import { SearchContainer } from "../../Containers/SearchContainer";
 import { cols, colWidths, data } from "../../data/datagrid";
-import { Row, Col, Divider, Button, PopupButton, PopupTextBox, DataGrid } from "components";
+import { Row, Col, Divider, Button, PopupButton, PopupTextBox, DataGrid, Modal } from "components";
 import { IRowProps, IColProps } from "components/DataGrid/DataGridInterfaces";
 import "font-awesome-webpack";
 const FontAwesome: any = require("react-fontawesome");
@@ -77,7 +77,8 @@ class Views extends React.Component <{}, IState> {
               <Button faName="sliders" onClick={this.toggleSearchContainerCb}
                       className={cx("icon", {"active" : this.state.showSearchContainer})}/>
 
-              <Button className="add-btn" faName="plus"> Add View</Button>
+              <Modal accent faName="plus" caption="Add View">
+              </Modal>
 
               <PopupButton label="0 selected">
                 <div>Select All</div>

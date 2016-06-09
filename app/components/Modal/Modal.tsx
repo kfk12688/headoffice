@@ -2,7 +2,7 @@
  * Created by sharavan on 08/06/16.
  */
 import * as React from "react";
-import { Button } from "../Button";
+import { FormButton } from "../Button";
 import "./Modal.less";
 import "font-awesome-webpack";
 const FontAwesome = require("react-fontawesome");
@@ -26,7 +26,7 @@ class Modal extends React.Component <IProps, IState> {
   };
 
   render(): JSX.Element {
-    const { btnClassName, faName, caption, children, className } = this.props;
+    const { btnClassName, faName, caption, children, className, accent } = this.props;
 
     const modalStyle = {
       bottom  : 0,
@@ -45,9 +45,9 @@ class Modal extends React.Component <IProps, IState> {
 
     return (
       <span>
-        <Button className={btnClassName} faName={faName} onClick={() => this.setState({ showModal: true })}>
+        <FormButton className={btnClassName} faName={faName} accent={accent} onClick={() => this.setState({ showModal: true })}>
            {caption}
-        </Button>
+        </FormButton>
 
         <BSModal
           aria-labelledby="modal-label"

@@ -3,7 +3,9 @@
   "version": false,
   "dependencies": {
     "moment": "registry:npm/moment#2.10.5+20160211003958",
-    "react-router": "registry:npm/react-router#2.0.0+20160214194820"
+    "react-redux": "registry:npm/react-redux#4.4.0+20160614222153",
+    "react-router": "registry:npm/react-router#2.0.0+20160214194820",
+    "redux": "registry:npm/redux#3.0.6+20160214194820"
   },
   "globalDependencies": {
     "node": "registry:dt/node#4.0.0+20160501135006",

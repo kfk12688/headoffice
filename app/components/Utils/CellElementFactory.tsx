@@ -3,9 +3,9 @@
  */
 import "font-awesome-webpack";
 import * as React from "react";
-import { PopupButton } from "../Popup";
-import { NavLink } from "../NavLink";
-import { red500, grey300, grey50 } from "../../client/styles/colors";
+import { PopupButton } from "../Popup/index";
+import { NavLink } from "../NavLink/index";
+import { red500, grey300, grey50 } from "../../styles/colors";
 import "./CellElementFactory.less";
 let FontAwesome: any = require("react-fontawesome");
 

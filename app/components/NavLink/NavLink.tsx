@@ -3,7 +3,7 @@
  */
 import * as React from "react";
 import { Link, ILinkProps } from "react-router";
-import { red400 } from "../../client/styles/colors";
+import { red400 } from "../../styles/colors";
 
 interface IProps extends ILinkProps {
   children?: any;

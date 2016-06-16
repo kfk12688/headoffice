@@ -6,7 +6,7 @@ import { EGHeaderRow } from "./EGHeaderRow";
 import { EGBody } from "./EGBody";
 import { EGPost } from "./EGPost";
 import { IEGRows, IEGCols } from "./EGTypes";
-import { colSpec, data } from "../../client/data/EGData";
+import { colSpec, data } from "../../data/EGData";
 import "./EG.less";
 
 // <editor-fold desc="EntryGrid Interface : Encompasses EntryGridHeaderRow and EntryGridBody">

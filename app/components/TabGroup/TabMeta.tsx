@@ -2,7 +2,7 @@
  * Created by sharavan on 12/05/16.
  */
 import * as React from "react";
-import { redA200, grey500 } from "../../client/styles/colors";
+import { redA200, grey500 } from "../../styles/colors";
 import { Tab } from "./Tab";
 import "./TabGroup.less";
 

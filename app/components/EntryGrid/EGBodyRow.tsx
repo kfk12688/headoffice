@@ -4,7 +4,7 @@
 import * as React from "react";
 import { EGBodyCell } from "./EGBodyCell";
 import { IEGRow, IEGCols, IEGCell } from "./EGTypes";
-import { blueGrey50, grey50, transparent } from "../../client/styles/colors";
+import { blueGrey50, grey50, transparent } from "../../styles/colors";
 
 // <editor-fold desc="IEntryGridBodyRow Interface">
 // Props

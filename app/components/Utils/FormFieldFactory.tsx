@@ -2,7 +2,7 @@
  * Created by sharavan on 02/06/16.
  */
 import * as React from "react";
-import { Row } from "../Row";
+import { Row } from "../Row/index";
 import "./FormFieldFactory.less";
 
 export default class FormFieldFactory {

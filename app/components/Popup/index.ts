@@ -3,5 +3,5 @@
  */
 export { PopupTextBox } from "./PopupTextBox";
 export { PopupSearchBox } from "./PopupSearchBox";
-export { PopupDatePicker } from "./PopupDatePicker";
+export { PopupDateBox } from "./PopupDateBox";
 export { PopupButton } from "./PopupButton";

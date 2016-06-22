@@ -1,0 +1,85 @@
+@import "../styles/colors";
+@import "../styles/spacing";
+
+.rollUpHandle {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  height: 8px;
+  width: 70px;
+  color: @grey600;
+  border-left: 1px solid @grey600;
+  border-right: 1px solid @grey600;
+  border-bottom: 1px solid @grey600;
+  border-radius: 0 0 2px 2px;
+  z-index: 1;
+  &:hover {
+    color: @grey300;
+    border-left: 1px solid @grey300;
+    border-right: 1px solid @grey300;
+    border-bottom: 1px solid @grey300;
+  }
+  span {
+    position: absolute;
+    top: -2px;
+    left: 46%;
+    font-size: 9px;
+    &:after {
+      content: "\F0D8";
+      font-family: FontAwesome;
+    }
+  }
+}
+
+.rollDownHandle {
+  .rollUpHandle();
+  color: @grey300;
+  border-left: 1px solid @grey300;
+  border-right: 1px solid @grey300;
+  border-bottom: 1px solid @grey300;
+  &:hover {
+    color: @grey600;
+    border-left: 1px solid @grey600;
+    border-right: 1px solid @grey600;
+    border-bottom: 1px solid @grey600;
+  }
+  span {
+    &:after {
+      content: "\F0D7";
+      font-family: FontAwesome;
+    }
+  }
+}
+
+/**
+// Content Container
+// This container serves as the root for all the below elements
+*/
+.contentBase {
+  .absolute-position-mixin();
+}
+
+// Breadcrumb Style
+.breadcrumb {
+  .absolute-position-mixin();
+  height: @breadcrumbHt;
+}
+
+// Context Menu Style
+.contextMenu {
+  .absolute-position-mixin(@breadcrumbHt);
+}
+
+// Search Container Style
+.search {
+  .absolute-position-mixin(@breadcrumbHt + @actionContainerHt);
+  width: 230px;
+  background-color: @grey50;
+}
+
+// DG Container Style
+.datagrid {
+  .absolute-position-mixin(@top: @breadcrumbHt + @actionContainerHt,@left: 230px);
+  padding: 0 0 10px 0;
+  background-color: @white;
+}

@@ -1,0 +1,41 @@
+@import url("../../styles/colors");
+@import url("../../styles/spacing");
+
+.base {
+  background: @white;
+  border: 1px solid @grey500;
+  border-radius: 2px;
+  min-width: 400px;
+  max-width: 600px;
+  padding: 10px;
+  outline: none;
+}
+
+.caption {
+  font-size: 15px;
+  line-height: 20px;
+  color: @grey900;
+}
+
+.closeButton {
+  float: right;
+  color: @grey300;
+  line-height: 20px;
+  &:hover {
+    color: @grey600;
+    cursor: pointer;
+  }
+}
+
+.content {
+  font-size: 13px;
+  padding-top: 10px;
+  width: 100%;
+}
+
+.backdrop {
+  .absolute-position-mixin();
+  z-index: auto;
+  background-color: @grey900;
+  opacity: 0.5;
+}

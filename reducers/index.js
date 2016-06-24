@@ -3,13 +3,15 @@
  */
 import { combineReducers } from "redux";
 import contextMenuReducer from "./contextMenuReducer";
-import contentReducer from "./contentReducer";
+import templateReducer from "./templateReducer";
+
 import { routerReducer as routing } from "react-router-redux";
 
 const appReducer = combineReducers({
   contextMenu : contextMenuReducer,
-  content     : contentReducer,
+  list        : templateReducer,
   routing,
 });
 
 export default appReducer;
+export * from "./utils";

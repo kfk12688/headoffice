@@ -2,11 +2,11 @@
  * Created by sharavan on 15/05/16.
  */
 import moment from "moment";
-import _ from "underscore";
 import React from "react";
-import { Divider, PopupSearchBox, PopupDateBox, PopupCheckBox, SearchBox } from "components/index";
-import styles from "./Search.less";
+import { isEmpty } from "underscore";
+import { PopupSearchBox, PopupDateBox, PopupCheckBox, SearchBox } from "../../components";
 import cx from "classnames";
+import styles from "./Search.less";
 
 const Search = (props) => {
   let { owner, isStarred, isRecent, dateModifiedStart, dateModifiedEnd } = props.filterData;
@@ -15,19 +15,11 @@ const Search = (props) => {
   const changeHandlers = props.changeHandlers;
 
   const ClearSpan = ({ h }) => <span className={styles.clear} onClick={h}>Clear</span>;
-  const dividerStyle = {
-    bottom   : 0,
-    position : "absolute",
-    right    : 0,
-    top      : 0,
-  };
-
   return (
     <div className={ cx(styles.base, props.className) }>
-      <div className={styles.textBox}>
+      <div className={styles.searchbox}>
         <SearchBox />
       </div>
-      <Divider fullSpan size={1}/>
       <div>
         <div className={styles.filterHeader}>General Filters</div>
         <div className={styles.filterHeaderBlock}>
@@ -35,7 +27,7 @@ const Search = (props) => {
           <div className={styles.filterHeaderBlock}>
             <div>
               <span className={styles.label}>Owner</span>
-              {!(_.isEmpty(owner)) && <ClearSpan h={changeHandlers.setOwner}/>}
+              {!isEmpty(owner) && <ClearSpan h={changeHandlers.setOwner}/>}
             </div>
             <PopupSearchBox
               value={owner}
@@ -47,7 +39,7 @@ const Search = (props) => {
           <div className={styles.filterHeaderBlock}>
             <div>
               <span className={styles.label}>Created on or after</span>
-              {!(_.isEmpty(dateModifiedStart)) && <ClearSpan h={changeHandlers.setDateModifiedStart}/>}
+              {!isEmpty(dateModifiedStart) && <ClearSpan h={changeHandlers.setDateModifiedStart}/>}
             </div>
             <PopupDateBox
               value={dateModifiedStart}
@@ -58,7 +50,7 @@ const Search = (props) => {
           <div className={styles.filterHeaderBlock}>
             <div>
               <span className={styles.label}>Created on or before</span>
-              {!(_.isEmpty(dateModifiedEnd)) && <ClearSpan h={changeHandlers.setDateModifiedEnd}/>}
+              {!isEmpty(dateModifiedEnd) && <ClearSpan h={changeHandlers.setDateModifiedEnd}/>}
             </div>
             <PopupDateBox
               value={dateModifiedEnd}
@@ -68,23 +60,26 @@ const Search = (props) => {
 
           <div className={styles.filterHeaderBlock}>
             <PopupCheckBox
+              className={styles.label}
               value={isStarred}
               onChangeHandler={changeHandlers.setIsStarred}
-            />
-            <span className={styles.label}>Show starred only</span>
+            >
+              Show starred only
+            </PopupCheckBox>
           </div>
 
           <div className={styles.filterHeaderBlock}>
             <PopupCheckBox
+              className={styles.label}
               value={isRecent}
               onChangeHandler={changeHandlers.setIsRecent}
-            />
-            <span className={styles.label}>Recents only</span>
+            >
+              Recents only
+            </PopupCheckBox>
           </div>
 
         </div>
       </div>
-      <Divider vertical style={dividerStyle} size={{ h: "auto", w: 5 }}/>
     </div>
   );
 };

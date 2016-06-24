@@ -1,5 +1,4 @@
 @import "../styles/colors";
-@import "../styles/spacing";
 
 .rollUpHandle {
   position: absolute;
@@ -49,37 +48,4 @@
       font-family: FontAwesome;
     }
   }
-}
-
-/**
-// Content Container
-// This container serves as the root for all the below elements
-*/
-.contentBase {
-  .absolute-position-mixin();
-}
-
-// Breadcrumb Style
-.breadcrumb {
-  .absolute-position-mixin();
-  height: @breadcrumbHt;
-}
-
-// Context Menu Style
-.contextMenu {
-  .absolute-position-mixin(@breadcrumbHt);
-}
-
-// Search Container Style
-.search {
-  .absolute-position-mixin(@breadcrumbHt + @actionContainerHt);
-  width: 230px;
-  background-color: @grey50;
-}
-
-// DG Container Style
-.datagrid {
-  .absolute-position-mixin(@top: @breadcrumbHt + @actionContainerHt,@left: 230px);
-  padding: 0 0 10px 0;
-  background-color: @white;
 }

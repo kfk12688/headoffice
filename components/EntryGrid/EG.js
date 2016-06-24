@@ -5,13 +5,13 @@ import React from "react";
 import { EGHeaderRow } from "./EGHeaderRow";
 import { EGBody } from "./EGBody";
 import { EGPost } from "./EGPost";
-import { colSpec, data } from "../../data/EGData";
+import FontAwesome from "react-fontawesome";
 import styles from "./EG.less";
 import cx from "classnames";
 
 class EG extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       colWidths : {
         action         : 45,
@@ -20,22 +20,33 @@ class EG extends React.Component {
         fieldType      : 120,
         fieldValue     : 150,
       },
-      rows      : this.props.rows,
     };
   }
 
-  render() {
+  renderContent(props) {
+    if (props.isLoading) {
+      return <FontAwesome className={styles.spinner} name="spinner" spin size="2x"/>;
+    }
+
     return (
-      <div className={cx(styles.base, this.props.className)}>
+      <EGBody
+        cols={props.colSpec}
+        colWidths={this.state.colWidths}
+        rows={props.data}
+      />
+    );
+  }
+
+  render() {
+    const { className, colSpec, data } = this.props;
+
+    return (
+      <div className={cx(styles.base, className)}>
         <EGHeaderRow
           cols={colSpec}
           colWidths={this.state.colWidths}
         />
-        <EGBody
-          cols={colSpec}
-          colWidths={this.state.colWidths}
-          rows={data}
-        />
+        {this.renderContent(this.props)}
         <EGPost
           cols={colSpec}
           rows={data}

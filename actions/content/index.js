@@ -82,6 +82,14 @@ const setIsStarred = (e) => {
   };
 };
 
+// exporting action type constants
 export { contentActions };
+export {
+  TEMPLATE_FAILURE, TEMPLATE_REQUEST, TEMPLATE_SUCCESS, CONTENT_FAILURE, CONTENT_REQUEST, CONTENT_SUCCESS
+} from "./apiActions";
+
+// exporting synchronous functions
 export { sortColumn, toggleRow, selectAllRows, clearRowSelection };
 export { setDateModifiedEnd, setDateModifiedStart, setOwner, setIsRecent, setIsStarred };
+// exporting asynchronous functions
+export { loadContent, loadTemplate } from "./apiActions";

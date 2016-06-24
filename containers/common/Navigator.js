@@ -22,7 +22,6 @@ const Navigator = props =>
     </div>
     <div className={styles.nav}>
       <TabGroup childClassName={styles.link}>
-        <Tab><NavLink to="/template">Template</NavLink></Tab>
         <Tab><NavLink to="/content">Content</NavLink></Tab>
         <Tab><NavLink to="/view">View</NavLink></Tab>
         <Tab><NavLink to="/users">Users</NavLink></Tab>

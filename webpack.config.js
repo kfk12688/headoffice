@@ -1,20 +1,22 @@
-var path = require("path")
-var webpack = require("webpack")
+var path = require("path");
+var webpack = require("webpack");
 
 module.exports = {
   devtool : "eval",
   entry   : [
-    "webpack-hot-middleware/client",
-    "./index"
+    "webpack/hot/dev-server",
+    "./client/index"
   ],
   resolve : {
     root  : path.resolve(__dirname),
-    alias : { "components" : path.resolve(__dirname, "components") }
+    alias : {
+      components : path.resolve(__dirname, "client", "components")
+    }
   },
   output  : {
     path       : path.join(__dirname, "dist"),
     filename   : "bundle.js",
-    publicPath : "/static/"
+    publicPath : "http://localhost:3001/static/"
   },
   plugins : [
     new webpack.optimize.OccurrenceOrderPlugin(),

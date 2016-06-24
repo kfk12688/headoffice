@@ -4,6 +4,7 @@
 import React, { Component, PropTypes } from "react";
 import { DGHeaderRow } from "./DGHeaderRow";
 import { DGBody } from "./DGBody";
+import FontAwesome from "react-fontawesome";
 import styles from "./DG.less";
 import cx from "classnames";
 
@@ -14,25 +15,35 @@ class DG extends Component {
   }
 
   render() {
+    const {
+      style, className, cols, colWidths, colSortFunction,
+      sortKey, sortAscending, selectedKeys, onRowClick, rows, isLoading
+    } = this.props;
+
     return (
       <div
-        className={cx(styles.dgBase, this.props.className)}
-        style={this.props.style}
+        className={cx(styles.dgBase, className)}
+        style={style}
       >
         <DGHeaderRow
-          cols={this.props.cols}
-          colWidths={this.props.colWidths}
-          onClick={this.props.colSortFunction}
-          sortKey={this.props.sortKey}
-          sortAscending={this.props.sortAscending}
-        />
-        <DGBody
-          cols={this.props.cols}
+          cols={cols}
           colWidths={this.state.colWidths}
-          rows={this.props.rows}
-          selectedKeys={this.props.selectedKeys}
-          onRowClick={this.props.onRowClick}
+          onClick={colSortFunction}
+          sortKey={sortKey}
+          sortAscending={sortAscending}
         />
+
+        {
+          isLoading ?
+          <FontAwesome className={styles.spinner} name="spinner" spin size="2x"/> :
+          <DGBody
+            cols={cols}
+            colWidths={this.state.colWidths}
+            rows={rows}
+            selectedKeys={selectedKeys}
+            onRowClick={onRowClick}
+          />
+        }
       </div>
     );
   }

@@ -1,26 +1,83 @@
-var webpack = require('webpack')
-var webpackDevMiddleware = require('webpack-dev-middleware')
-var webpackHotMiddleware = require('webpack-hot-middleware')
-var config = require('./webpack.config')
+// var webpackDevMiddleware = require('webpack-dev-middleware')
+// var webpackHotMiddleware = require('webpack-hot-middleware')
+// var httpProxy = require("http-proxy");
+// var apiProxy = httpProxy.createProxyServer();
+// var app = new (require('express'))();
+var path = require("path");
+var webpack = require("webpack");
+var WebpackDevServer = require("webpack-dev-server");
+var config = require("./webpack.config");
+var compiler = webpack(config);
+var port = 3001;
 
-var app = new (require('express'))()
-var port = 3000
+// webpack-dev-server options
+var server = new WebpackDevServer(compiler, {
 
-var compiler = webpack(config)
-app.use(webpackDevMiddleware(compiler, {
-  publicPath: config.output.publicPath,
-  stats: "minimal"
-}))
-app.use(webpackHotMiddleware(compiler))
+  contentBase : path.resolve(__dirname, "client"),
+  // contentBase: "http://localhost:3000/",
 
-app.use(function (req, res) {
-  res.sendFile(__dirname + '/index.html')
-})
+  hot : true,
+  // Enable special support for Hot Module Replacement
+  // Page is no longer updated, but a "webpackHotUpdate" message is send to the content
+  // Use "webpack/hot/dev-server" as additional module in your entry point
+  // Note: this does _not_ add the `HotModuleReplacementPlugin` like the CLI option does.
 
-app.listen(port, function (error) {
+  // Set this as true if you want to access dev server from arbitrary url.
+  // This is handy if you are using a html5 router.
+  historyApiFallback : true,
+
+  // Set this if you want to enable gzip compression for assets
+  // compress : true,
+
+  // Set this if you want webpack-dev-server to delegate a single path to an arbitrary server.
+  // Use "*" to proxy all paths to the specified server.
+  // This is useful if you want to get rid of 'http://localhost:8080/' in script[src],
+  // and has many other use cases (see https://github.com/webpack/webpack-dev-server/pull/127 ).
+  proxy : {
+    "/api/*" : "http://localhost:3000",
+  },
+
+  // pass [static options](http://expressjs.com/en/4x/api.html#express.static) to inner express server
+  // staticOptions : {},
+
+  // webpack-dev-middleware options
+  publicPath : config.output.publicPath,
+  stats      : "minimal",
+});
+
+server.listen(port, "localhost", function (error) {
   if (error) {
-    console.error(error)
+    console.error(error);
   } else {
-    console.info("==> 🌎  Listening on port %s. Open up http://localhost:%s/ in your browser.", port, port)
+    console.info("==> 🌎  Listening on port %s. Open up http://localhost:%s/ in your browser.", port, port);
   }
-})
+});
+
+// app.use(webpackDevMiddleware(compiler, {
+//   publicPath: config.output.publicPath,
+//   stats: "minimal",
+// }));
+// app.use(webpackHotMiddleware(compiler));
+//
+// // app.use(function (req, res) {
+// //   res.sendFile(__dirname + '/client/index.html');
+// // });
+//
+// // Proxy api requests
+// app.use("/api/*", function(req, res) {
+//   req.url = req.baseUrl; // Janky hack...
+//   apiProxy.web(req, res, {
+//     target: {
+//       port: 3000,
+//       host: "localhost",
+//     },
+//   });
+// });
+//
+// app.listen(port, function (error) {
+//   if (error) {
+//     console.error(error);
+//   } else {
+//     console.info("==> 🌎  Listening on port %s. Open up http://localhost:%s/ in your browser.", port, port);
+//   }
+// });

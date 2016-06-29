@@ -51,7 +51,6 @@ class PopupButton extends React.Component {
   render() {
     return (
       <span
-        tabIndex="0"
         ref={this.assignTarget}
         className={styles.base}
         onClick={this.handleClick}

@@ -72,7 +72,7 @@ class PopupTextBox extends React.Component {
         onClick={this.handleClick}
         className={styles.base}
       >
-        <span className={styles.input}>{this.props.label}</span>
+        <span>{this.props.label || "&nbsp;"}</span>
         <FontAwesome className={styles.icon} name="caret-down"/>
 
         <Overlay

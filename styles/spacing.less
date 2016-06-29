@@ -1,6 +1,7 @@
 /**
  * Created by sharavan on 27/05/16.
  */
+@import "colors";
 
 // absolute parent route
 @navContainerHt : 62px;
@@ -16,4 +17,10 @@
   right: @right;
   bottom: @bottom;
   left: @left;
+}
+
+.outline-mixin {
+  //outline : 1px solid @redA200;
+  outline: none;
+  box-shadow: 0 0 1px 1px @redA200;
 }

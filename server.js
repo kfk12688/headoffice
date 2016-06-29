@@ -1,8 +1,3 @@
-// var webpackDevMiddleware = require('webpack-dev-middleware')
-// var webpackHotMiddleware = require('webpack-hot-middleware')
-// var httpProxy = require("http-proxy");
-// var apiProxy = httpProxy.createProxyServer();
-// var app = new (require('express'))();
 var path = require("path");
 var webpack = require("webpack");
 var WebpackDevServer = require("webpack-dev-server");
@@ -13,8 +8,7 @@ var port = 3001;
 // webpack-dev-server options
 var server = new WebpackDevServer(compiler, {
 
-  contentBase : path.resolve(__dirname, "client"),
-  // contentBase: "http://localhost:3000/",
+  contentBase : path.resolve(__dirname),
 
   hot : true,
   // Enable special support for Hot Module Replacement
@@ -52,32 +46,3 @@ server.listen(port, "localhost", function (error) {
     console.info("==> 🌎  Listening on port %s. Open up http://localhost:%s/ in your browser.", port, port);
   }
 });
-
-// app.use(webpackDevMiddleware(compiler, {
-//   publicPath: config.output.publicPath,
-//   stats: "minimal",
-// }));
-// app.use(webpackHotMiddleware(compiler));
-//
-// // app.use(function (req, res) {
-// //   res.sendFile(__dirname + '/client/index.html');
-// // });
-//
-// // Proxy api requests
-// app.use("/api/*", function(req, res) {
-//   req.url = req.baseUrl; // Janky hack...
-//   apiProxy.web(req, res, {
-//     target: {
-//       port: 3000,
-//       host: "localhost",
-//     },
-//   });
-// });
-//
-// app.listen(port, function (error) {
-//   if (error) {
-//     console.error(error);
-//   } else {
-//     console.info("==> 🌎  Listening on port %s. Open up http://localhost:%s/ in your browser.", port, port);
-//   }
-// });

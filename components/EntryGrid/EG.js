@@ -12,41 +12,32 @@ import cx from "classnames";
 class EG extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      colWidths : {
-        action         : 45,
-        fieldName      : 130,
-        fieldReference : 170,
-        fieldType      : 120,
-        fieldValue     : 150,
-      },
-    };
-  }
-
-  renderContent(props) {
-    if (props.isLoading) {
-      return <FontAwesome className={styles.spinner} name="spinner" spin size="2x"/>;
-    }
-
-    return (
-      <EGBody
-        cols={props.colSpec}
-        colWidths={this.state.colWidths}
-        rows={props.data}
-      />
-    );
+    this.state = { colWidths : props.colWidths };
   }
 
   render() {
-    const { className, colSpec, data } = this.props;
+    const { style, className, colSpec, data, isLoading } = this.props;
 
     return (
-      <div className={cx(styles.base, className)}>
+      <div
+        className={cx(styles.base, className)}
+        style={style}
+      >
         <EGHeaderRow
           cols={colSpec}
           colWidths={this.state.colWidths}
         />
-        {this.renderContent(this.props)}
+
+        {
+          isLoading ?
+          <FontAwesome className={styles.spinner} name="spinner" spin size="2x"/> :
+          <EGBody
+            cols={colSpec}
+            colWidths={this.state.colWidths}
+            rows={data}
+          />
+        }
+
         <EGPost
           cols={colSpec}
           rows={data}

@@ -5,12 +5,12 @@ module.exports = {
   devtool : "eval",
   entry   : [
     "webpack/hot/dev-server",
-    "./client/index"
+    "./index"
   ],
   resolve : {
     root  : path.resolve(__dirname),
     alias : {
-      components : path.resolve(__dirname, "client", "components")
+      components : path.resolve(__dirname, "components")
     }
   },
   output  : {

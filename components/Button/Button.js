@@ -11,21 +11,21 @@ const Button = ({ style, className, faName, faClassName, onClick, after, childre
 
   if (after) {
     return (
-      <button style={style} className={cx(styles.hoButton, className)} onClick={onClick}>
+      <button style={style} className={cx(styles.button, className)} onClick={onClick}>
         {children}
         {" "}
         {faIcon}
-      </button>
-    );
-  } else {
-    return (
-      <button style={style} className={cx(styles.hoButton, className)} onClick={onClick}>
-        {faIcon}
-        {" "}
-        {children}
       </button>
     );
   }
+
+  return (
+    <button style={style} className={cx(styles.button, className)} onClick={onClick}>
+      {faIcon}
+      {" "}
+      {children}
+    </button>
+  );
 };
 
 Button.displayName = "Button";

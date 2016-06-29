@@ -1,23 +1,20 @@
 @import url("../../styles/colors");
 
-.hoTab {
-  color: @grey500;
+.base {
   border-left: 0;
   border-right: 0;
   border-top: 0;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
   padding: 10px 0;
-  &:hover {
-    color: @grey700;
-    border: none;
-    cursor: pointer;
-  }
   a {
-    color: inherit;
+    color: @grey500;
     text-decoration: none;
-    &:hover {
-      text-decoration: none;
+    outline: none;
+    &:hover, &:focus {
+      color: @grey700;
+      border: none;
+      cursor: pointer;
     }
   }
 }

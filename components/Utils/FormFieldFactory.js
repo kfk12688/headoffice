@@ -2,7 +2,7 @@
  * Created by sharavan on 02/06/16.
  */
 import React from "react";
-import "./FormFieldFactory.less";
+import styles from "./FormFieldFactory.less";
 
 export default class FormFieldFactory {
   getElement(renderType: string) {
@@ -25,9 +25,9 @@ export default class FormFieldFactory {
     const value = (data === undefined) ? "" : data;
 
     return (
-      <div className="form-field">
-        <div className="caption">{caption} : </div>
-        <div className="field"><input type="text" value={value} onChange={cb} /></div>
+      <div className={styles.base}>
+        <div className={styles.caption}>{caption} : </div>
+        <div className={styles.field}><input type="text" value={value} onChange={cb} /></div>
       </div>
     );
   }
@@ -37,9 +37,11 @@ export default class FormFieldFactory {
     const value = (data === undefined) ? "" : data;
 
     return (
-      <div className="form-field">
-        <div className="caption">{caption} : </div>
-        <div className="field"><input type="number" value={value} onChange={cb} /></div>
+      <div className={styles.base}>
+        <div className={styles.caption}>{caption} : </div>
+        <div className={styles.field}>
+          <input type="number" value={value} onChange={cb} />
+        </div>
       </div>
     );
   }
@@ -60,12 +62,12 @@ export default class FormFieldFactory {
     refFieldOptions.unshift(<option key="-1" value=""></option>);
 
     return (
-      <div className="form-field">
-        <div className="caption">{caption} : </div>
-        <div className="field">
+      <div className={styles.base}>
+        <div className={styles.caption}>{caption} : </div>
+        <div className={styles.field}>
           <select onSelect={cb} value={valueRefTable}>{refTableOptions}</select>
         </div>
-        <div className="field">
+        <div className={styles.field}>
           <select onSelect={cb} value={valueRefField}>{refFieldOptions}</select>
         </div>
       </div>
@@ -82,9 +84,9 @@ export default class FormFieldFactory {
     options.unshift(<option key="-1" value=""></option>);
 
     return (
-      <div className="form-field">
-        <div className="caption">{caption} : </div>
-        <div className="field">
+      <div className={styles.base}>
+        <div className={styles.caption}>{caption} : </div>
+        <div className={styles.field}>
           <select onSelect={cb} value={value}>{options}</select>
         </div>
       </div>

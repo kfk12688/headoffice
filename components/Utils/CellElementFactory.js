@@ -44,8 +44,8 @@ export default class CellElementFactory {
   }
 
   LinkCell(props) {
-    const style = { textAlign: "left" };
-    let url = props.linkRef.path + "/" + props.row[props.linkRef.urlKey];
+    const style = { textAlign : "left" };
+    let url = `${props.linkRef.path}/${props.row[props.linkRef.urlKey]}`;
     url = url.replace(/ /g, "");
     return (
       <div style={style}>
@@ -74,9 +74,9 @@ export default class CellElementFactory {
     let selectedElement = undefined;
 
     if (isSelected) {
-      selectedElement = <FontAwesome name="check-square" style={faStyle} />;
+      selectedElement = <FontAwesome name="check-square" style={faStyle}/>;
     } else {
-      selectedElement = <FontAwesome name="square-o" style={faStyle} />;
+      selectedElement = <FontAwesome name="square-o" style={faStyle}/>;
     }
 
     return selectedElement;
@@ -91,9 +91,9 @@ export default class CellElementFactory {
     let starredElement = undefined;
 
     if (isStarred) {
-      starredElement = <FontAwesome name="star" style={faStyle} />;
+      starredElement = <FontAwesome name="star" style={faStyle}/>;
     } else {
-      starredElement = <FontAwesome name="star-o" style={faStyle} />;
+      starredElement = <FontAwesome name="star-o" style={faStyle}/>;
     }
 
     return starredElement;
@@ -101,11 +101,11 @@ export default class CellElementFactory {
 
   ReferenceCell(props) {
     const style = {
-      div  : { textAlign: "left" },
-      fa   : { margin: 4 },
+      div  : { textAlign : "left" },
+      fa   : { margin : 4 },
       span : {
         backgroundColor : grey50,
-        border          : "1px solid " + grey300,
+        border          : `1px solid ${grey300}`,
         borderRadius    : 4,
         padding         : "2px 3px",
       },
@@ -113,14 +113,14 @@ export default class CellElementFactory {
     return (
       <div style={style.div}>
         <span style={style.span}>{props.value.refTable.name}</span>
-        <FontAwesome style={style.fa} name="long-arrow-right" />
+        <FontAwesome style={style.fa} name="long-arrow-right"/>
         <span style={style.span}>{props.value.refField.name}</span>
       </div>
     );
   }
 
   ListCell(props) {
-    const style = { textAlign: "left" };
+    const style = { textAlign : "left" };
     return (
       <div style={style}>
         <span handler={props.handleClick}>{props.value.name}</span>
@@ -128,7 +128,7 @@ export default class CellElementFactory {
     );
   }
 
-  ActionCell(props) {
+  ActionCell() {
     return (
       <div className="action-cell">
         <div className="action-cell-inner">

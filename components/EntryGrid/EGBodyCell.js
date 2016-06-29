@@ -1,6 +1,3 @@
-/**
- * Created by sharavan on 01/06/16.
- */
 import React from "react";
 import cellFactory from "../Utils/CellElementFactory";
 import styles from "./EGBodyCell.less";
@@ -14,20 +11,21 @@ import styles from "./EGBodyCell.less";
 
 function formatCell(row, col, colKey) {
   if (row[colKey]) {
-    let value:any = undefined;
+    let value = undefined;
     if (col.formatter !== undefined) {
       value = col.formatter(row[colKey].val);
     } else {
       value = row[colKey].val;
     }
+    return value;
   }
 }
 
 class EGBodyCell extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     const factory = new cellFactory();
-    this.node = factory.getElement(this.props.col.renderType);
+    this.node = factory.getElement(props.col.renderType);
   }
 
   render() {

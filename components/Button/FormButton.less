@@ -1,27 +1,58 @@
 @import url("../../styles/colors");
 
-.hoFormButton {
+.button {
   height: 20px;
-  min-width: 21px;
-  margin-right: 8px;
-  padding: 2px 6px;
-  border: solid 1px @grey400;
-  border-radius: 1px;
-  background-color: @grey400;
-  color: @grey50;
   font-size: 12px;
+  min-width: 55px;
+  margin: 0 2px;
+  border: 1px solid @grey700;
+  border-radius: 1px;
+  background: @grey200;
+  color: @grey900;
+  text-align: center;
+  &:active,
   &:hover {
-    border: solid 1px @grey900;
+    color: @grey50;
+    background: @grey500;
+    border: 1px solid @grey700;
   }
   &:last-child {
     margin-right: 0;
   }
 }
 
-.hoFormButtonWithAccent {
-  border: solid 1px @redA200;
-  background-color: @redA200;
+.buttonWithAccent {
+  height: 20px;
+  font-size: 12px;
+  min-width: 55px;
+  margin: 0 2px;
+  border: 1px solid @red700;
+  border-radius: 1px;
+  text-align: center;
+  background: @red200;
+  color: @red900;
+  &:active,
   &:hover {
-    border: solid 1px @red900;
+    color: @red50;
+    background: @red500;
+    border: 1px solid @red900;
+  }
+}
+
+.buttonWithGreenAccent {
+  height: 20px;
+  font-size: 12px;
+  min-width: 55px;
+  margin: 0 2px;
+  border: 1px solid @green700;
+  border-radius: 1px;
+  text-align: center;
+  background: @green400;
+  color: @green900;
+  &:active,
+  &:hover {
+    color: @green50;
+    background: @green700;
+    border: 1px solid @green900;
   }
 }

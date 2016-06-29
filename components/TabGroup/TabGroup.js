@@ -5,10 +5,10 @@ import React from "react";
 import cx from "classnames";
 
 const TabGroup = ({ children, style, className, childClassName }) => {
-  const classes:any = {};
+  const classes = {};
   classes[childClassName] = !!childClassName;
 
-  const tabs = React.Children.map(children, (child:React.ReactElement<any>, index:number) => {
+  const tabs = React.Children.map(children, (child, index) => {
     return React.cloneElement(child, {
       className : cx(classes),
       style,

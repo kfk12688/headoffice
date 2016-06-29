@@ -6,13 +6,12 @@ import cx from "classnames";
 import styles from "./Tab.less";
 
 const Tab = ({ style, children, className }) => {
-  const classes: any = {};
-  classes[className] = !!className;
+  const classExists = !!className;
 
   return (
     <span
-      style={Object.assign({}, { border: 0 }, style)}
-      className={cx(styles.hoTab, classes)}
+      style={{ border: 0, ...style }}
+      className={cx(styles.base, { [className] : classExists })}
     >
       {children}
     </span>

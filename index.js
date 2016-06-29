@@ -2,23 +2,17 @@ import "babel-polyfill";
 import React from "react";
 import { render } from "react-dom";
 import { Provider } from "react-redux";
-import { Router, Route, browserHistory } from "react-router";
+import { Router, browserHistory } from "react-router";
 import { syncHistoryWithStore } from "react-router-redux";
-import configureStore from "./store/configureStore";
-import App from "./containers/App";
-import Content from "./containers/Content";
-import "./styles/styles.css";
+import configureStore from "./dataflow/configureStore";
+import RootRoute from "./routes/App";
 
 const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);
 
 render(
   <Provider store={store}>
-    <Router history={history}>
-      <Route path="/" component={App}>
-        <Route path="/content" component={Content}/>
-      </Route>
-    </Router>
+    <Router history={history} routes={RootRoute}/>
   </Provider>,
   document.getElementById("HOApp")
 );

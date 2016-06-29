@@ -8,57 +8,66 @@ import cx from "classnames";
 import BSModal from "react-overlays/lib/Modal";
 import styles from "./Modal.less";
 
-class Modal extends React.Component {
-  constructor() {
-    super();
-    this.state = { showModal : false };
-  }
+const Modal = ({ btnClassName, faName, caption, children, className, accent, show, toggleModal }) => {
+  const modalStyle = {
+    bottom   : 0,
+    left     : 0,
+    position : "fixed",
+    right    : 0,
+    top      : 0,
+    zIndex   : 1040,
+  };
+  const dialogStyle = {
+    left     : "28%",
+    position : "absolute",
+    top      : "15%",
+  };
 
-  render() {
-    const { btnClassName, faName, caption, children, className, accent } = this.props;
-    const modalStyle = {
-      bottom   : 0,
-      left     : 0,
-      position : "fixed",
-      right    : 0,
-      top      : 0,
-      zIndex   : 1040,
-    };
-    const dialogStyle = {
-      left     : "28%",
-      position : "absolute",
-      top      : "15%",
-    };
+  return (
+    <span>
+      <FormButton
+        className={btnClassName}
+        faName={faName}
+        accent={accent}
+        onClick={toggleModal}
+      >
+         {caption}
+      </FormButton>
 
-    return (
-      <span>
-        <FormButton className={btnClassName} faName={faName} accent={accent}
-                    onClick={() => this.setState({ showModal: true })}
-        >
-           {caption}
-        </FormButton>
-
-        <BSModal
-          aria-labelledby="modal-label"
-          style={modalStyle}
-          backdropClassName={styles.backdrop}
-          show={this.state.showModal}
-          onHide={() => this.setState({ showModal: false })}
-        >
-          <div style={dialogStyle} className={cx(styles.base, className)}>
-            <div>
-              <span className={styles.caption}>{caption}</span>
-              <FontAwesome name="times" className={styles.closeButton}
-                           onClick={() => this.setState({ showModal: false })}/>
-            </div>
-            <div className={styles.content}>
-            {children}
-            </div>
+      <BSModal
+        aria-labelledby="modal-label"
+        style={modalStyle}
+        backdropClassName={styles.backdrop}
+        show={show}
+        onHide={toggleModal}
+      >
+        <div style={dialogStyle} className={cx(styles.base, className)}>
+          <div>
+            <span className={styles.caption}>{caption}</span>
+            <FontAwesome
+              name="times"
+              className={styles.closeButton}
+              onClick={toggleModal}
+            />
           </div>
-        </BSModal>
-      </span>
-    );
-  }
-}
+          <div className={styles.content}>
+          {children}
+          </div>
+        </div>
+      </BSModal>
+    </span>
+  );
+};
+
+Modal.propTypes = {
+  accent       : React.PropTypes.bool,
+  show         : React.PropTypes.bool.isRequired,
+  className    : React.PropTypes.string,
+  btnClassName : React.PropTypes.string,
+  faName       : React.PropTypes.string,
+  caption      : React.PropTypes.string.isRequired,
+  toggleModal  : React.PropTypes.func.isRequired,
+  children     : React.PropTypes.node.isRequired,
+};
 
 export { Modal };

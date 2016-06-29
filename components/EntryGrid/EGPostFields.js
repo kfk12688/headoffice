@@ -11,13 +11,13 @@ import FormFieldFactory from "../Utils/FormFieldFactory";
 // }
 
 class EGPostFields extends React.Component {
-  constructor() {
-    super();
-    let factory = new FormFieldFactory();
-    this.node = factory.getElement(this.props.col.renderType);
+  constructor(props) {
+    super(props);
+    const factory = new FormFieldFactory();
+    this.node = factory.getElement(props.col.renderType);
   }
 
-  render():JSX.Element {
+  render() {
     const { col, row, colKey } = this.props;
     const source = {
       refFieldSource : col.refFieldSource,
@@ -27,12 +27,11 @@ class EGPostFields extends React.Component {
 
     let props = {
       caption : col.displayText,
-      cb      : () => {
-      },
       source,
     };
+
     if (row !== undefined) {
-      props = Object.assign({}, props, { data: row[colKey].val });
+      props = Object.assign({}, props, { data : row[colKey].val });
     }
 
     return React.createElement(

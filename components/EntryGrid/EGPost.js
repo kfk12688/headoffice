@@ -1,22 +1,9 @@
-/**
- * Created by sharavan on 02/06/16.
- */
 import React from "react";
 import { EGPostFields } from "./EGPostFields";
 import { Divider } from "../Divider/index";
 import { FormButton } from "../Button/index";
 import cx from "classnames";
 import styles from "./EGPost.less";
-
-// enum EntryStateEnum {
-//   insert,
-//   edit
-// }
-//
-// interface IEGPostProps {
-//   cols: IEGCols;
-//   rows: IEGRows;
-// }
 
 class EGPost extends React.Component {
   constructor() {
@@ -28,12 +15,12 @@ class EGPost extends React.Component {
     const cols = this.props.cols;
     let formElements = [];
 
-    if (this.state.entryState === EntryStateEnum.insert) {
+    if (this.state.entryState === "insert") {
       formElements = [];
       for (let colKey in cols) {
         if (cols.hasOwnProperty(colKey)) {
-          const isFieldInsertable = (col.insertable === undefined) || col.insertable;
           let col = cols[colKey];
+          const isFieldInsertable = (col.insertable === undefined) || col.insertable;
           if (isFieldInsertable) {
             formElements.push(<EGPostFields key={colKey} col={col}/>);
           }

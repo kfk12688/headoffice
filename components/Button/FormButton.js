@@ -6,32 +6,43 @@ import FontAwesome from "react-fontawesome";
 import cx from "classnames";
 import styles from "./FormButton.less";
 
-const FormButton = ({ style, className, faName, faClassName, onClick, after, accent }) => {
-  const faIcon = faName && <FontAwesome name={faName} className={faClassName}></FontAwesome>;
+const FormButton = ({ style, className, faName, faClassName, onClick, after, accent, type, children }) => {
+  const faIcon = faName && <FontAwesome name={faName} className={faClassName}/>;
+
+  let accentBtnStyle = styles.button;
+  if (accent === "green") {
+    accentBtnStyle = styles.buttonWithGreenAccent;
+  } else if (accent) {
+    accentBtnStyle = styles.buttonWithAccent;
+  }
 
   if (after) {
     return (
-      <button style={style}
-              className={cx({ [styles.hoFormButtonWithAccent]: accent, [styles.hoFormButton]: !accent }, className)}
-              onClick={onClick}
+      <button
+        className={cx(accentBtnStyle, className)}
+        style={style}
+        onClick={onClick}
+        type={type}
       >
-        {props.children}
+        {children}
         {" "}
         {faIcon}
-      </button>
-    );
-  } else {
-    return (
-      <button style={style}
-              className={cx({ [styles.hoFormButtonWithAccent]: accent, [styles.hoFormButton]: !accent }, className)}
-              onClick={onClick}
-      >
-        {faIcon}
-        {" "}
-        {props.children}
       </button>
     );
   }
+
+  return (
+    <button
+      className={cx(accentBtnStyle, className)}
+      style={style}
+      onClick={onClick}
+      type={type}
+    >
+      {faIcon}
+      {" "}
+      {children}
+    </button>
+  );
 };
 
 FormButton.displayName = "FormButton";

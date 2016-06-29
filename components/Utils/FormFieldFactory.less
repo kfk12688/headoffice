@@ -1,18 +1,7 @@
 @import "../../styles/colors.less";
 
-.form-field {
+.base {
   display: flex;
-  .caption {
-    line-height: 20px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    width: 120px;
-  }
-  .field {
-    margin-left: 10px;
-    width: 130px;
-  }
   & input,
   & select {
     -webkit-appearance: none;
@@ -24,8 +13,20 @@
     text-overflow: ellipsis;
     height: 20px;
     background-color: @transparent;
-    &:hover {
+    &:hover, &:focus {
       border: 1px solid @grey800;
     }
   }
+}
+
+.caption {
+  line-height: 20px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 120px;
+}
+.field {
+  margin-left: 10px;
+  width: 130px;
 }

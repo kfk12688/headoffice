@@ -14,12 +14,12 @@ const DGBody = ({ rows, cols, colWidths, selectedKeys, onRowClick }) => {
 
       datagridBodyRows.push(
         <DGBodyRow
-          rowKey={row.id}
-          key={row.id}
+          rowKey={row._id}
+          key={row._id}
           colWidths={colWidths}
           cols={cols}
           row={row}
-          isRowSelected={selectedKeys.find((key) => key === row.id)}
+          isRowSelected={selectedKeys.find((key) => key === row._id)}
           onRowClick={onRowClick}
         />
       );

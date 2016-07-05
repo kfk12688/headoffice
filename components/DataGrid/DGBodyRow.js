@@ -20,7 +20,7 @@ class DGBodyRow extends React.Component {
 
       return (
         <DGBodyCell
-          key={`${row.id} ${index}`}
+          key={`${row._id} ${index}`}
           col={col}
           colWidth={colWidths[colName]}
           row={row}

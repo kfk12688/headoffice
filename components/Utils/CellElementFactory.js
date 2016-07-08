@@ -99,7 +99,10 @@ export default class CellElementFactory {
     return starredElement;
   }
 
-  ReferenceCell(props) {
+  ReferenceCell({ value }) {
+    const refTable = value && value.refTable;
+    const refField = value && value.refField;
+
     const style = {
       div  : { textAlign : "left" },
       fa   : { margin : 4 },
@@ -112,9 +115,10 @@ export default class CellElementFactory {
     };
     return (
       <div style={style.div}>
-        <span style={style.span}>{props.value.refTable.name}</span>
-        <FontAwesome style={style.fa} name="long-arrow-right"/>
-        <span style={style.span}>{props.value.refField.name}</span>
+        {refTable && refTable.name && <span style={style.span}>{refTable.name}</span>}
+        {refTable && refField && <FontAwesome style={style.fa} name="long-arrow-right"/>}
+        {refField && refField.name && <span style={style.span}>{refField && refField.name || null}</span>}
+        {!refTable && !refField && <span>null</span>}
       </div>
     );
   }

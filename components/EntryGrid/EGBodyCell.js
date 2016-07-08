@@ -10,15 +10,15 @@ import styles from "./EGBodyCell.less";
 // }
 
 function formatCell(row, col, colKey) {
+  let value = undefined;
   if (row[colKey]) {
-    let value = undefined;
     if (col.formatter !== undefined) {
       value = col.formatter(row[colKey].val);
     } else {
       value = row[colKey].val;
     }
-    return value;
   }
+  return value;
 }
 
 class EGBodyCell extends React.Component {

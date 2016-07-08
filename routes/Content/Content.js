@@ -30,7 +30,7 @@ class Content extends Component {
         dataKey    : "templateName",
         linkRef    : {
           path   : "/content/edit",
-          urlKey : "templateName",
+          urlKey : "_id",
         },
         name       : "name-col",
         renderType : "link",

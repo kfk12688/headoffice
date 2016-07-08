@@ -63,7 +63,7 @@ class Editor extends Component {
 
   componentWillMount() {
     this.props.clearMenuState();
-    this.props.loadEditorTable();
+    this.props.loadEditorTable(this.props.params);
   }
 
   render() {
@@ -96,7 +96,7 @@ class Editor extends Component {
             style={{ left: !contextMenu.showSidebar && 0 }}
             colSpec={this.colSpec}
             colWidths={this.colWidths}
-            data={editor.data}
+            data={editor.data.fields}
             isLoading={editor.isLoading}
           />
         </div>

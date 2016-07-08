@@ -1,14 +1,5 @@
-/**
- * Created by sharavan on 02/06/16.
- */
 import React from "react";
 import FormFieldFactory from "../Utils/FormFieldFactory";
-
-// interface IEGPostFieldsProps {
-//   col: IEGCol;
-//   colKey?: string;
-//   row?: IEGRow;
-// }
 
 class EGPostFields extends React.Component {
   constructor(props) {
@@ -19,19 +10,15 @@ class EGPostFields extends React.Component {
 
   render() {
     const { col, row, colKey } = this.props;
-    const source = {
+    let props = {
+      caption        : col.displayText,
       refFieldSource : col.refFieldSource,
       refList        : col.source,
       refTableSource : col.refTableSource,
     };
 
-    let props = {
-      caption : col.displayText,
-      source,
-    };
-
     if (row !== undefined) {
-      props = Object.assign({}, props, { data : row[colKey].val });
+      props = { ...props, data : row[colKey].val };
     }
 
     return React.createElement(

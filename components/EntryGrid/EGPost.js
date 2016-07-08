@@ -11,7 +11,7 @@ class EGPost extends React.Component {
     this.state = { entryState : "insert" };
   }
 
-  render() {
+  getFormElements() {
     const cols = this.props.cols;
     let formElements = [];
 
@@ -30,8 +30,8 @@ class EGPost extends React.Component {
       formElements = [];
       for (let colKey in cols) {
         if (cols.hasOwnProperty(colKey)) {
-          const isFieldInsertable = (col.insertable === undefined) || col.insertable;
           let col = cols[colKey];
+          const isFieldInsertable = (col.insertable === undefined) || col.insertable;
           let row = this.props.rows["11333"];
           if (isFieldInsertable) {
             formElements.push(<EGPostFields key={colKey} col={col} colKey={colKey} row={row}/>);
@@ -40,6 +40,10 @@ class EGPost extends React.Component {
       }
     }
 
+    return formElements;
+  }
+
+  render() {
     return (
       <div className={styles.post}>
         <div className={styles.postTab}>
@@ -58,17 +62,16 @@ class EGPost extends React.Component {
           </span>
         </div>
         <form>
-          {formElements}
+          {this.getFormElements()}
+          <div className={styles.postSubmit}>
+            {
+              this.state.entryState === "insert" ?
+              <FormButton accent>Add</FormButton> :
+              <FormButton accent>Edit</FormButton>
+            }
+            <FormButton>Cancel</FormButton>
+          </div>
         </form>
-        <Divider size={1} style={{ margin: "10px 0" }}/>
-        <div className={styles.postSubmit}>
-          {
-            this.state.entryState === "insert" ?
-            <FormButton accent>Add</FormButton> :
-            <FormButton accent>Edit</FormButton>
-          }
-          <FormButton>Cancel</FormButton>
-        </div>
       </div>
     );
   }

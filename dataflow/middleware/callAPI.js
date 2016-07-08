@@ -30,14 +30,8 @@ export default store => next => action => {
   return callback
     .then(
       response => {
-        const payload = { data : {} };
-        for (const idx in response.data) {
-          const item = response.data[idx];
-          payload.data[item._id] = item;
-        }
-
         return next(actionWith({
-          payload,
+          payload : response,
           type : successType,
         }));
       },

@@ -1,0 +1,42 @@
+@import url("../../styles/colors");
+@import url("../../styles/spacing");
+
+.base {
+  padding: 3px;
+  font-size: 12px;
+  color: @grey600;
+  outline: none;
+  &:hover,
+  &:focus {
+    color: @black;
+    cursor: pointer;
+  }
+}
+
+.icon {
+  height: auto;
+  min-width: auto;
+  padding: 0 4px;
+  border: none;
+  &:hover, &:active {
+    border: none;
+  }
+}
+
+.menu {
+  background: @white;
+  border: 1px solid @grey500;
+  font-size: 12px;
+  color: @grey700;
+  padding: 2px;
+  position: absolute;
+}
+.menuItem {
+  text-overflow: ellipsis;
+  padding: 5px 2px;
+  &:hover {
+    color: @grey900;
+    background-color: @grey200;
+    cursor: pointer;
+  }
+}

@@ -1,0 +1,58 @@
+@import url("../../styles/colors");
+
+.button {
+  height: 20px;
+  font-size: 12px;
+  min-width: 55px;
+  margin: 0 2px;
+  border: 1px solid @grey700;
+  border-radius: 1px;
+  background: @grey200;
+  color: @grey900;
+  text-align: center;
+  &:active,
+  &:hover {
+    color: @grey50;
+    background: @grey500;
+    border: 1px solid @grey700;
+  }
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.buttonWithAccent {
+  height: 20px;
+  font-size: 12px;
+  min-width: 55px;
+  margin: 0 2px;
+  border: 1px solid @red700;
+  border-radius: 1px;
+  text-align: center;
+  background: @red200;
+  color: @red900;
+  &:active,
+  &:hover {
+    color: @red50;
+    background: @red500;
+    border: 1px solid @red900;
+  }
+}
+
+.buttonWithGreenAccent {
+  height: 20px;
+  font-size: 12px;
+  min-width: 55px;
+  margin: 0 2px;
+  border: 1px solid @green700;
+  border-radius: 1px;
+  text-align: center;
+  background: @green400;
+  color: @green900;
+  &:active,
+  &:hover {
+    color: @green50;
+    background: @green700;
+    border: 1px solid @green900;
+  }
+}

@@ -1,0 +1,26 @@
+/**
+ * Created by sharavan on 27/05/16.
+ */
+@import "colors";
+
+// absolute parent route
+@navContainerHt : 62px;
+// absolute childrens
+@breadcrumbHt : 25px;
+
+@workingAreaTop : @navContainerHt + @breadcrumbHt;
+@actionContainerHt : 38px;
+
+.absolute-position-mixin(@top: 0px, @right: 0px, @bottom: 0px, @left: 0px) {
+  position: absolute;
+  top: @top;
+  right: @right;
+  bottom: @bottom;
+  left: @left;
+}
+
+.outline-mixin {
+  //outline : 1px solid @redA200;
+  outline: none;
+  box-shadow: 0 0 1px 1px @redA200;
+}

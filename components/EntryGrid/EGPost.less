@@ -1,0 +1,42 @@
+@import "../../styles/colors";
+
+.post {
+  font-size: 13px;
+  padding: 4px;
+  margin: 10px 6px;
+  border: 1px solid @grey300;
+  background-color: @white;
+  border-radius: 2px;
+  width: 70%;
+}
+
+.postTab {
+  margin-bottom: 10px;
+  display: inline-flex;
+  width: 100%;
+  border-bottom: 1px solid @grey300;
+  color: @grey500;
+  & span {
+    line-height: 25px;
+    width: 50%;
+    text-align: center;
+    &:hover {
+      color: @grey900;
+      cursor: pointer;
+    }
+    &.selected {
+      color: @red400;
+      cursor: pointer;
+    }
+  }
+}
+
+.postSubmit {
+  border-top: 1px solid @grey500;
+  text-align: right;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+  padding-top: 10px;
+}

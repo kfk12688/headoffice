@@ -1,0 +1,24 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "extends": "airbnb",
+  "rules": {
+    "quotes": [
+      2,
+      "double"
+    ],
+    "arrow-body-style": [
+      2,
+      "as-needed",
+      {
+        "requireReturnForObjectLiteral": true
+      }
+    ],
+    "max-len" : [1, 150],
+    "key-spacing": [0],
+    "react/jsx-space-before-closing" : [0]
+  }
+}

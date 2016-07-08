@@ -11,6 +11,7 @@ const DGBody = ({ rows, cols, colWidths, selectedKeys, onRowClick }) => {
   for (const rowKey in rows) {
     if (rows.hasOwnProperty(rowKey)) {
       const row = rows[rowKey];
+      const selectedKeyIdx = selectedKeys.findIndex((key) => key === row._id);
 
       datagridBodyRows.push(
         <DGBodyRow
@@ -19,7 +20,7 @@ const DGBody = ({ rows, cols, colWidths, selectedKeys, onRowClick }) => {
           colWidths={colWidths}
           cols={cols}
           row={row}
-          isRowSelected={selectedKeys.find((key) => key === row._id)}
+          isRowSelected={selectedKeyIdx !== -1}
           onRowClick={onRowClick}
         />
       );

@@ -8,7 +8,7 @@ import cx from "classnames";
 import BSModal from "react-overlays/lib/Modal";
 import styles from "./Modal.less";
 
-const Modal = ({ btnClassName, faName, caption, children, className, accent, show, toggleModal }) => {
+const Modal = ({ btnClassName, faName, caption, children, className, accent, show, toggleModal, modalTitle }) => {
   const modalStyle = {
     bottom   : 0,
     left     : 0,
@@ -43,7 +43,7 @@ const Modal = ({ btnClassName, faName, caption, children, className, accent, sho
       >
         <div style={dialogStyle} className={cx(styles.base, className)}>
           <div>
-            <span className={styles.caption}>{caption}</span>
+            <span className={styles.caption}>{modalTitle || caption}</span>
             <FontAwesome
               name="times"
               className={styles.closeButton}
@@ -65,9 +65,10 @@ Modal.propTypes = {
   className    : React.PropTypes.string,
   btnClassName : React.PropTypes.string,
   faName       : React.PropTypes.string,
-  caption      : React.PropTypes.string.isRequired,
+  caption      : React.PropTypes.string,
   toggleModal  : React.PropTypes.func.isRequired,
   children     : React.PropTypes.node.isRequired,
+  modalTitle   : React.PropTypes.string,
 };
 
 export { Modal };

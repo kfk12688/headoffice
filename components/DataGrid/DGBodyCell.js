@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./DGBodyCell.less";
-import { renderDGCell } from "../Cell";
+import { renderDGCell } from "../DisplayElems";
 
 export const DGBodyCell = ({ row, col, isSelected, colWidth }) =>
   <div

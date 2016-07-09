@@ -1,6 +1,3 @@
-/**
- * Created by sharavan on 02/06/16.
- */
 import React from "react";
 import styles from "./FormFieldFactory.less";
 

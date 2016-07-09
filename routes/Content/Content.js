@@ -127,7 +127,10 @@ class Content extends Component {
       return this.props.children;
     }
 
-    const { list, filter, actionsMenu, rows, toggleSidebar, selectAllRows, clearRowSelection, filterChangeHandlers, sortColumn, toggleRow } = this.props;
+    const {
+      list, filter, actionsMenu, rows, toggleSidebar, selectAllRows,
+      clearRowSelection, filterChangeHandlers, sortColumn, toggleRow
+    } = this.props;
     const sortOrderIndex = filter.sortAscending ? 0 : 1;
     const sortKey = filter.sortKey ? this.colSortItems.displayText[filter.sortKey][sortOrderIndex] : null;
 
@@ -197,41 +200,37 @@ class Content extends Component {
 }
 
 const filterBindings = {
-  dateFilter     : "updatedAt",
+  dateFilter     : "createdAt",
   textFilter     : "owner",
-  recentFilter   : "updatedAt",
+  recentFilter   : "createdAt",
   favoriteFilter : "favorite",
 };
 
-const mapStateToProps = (state) => {
-  return {
-    list        : state.content,
-    actionsMenu : state.menu,
-    filter      : state.filter,
-    rows        : getRows(state.content.data, state.filter, filterBindings),
-  };
-};
+const mapStateToProps = (state) => ({
+  list        : state.content,
+  actionsMenu : state.menu,
+  filter      : state.filter,
+  rows        : getRows(state.content.data, state.filter, filterBindings),
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    toggleSidebar        : () => dispatch(cmActions.toggleMenuSidebar()),
-    selectAllRows        : () => dispatch(contentActions.selectAllContent()),
-    clearRowSelection    : () => dispatch(contentActions.clearContentSelection()),
-    sortColumn           : (sortKey, sortOrder) => dispatch(filterActions.sortFilter(sortKey, sortOrder)),
-    toggleRow            : (index) => dispatch(contentActions.toggleContent(index)),
-    loadContentList      : (params) => dispatch(contentActions.loadTemplate(params)),
-    addNewTemplate       : (params) => dispatch(contentActions.addTemplate(params)),
-    clearFilter          : () => dispatch(filterActions.clearFilterState()),
-    clearMenu            : () => dispatch(cmActions.clearMenuState()),
-    filterChangeHandlers : {
-      setDateModifiedStart : (e) => dispatch(filterActions.setFilterDtModStart(e)),
-      setDateModifiedEnd   : (e) => dispatch(filterActions.setFilterDtModEnd(e)),
-      setOwner             : (e) => dispatch(filterActions.setFilterOwner(e)),
-      setIsRecent          : (e) => dispatch(filterActions.setFilterIsRecent(e)),
-      setIsStarred         : (e) => dispatch(filterActions.setFilterIsStarred(e)),
-    },
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  toggleSidebar        : () => dispatch(cmActions.toggleMenuSidebar()),
+  selectAllRows        : () => dispatch(contentActions.selectAllContent()),
+  clearRowSelection    : () => dispatch(contentActions.clearContentSelection()),
+  sortColumn           : (sortKey, sortOrder) => dispatch(filterActions.sortFilter(sortKey, sortOrder)),
+  toggleRow            : (index) => dispatch(contentActions.toggleContent(index)),
+  loadContentList      : (params) => dispatch(contentActions.loadTemplate(params)),
+  addNewTemplate       : (params) => dispatch(contentActions.addTemplate(params)),
+  clearFilter          : () => dispatch(filterActions.clearFilterState()),
+  clearMenu            : () => dispatch(cmActions.clearMenuState()),
+  filterChangeHandlers : {
+    setDateModifiedStart : (e) => dispatch(filterActions.setFilterDtModStart(e)),
+    setDateModifiedEnd   : (e) => dispatch(filterActions.setFilterDtModEnd(e)),
+    setOwner             : (e) => dispatch(filterActions.setFilterOwner(e)),
+    setIsRecent          : (e) => dispatch(filterActions.setFilterIsRecent(e)),
+    setIsStarred         : (e) => dispatch(filterActions.setFilterIsStarred(e)),
+  },
+});
 
 export default
 connect(mapStateToProps, mapDispatchToProps)(Content);

@@ -5,4 +5,5 @@ export { Navigator } from "./Navigator";
 export { Breadcrumb } from "./Breadcrumb";
 export { Search } from "./Search";
 export { Sidebar } from "./Sidebar";
+export { TitleBar } from "./TitleBar";
 export * from "./Menus";

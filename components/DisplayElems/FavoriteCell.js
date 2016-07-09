@@ -2,10 +2,10 @@ import React from "react";
 import FontAwesome from "react-fontawesome";
 import { red500 } from "../../styles/colors";
 
-export const FavoriteCell = ({ value: isStarred }) => {
+export const FavoriteCell = ({ value: isStarred, inheritSize }) => {
   const faStyle = {
     color    : isStarred ? red500 : "inherit",
-    fontSize : 15,
+    fontSize : inheritSize ? "inherit" : 14,
   };
 
   let starredElement = null;
@@ -19,5 +19,6 @@ export const FavoriteCell = ({ value: isStarred }) => {
 };
 
 FavoriteCell.propTypes = {
-  value : React.PropTypes.bool.isRequired,
+  value    : React.PropTypes.bool.isRequired,
+  inheritSize : React.PropTypes.bool,
 };

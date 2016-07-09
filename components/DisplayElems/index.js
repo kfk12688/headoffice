@@ -29,6 +29,7 @@ function getCell(transform, type, row, col, isSelected) {
   if (type === "link") {
     const value = {
       text : transform(),
+      urlKey : row[col.linkRef.urlKey],
       path : col.linkRef.path,
     };
 
@@ -43,10 +44,7 @@ function getCell(transform, type, row, col, isSelected) {
       </PopupButton>;
     return React.createElement(ActionCell, { value });
   }
-  if ((type === "text") || (type === "date")) {
-    return React.createElement(TextCell, { value : transform() });
-  }
-  return null;
+  return React.createElement(TextCell, { value : transform() });
 }
 
 export function renderDGCell(type, row, col, isSelected) {
@@ -68,6 +66,10 @@ export function renderDGCell(type, row, col, isSelected) {
 export function renderEGCell(type, row, col, colKey) {
   function transform() {
     let value = null;
+
+    if ((row[colKey] === null) || !("val" in row[colKey])) {
+      return value;
+    }
 
     if (col.cellFormatter !== undefined) {
       value = col.cellFormatter(row[colKey].val);

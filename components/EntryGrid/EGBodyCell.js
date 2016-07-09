@@ -1,5 +1,5 @@
 import React from "react";
-import { renderEGCell } from "../Cell";
+import { renderEGCell } from "../DisplayElems";
 import styles from "./EGBodyCell.less";
 
 export const EGBodyCell = (props) => {

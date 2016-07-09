@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { EditorMenu, Sidebar, EG } from "components";
-import { loadEditor } from "../../../dataflow/editor/actions";
+import { EditorMenu, Sidebar, EG, TitleBar } from "components";
+import { loadEditor, editTemplate } from "../../../dataflow/editor/actions";
 import { toggleMenuSidebar, clearMenuState } from "../../../dataflow/menu/actions";
 import styles from "./Editor.less";
 
 class Editor extends Component {
   constructor(props) {
     super(props);
+    this.editTemplateHandler = this.editTemplateHandler.bind(this);
     this.colSpec = {
       "action"         : {
         "headerStyle" : { borderLeft : 0 },
@@ -66,6 +67,13 @@ class Editor extends Component {
     this.props.loadEditorTable(this.props.params);
   }
 
+  editTemplateHandler(values) {
+    this.props.editTemplate({
+      id : this.props.editor.data._id,
+      ...values,
+    });
+  }
+
   render() {
     const { editor, contextMenu, toggleSidebar } = this.props;
 
@@ -73,6 +81,12 @@ class Editor extends Component {
       <div>
 
         {/* Title Menu */}
+        <TitleBar
+          className={styles.titleBar}
+          title={editor.data.templateName}
+          meta={{createdAt : editor.data.createdAt, favorite : editor.data.favorite}}
+          editTemplate={this.editTemplateHandler}
+        />
 
         {/* Contextual Menu */}
         <EditorMenu
@@ -114,6 +128,7 @@ const mapDisptachToProps = dispatch => ({
   toggleSidebar   : () => dispatch(toggleMenuSidebar()),
   loadEditorTable : (params) => dispatch(loadEditor(params)),
   clearMenuState  : () => dispatch(clearMenuState()),
+  editTemplate    : (params) => dispatch(editTemplate(params)),
 });
 
 export default connect(mapStateToProps, mapDisptachToProps)(Editor);

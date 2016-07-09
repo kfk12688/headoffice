@@ -9,6 +9,7 @@ const initialState = {
   data      : {},
   isLoading : false,
   error     : {},
+  msg       : "",
 };
 
 const reducer = handleActions({
@@ -22,6 +23,20 @@ const reducer = handleActions({
     isLoading : false,
   }),
   [t.EDITOR_FAILURE] : (state, action) => ({
+    ...state,
+    error     : action.payload.data,
+    isLoading : false,
+  }),
+  [t.TEMPLATE_EDIT_REQUEST] : (state, action) => ({
+    ...state,
+    isLoading : true,
+  }),
+  [t.TEMPLATE_EDIT_SUCCESS] : (state, action) => ({
+    ...state,
+    msg       : action.payload.data,
+    isLoading : false,
+  }),
+  [t.TEMPLATE_EDIT_FAILURE] : (state, action) => ({
     ...state,
     error     : action.payload.data,
     isLoading : false,

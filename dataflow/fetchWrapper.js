@@ -13,7 +13,7 @@ export default function (method, token, api, params) {
     mode: "same-origin"
   };
 
-  if (method === "POST") {
+  if ((method === "POST") || (method === "PUT")) {
     headers.append("Content-Type", "application/json");
 
     settings = {

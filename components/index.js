@@ -14,3 +14,4 @@ export { EG } from "./EntryGrid";
 
 // Derivative components
 export * from "./Xtended";
+export * from "./DisplayElems";

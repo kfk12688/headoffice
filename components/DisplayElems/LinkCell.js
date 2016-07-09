@@ -1,11 +1,11 @@
 import React from "react";
 import style from "./common.less";
-import { NavLink } from "../NavLink/index";
+import { NavLink } from "../NavLink";
 
 export const LinkCell = ({ value }) => {
-  const { path, text } = value;
+  const { path, text, urlKey } = value;
 
-  let url = `${path}/${text}`;
+  let url = `${path}/${urlKey}`;
   url = url.replace(/ /g, "");
 
   return (

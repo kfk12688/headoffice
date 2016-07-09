@@ -1,3 +1,4 @@
+// import {data as egdata} from "../mock_data/EGData";
 import fetch from "../fetchWrapper";
 
 const api = "http://localhost:3001/api/template";
@@ -8,8 +9,7 @@ export const getTemplateForEdit = (params) => {
     .then(res => res.json());
 };
 
-// const getTemplateForEdit = (params) => {
-//   return new Promise((resolve) => {
-//     setTimeout(() => resolve({ data : egdata }), 1100);
-//   });
-// };
+export const modifyTemplate = (params) => {
+  return fetch("PUT", token, `${api}`, params)
+    .then(res => res.json());
+};

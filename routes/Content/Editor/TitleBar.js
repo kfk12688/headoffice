@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import moment from "moment";
 import cx from "classnames";
-import EditTemplateForm from "../Forms/TemplateForm";
-import { Modal, FavoriteCell } from "../../index";
+import { Modal, FavoriteCell } from "components";
+import EditTemplateForm from "../TemplateForm";
 import styles from "./TitleBar.less";
 
 const MetaInfo = ({ children }) => <span className={styles.metaInfo}>{children}</span>;
@@ -31,7 +31,7 @@ export class TitleBar extends Component {
     return (
       <div className={cx(styles.base, className)}>
         <div className={styles.title}>
-          <FavoriteCell value={meta.favorite} inheritSize/>
+          <FavoriteCell value={meta.favorite || false} inheritSize/>
           &nbsp;
           {title}
           <Modal

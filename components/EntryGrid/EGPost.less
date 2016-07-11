@@ -12,23 +12,11 @@
 
 .postTab {
   margin-bottom: 10px;
+  padding-bottom: 4px;
   display: inline-flex;
   width: 100%;
   border-bottom: 1px solid @grey300;
   color: @grey500;
-  & span {
-    line-height: 25px;
-    width: 50%;
-    text-align: center;
-    &:hover {
-      color: @grey900;
-      cursor: pointer;
-    }
-    &.selected {
-      color: @red400;
-      cursor: pointer;
-    }
-  }
 }
 
 .postSubmit {
@@ -39,4 +27,30 @@
   margin-left: 5px;
   margin-right: 5px;
   padding-top: 10px;
+}
+
+.addTab {
+  line-height: 25px;
+  width: 50%;
+  text-align: center;
+  &:hover {
+    color: @grey900;
+    cursor: pointer;
+  }
+}
+
+.selected {
+  color: @red400;
+  cursor: pointer;
+}
+
+.editTab {
+  border-left: 1px solid @grey300;
+  line-height: 25px;
+  width: 50%;
+  text-align: center;
+  &:hover {
+    color: @grey900;
+    cursor: pointer;
+  }
 }

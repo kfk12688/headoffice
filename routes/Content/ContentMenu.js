@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Modal, PopupButton, Divider, PopupTextBox } from "components";
-import CreateTemplateForm from "../Forms/TemplateForm";
+import CreateTemplateForm from "./TemplateForm";
 import cx from "classnames";
 import styles from "./ContentMenu.less";
 

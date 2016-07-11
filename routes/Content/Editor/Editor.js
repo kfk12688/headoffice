@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { EditorMenu, Sidebar, EG, TitleBar } from "components";
+import { Sidebar, EG } from "components";
+import { EditorMenu } from "./EditorMenu";
+import { TitleBar } from "./TitleBar";
 import { loadEditor, editTemplate } from "../../../dataflow/editor/actions";
 import { toggleMenuSidebar, clearMenuState } from "../../../dataflow/menu/actions";
 import styles from "./Editor.less";
@@ -19,38 +21,42 @@ class Editor extends Component {
         "insertable"  : false
       },
       "fieldName"      : {
+        "fieldKey" : "fieldName",
         "displayText" : "Field Name",
         "renderType"  : "text"
       },
       "fieldReference" : {
+        "fieldKey" : ["tableName", "colName"],
         "colStyle"       : { fontSize : 12 },
         "displayText"    : "Reference to field",
         "renderType"     : "reference",
         "refTableSource" : [
-          { "key" : 0, "val" : "XXX" },
-          { "key" : 1, "val" : "YYY" },
-          { "key" : 2, "val" : "ZZZ" }
+          { "id" : 0, "label" : "XXX" },
+          { "id" : 1, "label" : "YYY" },
+          { "id" : 2, "label" : "ZZZ" }
         ],
         "refFieldSource" : [
-          { "key" : 0, "val" : "aInXXX" },
-          { "key" : 1, "val" : "bInXXX" },
-          { "key" : 2, "val" : "cInXXX" }
+          { "id" : 0, "label" : "aInXXX" },
+          { "id" : 1, "label" : "bInXXX" },
+          { "id" : 2, "label" : "cInXXX" }
         ]
       },
       "fieldType"      : {
+        "fieldKey" : "fieldType",
         "displayText" : "Field Type",
         "renderType"  : "list",
         "source"      : [
-          { "key" : 0, "val" : "Text" },
-          { "key" : 1, "val" : "Decimal" },
-          { "key" : 2, "val" : "Date" },
-          { "key" : 3, "val" : "Time" },
-          { "key" : 4, "val" : "ListMenu" }
+          { "id" : 0, "label" : "Text" },
+          { "id" : 1, "label" : "Decimal" },
+          { "id" : 2, "label" : "Date" },
+          { "id" : 3, "label" : "Time" },
+          { "id" : 4, "label" : "ListMenu" }
         ]
       },
       "fieldValue"     : {
+        "fieldKey" : "fieldValue",
         "displayText" : "Field Value",
-        "renderType"  : "text"
+        "renderType"  : "date"
       },
     };
     this.colWidths = {

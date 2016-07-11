@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Breadcrumb, ContentMenu, Search, DG } from "components";
+import { Breadcrumb, Search, DG } from "components";
+import { ContentMenu } from "./ContentMenu";
 import * as filterActions from "../../dataflow/filter/actions";
 import * as cmActions from "../../dataflow/menu/actions";
 import * as contentActions from "../../dataflow/content/actions";

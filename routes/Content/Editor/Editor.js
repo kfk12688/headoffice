@@ -10,7 +10,8 @@ import styles from "./Editor.less";
 class Editor extends Component {
   constructor(props) {
     super(props);
-    this.editTemplateHandler = this.editTemplateHandler.bind(this);
+    this.editTemplateMetaHandler = this.editTemplateMetaHandler.bind(this);
+    this.editTemplateFieldsHandler = this.editTemplateFieldsHandler.bind(this);
     this.colSpec = {
       "action"         : {
         "headerStyle" : { borderLeft : 0 },
@@ -21,12 +22,12 @@ class Editor extends Component {
         "insertable"  : false
       },
       "fieldName"      : {
-        "fieldKey" : "fieldName",
+        "fieldKey"    : "fieldName",
         "displayText" : "Field Name",
         "renderType"  : "text"
       },
       "fieldReference" : {
-        "fieldKey" : ["tableName", "colName"],
+        "fieldKey"       : ["tableName", "colName"],
         "colStyle"       : { fontSize : 12 },
         "displayText"    : "Reference to field",
         "renderType"     : "reference",
@@ -42,7 +43,7 @@ class Editor extends Component {
         ]
       },
       "fieldType"      : {
-        "fieldKey" : "fieldType",
+        "fieldKey"    : "fieldType",
         "displayText" : "Field Type",
         "renderType"  : "list",
         "source"      : [
@@ -54,7 +55,7 @@ class Editor extends Component {
         ]
       },
       "fieldValue"     : {
-        "fieldKey" : "fieldValue",
+        "fieldKey"    : "fieldValue",
         "displayText" : "Field Value",
         "renderType"  : "date"
       },
@@ -73,10 +74,22 @@ class Editor extends Component {
     this.props.loadEditorTable(this.props.params);
   }
 
-  editTemplateHandler(values) {
+  editTemplateMetaHandler(values) {
     this.props.editTemplate({
       id : this.props.editor.data._id,
       ...values,
+    });
+  }
+
+  editTemplateFieldsHandler(fields) {
+    const { _id, fields:oldFields } = this.props.editor.data;
+
+    this.props.editTemplate({
+      id     : _id,
+      fields : [
+        ...oldFields,
+        fields,
+      ],
     });
   }
 
@@ -88,10 +101,11 @@ class Editor extends Component {
 
         {/* Title Menu */}
         <TitleBar
+          store={editor}
           className={styles.titleBar}
           title={editor.data.templateName}
           meta={{createdAt : editor.data.createdAt, favorite : editor.data.favorite}}
-          editTemplate={this.editTemplateHandler}
+          editTemplate={this.editTemplateMetaHandler}
         />
 
         {/* Contextual Menu */}
@@ -118,6 +132,7 @@ class Editor extends Component {
             colWidths={this.colWidths}
             data={editor.data.fields}
             isLoading={editor.isLoading}
+            postHandler={this.editTemplateFieldsHandler}
           />
         </div>
       </div>

@@ -24,7 +24,12 @@ function getCell(transform, type, row, col, isSelected) {
     return React.createElement(ListCell, { value : transform() });
   }
   if (type === "reference") {
-    return React.createElement(RefCell, { value : transform() });
+    return React.createElement(RefCell, {
+      value : {
+        refTable : row.fieldReference && transform(row.fieldReference.tableName),
+        refField : row.fieldReference && transform(row.fieldReference.fieldName),
+      },
+    });
   }
   if (type === "link") {
     const value = {
@@ -64,17 +69,17 @@ export function renderDGCell(type, row, col, isSelected) {
 }
 
 export function renderEGCell(type, row, col, colKey) {
-  function transform() {
+  function transform(rowData = row) {
     let value = null;
 
-    if ((row[colKey] === null) || !("val" in row[colKey])) {
+    if ((rowData[colKey] === null) || !("val" in rowData[colKey])) {
       return value;
     }
 
     if (col.cellFormatter !== undefined) {
-      value = col.cellFormatter(row[colKey].val);
+      value = col.cellFormatter(rowData[colKey].val);
     } else {
-      value = row[colKey].val;
+      value = rowData[colKey].val;
     }
 
     return value;

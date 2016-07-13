@@ -26,7 +26,7 @@ export class TitleBar extends Component {
   }
 
   render() {
-    const { className, title, meta, editTemplate } = this.props;
+    const { className, title, meta, editTemplate, store: editorData } = this.props;
 
     return (
       <div className={cx(styles.base, className)}>
@@ -41,7 +41,7 @@ export class TitleBar extends Component {
             show={this.state.showModal}
             toggleModal={this.toggleModal}
           >
-            <EditTemplateForm submitForm={editTemplate} toggleModal={this.toggleModal}/>
+            <EditTemplateForm state={editorData} submitForm={editTemplate} toggleModal={this.toggleModal}/>
           </Modal>
         </div>
         <div className={styles.meta}>

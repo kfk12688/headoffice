@@ -32,7 +32,7 @@ class EGPost extends React.Component {
   }
 
   render() {
-    const { cols } = this.props;
+    const { cols, postHandler } = this.props;
 
     return (
       <div className={styles.post}>
@@ -54,6 +54,7 @@ class EGPost extends React.Component {
           state={this.state.entryState}
           cols={cols}
           fields={this.getFormFields(cols)}
+          postHandler={postHandler}
         />
       </div>
     );

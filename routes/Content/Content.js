@@ -65,8 +65,6 @@ class Content extends Component {
   }
 
   componentWillMount() {
-    this.props.clearFilter();
-    this.props.clearMenu();
     this.props.loadContentList();
   }
 
@@ -130,7 +128,8 @@ class Content extends Component {
 
     const {
       list, filter, actionsMenu, rows, toggleSidebar, selectAllRows,
-      clearRowSelection, filterChangeHandlers, sortColumn, toggleRow
+      clearRowSelection, filterChangeHandlers, sortColumn, toggleRow,
+      addNewTemplate, deleteTemplate
     } = this.props;
     const sortOrderIndex = filter.sortAscending ? 0 : 1;
     const sortKey = filter.sortKey ? this.colSortItems.displayText[filter.sortKey][sortOrderIndex] : null;
@@ -142,12 +141,13 @@ class Content extends Component {
           className={styles.contextMenu}
           toggleSidebar={toggleSidebar}
           actionsMenu={actionsMenu}
-          countItems={list.selectedKeys.length}
+          selectedKeys={list.selectedKeys}
           colSortItems={this.colSortItems.items}
           sortKey={sortKey}
           selectAllRows={selectAllRows}
           clearRowSelection={clearRowSelection}
-          addNewTemplate={this.props.addNewTemplate}
+          addNewTemplate={addNewTemplate}
+          deleteTemplate={deleteTemplate}
         />
 
         <div>
@@ -221,9 +221,8 @@ const mapDispatchToProps = (dispatch) => ({
   sortColumn           : (sortKey, sortOrder) => dispatch(filterActions.sortFilter(sortKey, sortOrder)),
   toggleRow            : (index) => dispatch(contentActions.toggleContent(index)),
   loadContentList      : (params) => dispatch(contentActions.loadTemplate(params)),
+  deleteTemplate       : (params) => dispatch(contentActions.deleteTemplate(params)),
   addNewTemplate       : (params) => dispatch(contentActions.addTemplate(params)),
-  clearFilter          : () => dispatch(filterActions.clearFilterState()),
-  clearMenu            : () => dispatch(cmActions.clearMenuState()),
   filterChangeHandlers : {
     setDateModifiedStart : (e) => dispatch(filterActions.setFilterDtModStart(e)),
     setDateModifiedEnd   : (e) => dispatch(filterActions.setFilterDtModEnd(e)),

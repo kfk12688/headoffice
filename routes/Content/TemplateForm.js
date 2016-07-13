@@ -12,8 +12,14 @@ class CreateTemplateForm extends Component {
   }
 
   onSubmit(e) {
+    const { values, state } = this.props;
+    const data = (state && ("data" in state)) ? state.data : null;
+
     e.preventDefault();
-    this.props.submitForm(this.props.values);
+    this.props.submitForm({
+      ...values,
+      fields : (data && data.fields) || [],
+    });
     this.props.toggleModal();
   }
 

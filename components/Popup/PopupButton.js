@@ -15,11 +15,31 @@ class PopupButton extends React.Component {
       showPopup : false,
     };
     this.ctrls = {};
-    this.childrenStyle = undefined;
-    this.popupMenuStyle = undefined;
-    this.popupMenuItems = undefined;
-    this.assignTarget = target => this.ctrls.target = target;
+    this.childrenStyle = null;
+    this.popupMenuStyle = null;
+    this.popupMenuItems = null;
+    this.assignTarget = target => { this.ctrls.target = target };
     this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentDidMount() {
+    const { children, childrenStyle } = this.props;
+
+    if (childrenStyle) {
+      if (typeof childrenStyle === "string") {
+        this.childrenStyle = childrenStyle;
+      }
+    } else {
+      this.popupMenuStyle = Object.assign({}, childrenStyle);
+    }
+
+    this.popupMenuItems = React.Children.map(children, (child:React.ReactElement<any>) => {
+      return React.cloneElement(child, {
+        className : cx(this.childrenStyle, {
+          [styles.menuItem] : !childrenStyle,
+        }),
+      });
+    });
   }
 
   handleClick() {
@@ -30,25 +50,9 @@ class PopupButton extends React.Component {
     }
   }
 
-  componentDidMount() {
-    if (this.props.childrenStyle) {
-      if (typeof this.props.childrenStyle === "string") {
-        this.childrenStyle = this.props.childrenStyle;
-      }
-    } else {
-      this.popupMenuStyle = Object.assign({}, this.props.childrenStyle);
-    }
-
-    this.popupMenuItems = React.Children.map(this.props.children, (child:React.ReactElement<any>) => {
-      return React.cloneElement(child, {
-        className : cx(this.childrenStyle, {
-          [styles.menuItem] : !this.props.childrenStyle,
-        }),
-      });
-    });
-  }
-
   render() {
+    const { label, faName } = this.props;
+
     return (
       <span
         ref={this.assignTarget}
@@ -57,7 +61,7 @@ class PopupButton extends React.Component {
         onMouseEnter={() => this.setState({ hovered: true })}
         onMouseLeave={() => this.setState({ hovered: false })}
       >
-        <Button className={styles.icon} faName="caret-down" after> {this.props.label} </Button>
+        <Button className={styles.icon} faName={faName || "caret-down"} after> {label} </Button>
 
         <Overlay
           rootClose
@@ -76,3 +80,10 @@ class PopupButton extends React.Component {
 }
 
 export { PopupButton };
+
+PopupButton.propTypes = {
+  label         : React.PropTypes.string,
+  faName        : React.PropTypes.string,
+  children      : React.PropTypes.node.isRequired,
+  childrenStyle : React.PropTypes.string,
+};

@@ -1,20 +1,17 @@
-/**
- * Created by sharavan on 18/05/16.
- */
-import React from "react";
+import React, { Component } from "react";
 import { DGBodyCell } from "./DGBodyCell";
 import { grey50, transparent, blueGrey50 } from "../../styles/colors";
 import styles from "./DGBodyRow.less";
 
-class DGBodyRow extends React.Component {
+class DGBodyRow extends Component {
   constructor() {
     super();
     this.state = { hovered : false };
+    this.clickHandler = this.clickHandler.bind(this);
   }
 
-  render() {
-    const { cols, row, colWidths, onRowClick, rowKey, isRowSelected } = this.props;
-
+  getBodyCells() {
+    const { cols, row, colWidths, isRowSelected } = this.props;
     const dataGridBodyCells = cols.map((col, index) => {
       const colName = col.name;
 
@@ -29,6 +26,17 @@ class DGBodyRow extends React.Component {
       );
     });
 
+    return dataGridBodyCells;
+  }
+
+  clickHandler(e) {
+    if (e.target.tagName !== "A") {
+      this.props.onRowClick(this.props.rowKey);
+    }
+  }
+
+  render() {
+    const { rowKey, isRowSelected } = this.props;
     let rowStyle = {
       backgroundColor : isRowSelected ?
                         blueGrey50 :
@@ -41,14 +49,23 @@ class DGBodyRow extends React.Component {
       <div
         style={rowStyle}
         className={styles.row}
-        onMouseEnter={() => this.setState({ hovered: true })}
-        onMouseLeave={() => this.setState({ hovered: false })}
-        onClick={onRowClick.bind(this, rowKey)}
+        onMouseEnter={() => this.setState({ hovered : true })}
+        onMouseLeave={() => this.setState({ hovered : false })}
+        onClick={this.clickHandler}
       >
-        {dataGridBodyCells}
+        {this.getBodyCells()}
       </div>
     );
   }
 }
+
+DGBodyRow.propTypes = {
+  onRowClick    : React.PropTypes.func,
+  rowKey        : React.PropTypes.string.isRequired,
+  isRowSelected : React.PropTypes.bool,
+  row           : React.PropTypes.object,
+  col           : React.PropTypes.object,
+  colWidths     : React.PropTypes.object,
+};
 
 export { DGBodyRow };

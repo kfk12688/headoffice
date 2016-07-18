@@ -31,8 +31,26 @@ class EGPost extends React.Component {
     return fields;
   }
 
+  getInitialValues() {
+    const { initialValues, cols } = this.props;
+
+    if (!(initialValues.fields)) {
+      const formFields = this.getFormFields(cols);
+
+      const fields = {};
+      for (let i = 0; i < formFields.length; i++) {
+        const fieldName = formFields[i];
+        fields[fieldName] = {
+          val : null,
+        };
+      }
+      return fields;
+    }
+    return initialValues.fields;
+  }
+
   render() {
-    const { cols, postHandler } = this.props;
+    const { cols, postHandler, initialValues } = this.props;
 
     return (
       <div className={styles.post}>
@@ -55,6 +73,7 @@ class EGPost extends React.Component {
           cols={cols}
           fields={this.getFormFields(cols)}
           postHandler={postHandler}
+          initialValues={this.getInitialValues()}
         />
       </div>
     );

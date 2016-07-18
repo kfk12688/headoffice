@@ -3,7 +3,9 @@ import { connect } from "react-redux";
 import { Sidebar, EG } from "components";
 import { EditorMenu } from "./EditorMenu";
 import { TitleBar } from "./TitleBar";
-import { loadEditor, editTemplate } from "../../../dataflow/editor/actions";
+import {
+  loadEditor, editTemplate, errorTemplate, editRow as _editRow, deleteRow as _deleteRow
+} from "../../../dataflow/editor/actions";
 import { toggleMenuSidebar, clearMenuState } from "../../../dataflow/menu/actions";
 import styles from "./Editor.less";
 
@@ -17,7 +19,10 @@ class Editor extends Component {
         "headerStyle" : { borderLeft : 0 },
         "displayText" : "",
         "renderType"  : "action",
-        "actions"     : {},
+        "actions"     : [
+          { name : "Edit Row", handler : props.editRow },
+          { name : "Delete Row", handler : props.deleteRow },
+        ],
         "sortable"    : false,
         "insertable"  : false
       },
@@ -57,7 +62,7 @@ class Editor extends Component {
       "fieldValue"     : {
         "fieldKey"    : "fieldValue",
         "displayText" : "Field Value",
-        "renderType"  : "date"
+        "renderType"  : "text"
       },
     };
     this.colWidths = {
@@ -81,16 +86,21 @@ class Editor extends Component {
     });
   }
 
-  editTemplateFieldsHandler(fields) {
+  editTemplateFieldsHandler(field) {
     const { _id, fields:oldFields } = this.props.editor.data;
 
-    this.props.editTemplate({
-      id     : _id,
-      fields : [
-        ...oldFields,
-        fields,
-      ],
-    });
+    const idx = oldFields.findIndex(f => f.fieldName === field.fieldName);
+    if (idx === -1) {
+      this.props.editTemplate({
+        id     : _id,
+        fields : [
+          ...oldFields,
+          field,
+        ],
+      });
+    } else {
+      this.props.errorTemplate();
+    }
   }
 
   render() {
@@ -104,7 +114,7 @@ class Editor extends Component {
           store={editor}
           className={styles.titleBar}
           title={editor.data.templateName}
-          meta={{createdAt : editor.data.createdAt, favorite : editor.data.favorite}}
+          meta={{ createdAt : editor.data.createdAt, favorite : editor.data.favorite }}
           editTemplate={this.editTemplateMetaHandler}
         />
 
@@ -133,6 +143,7 @@ class Editor extends Component {
             data={editor.data.fields}
             isLoading={editor.isLoading}
             postHandler={this.editTemplateFieldsHandler}
+            initialValues={editor.postData}
           />
         </div>
       </div>
@@ -147,9 +158,12 @@ const mapStateToProps = state => ({
 
 const mapDisptachToProps = dispatch => ({
   toggleSidebar   : () => dispatch(toggleMenuSidebar()),
-  loadEditorTable : (params) => dispatch(loadEditor(params)),
+  loadEditorTable : params => dispatch(loadEditor(params)),
   clearMenuState  : () => dispatch(clearMenuState()),
-  editTemplate    : (params) => dispatch(editTemplate(params)),
+  editTemplate    : params => dispatch(editTemplate(params)),
+  errorTemplate   : params => dispatch(errorTemplate(params)),
+  editRow         : data => dispatch(_editRow(data)),
+  deleteRow       : id => dispatch(_deleteRow(id)),
 });
 
 export default connect(mapStateToProps, mapDisptachToProps)(Editor);

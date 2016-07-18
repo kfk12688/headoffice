@@ -1,3 +1,4 @@
+import { createAction } from "redux-actions";
 import { CALL_API } from "../middleware/callAPI";
 import * as t from "./types";
 import { getTemplateForEdit, modifyTemplate } from "./api";
@@ -31,3 +32,13 @@ export function editTemplate(params) {
     dispatch(pushTemplate(params))
       .then(dispatch(fetchTemplate(params)));
 }
+
+export const errorTemplate = createAction(t.TEMPLATE_DUPLICATE_ERROR);
+
+export const editRow = createAction(t.TEMPLATE_EDIT_ROW, data => ({
+  data,
+}));
+
+export const deleteRow = createAction(t.TEMPLATE_DELETE_ROW, data => ({
+  id : "testid",
+}));

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { reduxForm } from "redux-form";
+import FontAwesome from "react-fontawesome";
 import { TextBox } from "./TextBox";
 import { ListBox } from "./ListBox";
 import { RefBox } from "./RefBox";
@@ -14,33 +15,45 @@ function getForm(cols, fields) {
     if (type === "list") {
       const { source : options } = col;
 
-      return React.createElement(ListBox, {
-        title,
-        options,
-        field,
-      });
+      return (
+        <ListBox
+          key={title}
+          title={title}
+          options={options}
+          field={field}
+        />
+      );
     }
     if (type === "reference") {
       const { refTableSource : tableOptions, refFieldSource : fieldOptions } = col;
 
-      return React.createElement(RefBox, {
-        title,
-        tableOptions,
-        fieldOptions,
-        field,
-      });
+      return (
+        <RefBox
+          key={title}
+          title={title}
+          tableOptions={tableOptions}
+          fieldOptions={fieldOptions}
+          field={field}
+        />
+      );
     }
     if (type === "date") {
-      return React.createElement(DateBox, {
-        title,
-        field,
-      });
+      return (
+        <DateBox
+          key={title}
+          title={title}
+          field={field}
+        />
+      );
     }
 
-    return React.createElement(TextBox, {
-      title,
-      field,
-    });
+    return (
+      <TextBox
+        key={title}
+        title={title}
+        field={field}
+      />
+    );
   }
 
   const formFields = [];
@@ -77,13 +90,16 @@ class EditorEntryForm extends Component {
   }
 
   render() {
-    const { cols, fields } = this.props;
+    const { cols, fields, submitting } = this.props;
 
     return (
       <form onSubmit={this.onSubmit}>
         {getForm(cols, fields)}
         <div className={styles.formSubmitGroup}>
-          <FormButton accent type="submit">Add</FormButton>
+          <FormButton accent type="submit" disabled={submitting}>
+            {submitting && <FontAwesome name="spinner" spin/>}
+            Add
+          </FormButton>
           <FormButton onClick={this.resetForm}>Cancel</FormButton>
         </div>
       </form>
@@ -92,12 +108,14 @@ class EditorEntryForm extends Component {
 }
 
 EditorEntryForm.propTypes = {
-  fields : React.PropTypes.object.isRequired,
-  cols   : React.PropTypes.object.isRequired,
-  // submitForm : React.PropTypes.func.isRequired,
-  resetForm  : React.PropTypes.func.isRequired,
-  values : React.PropTypes.object,
-  state: React.PropTypes.string,
+  fields        : React.PropTypes.object.isRequired,
+  cols          : React.PropTypes.object.isRequired,
+  resetForm     : React.PropTypes.func.isRequired,
+  values        : React.PropTypes.object,
+  state         : React.PropTypes.string,
+  load          : React.PropTypes.func,
+  submitting    : React.PropTypes.bool,
+  initialValues : React.PropTypes.object,
 };
 
 export default reduxForm({

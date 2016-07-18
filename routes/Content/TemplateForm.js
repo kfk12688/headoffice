@@ -30,7 +30,7 @@ class CreateTemplateForm extends Component {
   }
 
   render() {
-    const { fields : { templateName, workBook } } = this.props;
+    const { fields : { templateName, workBook }, submitting } = this.props;
 
     return (
       <form onSubmit={this.onSubmit}>
@@ -44,7 +44,10 @@ class CreateTemplateForm extends Component {
           <option value="577138f0710ca6e422c2399e">What Workgroup ???</option>
         </select>
         <div className={styles.addContentBtnGroup}>
-          <FormButton accent="green" type="submit">Save</FormButton>
+          <FormButton accent="green" type="submit"  disabled={submitting}>
+            {submitting && <FontAwesome name="spinner" spin/>}
+            Save
+          </FormButton>
           <FormButton onClick={this.resetForm}>Cancel</FormButton>
         </div>
       </form>

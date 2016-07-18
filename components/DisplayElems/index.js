@@ -8,48 +8,51 @@ import { NumberCell } from "./NumberCell";
 import { RefCell } from "./RefCell";
 import { TextCell } from "./TextCell";
 import { PopupButton } from "../Popup";
+import styles from "./common.less";
+
 
 function getCell(transform, type, row, col, isSelected) {
   if (type === "number") {
-    return React.createElement(NumberCell, { value : transform() });
+    return (<NumberCell value={transform()}/>);
   }
   if (type === "checkbox") {
     const value = isSelected;
-    return React.createElement(CheckboxCell, { value });
+    return (<CheckboxCell value={value}/>);
   }
   if (type === "favorite") {
-    return React.createElement(FavoriteCell, { value : transform() });
+    return (<FavoriteCell value={transform()}/>);
   }
   if (type === "list") {
-    return React.createElement(ListCell, { value : transform() });
+    return (<ListCell value={transform()}/>);
   }
   if (type === "reference") {
-    return React.createElement(RefCell, {
-      value : {
-        refTable : row.fieldReference && transform(row.fieldReference.tableName),
-        refField : row.fieldReference && transform(row.fieldReference.fieldName),
-      },
-    });
+    return (
+      <RefCell
+        value={{
+          refTable : row.fieldReference && transform(row.fieldReference.tableName),
+          refField : row.fieldReference && transform(row.fieldReference.fieldName),
+        }}
+      />
+    );
   }
   if (type === "link") {
     const value = {
-      text : transform(),
+      text   : transform(),
       urlKey : row[col.linkRef.urlKey],
-      path : col.linkRef.path,
+      path   : col.linkRef.path,
     };
 
-    return React.createElement(LinkCell, { value });
+    return (
+      <div className={styles.linkCellContainer}>
+        <LinkCell className={styles.linkCellContainerLink} value={value}/>
+        <ActionCell className={styles.linkCellContainerAction} actions={[]}/>
+      </div>
+    );
   }
   if (type === "action") {
-    // const value = col.actions;
-    const value =
-      <PopupButton label="" faName="ellipsis-v">
-        <div>Edit Row</div>
-        <div>Delete</div>
-      </PopupButton>;
-    return React.createElement(ActionCell, { value });
+    return (<ActionCell data={row} actions={col.actions}/>);
   }
-  return React.createElement(TextCell, { value : transform() });
+  return (<TextCell value={transform()}/>);
 }
 
 export function renderDGCell(type, row, col, isSelected) {

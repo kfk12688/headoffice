@@ -24,21 +24,32 @@
 }
 
 .actionCell {
-  margin: 6px 0px;
-  height: 25px;
-  width: 20px;
 }
 
 .actionCellInner {
+  width: 20px;
+  margin: 6px 0px;
   text-align: center;
   border: 1px solid @grey300;
   color: @grey500;
   background-color: @grey50;
   font-size: 14px;
-  height: 100%;
   line-height: 25px;
   &:hover {
     border: 1px solid @grey500;
     color: @grey900;
+  }
+}
+
+.linkCellContainer {
+  position: absolute;
+  width: 136px;
+  &Action {
+    position: absolute;
+    right: 0;
+  }
+  &Link {
+    position: absolute;
+    left: 0;
   }
 }

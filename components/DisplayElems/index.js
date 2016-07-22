@@ -7,7 +7,6 @@ import { ListCell } from "./ListCell";
 import { NumberCell } from "./NumberCell";
 import { RefCell } from "./RefCell";
 import { TextCell } from "./TextCell";
-import { PopupButton } from "../Popup";
 import styles from "./common.less";
 
 
@@ -57,12 +56,21 @@ function getCell(transform, type, row, col, isSelected) {
 
 export function renderDGCell(type, row, col, isSelected) {
   function transform() {
+    const dataKeyParts = col.dataKey.split(".");
     let value = null;
+    let obj = row;
 
-    if (col.cellFormatter !== undefined) {
-      value = col.cellFormatter(row[col.dataKey]);
-    } else {
-      value = row[col.dataKey];
+    for (let i = 0; i < dataKeyParts.length; i++) {
+      const key = dataKeyParts[i];
+      if (typeof obj[key] === "object") {
+        obj = obj[key];
+      } else {
+        if (col.cellFormatter !== undefined) {
+          value = col.cellFormatter(obj[key]);
+        } else {
+          value = obj[key];
+        }
+      }
     }
 
     return value;

@@ -20,7 +20,7 @@ class Content extends Component {
         text        : "",
       },
       {
-        dataKey     : "favorite",
+        dataKey     : "isFavorite",
         headerStyle : { borderRight : 0 },
         name        : "favorite-col",
         renderType  : "favorite",
@@ -31,11 +31,23 @@ class Content extends Component {
         dataKey    : "templateName",
         linkRef    : {
           path   : "/content/edit",
-          urlKey : "_id",
+          urlKey : "id",
         },
         name       : "name-col",
         renderType : "link",
         text       : "Name",
+      },
+      {
+        dataKey    : "userRef.name",
+        name       : "user-col",
+        renderType : "text",
+        text       : "User",
+      },
+      {
+        dataKey    : "workBook.name",
+        name       : "workbook-col",
+        renderType : "text",
+        text       : "Work Book",
       },
       {
         cellFormatter : formatter.toDate,
@@ -47,7 +59,7 @@ class Content extends Component {
       },
       {
         cellFormatter : formatter.toDate,
-        dataKey       : "updatedAt",
+        dataKey       : "modifiedAt",
         name          : "updated-at-col",
         renderType    : "date",
         sortable      : true,
@@ -58,6 +70,8 @@ class Content extends Component {
       "checkbox-col"   : 38,
       "favorite-col"   : 38,
       "name-col"       : 150,
+      "user-col"       : 120,
+      "workbook-col"   : 180,
       "created-at-col" : 150,
       "updated-at-col" : 150,
     };

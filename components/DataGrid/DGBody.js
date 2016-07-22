@@ -11,12 +11,12 @@ const DGBody = ({ rows, cols, colWidths, selectedKeys, onRowClick }) => {
   for (const rowKey in rows) {
     if (rows.hasOwnProperty(rowKey)) {
       const row = rows[rowKey];
-      const selectedKeyIdx = selectedKeys.findIndex((key) => key === row._id);
+      const selectedKeyIdx = selectedKeys.findIndex((key) => key === row.id);
 
       datagridBodyRows.push(
         <DGBodyRow
-          rowKey={row._id}
-          key={row._id}
+          rowKey={row.id}
+          key={row.id}
           colWidths={colWidths}
           cols={cols}
           row={row}

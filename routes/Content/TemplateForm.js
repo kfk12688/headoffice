@@ -1,7 +1,22 @@
 import React, { Component } from "react";
 import { reduxForm } from "redux-form";
 import { FormButton } from "components";
+import FontAwesome from "react-fontawesome";
+import Select from "react-select";
+import "../../styles/Select.css";
+import { searchWorkbook } from "../../dataflow/workbook/api";
 import styles from "./TemplateForm.less";
+
+const WorkbookSelect = ({ value, onChange, className }) =>
+  <Select.Async
+    className={className}
+    onChange={onChange}
+    value={value}
+    valueKey="id"
+    fieldKey="label"
+    loadOptions={searchWorkbook}
+    minimumInput={1}
+  />;
 
 // FORM COMPONENT FOR Creating a new template
 class CreateTemplateForm extends Component {
@@ -13,12 +28,14 @@ class CreateTemplateForm extends Component {
 
   onSubmit(e) {
     const { values, state } = this.props;
+    const { templateName, workBook } = values;
     const data = (state && ("data" in state)) ? state.data : null;
 
     e.preventDefault();
     this.props.submitForm({
-      ...values,
-      fields : (data && data.fields) || [],
+      templateName,
+      workBook : workBook.id,
+      fields   : (data && data.fields) || [],
     });
     this.props.toggleModal();
   }
@@ -34,17 +51,28 @@ class CreateTemplateForm extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <div>
-          <label>Enter the name of the template:</label>
-          <input type="text" {...templateName} />
+        <div className={styles.formElement}>
+          <div className={styles.formElementTitle}>Enter the name of the template:</div>
+          <div>
+            <input
+              className={styles.formElementInput}
+              type="text"
+              {...templateName}
+            />
+          </div>
         </div>
-        <div>Workgroup</div>
-        <select {...workBook} value={workBook.value || ""}>
-          <option></option>
-          <option value="577138f0710ca6e422c2399e">What Workgroup ???</option>
-        </select>
+
+        <div className={styles.formElement}>
+          <div className={styles.formElementTitle}>Workbook</div>
+          <WorkbookSelect
+            className={styles.formElementInput}
+            {...workBook}
+            value={workBook.value || ""}
+          />
+        </div>
+
         <div className={styles.addContentBtnGroup}>
-          <FormButton accent="green" type="submit"  disabled={submitting}>
+          <FormButton accent="green" type="submit" disabled={submitting}>
             {submitting && <FontAwesome name="spinner" spin/>}
             Save
           </FormButton>
@@ -61,6 +89,7 @@ CreateTemplateForm.propTypes = {
   resetForm   : React.PropTypes.func.isRequired,
   values      : React.PropTypes.object,
   toggleModal : React.PropTypes.func,
+  state       : React.PropTypes.any,
 };
 
 export default reduxForm({

@@ -80,9 +80,12 @@ class Editor extends Component {
   }
 
   editTemplateMetaHandler(values) {
+    const { templateName, workBook } = values;
+
     this.props.editTemplate({
-      id : this.props.editor.data._id,
-      ...values,
+      id       : this.props.editor.data._id,
+      templateName,
+      workBook : workBook.id,
     });
   }
 
@@ -92,7 +95,7 @@ class Editor extends Component {
     const idx = oldFields.findIndex(f => f.fieldName === field.fieldName);
     if (idx === -1) {
       this.props.editTemplate({
-        id     : _id,
+        id : _id,
         fields : [
           ...oldFields,
           field,

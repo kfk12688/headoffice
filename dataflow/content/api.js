@@ -1,7 +1,7 @@
 import fetch from "../fetchWrapper";
 
 const api = "http://localhost:3001/api/template";
-const token = "7f96ded4-c6f7-4dde-8fee-0e08d2554fc7";
+const token = "93abcf28-65e9-45b1-912a-8bec6eb10a3d";
 
 export const getContentList = () => {
   return fetch("GET", token, api)
@@ -11,7 +11,7 @@ export const getContentList = () => {
 
       for (const idx in json.data) {
         const item = json.data[idx];
-        const id = item._id;
+        const id = item.id;
 
         payload.data[id] = item;
       }

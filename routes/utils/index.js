@@ -83,17 +83,5 @@ function getRows(data, appliedFilters, bindings) {
   );
 }
 
-function mapActionsToReducers(actions, reducer, stateKey) {
-  const o = {};
-  mapObject(actions, (k) => {
-    const key = k.toString();
-    o[key] = (state, action) => ({
-      ...state,
-      [stateKey] : reducer(state[stateKey], action),
-    });
-  });
-  return o;
-}
-
-export { FilterHelpers as fh, getRows, mapActionsToReducers };
+export { getRows };
 export { Formatter } from "./Formatter";

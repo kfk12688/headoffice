@@ -116,6 +116,21 @@ class User extends Component {
       toggleRow,
     } = this.props;
 
+    const searchConfig = [
+      {
+        label         : "User",
+        data          : filter.username,
+        changeHandler : filterChangeHandlers.setFilterUser,
+        type          : "searchbox",
+      },
+      {
+        label         : "Has Role",
+        data          : filter.username,
+        changeHandler : filterChangeHandlers.setFilterUser,
+        type          : "searchbox",
+      },
+    ];
+
     // ListMenu Container
     return (
       <div
@@ -146,8 +161,7 @@ class User extends Component {
             actionsMenu.showSidebar &&
             <Search
               className={styles.search}
-              filterData={filter}
-              changeHandlers={filterChangeHandlers}
+              config={searchConfig}
             />
           }
 
@@ -194,7 +208,7 @@ const mapDispatchToProps = (dispatch) => ({
   clearFilter          : () => dispatch(filterActions.clearFilterState()),
   clearMenu            : () => dispatch(cmActions.clearMenuState()),
   filterChangeHandlers : {
-    setUser             : (e) => dispatch(filterActions.setFilterUser(e)),
+    setFilterUser : (e) => dispatch(filterActions.setFilterUser(e)),
   },
 });
 

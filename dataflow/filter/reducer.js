@@ -1,8 +1,7 @@
-/**
- * Created by sharavan on 15/06/16.
- */
 import { handleActions } from "redux-actions";
 import * as t from "./types";
+
+const initialState = {};
 
 const reducer = handleActions({
   [t.SORT_FILTER]            : (state, action) => ({
@@ -28,9 +27,13 @@ const reducer = handleActions({
   }),
   [t.SET_FILTER_OWNER]       : (state, action) => ({
     ...state,
-    isRecent : action.payload.owner,
+    owner : action.payload.owner,
   }),
-  [t.CLEAR_FILTER_STATE]     : () => ({}),
-}, {});
+  [t.SET_FILTER_USER]       : (state, action) => ({
+    ...state,
+    username : action.payload.username,
+  }),
+  [t.CLEAR_FILTER_STATE]     : () => initialState,
+}, initialState);
 
 export default reducer;

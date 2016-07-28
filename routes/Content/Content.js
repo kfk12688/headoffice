@@ -141,12 +141,47 @@ class Content extends Component {
     }
 
     const {
-      list, filter, actionsMenu, rows, toggleSidebar, selectAllRows,
-      clearRowSelection, filterChangeHandlers, sortColumn, toggleRow,
+      list, actionsMenu, rows, toggleSidebar, selectAllRows,
+      clearRowSelection, sortColumn, toggleRow,
       addNewTemplate, deleteTemplate
     } = this.props;
+
+    const { filterChangeHandlers, filter } = this.props;
     const sortOrderIndex = filter.sortAscending ? 0 : 1;
     const sortKey = filter.sortKey ? this.colSortItems.displayText[filter.sortKey][sortOrderIndex] : null;
+
+    const searchConfig = [
+      {
+        label         : "Owner",
+        data          : filter.owner,
+        changeHandler : filterChangeHandlers.setOwner,
+        type          : "searchbox",
+      },
+      {
+        label         : "Created on or after",
+        data          : filter.dateModifiedStart,
+        changeHandler : filterChangeHandlers.setDateModifiedStart,
+        type          : "datebox",
+      },
+      {
+        label         : "Created on or before",
+        data          : filter.dateModifiedEnd,
+        changeHandler : filterChangeHandlers.setDateModifiedEnd,
+        type          : "datebox",
+      },
+      {
+        label         : "Show starred only",
+        data          : filter.isStarred,
+        changeHandler : filterChangeHandlers.setIsStarred,
+        type          : "checkbox",
+      },
+      {
+        label         : "Recents only",
+        data          : filter.isRecent,
+        changeHandler : filterChangeHandlers.setIsRecent,
+        type          : "checkbox",
+      },
+    ];
 
     return (
       <div>
@@ -170,8 +205,7 @@ class Content extends Component {
             actionsMenu.showSidebar &&
             <Search
               className={styles.search}
-              filterData={filter}
-              changeHandlers={filterChangeHandlers}
+              config={searchConfig}
             />
           }
 

@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { DG, Breadcrumb, ContentMenu, Search } from "components";
+import { DG, Breadcrumb, Search } from "components";
+import { ContentMenu } from "./ContentMenu";
 import * as userActions from "../../dataflow/user/actions";
 import * as cmActions from "../../dataflow/menu/actions";
 import * as filterActions from "../../dataflow/filter/actions";
-import { Formatter as formatter, getRows } from "../utils";
+import { getRows } from "../utils";
 import styles from "../Content/Content.less";
 
 class User extends Component {
@@ -19,54 +20,31 @@ class User extends Component {
         text        : "",
       },
       {
-        dataKey    : "displayName",
-        name       : "display-name-col",
+        dataKey    : "name",
+        name       : "name-col",
         renderType : "link",
         text       : "Display Name",
         linkRef    : {
-          path   : "/users",
+          path   : "/user",
           urlKey : "username",
         },
       },
       {
-        dataKey : "username",
-        name    : "user-name-col",
-        text    : "User Name",
-      },
-      {
-        dataKey : "siteRole",
-        name    : "site-role-col",
-        text    : "Site Role",
-      },
-      {
-        dataKey    : "groupCount",
-        name       : "groups-count-col",
+        dataKey    : "phoneNumber",
+        name       : "phone-number-col",
+        text       : "Phone Number",
         renderType : "number",
-        text       : "Groups",
-      },
-      {
-        cellFormatter : formatter.toDate,
-        dataKey       : "lastSignIn",
-        name          : "last-signin-col",
-        renderType    : "date",
-        sortable      : true,
-        text          : "Last Signed In",
       },
     ];
     this.colWidths = {
       "has-alert-col"    : 38,
-      "display-name-col" : 160,
-      "user-name-col"    : 160,
-      "site-role-col"    : 140,
-      "groups-count-col" : 80,
-      "last-signin-col"  : 150,
+      "name-col"         : 160,
+      "phone-number-col" : 160,
     };
     this.colSortItems = this.getColumnSortList(props.sortColumn);
   }
 
   componentWillMount() {
-    this.props.clearFilter();
-    this.props.clearMenu();
     this.props.loadUserList();
   }
 
@@ -155,7 +133,7 @@ class User extends Component {
           className={styles.contextMenu}
           toggleSidebar={toggleSidebar}
           actionsMenu={actionsMenu}
-          countItems={user.selectedKeys.length}
+          selectedKeys={user.selectedKeys}
           colSortItems={this.colSortItems.items}
           sortKey={sortKey}
           selectAllRows={selectAllRows}
@@ -216,11 +194,7 @@ const mapDispatchToProps = (dispatch) => ({
   clearFilter          : () => dispatch(filterActions.clearFilterState()),
   clearMenu            : () => dispatch(cmActions.clearMenuState()),
   filterChangeHandlers : {
-    setDateModifiedStart : (e) => dispatch(filterActions.setFilterDtModStart(e)),
-    setDateModifiedEnd   : (e) => dispatch(filterActions.setFilterDtModEnd(e)),
-    setOwner             : (e) => dispatch(filterActions.setFilterOwner(e)),
-    setIsRecent          : (e) => dispatch(filterActions.setFilterIsRecent(e)),
-    setIsStarred         : (e) => dispatch(filterActions.setFilterIsStarred(e)),
+    setUser             : (e) => dispatch(filterActions.setFilterUser(e)),
   },
 });
 

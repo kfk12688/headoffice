@@ -29,12 +29,10 @@ export default store => next => action => {
 
   return callback
     .then(
-      response => {
-        return next(actionWith({
-          payload : response,
-          type : successType,
-        }));
-      },
+      response => next(actionWith({
+        payload : response,
+        type    : successType,
+      })),
       error => next(actionWith({
         type    : failureType,
         payload : error.data || "Something bad happened",

@@ -1,7 +1,9 @@
-@import url(../../styles/colors.less);
+@import "../../styles/colors";
+@import "../../styles/spacing";
 
 // Datagrid body
 .body {
+  .absolute-position-mixin(@top: 38px);
   background-color: @white;
   overflow: auto;
 }

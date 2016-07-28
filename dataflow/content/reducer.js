@@ -60,18 +60,34 @@ const local = handleActions({
     isLoading : false,
     error     : action.payload.data,
   }),
-  [type.TEMPLATE_CREATE_REQUEST]         : (state) => ({
+  [type.TEMPLATE_CREATE_REQUEST] : (state) => ({
     ...state,
     isLoading : true,
   }),
-  [type.TEMPLATE_CREATE_SUCCESS]         : (state, action) => {
+  [type.TEMPLATE_CREATE_SUCCESS] : (state, action) => {
     return {
       ...state,
       isLoading : false,
-      msg      : action.payload.data,
+      msg       : action.payload.data,
     };
   },
-  [type.TEMPLATE_CREATE_FAILURE]         : (state, action) => ({
+  [type.TEMPLATE_CREATE_FAILURE] : (state, action) => ({
+    ...state,
+    isLoading : false,
+    error     : action.payload.data,
+  }),
+  [type.TEMPLATE_DELETE_REQUEST] : (state) => ({
+    ...state,
+    isLoading : true,
+  }),
+  [type.TEMPLATE_DELETE_SUCCESS] : (state, action) => {
+    return {
+      ...state,
+      isLoading : false,
+      msg       : action.payload.data,
+    };
+  },
+  [type.TEMPLATE_DELETE_FAILURE] : (state, action) => ({
     ...state,
     isLoading : false,
     error     : action.payload.data,

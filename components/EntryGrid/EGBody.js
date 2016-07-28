@@ -1,17 +1,6 @@
-/**
- * Created by sharavan on 01/06/16.
- */
 import React from "react";
 import { EGBodyRow } from "./EGBodyRow";
 import styles from "./EGBody.less";
-
-// interface IEGBodyProps {
-//   cols: IEGCols;
-//   colWidths?: {
-//     [colKey: string]: number;
-//   };
-//   rows: IEGRows;
-// }
 
 const EGBody = ({ rows, cols, colWidths }) => {
   let bodyRows = [];

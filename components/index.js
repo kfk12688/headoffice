@@ -11,6 +11,9 @@ export * from "./Popup";
 export { NavLink } from "./NavLink";
 export { Modal } from "./Modal";
 export { EG } from "./EntryGrid";
+export { Navigator } from "./Navigator";
+export { Breadcrumb } from "./Breadcrumb";
+export * from "./DisplayElems";
 
 // Derivative components
 export * from "./Xtended";

@@ -16,7 +16,7 @@ class EG extends React.Component {
   }
 
   render() {
-    const { style, className, colSpec, data, isLoading } = this.props;
+    const { style, className, colSpec, data, isLoading, postHandler, initialValues } = this.props;
 
     return (
       <div
@@ -41,6 +41,8 @@ class EG extends React.Component {
         <EGPost
           cols={colSpec}
           rows={data}
+          postHandler={postHandler}
+          initialValues={initialValues}
         />
       </div>
     );

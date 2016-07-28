@@ -2,18 +2,17 @@ import "isomorphic-fetch";
 
 export default function (method, token, api, params) {
   const headers = new Headers({
-    "authorization" : `Bearer ${token}`,
+    authorization : `Bearer ${token}`,
   });
 
   let settings = {
     headers,
     method,
-    headers,
     cache : "default",
-    mode: "same-origin"
+    mode: "same-origin",
   };
 
-  if (method === "POST") {
+  if ((method === "POST") || (method === "PUT")) {
     headers.append("Content-Type", "application/json");
 
     settings = {

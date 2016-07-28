@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Breadcrumb, ContentMenu, Search, DG } from "components";
+import { Breadcrumb, Search, DG } from "components";
+import { ContentMenu } from "./ContentMenu";
 import * as filterActions from "../../dataflow/filter/actions";
 import * as cmActions from "../../dataflow/menu/actions";
 import * as contentActions from "../../dataflow/content/actions";
@@ -19,7 +20,7 @@ class Content extends Component {
         text        : "",
       },
       {
-        dataKey     : "favorite",
+        dataKey     : "isFavorite",
         headerStyle : { borderRight : 0 },
         name        : "favorite-col",
         renderType  : "favorite",
@@ -30,11 +31,23 @@ class Content extends Component {
         dataKey    : "templateName",
         linkRef    : {
           path   : "/content/edit",
-          urlKey : "_id",
+          urlKey : "id",
         },
         name       : "name-col",
         renderType : "link",
         text       : "Name",
+      },
+      {
+        dataKey    : "userRef.name",
+        name       : "user-col",
+        renderType : "text",
+        text       : "User",
+      },
+      {
+        dataKey    : "workBook.name",
+        name       : "workbook-col",
+        renderType : "text",
+        text       : "Work Book",
       },
       {
         cellFormatter : formatter.toDate,
@@ -46,7 +59,7 @@ class Content extends Component {
       },
       {
         cellFormatter : formatter.toDate,
-        dataKey       : "updatedAt",
+        dataKey       : "modifiedAt",
         name          : "updated-at-col",
         renderType    : "date",
         sortable      : true,
@@ -57,6 +70,8 @@ class Content extends Component {
       "checkbox-col"   : 38,
       "favorite-col"   : 38,
       "name-col"       : 150,
+      "user-col"       : 120,
+      "workbook-col"   : 180,
       "created-at-col" : 150,
       "updated-at-col" : 150,
     };
@@ -64,8 +79,6 @@ class Content extends Component {
   }
 
   componentWillMount() {
-    this.props.clearFilter();
-    this.props.clearMenu();
     this.props.loadContentList();
   }
 
@@ -127,7 +140,11 @@ class Content extends Component {
       return this.props.children;
     }
 
-    const { list, filter, actionsMenu, rows, toggleSidebar, selectAllRows, clearRowSelection, filterChangeHandlers, sortColumn, toggleRow } = this.props;
+    const {
+      list, filter, actionsMenu, rows, toggleSidebar, selectAllRows,
+      clearRowSelection, filterChangeHandlers, sortColumn, toggleRow,
+      addNewTemplate, deleteTemplate
+    } = this.props;
     const sortOrderIndex = filter.sortAscending ? 0 : 1;
     const sortKey = filter.sortKey ? this.colSortItems.displayText[filter.sortKey][sortOrderIndex] : null;
 
@@ -138,12 +155,13 @@ class Content extends Component {
           className={styles.contextMenu}
           toggleSidebar={toggleSidebar}
           actionsMenu={actionsMenu}
-          countItems={list.selectedKeys.length}
+          selectedKeys={list.selectedKeys}
           colSortItems={this.colSortItems.items}
           sortKey={sortKey}
           selectAllRows={selectAllRows}
           clearRowSelection={clearRowSelection}
-          addNewTemplate={this.props.addNewTemplate}
+          addNewTemplate={addNewTemplate}
+          deleteTemplate={deleteTemplate}
         />
 
         <div>
@@ -197,41 +215,36 @@ class Content extends Component {
 }
 
 const filterBindings = {
-  dateFilter     : "updatedAt",
+  dateFilter     : "createdAt",
   textFilter     : "owner",
-  recentFilter   : "updatedAt",
+  recentFilter   : "createdAt",
   favoriteFilter : "favorite",
 };
 
-const mapStateToProps = (state) => {
-  return {
-    list        : state.content,
-    actionsMenu : state.menu,
-    filter      : state.filter,
-    rows        : getRows(state.content.data, state.filter, filterBindings),
-  };
-};
+const mapStateToProps = (state) => ({
+  list        : state.content,
+  actionsMenu : state.menu,
+  filter      : state.filter,
+  rows        : getRows(state.content.data, state.filter, filterBindings),
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    toggleSidebar        : () => dispatch(cmActions.toggleMenuSidebar()),
-    selectAllRows        : () => dispatch(contentActions.selectAllContent()),
-    clearRowSelection    : () => dispatch(contentActions.clearContentSelection()),
-    sortColumn           : (sortKey, sortOrder) => dispatch(filterActions.sortFilter(sortKey, sortOrder)),
-    toggleRow            : (index) => dispatch(contentActions.toggleContent(index)),
-    loadContentList      : (params) => dispatch(contentActions.loadTemplate(params)),
-    addNewTemplate       : (params) => dispatch(contentActions.addTemplate(params)),
-    clearFilter          : () => dispatch(filterActions.clearFilterState()),
-    clearMenu            : () => dispatch(cmActions.clearMenuState()),
-    filterChangeHandlers : {
-      setDateModifiedStart : (e) => dispatch(filterActions.setFilterDtModStart(e)),
-      setDateModifiedEnd   : (e) => dispatch(filterActions.setFilterDtModEnd(e)),
-      setOwner             : (e) => dispatch(filterActions.setFilterOwner(e)),
-      setIsRecent          : (e) => dispatch(filterActions.setFilterIsRecent(e)),
-      setIsStarred         : (e) => dispatch(filterActions.setFilterIsStarred(e)),
-    },
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  toggleSidebar        : () => dispatch(cmActions.toggleMenuSidebar()),
+  selectAllRows        : () => dispatch(contentActions.selectAllContent()),
+  clearRowSelection    : () => dispatch(contentActions.clearContentSelection()),
+  sortColumn           : (sortKey, sortOrder) => dispatch(filterActions.sortFilter(sortKey, sortOrder)),
+  toggleRow            : (index) => dispatch(contentActions.toggleContent(index)),
+  loadContentList      : (params) => dispatch(contentActions.loadTemplate(params)),
+  deleteTemplate       : (params) => dispatch(contentActions.deleteTemplate(params)),
+  addNewTemplate       : (params) => dispatch(contentActions.addTemplate(params)),
+  filterChangeHandlers : {
+    setDateModifiedStart : (e) => dispatch(filterActions.setFilterDtModStart(e)),
+    setDateModifiedEnd   : (e) => dispatch(filterActions.setFilterDtModEnd(e)),
+    setOwner             : (e) => dispatch(filterActions.setFilterOwner(e)),
+    setIsRecent          : (e) => dispatch(filterActions.setFilterIsRecent(e)),
+    setIsStarred         : (e) => dispatch(filterActions.setFilterIsStarred(e)),
+  },
+});
 
 export default
 connect(mapStateToProps, mapDispatchToProps)(Content);

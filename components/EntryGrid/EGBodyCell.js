@@ -1,60 +1,22 @@
 import React from "react";
-import cellFactory from "../Utils/CellElementFactory";
+import { renderEGCell } from "../DisplayElems";
 import styles from "./EGBodyCell.less";
 
-// interface IEGBodyCellProps {
-//   col: IEGCol;
-//   colKey: string;
-//   colWidth: number;             // the object value from colWidths
-//   row: IEGRow;
-// }
+export const EGBodyCell = (props) => {
+  const { row, col, colKey, colWidth } = props;
 
-function formatCell(row, col, colKey) {
-  let value = undefined;
-  if (row[colKey]) {
-    if (col.formatter !== undefined) {
-      value = col.formatter(row[colKey].val);
-    } else {
-      value = row[colKey].val;
-    }
-  }
-  return value;
-}
+  const hoverStyle = {
+    boxSizing : "border-box",
+    display   : "inline-block",
+    width     : colWidth,
+  };
 
-class EGBodyCell extends React.Component {
-  constructor(props) {
-    super(props);
-    const factory = new cellFactory();
-    this.node = factory.getElement(props.col.renderType);
-  }
-
-  render() {
-    const hoverStyle = {
-      boxSizing : "border-box",
-      display   : "inline-block",
-      width     : this.props.colWidth,
-    };
-
-    return (
-      <div
-        className={styles.cell}
-        style={{ ...hoverStyle, ...this.props.col.colStyle }}
-      >
-        {
-          React.createElement(
-            this.node,
-            {
-              actions        : this.props.col.actions,
-              refFieldSource : this.props.col.refFieldSource,
-              refTableSource : this.props.col.refTableSource,
-              source         : this.props.col.source,
-              value          : formatCell(this.props.row, this.props.col, this.props.colKey),
-            }
-          )
-        }
-      </div>
-    );
-  }
-}
-
-export { EGBodyCell };
+  return (
+    <div
+      className={styles.cell}
+      style={{ ...hoverStyle, ...col.colStyle }}
+    >
+      {renderEGCell(col.renderType, row, col, colKey)}
+    </div>
+  );
+};

@@ -1,53 +1,66 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { EditorMenu, Sidebar, EG } from "components";
-import { loadEditor } from "../../../dataflow/editor/actions";
+import { Sidebar, EG } from "components";
+import { EditorMenu } from "./EditorMenu";
+import { TitleBar } from "./TitleBar";
+import {
+  loadEditor, editTemplate, errorTemplate, editRow as _editRow, deleteRow as _deleteRow
+} from "../../../dataflow/editor/actions";
 import { toggleMenuSidebar, clearMenuState } from "../../../dataflow/menu/actions";
 import styles from "./Editor.less";
 
 class Editor extends Component {
   constructor(props) {
     super(props);
+    this.editTemplateMetaHandler = this.editTemplateMetaHandler.bind(this);
+    this.editTemplateFieldsHandler = this.editTemplateFieldsHandler.bind(this);
     this.colSpec = {
       "action"         : {
         "headerStyle" : { borderLeft : 0 },
         "displayText" : "",
         "renderType"  : "action",
-        "actions"     : {},
+        "actions"     : [
+          { name : "Edit Row", handler : props.editRow },
+          { name : "Delete Row", handler : props.deleteRow },
+        ],
         "sortable"    : false,
         "insertable"  : false
       },
       "fieldName"      : {
+        "fieldKey"    : "fieldName",
         "displayText" : "Field Name",
         "renderType"  : "text"
       },
       "fieldReference" : {
+        "fieldKey"       : ["tableName", "colName"],
         "colStyle"       : { fontSize : 12 },
         "displayText"    : "Reference to field",
         "renderType"     : "reference",
         "refTableSource" : [
-          { "key" : 0, "val" : "XXX" },
-          { "key" : 1, "val" : "YYY" },
-          { "key" : 2, "val" : "ZZZ" }
+          { "id" : 0, "label" : "XXX" },
+          { "id" : 1, "label" : "YYY" },
+          { "id" : 2, "label" : "ZZZ" }
         ],
         "refFieldSource" : [
-          { "key" : 0, "val" : "aInXXX" },
-          { "key" : 1, "val" : "bInXXX" },
-          { "key" : 2, "val" : "cInXXX" }
+          { "id" : 0, "label" : "aInXXX" },
+          { "id" : 1, "label" : "bInXXX" },
+          { "id" : 2, "label" : "cInXXX" }
         ]
       },
       "fieldType"      : {
+        "fieldKey"    : "fieldType",
         "displayText" : "Field Type",
         "renderType"  : "list",
         "source"      : [
-          { "key" : 0, "val" : "Text" },
-          { "key" : 1, "val" : "Decimal" },
-          { "key" : 2, "val" : "Date" },
-          { "key" : 3, "val" : "Time" },
-          { "key" : 4, "val" : "ListMenu" }
+          { "id" : 0, "label" : "Text" },
+          { "id" : 1, "label" : "Decimal" },
+          { "id" : 2, "label" : "Date" },
+          { "id" : 3, "label" : "Time" },
+          { "id" : 4, "label" : "ListMenu" }
         ]
       },
       "fieldValue"     : {
+        "fieldKey"    : "fieldValue",
         "displayText" : "Field Value",
         "renderType"  : "text"
       },
@@ -66,6 +79,33 @@ class Editor extends Component {
     this.props.loadEditorTable(this.props.params);
   }
 
+  editTemplateMetaHandler(values) {
+    const { templateName, workBook } = values;
+
+    this.props.editTemplate({
+      id       : this.props.editor.data._id,
+      templateName,
+      workBook : workBook.id,
+    });
+  }
+
+  editTemplateFieldsHandler(field) {
+    const { _id, fields:oldFields } = this.props.editor.data;
+
+    const idx = oldFields.findIndex(f => f.fieldName === field.fieldName);
+    if (idx === -1) {
+      this.props.editTemplate({
+        id : _id,
+        fields : [
+          ...oldFields,
+          field,
+        ],
+      });
+    } else {
+      this.props.errorTemplate();
+    }
+  }
+
   render() {
     const { editor, contextMenu, toggleSidebar } = this.props;
 
@@ -73,6 +113,13 @@ class Editor extends Component {
       <div>
 
         {/* Title Menu */}
+        <TitleBar
+          store={editor}
+          className={styles.titleBar}
+          title={editor.data.templateName}
+          meta={{ createdAt : editor.data.createdAt, favorite : editor.data.favorite }}
+          editTemplate={this.editTemplateMetaHandler}
+        />
 
         {/* Contextual Menu */}
         <EditorMenu
@@ -98,6 +145,8 @@ class Editor extends Component {
             colWidths={this.colWidths}
             data={editor.data.fields}
             isLoading={editor.isLoading}
+            postHandler={this.editTemplateFieldsHandler}
+            initialValues={editor.postData}
           />
         </div>
       </div>
@@ -112,8 +161,12 @@ const mapStateToProps = state => ({
 
 const mapDisptachToProps = dispatch => ({
   toggleSidebar   : () => dispatch(toggleMenuSidebar()),
-  loadEditorTable : (params) => dispatch(loadEditor(params)),
+  loadEditorTable : params => dispatch(loadEditor(params)),
   clearMenuState  : () => dispatch(clearMenuState()),
+  editTemplate    : params => dispatch(editTemplate(params)),
+  errorTemplate   : params => dispatch(errorTemplate(params)),
+  editRow         : data => dispatch(_editRow(data)),
+  deleteRow       : id => dispatch(_deleteRow(id)),
 });
 
 export default connect(mapStateToProps, mapDisptachToProps)(Editor);

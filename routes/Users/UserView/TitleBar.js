@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import moment from "moment";
 import cx from "classnames";
-import { Modal, FavoriteCell } from "components";
-import EditUserForm from "../UserForm";
+import { Modal } from "components";
+import FontAwesome from "react-fontawesome";
 import styles from "./TitleBar.less";
 
 const MetaInfo = ({ children }) => <span className={styles.metaInfo}>{children}</span>;
@@ -26,27 +26,27 @@ export class TitleBar extends Component {
   }
 
   render() {
-    const { className, title, meta, store: editorData } = this.props;
+    const { className, title, meta } = this.props;
 
     return (
       <div className={cx(styles.base, className)}>
         <div className={styles.title}>
-          <FavoriteCell value={meta.favorite || false} inheritSize/>
+          <FontAwesome name="user"/>
           &nbsp;
           {title}
           <Modal
-            modalTitle="Edit Template"
+            modalTitle="Edit User's credentials"
             btnClassName={styles.editButton}
             faName="edit"
             show={this.state.showModal}
             toggleModal={this.toggleModal}
           >
-            <EditUserForm state={editorData} submitForm={() => {}} toggleModal={this.toggleModal}/>
+            <div>Nothing</div>
           </Modal>
         </div>
         <div className={styles.meta}>
           <span>Created At : <MetaInfo>{moment(meta.createdAt).format("Do MMM, YYYY")}</MetaInfo></span>
-          <span>Is a favorite : <MetaInfo>{meta.favorite ? "Yes" : "No"}</MetaInfo></span>
+          <span>Phone Number : <MetaInfo>{meta.phoneNumber}</MetaInfo></span>
         </div>
       </div>
     );
@@ -57,5 +57,4 @@ TitleBar.propTypes = {
   className : React.PropTypes.string,
   title     : React.PropTypes.string,
   meta      : React.PropTypes.object,
-  editTemplate : React.PropTypes.func,
 };

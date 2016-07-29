@@ -6,7 +6,7 @@ import * as userActions from "../../dataflow/user/actions";
 import * as cmActions from "../../dataflow/menu/actions";
 import * as filterActions from "../../dataflow/filter/actions";
 import { getRows } from "../utils";
-import styles from "../Content/Content.less";
+import styles from "./Users.less";
 
 class User extends Component {
   constructor(props) {
@@ -25,15 +25,15 @@ class User extends Component {
         renderType : "link",
         text       : "Display Name",
         linkRef    : {
-          path   : "/user",
-          urlKey : "username",
+          path   : "/user/edit",
+          urlKey : "id",
         },
       },
       {
         dataKey    : "phoneNumber",
         name       : "phone-number-col",
         text       : "Phone Number",
-        renderType : "number",
+        renderType : "text",
       },
     ];
     this.colWidths = {
@@ -41,11 +41,21 @@ class User extends Component {
       "name-col"         : 160,
       "phone-number-col" : 160,
     };
+
     this.colSortItems = this.getColumnSortList(props.sortColumn);
   }
 
   componentWillMount() {
-    this.props.loadUserList();
+    this.props.loadUser();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const userData = Object.keys(this.props.user.data);
+    const nextUserData = Object.keys(nextProps.user.data);
+
+    if (nextUserData.length !== userData.length) {
+      this.props.loadUser();
+    }
   }
 
   getColumnSortList(cb) {
@@ -101,20 +111,18 @@ class User extends Component {
     };
   }
 
-  render() {
-    const { user, filter, actionsMenu, rows } = this.props;
-    const sortOrderIndex = filter.sortAscending ? 0 : 1;
-    const sortKey = filter.sortKey ? this.colSortItems.displayText[filter.sortKey][sortOrderIndex] : null;
+  renderChildren() {
+    if (this.props.children) {
+      return this.props.children;
+    }
 
     const {
-      rollUp,
-      toggleSidebar,
-      selectAllRows,
-      clearRowSelection,
-      filterChangeHandlers,
-      sortColumn,
-      toggleRow,
+      user, filter, actionsMenu, rows, toggleSidebar, selectAllRows, clearRowSelection, filterChangeHandlers,
+      sortColumn, toggleRow, addNewUser, deleteUser,
     } = this.props;
+
+    const sortOrderIndex = filter.sortAscending ? 0 : 1;
+    const sortKey = filter.sortKey ? this.colSortItems.displayText[filter.sortKey][sortOrderIndex] : null;
 
     const searchConfig = [
       {
@@ -137,28 +145,20 @@ class User extends Component {
       },
     ];
 
-    // ListMenu Container
     return (
-      <div
-        className={styles.base}
-        style={{ top: rollUp ? 62 : 0 }}
-      >
-
-        {/* Breadcrumb */}
-        <Breadcrumb
-          className={styles.breadcrumb}
-        />
-
+      <div>
         {/* Contextual Menu */}
         <ContentMenu
           className={styles.contextMenu}
           toggleSidebar={toggleSidebar}
           actionsMenu={actionsMenu}
-          selectedKeys={user.selectedKeys}
           colSortItems={this.colSortItems.items}
+          keys={rows.map(row => row.id)}
           sortKey={sortKey}
           selectAllRows={selectAllRows}
           clearRowSelection={clearRowSelection}
+          addNewUser={addNewUser}
+          deleteUser={deleteUser}
         />
 
         <div>
@@ -183,9 +183,31 @@ class User extends Component {
             sortKey={filter.sortKey}
             sortAscending={filter.sortAscending}
             onRowClick={toggleRow}
-            selectedKeys={user.selectedKeys}
+            selectedKeys={actionsMenu.selectedKeys}
           />
         </div>
+      </div>
+    );
+  }
+
+  render() {
+    const { rollUp } = this.props;
+
+    // ListMenu Container
+    return (
+      <div
+        className={styles.base}
+        style={{ top: rollUp ? 62 : 0 }}
+      >
+
+        {/* Breadcrumb */}
+        <Breadcrumb
+          className={styles.breadcrumb}
+        />
+
+        {/* Children content of the route */}
+        {this.renderChildren()}
+
       </div>
     );
   }
@@ -205,16 +227,18 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   toggleSidebar        : () => dispatch(cmActions.toggleMenuSidebar()),
-  selectAllRows        : () => dispatch(userActions.selectAllUser()),
-  clearRowSelection    : () => dispatch(userActions.clearUserSelection()),
-  sortColumn           : (sortKey, sortOrder) => dispatch(filterActions.sortFilter(sortKey, sortOrder)),
-  toggleRow            : (index) => dispatch(userActions.toggleUser(index)),
-  loadUserList         : (params) => dispatch(userActions.loadUser(params)),
-  clearFilter          : () => dispatch(filterActions.clearFilterState()),
   clearMenu            : () => dispatch(cmActions.clearMenuState()),
+  selectAllRows        : (keys) => dispatch(cmActions.selectAll(keys)),
+  clearRowSelection    : () => dispatch(cmActions.clearSelection()),
+  toggleRow            : (index) => dispatch(cmActions.toggleSelection(index)),
+  sortColumn           : (sortKey, sortOrder) => dispatch(filterActions.sortFilter(sortKey, sortOrder)),
+  clearFilter          : () => dispatch(filterActions.clearFilterState()),
+  loadUser             : (params) => dispatch(userActions.loadUser(params)),
+  addNewUser           : (params) => dispatch(userActions.addNewUser(params)),
+  deleteUser           : (params) => dispatch(userActions.deleteUser(params)),
   filterChangeHandlers : {
-    setFilterUsername : (e) => dispatch(filterActions.setFilterUsername(e)),
-    setFilterHasRole : (e) => dispatch(filterActions.setFilterHasRole(e)),
+    setFilterUsername   : (e) => dispatch(filterActions.setFilterUsername(e)),
+    setFilterHasRole    : (e) => dispatch(filterActions.setFilterHasRole(e)),
     setFilterLastSignIn : (e) => dispatch(filterActions.setFilterLastSignIn(e)),
   },
 });

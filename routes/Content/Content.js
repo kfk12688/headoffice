@@ -79,7 +79,7 @@ class Content extends Component {
   }
 
   componentWillMount() {
-    this.props.loadContentList();
+    this.props.loadTemplate();
   }
 
   getColumnSortList(cb) {
@@ -141,9 +141,9 @@ class Content extends Component {
     }
 
     const {
-      list, actionsMenu, rows, toggleSidebar, selectAllRows,
-      clearRowSelection, sortColumn, toggleRow,
-      addNewTemplate, deleteTemplate
+      list, actionsMenu, rows, toggleSidebar, selectAll,
+      clearSelection, sortColumn, toggleSelection,
+      addTemplate, deleteTemplate
     } = this.props;
 
     const { filterChangeHandlers, filter } = this.props;
@@ -190,12 +190,12 @@ class Content extends Component {
           className={styles.contextMenu}
           toggleSidebar={toggleSidebar}
           actionsMenu={actionsMenu}
-          selectedKeys={list.selectedKeys}
           colSortItems={this.colSortItems.items}
+          keys={rows.map(row => row.id)}
           sortKey={sortKey}
-          selectAllRows={selectAllRows}
-          clearRowSelection={clearRowSelection}
-          addNewTemplate={addNewTemplate}
+          selectAllRows={selectAll}
+          clearRowSelection={clearSelection}
+          addNewTemplate={addTemplate}
           deleteTemplate={deleteTemplate}
         />
 
@@ -220,8 +220,8 @@ class Content extends Component {
             colSortFunction={sortColumn}
             sortKey={filter.sortKey}
             sortAscending={filter.sortAscending}
-            onRowClick={toggleRow}
-            selectedKeys={list.selectedKeys}
+            onRowClick={toggleSelection}
+            selectedKeys={actionsMenu.selectedKeys}
           />
         </div>
       </div>
@@ -264,13 +264,13 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   toggleSidebar        : () => dispatch(cmActions.toggleMenuSidebar()),
-  selectAllRows        : () => dispatch(contentActions.selectAllContent()),
-  clearRowSelection    : () => dispatch(contentActions.clearContentSelection()),
+  selectAll            : (keys) => dispatch(cmActions.selectAll(keys)),
+  clearSelection       : () => dispatch(cmActions.clearSelection()),
+  toggleSelection      : (index) => dispatch(cmActions.toggleSelection(index)),
   sortColumn           : (sortKey, sortOrder) => dispatch(filterActions.sortFilter(sortKey, sortOrder)),
-  toggleRow            : (index) => dispatch(contentActions.toggleContent(index)),
-  loadContentList      : (params) => dispatch(contentActions.loadTemplate(params)),
+  loadTemplate         : (params) => dispatch(contentActions.loadTemplate(params)),
   deleteTemplate       : (params) => dispatch(contentActions.deleteTemplate(params)),
-  addNewTemplate       : (params) => dispatch(contentActions.addTemplate(params)),
+  addTemplate          : (params) => dispatch(contentActions.addTemplate(params)),
   filterChangeHandlers : {
     setDateModifiedStart : (e) => dispatch(filterActions.setFilterDtModStart(e)),
     setDateModifiedEnd   : (e) => dispatch(filterActions.setFilterDtModEnd(e)),

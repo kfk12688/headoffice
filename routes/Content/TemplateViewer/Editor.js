@@ -79,6 +79,33 @@ class Editor extends Component {
     this.props.loadEditorTable(this.props.params);
   }
 
+  editTemplateMetaHandler(values) {
+    const { templateName, workBook } = values;
+
+    this.props.editTemplate({
+      id       : this.props.editor.data._id,
+      templateName,
+      workBook : workBook.id,
+    });
+  }
+
+  editTemplateFieldsHandler(field) {
+    const { _id, fields:oldFields } = this.props.editor.data;
+
+    const idx = oldFields.findIndex(f => f.fieldName === field.fieldName);
+    if (idx === -1) {
+      this.props.editTemplate({
+        id : _id,
+        fields : [
+          ...oldFields,
+          field,
+        ],
+      });
+    } else {
+      this.props.errorTemplate();
+    }
+  }
+
   render() {
     const { editor, contextMenu, toggleSidebar } = this.props;
 
@@ -90,7 +117,6 @@ class Editor extends Component {
           store={editor}
           className={styles.titleBar}
           title={editor.data.templateName}
-          meta={{ createdAt : editor.data.createdAt, favorite : editor.data.favorite }}
           editTemplate={this.editTemplateMetaHandler}
         />
 

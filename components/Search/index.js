@@ -90,7 +90,7 @@ class Search extends Component {
 
 Search.propTypes = {
   className : React.PropTypes.string,
-  config    : React.PropTypes.number,
+  config    : React.PropTypes.array,
 };
 
 export { Search };

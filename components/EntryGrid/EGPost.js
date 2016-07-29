@@ -4,11 +4,6 @@ import cx from "classnames";
 import styles from "./EGPost.less";
 
 class EGPost extends React.Component {
-  constructor() {
-    super();
-    this.state = { entryState : "insert" };
-  }
-
   getFormFields(cols) {
     const fields = [];
     for (const k in cols) {
@@ -50,31 +45,25 @@ class EGPost extends React.Component {
   }
 
   render() {
-    const { cols, postHandler, initialValues } = this.props;
+    const { cols, postHandler, initialValues, entryState } = this.props;
 
     return (
       <div className={styles.post}>
         <div className={styles.postTab}>
           <span
-            className={cx(styles.addTab, { [styles.selected]: this.state.entryState === "insert" })}
-            onClick={() => this.setState({ entryState: "insert" })}
+            className={cx(styles.postHeading, { [styles.selected]: entryState })}
           >
-            Add New Row
-          </span>
-          <span
-            className={cx(styles.editTab, { [styles.selected]: this.state.entryState === "edit" })}
-            onClick={() => this.setState({ entryState: "edit" })}
-          >
-            Edit Row
+            {entryState ? "Add new data" : "Edit highlighted data"}
           </span>
         </div>
+
         <EditorEntryForm
-          state={this.state.entryState}
           cols={cols}
           fields={this.getFormFields(cols)}
           postHandler={postHandler}
           initialValues={this.getInitialValues()}
         />
+
       </div>
     );
   }

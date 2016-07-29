@@ -65,7 +65,6 @@ class CreateTemplateForm extends Component {
         <div className={styles.formElement}>
           <div className={styles.formElementTitle}>Workbook</div>
           <WorkbookSelect
-            className={styles.formElementInput}
             {...workBook}
             value={workBook.value || ""}
           />

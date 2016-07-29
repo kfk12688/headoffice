@@ -1,14 +1,15 @@
 @import "../../../styles/colors";
+@import "./Editor";
 
 .base {
-  height: 60px;
+  height: @titleBarHt;
   padding: 0px 15px;
   background-color: @grey50;
   border-bottom: 1px solid @grey300;
 }
 
 .title {
-  line-height: 35px;
+  padding: 5px 0;
   color: @grey700;
   font-size: 19px;
 }
@@ -21,8 +22,18 @@
   }
 }
 
+.owner {
+  font-size: 15px;
+  padding: 3px 0;
+  color: @grey700;
+  &Span {
+    color: @grey400;
+  }
+}
+
 .metaInfo {
   color: @grey600 !important;
+  padding: 2px 0;
 }
 
 .editButton {

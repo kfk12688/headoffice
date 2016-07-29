@@ -1,5 +1,10 @@
 @import "../../styles/colors";
 
+.selected {
+  color: @red400;
+  cursor: pointer;
+}
+
 .post {
   font-size: 13px;
   padding: 4px;
@@ -7,50 +12,20 @@
   border: 1px solid @grey300;
   background-color: @white;
   border-radius: 2px;
-  width: 70%;
-}
-
-.postTab {
-  margin-bottom: 10px;
-  padding-bottom: 4px;
-  display: inline-flex;
-  width: 100%;
-  border-bottom: 1px solid @grey300;
-  color: @grey500;
-}
-
-.postSubmit {
-  border-top: 1px solid @grey500;
-  text-align: right;
-  margin-top: 15px;
-  margin-bottom: 10px;
-  margin-left: 5px;
-  margin-right: 5px;
-  padding-top: 10px;
-}
-
-.addTab {
-  line-height: 25px;
-  width: 50%;
-  text-align: center;
-  &:hover {
-    color: @grey900;
-    cursor: pointer;
+  width: 40%;
+  &Tab {
+    margin-bottom: 4px;
+    padding: 3px 7px;
+    display: inline-flex;
+    width: 100%;
+    border-bottom: 1px solid @grey300;
+    color: @grey500;
   }
-}
-
-.selected {
-  color: @red400;
-  cursor: pointer;
-}
-
-.editTab {
-  border-left: 1px solid @grey300;
-  line-height: 25px;
-  width: 50%;
-  text-align: center;
-  &:hover {
-    color: @grey900;
-    cursor: pointer;
+  &Heading {
+    text-align: left;
+    &:hover {
+      color: @red400;
+      cursor: pointer;
+    }
   }
 }

@@ -5,7 +5,9 @@ import * as api from "./api";
 import { clearFilterState } from "../filter/actions";
 import { clearMenuState } from "../menu/actions";
 
-// Async Actions
+/**
+ * Load all the existing templates in the DB
+ */
 function _loadTemplate() {
   return {
     [CALL_API] : {
@@ -15,7 +17,7 @@ function _loadTemplate() {
   };
 }
 
-export function loadTemplate(params) {
+export function loadTemplate() {
   return (dispatch) => {
     dispatch(clearFilterState());
     dispatch(clearMenuState());
@@ -25,9 +27,6 @@ export function loadTemplate(params) {
 
 /**
  * Create a new table template
- * @param params
- * @returns {{}}
- * @private
  */
 function _addTemplate(params) {
   return {
@@ -70,13 +69,6 @@ export function deleteTemplate(params) {
       promise = dispatch(_deleteTemplate(params));
     }
 
-    promise.then(dispatch(_loadTemplate(params)));
+    promise.then(dispatch(loadTemplate()));
   };
 }
-
-// Sync Actions
-const toggleContent = createAction(type.TOGGLE_CONTENT, key => ({ key }));
-const selectAllContent = createAction(type.SELECT_ALL_CONTENT);
-const clearContentSelection = createAction(type.CLEAR_CONTENT_SELECTION);
-
-export { toggleContent, selectAllContent, clearContentSelection };

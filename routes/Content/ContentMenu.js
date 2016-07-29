@@ -10,10 +10,11 @@ class ContentMenu extends Component {
     this.state = { showModal : false };
     this.toggleModal = this.toggleModal.bind(this);
     this.deleteTemplatesAction = this.deleteTemplatesAction.bind(this);
+    this.selectAllHandler = this.selectAllHandler.bind(this);
   }
 
   getActions() {
-    const { selectedKeys, deleteTemplate } = this.props;
+    const { actionsMenu : { selectedKeys } } = this.props;
 
     let actionsMenuContent = null;
     if (selectedKeys.length !== 0) {
@@ -42,8 +43,17 @@ class ContentMenu extends Component {
   }
 
   deleteTemplatesAction() {
-    const { deleteTemplate, selectedKeys } = this.props;
-    selectedKeys.map(key => deleteTemplate({ id : key }));
+    const { deleteTemplate, actionsMenu: {selectedKeys} } = this.props;
+
+    if (selectedKeys.length > 1) {
+      deleteTemplate({ id : selectedKeys });
+    } else {
+      deleteTemplate({ id : selectedKeys[0] });
+    }
+  }
+
+  selectAllHandler() {
+    this.props.selectAllRows(this.props.keys);
   }
 
   render() {
@@ -51,10 +61,8 @@ class ContentMenu extends Component {
       className,
       toggleSidebar,
       colSortItems,
-      selectedKeys,
       sortKey,
       actionsMenu,
-      selectAllRows,
       clearRowSelection,
       addNewTemplate,
     } = this.props;
@@ -81,8 +89,8 @@ class ContentMenu extends Component {
             <CreateTemplateForm submitForm={addNewTemplate} toggleModal={this.toggleModal}/>
           </Modal>
 
-          <PopupButton label={`${selectedKeys.length} selected`}>
-            <div onClick={selectAllRows}>Select All</div>
+          <PopupButton label={`${actionsMenu.selectedKeys.length} selected`}>
+            <div onClick={this.selectAllHandler}>Select All</div>
             <div onClick={clearRowSelection}>Clear selection</div>
           </PopupButton>
         </span>

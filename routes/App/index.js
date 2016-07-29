@@ -1,6 +1,6 @@
 import App from "./App";
 import contentRoute from "../Content";
-import userRoute from "../User";
+import userRoute from "../Users";
 
 const RootRoute = {
   path        : "/",

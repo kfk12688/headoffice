@@ -9,10 +9,12 @@ class ContentMenu extends Component {
     super(props);
     this.state = { showModal : false };
     this.toggleModal = this.toggleModal.bind(this);
+    this.deleteUsersAction = this.deleteUsersAction.bind(this);
+    this.selectAllHandler = this.selectAllHandler.bind(this);
   }
 
   getActions() {
-    const { selectedKeys } = this.props;
+    const { actionsMenu : { selectedKeys } } = this.props;
     let actionsMenuContent = null;
 
     if (selectedKeys.length !== 0) {
@@ -20,13 +22,13 @@ class ContentMenu extends Component {
         <span>
           <Divider vertical size={{ h: 24, w: 1 }} style={{ marginRight: 5 }}/>
           <PopupButton label="Actions">
-            <div>Edit User</div>
+            <div onClick={this.deleteUsersAction}>Delete User</div>
           </PopupButton>
         </span>
       );
     }
 
-    return null;
+    return actionsMenuContent;
   }
 
   toggleModal() {
@@ -37,16 +39,29 @@ class ContentMenu extends Component {
     }
   }
 
+  deleteUsersAction() {
+    const { deleteUser, actionsMenu : { selectedKeys } } = this.props;
+
+    if (selectedKeys.length > 1) {
+      deleteUser({ id : selectedKeys });
+    } else {
+      deleteUser({ id : selectedKeys[0] });
+    }
+  }
+
+  selectAllHandler() {
+    this.props.selectAllRows(this.props.keys);
+  }
+
   render() {
     const {
       className,
       toggleSidebar,
       colSortItems,
-      selectedKeys,
       sortKey,
       actionsMenu,
-      selectAllRows,
       clearRowSelection,
+      addNewUser,
     } = this.props;
 
     return (
@@ -67,10 +82,10 @@ class ContentMenu extends Component {
               faName="plus"
               accent
             >
-              <UserForm submitForm={() => {}} toggleModal={this.toggleModal}/>
+              <UserForm submitForm={addNewUser} toggleModal={this.toggleModal}/>
             </Modal>
-            <PopupButton label={`${selectedKeys.length} selected`}>
-              <div onClick={selectAllRows}>Select All</div>
+            <PopupButton label={`${actionsMenu.selectedKeys.length} selected`}>
+              <div onClick={this.selectAllHandler}>Select All</div>
               <div onClick={clearRowSelection}>Clear selection</div>
             </PopupButton>
           </span>

@@ -1,8 +1,7 @@
-/**
- * Created by sharavan on 15/06/16.
- */
 import { handleActions } from "redux-actions";
 import * as t from "./types";
+
+const initialState = {};
 
 const reducer = handleActions({
   [t.SORT_FILTER]            : (state, action) => ({
@@ -10,6 +9,10 @@ const reducer = handleActions({
     sortKey       : action.payload.sortKey,
     sortAscending : (action.payload.sortOrder === "asc"),
   }),
+
+  /**
+   * Content Filter Reducer
+   */
   [t.SET_FILTER_DTMOD_START] : (state, action) => ({
     ...state,
     dateModifiedStart : action.payload.date,
@@ -28,9 +31,29 @@ const reducer = handleActions({
   }),
   [t.SET_FILTER_OWNER]       : (state, action) => ({
     ...state,
-    isRecent : action.payload.owner,
+    owner : action.payload.owner,
   }),
-  [t.CLEAR_FILTER_STATE]     : () => ({}),
-}, {});
+
+  /**
+   * User Filter Reducer
+   */
+  [t.SET_FILTER_USERNAME]         : (state, action) => ({
+    ...state,
+    username : action.payload.username,
+  }),
+  [t.SET_FILTER_LAST_SIGN_IN] : (state, action) => ({
+    ...state,
+    lastSignIn : action.payload.lastSignIn,
+  }),
+  [t.SET_FILTER_HAS_ROLE]     : (state, action) => ({
+    ...state,
+    hasRole : action.payload.hasRole,
+  }),
+
+  /**
+   * Reducer to clear the entire filter store
+   */
+  [t.CLEAR_FILTER_STATE] : () => initialState,
+}, initialState);
 
 export default reducer;

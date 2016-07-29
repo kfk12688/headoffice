@@ -116,6 +116,27 @@ class User extends Component {
       toggleRow,
     } = this.props;
 
+    const searchConfig = [
+      {
+        label         : "User",
+        data          : filter.username,
+        changeHandler : filterChangeHandlers.setFilterUsername,
+        type          : "searchbox",
+      },
+      {
+        label         : "Has role",
+        data          : filter.hasRole,
+        changeHandler : filterChangeHandlers.setFilterHasRole,
+        type          : "searchbox",
+      },
+      {
+        label         : "Last login on or after",
+        data          : filter.lastSignIn,
+        changeHandler : filterChangeHandlers.setFilterLastSignIn,
+        type          : "datebox",
+      },
+    ];
+
     // ListMenu Container
     return (
       <div
@@ -146,8 +167,7 @@ class User extends Component {
             actionsMenu.showSidebar &&
             <Search
               className={styles.search}
-              filterData={filter}
-              changeHandlers={filterChangeHandlers}
+              config={searchConfig}
             />
           }
 
@@ -172,9 +192,8 @@ class User extends Component {
 }
 
 const filterBindings = {
-  dateFilter     : "lastSignIn",
-  recentFilter   : "lastSignIn",
-  favoriteFilter : "isFavorite",
+  textFilter : ["username", "hasRole"],
+  dateFilter : "lastSignIn",
 };
 
 const mapStateToProps = (state) => ({
@@ -194,7 +213,9 @@ const mapDispatchToProps = (dispatch) => ({
   clearFilter          : () => dispatch(filterActions.clearFilterState()),
   clearMenu            : () => dispatch(cmActions.clearMenuState()),
   filterChangeHandlers : {
-    setUser             : (e) => dispatch(filterActions.setFilterUser(e)),
+    setFilterUsername : (e) => dispatch(filterActions.setFilterUsername(e)),
+    setFilterHasRole : (e) => dispatch(filterActions.setFilterHasRole(e)),
+    setFilterLastSignIn : (e) => dispatch(filterActions.setFilterLastSignIn(e)),
   },
 });
 

@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { reduxForm } from "redux-form";
-import FontAwesome from "react-fontawesome";
 import { TextBox } from "./TextBox";
 import { ListBox } from "./ListBox";
-import { RefBox } from "./RefBox";
 import { DateBox } from "./DateBox";
+import { RefBox } from "./RefBox";
 import { FormButton } from "../Button";
 import styles from "./common.less";
+import reduxForm from "../../lib/FormWrapper";
+// import {reduxForm} from "redux-form";
 
 function getForm(cols, fields) {
   function getInputElement(type, col, field) {
@@ -75,32 +75,25 @@ function getForm(cols, fields) {
 class EditorEntryForm extends Component {
   constructor(props) {
     super(props);
-    this.onSubmit = this.onSubmit.bind(this);
-    this.resetForm = this.resetForm.bind(this);
+    this.submitForm = this.submitForm.bind(this);
   }
 
-  onSubmit(e) {
+  submitForm(e) {
     e.preventDefault();
-    this.props.postHandler(this.props.values);
-  }
-
-  resetForm(e) {
-    e.preventDefault();
-    this.props.resetForm();
+    this.props.submitForm(this.props.values);
   }
 
   render() {
-    const { cols, fields, submitting } = this.props;
+    const { cols, fields, resetForm } = this.props;
 
     return (
-      <form onSubmit={this.onSubmit}>
+      <form onSubmit={this.submitForm}>
+
         {getForm(cols, fields)}
+
         <div className={styles.formSubmitGroup}>
-          <FormButton accent type="submit" disabled={submitting}>
-            {submitting && <FontAwesome name="spinner" spin/>}
-            Add
-          </FormButton>
-          <FormButton onClick={this.resetForm}>Cancel</FormButton>
+          <FormButton accent type="submit">Add</FormButton>
+          <FormButton onClick={resetForm}>Cancel</FormButton>
         </div>
       </form>
     );
@@ -108,16 +101,11 @@ class EditorEntryForm extends Component {
 }
 
 EditorEntryForm.propTypes = {
-  fields        : React.PropTypes.object.isRequired,
-  cols          : React.PropTypes.object.isRequired,
-  resetForm     : React.PropTypes.func.isRequired,
-  values        : React.PropTypes.object,
-  state         : React.PropTypes.string,
-  load          : React.PropTypes.func,
-  submitting    : React.PropTypes.bool,
-  initialValues : React.PropTypes.object,
+  fields     : React.PropTypes.object.isRequired,
+  cols       : React.PropTypes.object.isRequired,
+  values     : React.PropTypes.object.isRequired,
+  submitForm : React.PropTypes.func,
+  resetForm  : React.PropTypes.func,
 };
 
-export default reduxForm({
-  form : "editorEntryForm",
-})(EditorEntryForm);
+export default reduxForm()(EditorEntryForm);

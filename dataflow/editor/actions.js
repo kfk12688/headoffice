@@ -1,44 +1,42 @@
 import { createAction } from "redux-actions";
 import { CALL_API } from "../middleware/callAPI";
-import * as t from "./types";
-import { getTemplateForEdit, modifyTemplate } from "./api";
+import {
+  EDITOR_REQUEST, EDITOR_SUCCESS, EDITOR_FAILURE, EDIT, DELETE, ERROR, EDIT_FAILURE, EDIT_REQUEST, EDIT_SUCCESS
+} from "./types";
+import * as api from "./api";
 
 // Async Actions
-function fetchTemplate(params) {
+function _getTemplate(params) {
   return {
     [CALL_API] : {
-      types    : [t.EDITOR_REQUEST, t.EDITOR_SUCCESS, t.EDITOR_FAILURE],
-      callback : getTemplateForEdit(params),
+      types    : [EDITOR_REQUEST, EDITOR_SUCCESS, EDITOR_FAILURE],
+      callback : api.getTemplate(params),
     },
   };
 }
 
-export function loadEditor(params) {
-  return (dispatch) =>
-    dispatch(fetchTemplate(params));
-}
+export const loadEditor = params => (dispatch) =>
+  dispatch(_getTemplate(params));
 
-function pushTemplate(params) {
+function _updateTemplate(params) {
   return {
     [CALL_API] : {
-      types    : [t.TEMPLATE_EDIT_REQUEST, t.TEMPLATE_EDIT_SUCCESS, t.TEMPLATE_EDIT_FAILURE],
-      callback : modifyTemplate(params),
+      types    : [EDIT_REQUEST, EDIT_SUCCESS, EDIT_FAILURE],
+      callback : api.updateTemplate(params),
     },
   };
 }
 
-export function editTemplate(params) {
-  return (dispatch) =>
-    dispatch(pushTemplate(params))
-      .then(dispatch(fetchTemplate(params)));
-}
+export const editTemplate = params => (dispatch) =>
+  dispatch(_updateTemplate(params))
+    .then(dispatch(loadEditor(params)));
 
-export const errorTemplate = createAction(t.TEMPLATE_DUPLICATE_ERROR);
-
-export const editRow = createAction(t.TEMPLATE_EDIT_ROW, data => ({
-  data,
+export const editRow = createAction(EDIT, row => ({
+  row,
 }));
 
-export const deleteRow = createAction(t.TEMPLATE_DELETE_ROW, data => ({
+export const deleteRow = createAction(DELETE, data => ({
   id : "testid",
 }));
+
+export const error = createAction(ERROR);

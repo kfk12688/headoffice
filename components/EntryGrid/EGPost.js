@@ -1,9 +1,17 @@
 import React from "react";
 import EditorEntryForm from "../InputElems";
-import cx from "classnames";
 import styles from "./EGPost.less";
 
+const ADD_NEW_ENTRY = true;
+const EDIT_EXISTING_ENTRY = false;
+
 class EGPost extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { entryState : ADD_NEW_ENTRY };
+    this.getInitialValues = this.getInitialValues.bind(this);
+  }
+
   getFormFields(cols) {
     const fields = [];
     for (const k in cols) {
@@ -26,42 +34,30 @@ class EGPost extends React.Component {
     return fields;
   }
 
-  getInitialValues() {
-    const { initialValues, cols } = this.props;
-
-    if (!(initialValues.fields)) {
-      const formFields = this.getFormFields(cols);
-
-      const fields = {};
-      for (let i = 0; i < formFields.length; i++) {
-        const fieldName = formFields[i];
-        fields[fieldName] = {
-          val : null,
-        };
-      }
-      return fields;
-    }
-    return initialValues.fields;
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.postData.rowId !== undefined) {
+  //     this.setState({ entryState : EDIT_EXISTING_ENTRY });
+  //   } else {
+  //     this.setState({ entryState : ADD_NEW_ENTRY });
+  //   }
+  // }
 
   render() {
-    const { cols, postHandler, initialValues, entryState } = this.props;
+    const { cols, postHandler, postData } = this.props;
 
     return (
       <div className={styles.post}>
         <div className={styles.postTab}>
-          <span
-            className={cx(styles.postHeading, { [styles.selected]: entryState })}
-          >
-            {entryState ? "Add new data" : "Edit highlighted data"}
+          <span className={styles.postHeading}>
+            {this.state.entryState ? "Add new data" : "Edit highlighted data"}
           </span>
         </div>
 
         <EditorEntryForm
           cols={cols}
           fields={this.getFormFields(cols)}
-          postHandler={postHandler}
-          initialValues={this.getInitialValues()}
+          submitForm={postHandler}
+          values={postData}
         />
 
       </div>

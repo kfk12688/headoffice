@@ -2,8 +2,8 @@ import React from "react";
 import styles from "./common.less";
 
 export const DateBox = ({ title, field }) => {
-  const { onChange, onBlur, value, ...rest } = field;
-  const parse = event => ({ val : event.target.value });
+  // const { onChange, onBlur, value, ...rest } = field;
+  // const parse = event => ({ val : event.target.value });
 
   return (
     <div className={styles.datebox}>
@@ -11,10 +11,7 @@ export const DateBox = ({ title, field }) => {
       <input
         type="date"
         className={styles.dateboxInput}
-        onChange={e => onChange(parse(e))}
-        onBlur={e => onBlur(parse(e))}
-        value={value.val || ""}
-        {...rest}
+        {...field}
       />
     </div>
   );

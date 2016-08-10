@@ -3,9 +3,7 @@ import { connect } from "react-redux";
 import { Sidebar, EG } from "components";
 import { EditorMenu } from "./EditorMenu";
 import { TitleBar } from "./TitleBar";
-import {
-  loadEditor, editTemplate, errorTemplate, editRow as _editRow, deleteRow as _deleteRow
-} from "../../../dataflow/editor/actions";
+import { loadEditor, editTemplate, errorTemplate, editRow, deleteRow } from "../../../dataflow/editor/actions";
 import { toggleMenuSidebar, clearMenuState } from "../../../dataflow/menu/actions";
 import styles from "./Editor.less";
 
@@ -24,12 +22,12 @@ class Editor extends Component {
           { name : "Delete Row", handler : props.deleteRow },
         ],
         "sortable"    : false,
-        "insertable"  : false
+        "insertable"  : false,
       },
       "fieldName"      : {
         "fieldKey"    : "fieldName",
         "displayText" : "Field Name",
-        "renderType"  : "text"
+        "renderType"  : "text",
       },
       "fieldReference" : {
         "fieldKey"       : ["tableName", "colName"],
@@ -39,13 +37,13 @@ class Editor extends Component {
         "refTableSource" : [
           { "id" : 0, "label" : "XXX" },
           { "id" : 1, "label" : "YYY" },
-          { "id" : 2, "label" : "ZZZ" }
+          { "id" : 2, "label" : "ZZZ" },
         ],
         "refFieldSource" : [
           { "id" : 0, "label" : "aInXXX" },
           { "id" : 1, "label" : "bInXXX" },
-          { "id" : 2, "label" : "cInXXX" }
-        ]
+          { "id" : 2, "label" : "cInXXX" },
+        ],
       },
       "fieldType"      : {
         "fieldKey"    : "fieldType",
@@ -56,13 +54,13 @@ class Editor extends Component {
           { "id" : 1, "label" : "Decimal" },
           { "id" : 2, "label" : "Date" },
           { "id" : 3, "label" : "Time" },
-          { "id" : 4, "label" : "ListMenu" }
-        ]
+          { "id" : 4, "label" : "ListMenu" },
+        ],
       },
       "fieldValue"     : {
         "fieldKey"    : "fieldValue",
         "displayText" : "Field Value",
-        "renderType"  : "text"
+        "renderType"  : "text",
       },
     };
     this.colWidths = {
@@ -95,7 +93,7 @@ class Editor extends Component {
     const idx = oldFields.findIndex(f => f.fieldName === field.fieldName);
     if (idx === -1) {
       this.props.editTemplate({
-        id : _id,
+        id     : _id,
         fields : [
           ...oldFields,
           field,
@@ -145,13 +143,31 @@ class Editor extends Component {
             data={editor.data.fields}
             isLoading={editor.isLoading}
             postHandler={this.editTemplateFieldsHandler}
-            initialValues={editor.postData}
+            postData={editor.postData}
           />
         </div>
       </div>
     );
   }
 }
+
+Editor.propTypes = {
+  // route
+  params : React.PropTypes.object,
+
+  // state
+  editor      : React.PropTypes.object.isRequired,
+  contextMenu : React.PropTypes.object.isRequired,
+
+  // actions
+  toggleSidebar   : React.PropTypes.func.isRequired,
+  loadEditorTable : React.PropTypes.func.isRequired,
+  clearMenuState  : React.PropTypes.func.isRequired,
+  editTemplate    : React.PropTypes.func.isRequired,
+  errorTemplate   : React.PropTypes.func.isRequired,
+  editRow         : React.PropTypes.func.isRequired,
+  deleteRow       : React.PropTypes.func.isRequired,
+};
 
 const mapStateToProps = state => ({
   editor      : state.editor,
@@ -164,8 +180,8 @@ const mapDisptachToProps = dispatch => ({
   clearMenuState  : () => dispatch(clearMenuState()),
   editTemplate    : params => dispatch(editTemplate(params)),
   errorTemplate   : params => dispatch(errorTemplate(params)),
-  editRow         : data => dispatch(_editRow(data)),
-  deleteRow       : id => dispatch(_deleteRow(id)),
+  editRow         : row => dispatch(editRow(row)),
+  deleteRow       : row => dispatch(deleteRow(row)),
 });
 
 export default connect(mapStateToProps, mapDisptachToProps)(Editor);

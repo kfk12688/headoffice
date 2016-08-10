@@ -1,4 +1,3 @@
-import { createAction } from "redux-actions";
 import { CALL_API } from "../middleware/callAPI";
 import * as type from "./types";
 import * as api from "./api";

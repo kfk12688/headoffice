@@ -1,23 +1,11 @@
 import React, { Component } from "react";
 import { FormButton } from "components";
-import Select from "react-select";
 import "../../styles/Select.css";
-import { searchWorkbook } from "../../dataflow/workbooks/api";
+import cx from "classnames";
 import reduxForm from "../../lib/FormWrapper";
-import styles from "./TemplateForm.less";
+import styles from "./NewWorkbookForm.less";
 
-const WorkbookSelect = ({ value, onChange, className }) =>
-  <Select.Async
-    className={className}
-    onChange={onChange}
-    value={value}
-    valueKey="id"
-    fieldKey="label"
-    loadOptions={searchWorkbook}
-  />;
-
-// FORM COMPONENT FOR Creating a new template
-class CreateTemplateForm extends Component {
+class CreateUserForm extends Component {
   constructor() {
     super();
     this.onSubmit = this.onSubmit.bind(this);
@@ -25,15 +13,12 @@ class CreateTemplateForm extends Component {
   }
 
   onSubmit(e) {
-    const { values, state } = this.props;
-    const { templateName, workBook } = values;
-    const data = (state && ("data" in state)) ? state.data : null;
+    const { workbookName, users } = this.props.values;
 
     e.preventDefault();
     this.props.submitForm({
-      templateName,
-      workBook : workBook.id,
-      fields   : (data && data.fields) || [],
+      name : workbookName,
+      // users : users,
     });
     this.props.toggleModal();
   }
@@ -45,26 +30,37 @@ class CreateTemplateForm extends Component {
   }
 
   render() {
-    const { fields : { templateName, workBook } } = this.props;
+    const { fields : { workbookName, users } } = this.props;
 
     return (
       <form onSubmit={this.onSubmit}>
         <div className={styles.formElement}>
-          <div className={styles.formElementTitle}>Enter the name of the template:</div>
+          <div className={styles.formElementTitle}>Enter the name of the workbook/collection:</div>
           <div>
             <input
               className={styles.formElementInput}
               type="text"
-              {...templateName}
+              {...workbookName}
             />
           </div>
         </div>
 
         <div className={styles.formElement}>
-          <div className={styles.formElementTitle}>Workbook</div>
-          <WorkbookSelect
-            {...workBook}
-          />
+          <div className={styles.formElementTitle}>Select the users who will have access to the workbook/collection:
+          </div>
+          <div>
+            <select
+              className={cx(styles.formElementInput, styles.selectElement)}
+              {...users}
+              value={users.value || ""}
+            >
+              <option value=""></option>
+              <option value="SuperAdmin">SuperAdmin</option>
+              <option value="Admin">Admin</option>
+              <option value="Manager">Manager</option>
+              <option value="Technician">Technician</option>
+            </select>
+          </div>
         </div>
 
         <div className={styles.addContentBtnGroup}>
@@ -76,7 +72,7 @@ class CreateTemplateForm extends Component {
   }
 }
 
-CreateTemplateForm.propTypes = {
+CreateUserForm.propTypes = {
   fields      : React.PropTypes.object.isRequired,
   submitForm  : React.PropTypes.func.isRequired,
   resetForm   : React.PropTypes.func.isRequired,
@@ -86,5 +82,5 @@ CreateTemplateForm.propTypes = {
 };
 
 export default reduxForm({
-  fields : ["templateName", "workBook"],
-})(CreateTemplateForm);
+  fields : ["workbookName", "users"],
+})(CreateUserForm);

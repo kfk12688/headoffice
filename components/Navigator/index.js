@@ -24,7 +24,7 @@ const Navigator = () =>
         <Tab><NavLink to="/content">Content</NavLink></Tab>
         <Tab><NavLink to="/view">View</NavLink></Tab>
         <Tab><NavLink to="/user">Users</NavLink></Tab>
-        <Tab><NavLink to="/group">Groups</NavLink></Tab>
+        <Tab><NavLink to="/workbooks">Workbooks</NavLink></Tab>
       </TabGroup>
     </div>
   </div>;

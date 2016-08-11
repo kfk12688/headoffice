@@ -6,7 +6,6 @@ import { RefBox } from "./RefBox";
 import { FormButton } from "../Button";
 import styles from "./common.less";
 import reduxForm from "../../lib/FormWrapper";
-// import {reduxForm} from "redux-form";
 
 function getForm(cols, fields) {
   function getInputElement(type, col, field) {
@@ -76,6 +75,7 @@ class EditorEntryForm extends Component {
   constructor(props) {
     super(props);
     this.submitForm = this.submitForm.bind(this);
+    this.resetForm = this.resetForm.bind(this);
   }
 
   submitForm(e) {
@@ -83,8 +83,14 @@ class EditorEntryForm extends Component {
     this.props.submitForm(this.props.values);
   }
 
+  resetForm(e) {
+    e.preventDefault();
+    this.props.clearEditFlag();
+    this.props.resetForm();
+  }
+
   render() {
-    const { cols, fields, resetForm } = this.props;
+    const { cols, fields } = this.props;
 
     return (
       <form onSubmit={this.submitForm}>
@@ -93,7 +99,7 @@ class EditorEntryForm extends Component {
 
         <div className={styles.formSubmitGroup}>
           <FormButton accent type="submit">Add</FormButton>
-          <FormButton onClick={resetForm}>Cancel</FormButton>
+          <FormButton onClick={this.resetForm}>Cancel</FormButton>
         </div>
       </form>
     );
@@ -101,11 +107,12 @@ class EditorEntryForm extends Component {
 }
 
 EditorEntryForm.propTypes = {
-  fields     : React.PropTypes.object.isRequired,
-  cols       : React.PropTypes.object.isRequired,
-  values     : React.PropTypes.object.isRequired,
-  submitForm : React.PropTypes.func,
-  resetForm  : React.PropTypes.func,
+  fields        : React.PropTypes.object.isRequired,
+  cols          : React.PropTypes.object.isRequired,
+  values        : React.PropTypes.object.isRequired,
+  submitForm    : React.PropTypes.func,
+  resetForm     : React.PropTypes.func,
+  clearEditFlag : React.PropTypes.func,
 };
 
 export default reduxForm()(EditorEntryForm);

@@ -1,6 +1,7 @@
 import React from "react";
 import { EGBodyCell } from "./EGBodyCell";
 import styles from "./EGBodyRow.less";
+import cx from "classnames";
 
 class EGBodyRow extends React.Component {
   constructor() {
@@ -19,7 +20,7 @@ class EGBodyRow extends React.Component {
   }
 
   render() {
-    const { row, cols, colWidths } = this.props;
+    const { row, cols, colWidths, isSelected } = this.props;
     let bodyCells = [];
 
     for (const colKey in cols) {
@@ -39,7 +40,7 @@ class EGBodyRow extends React.Component {
 
     return (
       <div
-        className={styles.row}
+        className={cx(styles.row, { [styles.rowIsSelected] : isSelected })}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
       >

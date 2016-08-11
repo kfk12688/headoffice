@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { FormButton } from "components";
 import Select from "react-select";
 import "../../styles/Select.css";
-import { searchWorkbook } from "../../dataflow/workbooks/api";
+import { searchWorkbook } from "../../dataflow/workbook/api";
 import reduxForm from "../../lib/FormWrapper";
 import styles from "./TemplateForm.less";
 

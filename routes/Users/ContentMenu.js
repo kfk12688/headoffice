@@ -9,26 +9,24 @@ class ContentMenu extends Component {
     super(props);
     this.state = { showModal : false };
     this.toggleModal = this.toggleModal.bind(this);
-    this.deleteUsersAction = this.deleteUsersAction.bind(this);
     this.selectAllHandler = this.selectAllHandler.bind(this);
   }
 
   getActions() {
-    const { actionsMenu : { selectedKeys } } = this.props;
-    let actionsMenuContent = null;
+    const { actions } = this.props;
+    const actionsMenuContent = actions.map(action => {
+      const key = action.name.replace(/ /, "").toLowerCase();
+      return <div key={key} onClick={action.handler}>{action.name}</div>;
+    });
 
-    if (selectedKeys.length !== 0) {
-      actionsMenuContent = (
-        <span>
-          <Divider vertical size={{ h: 24, w: 1 }} style={{ marginRight: 5 }}/>
-          <PopupButton label="Actions">
-            <div onClick={this.deleteUsersAction}>Delete User</div>
-          </PopupButton>
-        </span>
-      );
-    }
-
-    return actionsMenuContent;
+    return (
+      <span>
+        <Divider vertical size={{ h: 24, w: 1 }} style={{ marginRight: 5 }}/>
+        <PopupButton label="Actions">
+          {actionsMenuContent}
+        </PopupButton>
+      </span>
+    );
   }
 
   toggleModal() {
@@ -36,16 +34,6 @@ class ContentMenu extends Component {
       this.setState({ showModal : false });
     } else {
       this.setState({ showModal : true });
-    }
-  }
-
-  deleteUsersAction() {
-    const { deleteUser, actionsMenu : { selectedKeys } } = this.props;
-
-    if (selectedKeys.length > 1) {
-      deleteUser({ id : selectedKeys });
-    } else {
-      deleteUser({ id : selectedKeys[0] });
     }
   }
 
@@ -90,7 +78,7 @@ class ContentMenu extends Component {
             </PopupButton>
           </span>
 
-          {this.getActions()}
+          {(actionsMenu.selectedKeys.length >=1) && this.getActions()}
         </div>
 
         <div className={styles.right}>

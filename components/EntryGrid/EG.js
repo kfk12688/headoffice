@@ -1,6 +1,3 @@
-/**
- * Created by sharavan on 18/05/16.
- */
 import React from "react";
 import { EGHeaderRow } from "./EGHeaderRow";
 import { EGBody } from "./EGBody";
@@ -16,7 +13,7 @@ class EG extends React.Component {
   }
 
   render() {
-    const { style, className, colSpec, data, isLoading, postHandler, initialValues } = this.props;
+    const { style, className, colSpec, data, isLoading, postHandler, selectedRow, clearEditFlag } = this.props;
 
     return (
       <div
@@ -35,14 +32,15 @@ class EG extends React.Component {
             cols={colSpec}
             colWidths={this.state.colWidths}
             rows={data}
+            selectedRow={selectedRow}
           />
         }
 
         <EGPost
           cols={colSpec}
-          rows={data}
           postHandler={postHandler}
-          initialValues={initialValues}
+          clearEditFlag={clearEditFlag}
+          selectedRow={selectedRow}
         />
       </div>
     );

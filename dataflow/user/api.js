@@ -2,10 +2,9 @@ import "isomorphic-fetch";
 import fetch from "../fetchWrapper";
 
 const api = "http://localhost:3001/api";
-const token = "93abcf28-65e9-45b1-912a-8bec6eb10a3d";
 
 export const getUserList = () =>
-  fetch("GET", token, `${api}/user`)
+  fetch("GET", `${api}/user`)
     .then(res => res.json())
     .then(json => {
       const payload = { data : {} };
@@ -23,10 +22,10 @@ export const getUserList = () =>
 
 
 export const addNewUser = (params) =>
-  fetch("POST", token, `${api}/signUp`, params)
+  fetch("POST", `${api}/signUp`, params)
     .then(res => res.json())
     .then(json => json.data);
 
 export const deleteUser = params =>
-  fetch("DELETE", token, `${api}/user/${params.id}`)
+  fetch("DELETE", `${api}/user/${params.id}`)
     .then(res => res.json());

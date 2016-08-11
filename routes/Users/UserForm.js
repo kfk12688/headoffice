@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { reduxForm } from "redux-form";
 import { FormButton } from "components";
 import FontAwesome from "react-fontawesome";
 import "../../styles/Select.css";
 import cx from "classnames";
+import reduxForm from "../../lib/FormWrapper";
 import styles from "./UserForm.less";
 
 class CreateUserForm extends Component {
@@ -33,7 +33,7 @@ class CreateUserForm extends Component {
   }
 
   render() {
-    const { fields : { userName, userRole, phoneNumber, emailId, password }, submitting } = this.props;
+    const { fields : { userName, userRole, phoneNumber, emailId, password } } = this.props;
 
     return (
       <form onSubmit={this.onSubmit}>
@@ -56,7 +56,8 @@ class CreateUserForm extends Component {
               {...userRole}
               value={userRole.value || ""}
             >
-              <option default="SuperAdmin">SuperAdmin</option>
+              <option value=""></option>
+              <option value="SuperAdmin">SuperAdmin</option>
               <option value="Admin">Admin</option>
               <option value="Manager">Manager</option>
               <option value="Technician">Technician</option>
@@ -98,10 +99,7 @@ class CreateUserForm extends Component {
         </div>
 
         <div className={styles.addContentBtnGroup}>
-          <FormButton accent="green" type="submit" disabled={submitting}>
-            {submitting && <FontAwesome name="spinner" spin/>}
-            Save
-          </FormButton>
+          <FormButton accent="green" type="submit">Save</FormButton>
           <FormButton onClick={this.resetForm}>Cancel</FormButton>
         </div>
       </form>
@@ -119,6 +117,5 @@ CreateUserForm.propTypes = {
 };
 
 export default reduxForm({
-  form   : "createUser",
   fields : ["userName", "userRole", "phoneNumber", "emailId", "password"],
 })(CreateUserForm);

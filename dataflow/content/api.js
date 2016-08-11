@@ -1,13 +1,12 @@
 import fetch from "../fetchWrapper";
 
 const api = "http://localhost:3001/api/template";
-const token = "93abcf28-65e9-45b1-912a-8bec6eb10a3d";
 
 export const getContentList = () => {
-  return fetch("GET", token, api)
+  return fetch("GET", api)
     .then(res => res.json())
     .then(json => {
-      const payload = { data : {}};
+      const payload = { data : {} };
 
       for (const idx in json.data) {
         const item = json.data[idx];
@@ -21,11 +20,11 @@ export const getContentList = () => {
 };
 
 export const createTemplate = (params) => {
-  return fetch("POST", token, api, params)
+  return fetch("POST", api, params)
     .then(res => res.json());
 };
 
 export const deleteTemplate = (params) => {
-  return fetch("DELETE", token, `${api}/${params.id}`)
+  return fetch("DELETE", `${api}/${params.id}`)
     .then(res => res.json());
 };

@@ -9,7 +9,6 @@ import { RefCell } from "./RefCell";
 import { TextCell } from "./TextCell";
 import styles from "./common.less";
 
-
 function getCell(transform, type, row, col, isSelected) {
   if (type === "number") {
     return (<NumberCell value={transform()}/>);
@@ -40,11 +39,12 @@ function getCell(transform, type, row, col, isSelected) {
       urlKey : row[col.linkRef.urlKey],
       path   : col.linkRef.path,
     };
+    const { actions = [] } = col;
 
     return (
       <div className={styles.linkCellContainer}>
         <LinkCell className={styles.linkCellContainerLink} value={value}/>
-        <ActionCell className={styles.linkCellContainerAction} actions={[]}/>
+        <ActionCell className={styles.linkCellContainerAction} actions={actions}/>
       </div>
     );
   }
@@ -80,17 +80,19 @@ export function renderDGCell(type, row, col, isSelected) {
 }
 
 export function renderEGCell(type, row, col, colKey) {
-  function transform(rowData = row) {
-    let value = null;
+  function transform() {
+    let value = "";
+    const isKeyPresent = ((row[colKey] !== undefined) && ("val" in row[colKey]));
+    const isKeyNull = row[colKey] === null;
 
-    if ((rowData[colKey] === null) || !("val" in rowData[colKey])) {
-      return value;
-    }
-
-    if (col.cellFormatter !== undefined) {
-      value = col.cellFormatter(rowData[colKey].val);
-    } else {
-      value = rowData[colKey].val;
+    if (isKeyPresent) {
+      if (isKeyNull) {
+        value = "";
+      } else if (col.cellFormatter !== undefined) {
+        value = col.cellFormatter(row[colKey].val);
+      } else {
+        value = row[colKey].val;
+      }
     }
 
     return value;

@@ -32,6 +32,8 @@ class FilterHelpers {
   }
 
   static textFilter(key, item, filter) {
+    if (filter.owner === undefined) return true;
+
     const pattern = new RegExp(item[key], "gi");
     return pattern.test(filter.owner);
   }

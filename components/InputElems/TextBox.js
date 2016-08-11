@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./common.less";
 
 export const TextBox = ({ title, field }) => {
-  const { onChange, onBlur, value, ...rest } = field;
+  const { onChange, value, ...rest } = field;
   const parse = event => ({ val : event.target.value });
 
   return (
@@ -12,7 +12,6 @@ export const TextBox = ({ title, field }) => {
         type="text"
         className={styles.textboxInput}
         onChange={e => onChange(parse(e))}
-        onBlur={e => onBlur(parse(e))}
         value={value.val || ""}
         {...rest}
       />

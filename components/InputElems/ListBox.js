@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./common.less";
 
 export const ListBox = ({ title, field, options }) => {
-  const { onChange, onBlur, value, ...rest } = field;
+  const { onChange, value, ...rest } = field;
   const parse = event => ({ val : JSON.parse(event.target.value) });
 
   const opts = options.map(opt => <option key={opt.id} value={JSON.stringify(opt)}>{opt.label}</option>);
@@ -14,7 +14,6 @@ export const ListBox = ({ title, field, options }) => {
       <select
         className={styles.listboxSelect}
         onChange={e => onChange(parse(e))}
-        onBlur={e => onBlur(parse(e))}
         value={JSON.stringify(value.val) || ""}
         {...rest}
       >

@@ -2,7 +2,7 @@ import React from "react";
 import { EGBodyRow } from "./EGBodyRow";
 import styles from "./EGBody.less";
 
-const EGBody = ({ rows, cols, colWidths }) => {
+const EGBody = ({ rows, cols, colWidths, selectedRow }) => {
   let bodyRows = [];
 
   for (const rowKey in rows) {
@@ -15,6 +15,7 @@ const EGBody = ({ rows, cols, colWidths }) => {
           colWidths={colWidths}
           cols={cols}
           row={row}
+          isSelected={selectedRow === rowKey}
         />
       );
     }

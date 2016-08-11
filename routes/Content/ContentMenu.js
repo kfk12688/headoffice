@@ -9,29 +9,24 @@ class ContentMenu extends Component {
     super(props);
     this.state = { showModal : false };
     this.toggleModal = this.toggleModal.bind(this);
-    this.deleteTemplatesAction = this.deleteTemplatesAction.bind(this);
     this.selectAllHandler = this.selectAllHandler.bind(this);
   }
 
   getActions() {
-    const { actionsMenu : { selectedKeys } } = this.props;
+    const { actions } = this.props;
+    const actionsMenuContent = actions.map(action => {
+      const key = action.name.replace(/ /, "").toLowerCase();
+      return <div key={key} onClick={action.handler}>{action.name}</div>;
+    });
 
-    let actionsMenuContent = null;
-    if (selectedKeys.length !== 0) {
-      actionsMenuContent = (
-        <span>
-          <Divider vertical size={{ h: 24, w: 1 }} style={{ marginRight: 5 }}/>
-          <PopupButton label="Actions">
-            <div>Edit Template</div>
-            <div>Tag Template</div>
-            <div>Set Permissions</div>
-            <div onClick={this.deleteTemplatesAction}>Delete</div>
-          </PopupButton>
-        </span>
-      );
-    }
-
-    return actionsMenuContent;
+    return (
+      <span>
+        <Divider vertical size={{ h: 24, w: 1 }} style={{ marginRight: 5 }}/>
+        <PopupButton label="Actions">
+          {actionsMenuContent}
+        </PopupButton>
+      </span>
+    );
   }
 
   toggleModal() {
@@ -39,16 +34,6 @@ class ContentMenu extends Component {
       this.setState({ showModal : false });
     } else {
       this.setState({ showModal : true });
-    }
-  }
-
-  deleteTemplatesAction() {
-    const { deleteTemplate, actionsMenu: {selectedKeys} } = this.props;
-
-    if (selectedKeys.length > 1) {
-      deleteTemplate({ id : selectedKeys });
-    } else {
-      deleteTemplate({ id : selectedKeys[0] });
     }
   }
 
@@ -64,7 +49,7 @@ class ContentMenu extends Component {
       sortKey,
       actionsMenu,
       clearRowSelection,
-      addNewTemplate,
+      addTemplate,
     } = this.props;
 
     return (
@@ -72,30 +57,30 @@ class ContentMenu extends Component {
         className={cx(styles.root, className)}
       >
         <div className={styles.left}>
-        <span>
-          <Button
-            faName="sliders"
-            onClick={toggleSidebar}
-            className={cx(styles.icon, { [styles.iconActive]: actionsMenu.showSidebar })}
-          />
+          <span>
+            <Button
+              faName="sliders"
+              onClick={toggleSidebar}
+              className={cx(styles.icon, { [styles.iconActive]: actionsMenu.showSidebar })}
+            />
 
-          <Modal
-            show={this.state.showModal}
-            toggleModal={this.toggleModal}
-            caption="Add New Content"
-            faName="plus"
-            accent
-          >
-            <CreateTemplateForm submitForm={addNewTemplate} toggleModal={this.toggleModal}/>
-          </Modal>
+            <Modal
+              show={this.state.showModal}
+              toggleModal={this.toggleModal}
+              caption="Add New Content"
+              faName="plus"
+              accent
+            >
+              <CreateTemplateForm submitForm={addTemplate} toggleModal={this.toggleModal}/>
+            </Modal>
 
-          <PopupButton label={`${actionsMenu.selectedKeys.length} selected`}>
-            <div onClick={this.selectAllHandler}>Select All</div>
-            <div onClick={clearRowSelection}>Clear selection</div>
-          </PopupButton>
-        </span>
+            <PopupButton label={`${actionsMenu.selectedKeys.length} selected`}>
+              <div onClick={this.selectAllHandler}>Select All</div>
+              <div onClick={clearRowSelection}>Clear selection</div>
+            </PopupButton>
+          </span>
 
-          {this.getActions()}
+          {(actionsMenu.selectedKeys.length >= 1) && this.getActions()}
         </div>
 
         <div className={styles.right}>

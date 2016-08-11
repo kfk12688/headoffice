@@ -1,7 +1,8 @@
 @import "../../styles/colors";
+@import "./common";
 
 .col {
-  height: 37px;
+  height: @rowHeight;
   display: inline-block;
   position: relative;
   vertical-align: middle;
@@ -9,8 +10,8 @@
 }
 
 .cell {
-  height: 37px;
-  line-height: 37px;
+  height: @rowHeight;
+  line-height: @rowHeight;
   padding-left: 12px;
   padding-right: 12px;
   white-space: nowrap;

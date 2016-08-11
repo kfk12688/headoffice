@@ -3,7 +3,7 @@
  */
 import { combineReducers } from "redux";
 import { routerReducer as routing } from "react-router-redux";
-import { reducer as formReducer } from "redux-form";
+import form from "./form/reducer";
 import menu from "./menu/reducer";
 import filter from "./filter/reducer";
 import content from "./content/reducer";
@@ -16,7 +16,7 @@ const rootReducer = combineReducers({
   content,
   user,
   editor,
-  form : formReducer,
+  form,
   routing,
 });
 

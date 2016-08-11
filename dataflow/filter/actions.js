@@ -1,38 +1,55 @@
-/**
- * Created by sharavan on 16/06/16.
- */
 import moment from "moment";
-import * as t from "./types";
+import {
+  SET_DTMOD_END, SET_DTMOD_START, SET_HAS_ROLE, SET_IS_RECENT, SET_IS_STARRED, SET_LAST_SIGN_IN, SET_OWNER,
+  SET_USER_NAME, SORT, CLEAR_STATE, SET_WORKBOOK_NAME
+} from "./types";
 import { createAction } from "redux-actions";
 
-// Synchronous actions
-const sortFilter = createAction(t.SORT_FILTER, (sortKey, sortOrder) => ({
+export const sortFilter = createAction(SORT, (sortKey, sortOrder) => ({
   sortKey,
   sortOrder,
 }));
 
 /**
- * Search Handlers
+ * Content Filter Values
  */
-const setFilterDtModStart = createAction(t.SET_FILTER_DTMOD_START, (e) => ({
+export const setDateModifiedStart = createAction(SET_DTMOD_START, (e) => ({
   date : moment(e.target.value, "YYYY-MM-DD"),
 }));
-const setFilterDtModEnd = createAction(t.SET_FILTER_DTMOD_END, (e) => ({
+export const setDateModifiedEnd = createAction(SET_DTMOD_END, (e) => ({
   date : moment(e.target.value, "YYYY-MM-DD"),
 }));
-const setFilterOwner = createAction(t.SET_FILTER_OWNER, (e) => ({
+export const setOwner = createAction(SET_OWNER, (e) => ({
   owner : e.target.value,
 }));
-const setFilterIsRecent = createAction(t.SET_FILTER_IS_RECENT, (e) => ({
+export const setIsRecent = createAction(SET_IS_RECENT, (e) => ({
   flag : e.target.checked,
 }));
-const setFilterIsStarred = createAction(t.SET_FILTER_IS_STARRED, (e) => ({
+export const setIsStarred = createAction(SET_IS_STARRED, (e) => ({
   flag : e.target.checked,
 }));
-const clearFilterState = createAction(t.CLEAR_FILTER_STATE);
 
-// exporting synchronous functions
-export { sortFilter };
-export {
-  setFilterDtModEnd, setFilterDtModStart, setFilterIsRecent, setFilterIsStarred, setFilterOwner, clearFilterState
-};
+/**
+ * User Filter Values
+ */
+export const setUserName = createAction(SET_USER_NAME, (e) => ({
+  username : e.target.value,
+}));
+export const setUserHasRole = createAction(SET_HAS_ROLE, (e) => ({
+  hasRole : e.target.value,
+}));
+export const setLastSignIn = createAction(SET_LAST_SIGN_IN, (e) => ({
+  lastSignIn : moment(e.target.value, "YYYY-MM-DD"),
+}));
+
+/**
+ * Workbook Filter Values
+ */
+export const setWorkbookName = createAction(SET_WORKBOOK_NAME, (e) => ({
+  workbookName : e.target.value,
+}));
+
+/**
+ * Clears the entire filter store
+ */
+export const clearFilterState = createAction(CLEAR_STATE);

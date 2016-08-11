@@ -1,10 +1,10 @@
-import User from "./User";
+import Editor from "./Editor";
 
 const Route = {
-  path : "user",
+  path : "edit/:id",
   getComponent(nextState, replace) {
     require.ensure([], () => {
-      replace(null, User);
+      replace(null, Editor);
     });
   },
 };

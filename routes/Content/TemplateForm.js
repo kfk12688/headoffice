@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import { reduxForm } from "redux-form";
 import { FormButton } from "components";
-import FontAwesome from "react-fontawesome";
 import Select from "react-select";
 import "../../styles/Select.css";
 import { searchWorkbook } from "../../dataflow/workbook/api";
+import reduxForm from "../../lib/FormWrapper";
 import styles from "./TemplateForm.less";
 
 const WorkbookSelect = ({ value, onChange, className }) =>
@@ -15,7 +14,6 @@ const WorkbookSelect = ({ value, onChange, className }) =>
     valueKey="id"
     fieldKey="label"
     loadOptions={searchWorkbook}
-    minimumInput={1}
   />;
 
 // FORM COMPONENT FOR Creating a new template
@@ -47,7 +45,7 @@ class CreateTemplateForm extends Component {
   }
 
   render() {
-    const { fields : { templateName, workBook }, submitting } = this.props;
+    const { fields : { templateName, workBook } } = this.props;
 
     return (
       <form onSubmit={this.onSubmit}>
@@ -65,17 +63,12 @@ class CreateTemplateForm extends Component {
         <div className={styles.formElement}>
           <div className={styles.formElementTitle}>Workbook</div>
           <WorkbookSelect
-            className={styles.formElementInput}
             {...workBook}
-            value={workBook.value || ""}
           />
         </div>
 
         <div className={styles.addContentBtnGroup}>
-          <FormButton accent="green" type="submit" disabled={submitting}>
-            {submitting && <FontAwesome name="spinner" spin/>}
-            Save
-          </FormButton>
+          <FormButton accent="green" type="submit">Save</FormButton>
           <FormButton onClick={this.resetForm}>Cancel</FormButton>
         </div>
       </form>
@@ -93,6 +86,5 @@ CreateTemplateForm.propTypes = {
 };
 
 export default reduxForm({
-  form   : "createTemplate",
   fields : ["templateName", "workBook"],
 })(CreateTemplateForm);

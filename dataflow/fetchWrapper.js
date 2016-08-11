@@ -1,8 +1,8 @@
 import "isomorphic-fetch";
 
-export default function (method, token, api, params) {
+export default function (method, api, params) {
   const headers = new Headers({
-    authorization : `Bearer ${token}`,
+    authorization : `Bearer fb67d945-4bf2-4597-8cb8-b581b02f63c6`,
   });
 
   let settings = {

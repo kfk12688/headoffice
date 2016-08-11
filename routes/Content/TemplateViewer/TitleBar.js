@@ -26,12 +26,12 @@ export class TitleBar extends Component {
   }
 
   render() {
-    const { className, title, meta, editTemplate, store: editorData } = this.props;
+    const { className, title, editTemplate, store } = this.props;
 
     return (
       <div className={cx(styles.base, className)}>
         <div className={styles.title}>
-          <FavoriteCell value={meta.favorite || false} inheritSize/>
+          <FavoriteCell value={store.data.favorite || false} inheritSize/>
           &nbsp;
           {title}
           <Modal
@@ -41,12 +41,18 @@ export class TitleBar extends Component {
             show={this.state.showModal}
             toggleModal={this.toggleModal}
           >
-            <EditTemplateForm state={editorData} submitForm={editTemplate} toggleModal={this.toggleModal}/>
+            <EditTemplateForm state={store} submitForm={editTemplate} toggleModal={this.toggleModal}/>
           </Modal>
         </div>
+
+        <div className={styles.owner}>
+          <span className={styles.ownerSpan}>By </span>
+          <span>Sharavanth Siddharth R</span>
+        </div>
+
         <div className={styles.meta}>
-          <span>Created At : <MetaInfo>{moment(meta.createdAt).format("Do MMM, YYYY")}</MetaInfo></span>
-          <span>Is a favorite : <MetaInfo>{meta.favorite ? "Yes" : "No"}</MetaInfo></span>
+          <span>Created At : <MetaInfo>{moment(store.data.createdAt).format("Do MMM, YYYY")}</MetaInfo></span>
+          <span>Is a favorite : <MetaInfo>{store.data.favorite ? "Yes" : "No"}</MetaInfo></span>
         </div>
       </div>
     );
@@ -54,8 +60,8 @@ export class TitleBar extends Component {
 }
 
 TitleBar.propTypes = {
-  className : React.PropTypes.string,
-  title     : React.PropTypes.string,
-  meta      : React.PropTypes.object,
+  className    : React.PropTypes.string,
+  title        : React.PropTypes.string,
   editTemplate : React.PropTypes.func,
+  store        : React.PropTypes.object,
 };

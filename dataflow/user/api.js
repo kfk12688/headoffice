@@ -1,12 +1,31 @@
 import "isomorphic-fetch";
-import * as userData from "../mock_data/usersData";
+import fetch from "../fetchWrapper";
 
-const getUserList = (params) => {
-  // return fetch;
+const api = "http://localhost:3001/api";
 
-  return new Promise((resolve) => {
-    setTimeout(() => resolve({ data : userData.data }), 3200);
-  });
-};
+export const getUserList = () =>
+  fetch("GET", `${api}/user`)
+    .then(res => res.json())
+    .then(json => {
+      const payload = { data : {} };
 
-export { getUserList };
+      for (const idx in json.data) {
+        const item = json.data[idx];
+        const id = item._id;
+        delete item._id;
+
+        payload.data[id] = { id, ...item };
+      }
+
+      return payload;
+    });
+
+
+export const addNewUser = (params) =>
+  fetch("POST", `${api}/signUp`, params)
+    .then(res => res.json())
+    .then(json => json.data);
+
+export const deleteUser = params =>
+  fetch("DELETE", `${api}/user/${params.id}`)
+    .then(res => res.json());

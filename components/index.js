@@ -13,6 +13,7 @@ export { Modal } from "./Modal";
 export { EG } from "./EntryGrid";
 export { Navigator } from "./Navigator";
 export { Breadcrumb } from "./Breadcrumb";
+export { Search } from "./Search";
 export * from "./DisplayElems";
 
 // Derivative components

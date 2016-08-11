@@ -1,5 +1,5 @@
 @import "../../../styles/colors";
-@import "../../../styles/spacing";
+@import "../config";
 
 /**
 // App Container
@@ -12,7 +12,6 @@
 // Breadcrumb Style
 .breadcrumb {
   .absolute-position-mixin();
-  height: @breadcrumbHt;
 }
 
 // TitleBar Style
@@ -27,14 +26,14 @@
 
 // Sidebar Container Style
 .sidebar {
-  .absolute-position-mixin(@breadcrumbHt + @actionContainerHt+@titleBarHt);
+  .absolute-position-mixin(@breadcrumbHt+@actionContainerHt+@titleBarHt);
   width: 230px;
   background-color: @grey50;
 }
 
 // DG Container Style
 .entrygrid {
-  .absolute-position-mixin(@top: @breadcrumbHt + @actionContainerHt+@titleBarHt,@left: 230px);
+  .absolute-position-mixin(@top: @breadcrumbHt+@actionContainerHt+@titleBarHt, @left: 230px);
   padding: 0 0 10px 0;
   background-color: @white;
 }

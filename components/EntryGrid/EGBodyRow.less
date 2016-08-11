@@ -1,7 +1,12 @@
 @import "../../styles/colors";
+@import "./common";
 
 .row {
   border-bottom: 1px solid @grey300;
-  height: 37px;
+  height: @rowHeight;
   white-space: nowrap;
+}
+
+.rowIsSelected {
+  background-color: @blueGrey50;
 }

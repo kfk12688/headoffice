@@ -1,12 +1,14 @@
 import React from "react";
 import EditorEntryForm from "../InputElems";
-import cx from "classnames";
 import styles from "./EGPost.less";
 
+const ADD_NEW_ENTRY = true;
+const EDIT_EXISTING_ENTRY = false;
+
 class EGPost extends React.Component {
-  constructor() {
-    super();
-    this.state = { entryState : "insert" };
+  constructor(props) {
+    super(props);
+    this.state = { entryState : ADD_NEW_ENTRY };
   }
 
   getFormFields(cols) {
@@ -31,50 +33,32 @@ class EGPost extends React.Component {
     return fields;
   }
 
-  getInitialValues() {
-    const { initialValues, cols } = this.props;
-
-    if (!(initialValues.fields)) {
-      const formFields = this.getFormFields(cols);
-
-      const fields = {};
-      for (let i = 0; i < formFields.length; i++) {
-        const fieldName = formFields[i];
-        fields[fieldName] = {
-          val : null,
-        };
-      }
-      return fields;
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.selectedRow !== null) {
+      this.setState({ entryState : EDIT_EXISTING_ENTRY });
+    } else {
+      this.setState({ entryState : ADD_NEW_ENTRY });
     }
-    return initialValues.fields;
   }
 
   render() {
-    const { cols, postHandler, initialValues } = this.props;
+    const { cols, postHandler, clearEditFlag } = this.props;
 
     return (
       <div className={styles.post}>
         <div className={styles.postTab}>
-          <span
-            className={cx(styles.addTab, { [styles.selected]: this.state.entryState === "insert" })}
-            onClick={() => this.setState({ entryState: "insert" })}
-          >
-            Add New Row
-          </span>
-          <span
-            className={cx(styles.editTab, { [styles.selected]: this.state.entryState === "edit" })}
-            onClick={() => this.setState({ entryState: "edit" })}
-          >
-            Edit Row
+          <span className={styles.postHeading}>
+            {this.state.entryState ? "Add new data" : "Edit highlighted data"}
           </span>
         </div>
+
         <EditorEntryForm
-          state={this.state.entryState}
           cols={cols}
           fields={this.getFormFields(cols)}
-          postHandler={postHandler}
-          initialValues={this.getInitialValues()}
+          submitForm={postHandler}
+          clearEditFlag={clearEditFlag}
         />
+
       </div>
     );
   }

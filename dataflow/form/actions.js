@@ -1,5 +1,5 @@
 import { createAction } from "redux-actions";
-import { ON_CHANGE, DESTROY, RESET_FORM } from "./types";
+import { ON_CHANGE, DESTROY, RESET_FORM, POPULATE } from "./types";
 
 export const onChange = createAction(ON_CHANGE, (field, event) => {
   // fixme : this workaround needs to be fixed
@@ -15,3 +15,7 @@ export const onChange = createAction(ON_CHANGE, (field, event) => {
 
 export const resetForm = createAction(RESET_FORM);
 export const destroy = createAction(DESTROY);
+
+export const populate = createAction(POPULATE, data => ({
+  data,
+}));

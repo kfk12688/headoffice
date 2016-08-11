@@ -11,6 +11,13 @@ import styles from "./Users.less";
 class User extends Component {
   constructor(props) {
     super(props);
+    this.getActions = this.getActions.bind(this);
+    const actions = this.getActions();
+    this.actionsCollection = [
+      { name : "Delete User", handler : actions.deleteUser },
+      { name : "XXXify User", handler : actions.deleteUser },
+    ];
+
     this.colSpec = [
       {
         headerStyle : { borderRight : 0 },
@@ -24,6 +31,7 @@ class User extends Component {
         name       : "name-col",
         renderType : "link",
         text       : "Display Name",
+        actions    : this.actionsCollection,
         linkRef    : {
           path   : "/user/edit",
           urlKey : "id",
@@ -56,6 +64,22 @@ class User extends Component {
     if (nextUserData.length !== userData.length) {
       this.props.loadUser();
     }
+  }
+
+  getActions() {
+    const _deleteUser = () => {
+      const { deleteUser, actionsMenu: { selectedKeys } } = this.props;
+
+      if (selectedKeys.length > 1) {
+        deleteUser({ id : selectedKeys });
+      } else {
+        deleteUser({ id : selectedKeys[0] });
+      }
+    };
+
+    return {
+      deleteUser : _deleteUser,
+    };
   }
 
   getColumnSortList(cb) {
@@ -118,7 +142,7 @@ class User extends Component {
 
     const {
       user, filter, actionsMenu, rows, toggleSidebar, selectAllRows, clearRowSelection, filterChangeHandlers,
-      sortColumn, toggleRow, addNewUser, deleteUser,
+      sortColumn, toggleRow, addNewUser,
     } = this.props;
 
     const sortOrderIndex = filter.sortAscending ? 0 : 1;
@@ -152,13 +176,13 @@ class User extends Component {
           className={styles.contextMenu}
           toggleSidebar={toggleSidebar}
           actionsMenu={actionsMenu}
+          actions={this.actionsCollection}
           colSortItems={this.colSortItems.items}
           keys={rows.map(row => row.id)}
           sortKey={sortKey}
           selectAllRows={selectAllRows}
           clearRowSelection={clearRowSelection}
           addNewUser={addNewUser}
-          deleteUser={deleteUser}
         />
 
         <div>
@@ -213,6 +237,34 @@ class User extends Component {
   }
 }
 
+User.propTypes = {
+  rollUp   : React.PropTypes.bool,
+  children : React.PropTypes.node,
+
+  // Store
+  actionsMenu : React.PropTypes.object.isRequired,
+  user        : React.PropTypes.object.isRequired,
+  filter      : React.PropTypes.object.isRequired,
+  rows        : React.PropTypes.array.isRequired,
+
+  // Actions
+  toggleSidebar        : React.PropTypes.func.isRequired,
+  clearMenu            : React.PropTypes.func.isRequired,
+  selectAllRows        : React.PropTypes.func.isRequired,
+  clearRowSelection    : React.PropTypes.func.isRequired,
+  toggleRow            : React.PropTypes.func.isRequired,
+  sortColumn           : React.PropTypes.func.isRequired,
+  clearFilter          : React.PropTypes.func.isRequired,
+  loadUser             : React.PropTypes.func.isRequired,
+  addNewUser           : React.PropTypes.func.isRequired,
+  deleteUser           : React.PropTypes.func.isRequired,
+  filterChangeHandlers : React.PropTypes.shape({
+    setFilterUsername   : React.PropTypes.func.isRequired,
+    setFilterHasRole    : React.PropTypes.func.isRequired,
+    setFilterLastSignIn : React.PropTypes.func.isRequired,
+  }),
+};
+
 const filterBindings = {
   textFilter : ["username", "hasRole"],
   dateFilter : "lastSignIn",
@@ -237,9 +289,9 @@ const mapDispatchToProps = (dispatch) => ({
   addNewUser           : (params) => dispatch(userActions.addNewUser(params)),
   deleteUser           : (params) => dispatch(userActions.deleteUser(params)),
   filterChangeHandlers : {
-    setFilterUsername   : (e) => dispatch(filterActions.setFilterUsername(e)),
-    setFilterHasRole    : (e) => dispatch(filterActions.setFilterHasRole(e)),
-    setFilterLastSignIn : (e) => dispatch(filterActions.setFilterLastSignIn(e)),
+    setFilterUsername   : (e) => dispatch(filterActions.setUserName(e)),
+    setFilterHasRole    : (e) => dispatch(filterActions.setUserHasRole(e)),
+    setFilterLastSignIn : (e) => dispatch(filterActions.setLastSignIn(e)),
   },
 });
 

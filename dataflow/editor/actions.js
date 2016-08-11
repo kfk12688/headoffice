@@ -1,8 +1,10 @@
 import { createAction } from "redux-actions";
 import { CALL_API } from "../middleware/callAPI";
 import {
-  EDITOR_REQUEST, EDITOR_SUCCESS, EDITOR_FAILURE, EDIT, DELETE, ERROR, EDIT_FAILURE, EDIT_REQUEST, EDIT_SUCCESS
+  SET_EDIT_FLAG, CLEAR_EDIT_FLAG, EDITOR_REQUEST, EDITOR_SUCCESS, EDITOR_FAILURE, EDIT_FAILURE,
+  EDIT_REQUEST, EDIT_SUCCESS
 } from "./types";
+import { populate as populateForm } from "../form/actions";
 import * as api from "./api";
 
 // Async Actions
@@ -31,12 +33,14 @@ export const editTemplate = params => (dispatch) =>
   dispatch(_updateTemplate(params))
     .then(dispatch(loadEditor(params)));
 
-export const editRow = createAction(EDIT, row => ({
-  row,
-}));
+// Actions that control the embedded form in TemplateViewer_Editor --> EntryGrid
+const _setEditFlag = createAction(SET_EDIT_FLAG, row => ({ row }));
+export const editRow = row => dispatch => {
+  dispatch(_setEditFlag(row));
+  dispatch(populateForm(row));
+};
+export const clearEditFlag = createAction(CLEAR_EDIT_FLAG);
 
-export const deleteRow = createAction(DELETE, data => ({
-  id : "testid",
-}));
-
-export const error = createAction(ERROR);
+// Deletes a row from the db
+export const deleteRow = row => dispatch => {
+};

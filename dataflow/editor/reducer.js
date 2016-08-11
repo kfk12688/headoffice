@@ -1,48 +1,50 @@
 import { handleActions } from "redux-actions";
 import {
-  EDIT, DELETE, ERROR, EDIT_FAILURE, EDIT_REQUEST, EDIT_SUCCESS, EDITOR_SUCCESS, EDITOR_FAILURE, EDITOR_REQUEST
+  SET_EDIT_FLAG, CLEAR_EDIT_FLAG, DELETE, ERROR, EDIT_FAILURE, EDIT_REQUEST, EDIT_SUCCESS, EDITOR_SUCCESS,
+  EDITOR_FAILURE, EDITOR_REQUEST
 } from "./types";
 
 const initialState = {
   // Object of objects with key as the template id
-  primaryKey : "fieldName",
-  data       : {},
-  postData   : {},
-  isLoading  : false,
-  error      : {},
-  msg        : "",
+  primaryKey  : "fieldName",
+  data        : {},
+  postData    : {},
+  isLoading   : false,
+  error       : {},
+  selectedRow : null,
+  msg         : "",
 };
 
 const reducer = handleActions({
-  [EDITOR_REQUEST] : (state) => ({
+  [EDITOR_REQUEST]  : (state) => ({
     ...state,
     isLoading : true,
   }),
-  [EDITOR_SUCCESS] : (state, action) => ({
+  [EDITOR_SUCCESS]  : (state, action) => ({
     ...state,
     data      : action.payload.data,
     isLoading : false,
   }),
-  [EDITOR_FAILURE] : (state, action) => ({
+  [EDITOR_FAILURE]  : (state, action) => ({
     ...state,
     error     : action.payload.data,
     isLoading : false,
   }),
-  [EDIT_REQUEST]   : (state) => ({
+  [EDIT_REQUEST]    : (state) => ({
     ...state,
     isLoading : true,
   }),
-  [EDIT_SUCCESS]   : (state, action) => ({
+  [EDIT_SUCCESS]    : (state, action) => ({
     ...state,
     msg       : action.payload.data,
     isLoading : false,
   }),
-  [EDIT_FAILURE]   : (state, action) => ({
+  [EDIT_FAILURE]    : (state, action) => ({
     ...state,
     error     : action.payload.data,
     isLoading : false,
   }),
-  [EDIT]           : (state, action) => {
+  [SET_EDIT_FLAG]   : (state, action) => {
     const { row } = action.payload;
     const { fields } = state.data;
     const { primaryKey } = state;
@@ -50,18 +52,12 @@ const reducer = handleActions({
 
     return {
       ...state,
-      postData : {
-        row,
-        rowId,
-      },
+      selectedRow : rowId.toString(),
     };
   },
-  [DELETE]         : (state) => ({
+  [CLEAR_EDIT_FLAG] : state => ({
     ...state,
-  }),
-  [ERROR]          : (state) => ({
-    ...state,
-    msg : "Duplicate data entered. Primary Keys are the same",
+    selectedRow : null,
   }),
 }, initialState);
 

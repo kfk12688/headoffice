@@ -11,6 +11,13 @@ import styles from "./Content.less";
 class Content extends Component {
   constructor(props) {
     super(props);
+    this.getActions = this.getActions.bind(this);
+    const actions = this.getActions();
+    this.actionsCollection = [
+      { name : "Delete Template", handler : actions.deleteTemplate }, // fixme
+    ];
+
+    // Defines the static colum specification for the Content Area
     this.colSpec = [
       {
         headerStyle : { borderRight : 0 },
@@ -36,6 +43,7 @@ class Content extends Component {
         name       : "name-col",
         renderType : "link",
         text       : "Name",
+        "actions"  : this.actionsCollection,
       },
       {
         dataKey    : "userRef.name",
@@ -80,6 +88,22 @@ class Content extends Component {
 
   componentWillMount() {
     this.props.loadTemplate();
+  }
+
+  getActions() {
+    const _deleteTemplate = () => {
+      const { deleteTemplate, actionsMenu: { selectedKeys } } = this.props;
+
+      if (selectedKeys.length > 1) {
+        deleteTemplate({ id : selectedKeys });
+      } else {
+        deleteTemplate({ id : selectedKeys[0] });
+      }
+    };
+
+    return {
+      deleteTemplate : _deleteTemplate,
+    };
   }
 
   getColumnSortList(cb) {
@@ -142,8 +166,7 @@ class Content extends Component {
 
     const {
       list, actionsMenu, rows, toggleSidebar, selectAll,
-      clearSelection, sortColumn, toggleSelection,
-      addTemplate, deleteTemplate
+      clearSelection, sortColumn, toggleSelection, addTemplate,
     } = this.props;
 
     const { filterChangeHandlers, filter } = this.props;
@@ -190,13 +213,13 @@ class Content extends Component {
           className={styles.contextMenu}
           toggleSidebar={toggleSidebar}
           actionsMenu={actionsMenu}
+          actions={this.actionsCollection}
           colSortItems={this.colSortItems.items}
           keys={rows.map(row => row.id)}
           sortKey={sortKey}
           selectAllRows={selectAll}
           clearRowSelection={clearSelection}
-          addNewTemplate={addTemplate}
-          deleteTemplate={deleteTemplate}
+          addTemplate={addTemplate}
         />
 
         <div>
@@ -248,6 +271,34 @@ class Content extends Component {
   }
 }
 
+Content.propTypes = {
+  rollUp   : React.PropTypes.bool,
+  children : React.PropTypes.node,
+
+  // Store
+  list        : React.PropTypes.object.isRequired,
+  actionsMenu : React.PropTypes.object.isRequired,
+  filter      : React.PropTypes.object.isRequired,
+  rows        : React.PropTypes.array.isRequired,
+
+  // Actions
+  toggleSidebar        : React.PropTypes.func.isRequired,
+  selectAll            : React.PropTypes.func.isRequired,
+  clearSelection       : React.PropTypes.func.isRequired,
+  toggleSelection      : React.PropTypes.func.isRequired,
+  sortColumn           : React.PropTypes.func.isRequired,
+  loadTemplate         : React.PropTypes.func.isRequired,
+  deleteTemplate       : React.PropTypes.func.isRequired,
+  addTemplate          : React.PropTypes.func.isRequired,
+  filterChangeHandlers : React.PropTypes.shape({
+    setDateModifiedStart : React.PropTypes.func.isRequired,
+    setDateModifiedEnd   : React.PropTypes.func.isRequired,
+    setOwner             : React.PropTypes.func.isRequired,
+    setIsRecent          : React.PropTypes.func.isRequired,
+    setIsStarred         : React.PropTypes.func.isRequired,
+  }),
+};
+
 const filterBindings = {
   dateFilter     : "createdAt",
   textFilter     : "owner",
@@ -272,11 +323,11 @@ const mapDispatchToProps = (dispatch) => ({
   deleteTemplate       : (params) => dispatch(contentActions.deleteTemplate(params)),
   addTemplate          : (params) => dispatch(contentActions.addTemplate(params)),
   filterChangeHandlers : {
-    setDateModifiedStart : (e) => dispatch(filterActions.setFilterDtModStart(e)),
-    setDateModifiedEnd   : (e) => dispatch(filterActions.setFilterDtModEnd(e)),
-    setOwner             : (e) => dispatch(filterActions.setFilterOwner(e)),
-    setIsRecent          : (e) => dispatch(filterActions.setFilterIsRecent(e)),
-    setIsStarred         : (e) => dispatch(filterActions.setFilterIsStarred(e)),
+    setDateModifiedStart : (e) => dispatch(filterActions.setDateModifiedStart(e)),
+    setDateModifiedEnd   : (e) => dispatch(filterActions.setDateModifiedEnd(e)),
+    setOwner             : (e) => dispatch(filterActions.setOwner(e)),
+    setIsRecent          : (e) => dispatch(filterActions.setIsRecent(e)),
+    setIsStarred         : (e) => dispatch(filterActions.setIsStarred(e)),
   },
 });
 

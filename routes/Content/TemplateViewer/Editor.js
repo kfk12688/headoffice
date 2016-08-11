@@ -3,7 +3,9 @@ import { connect } from "react-redux";
 import { Sidebar, EG } from "components";
 import { EditorMenu } from "./EditorMenu";
 import { TitleBar } from "./TitleBar";
-import { loadEditor, editTemplate, errorTemplate, editRow, deleteRow } from "../../../dataflow/editor/actions";
+import {
+  loadEditor, editTemplate, errorTemplate, editRow, deleteRow, clearEditFlag
+} from "../../../dataflow/editor/actions";
 import { toggleMenuSidebar, clearMenuState } from "../../../dataflow/menu/actions";
 import styles from "./Editor.less";
 
@@ -19,7 +21,7 @@ class Editor extends Component {
         "renderType"  : "action",
         "actions"     : [
           { name : "Edit Row", handler : props.editRow },
-          { name : "Delete Row", handler : props.deleteRow },
+          { name : "Delete Row", handler : props.deleteRow }, // fixme
         ],
         "sortable"    : false,
         "insertable"  : false,
@@ -87,16 +89,16 @@ class Editor extends Component {
     });
   }
 
-  editTemplateFieldsHandler(field) {
+  editTemplateFieldsHandler(row) {
     const { _id, fields:oldFields } = this.props.editor.data;
 
-    const idx = oldFields.findIndex(f => f.fieldName === field.fieldName);
+    const idx = oldFields.findIndex(f => f.fieldName === row.fieldName);
     if (idx === -1) {
       this.props.editTemplate({
         id     : _id,
         fields : [
           ...oldFields,
-          field,
+          row,
         ],
       });
     } else {
@@ -105,7 +107,7 @@ class Editor extends Component {
   }
 
   render() {
-    const { editor, contextMenu, toggleSidebar } = this.props;
+    const { editor, contextMenu, toggleSidebar, clearEditFlag } = this.props;
 
     return (
       <div>
@@ -143,7 +145,8 @@ class Editor extends Component {
             data={editor.data.fields}
             isLoading={editor.isLoading}
             postHandler={this.editTemplateFieldsHandler}
-            postData={editor.postData}
+            selectedRow={editor.selectedRow}
+            clearEditFlag={clearEditFlag}
           />
         </div>
       </div>
@@ -178,6 +181,7 @@ const mapDisptachToProps = dispatch => ({
   toggleSidebar   : () => dispatch(toggleMenuSidebar()),
   loadEditorTable : params => dispatch(loadEditor(params)),
   clearMenuState  : () => dispatch(clearMenuState()),
+  clearEditFlag   : () => dispatch(clearEditFlag()),
   editTemplate    : params => dispatch(editTemplate(params)),
   errorTemplate   : params => dispatch(errorTemplate(params)),
   editRow         : row => dispatch(editRow(row)),

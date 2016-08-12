@@ -5,7 +5,7 @@ import { Modal, FavoriteCell } from "components";
 import EditTemplateForm from "../TemplateForm";
 import styles from "./TitleBar.less";
 
-const MetaInfo = ({ children }) => <span className={styles.metaInfo}>{children}</span>;
+const MetaInfo = ({ children }) => <span className={styles.metaInfo}>{children}&nbsp;&#8226;&nbsp;</span>;
 MetaInfo.propTypes = {
   children : React.PropTypes.node,
 };

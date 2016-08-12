@@ -40,21 +40,17 @@ class Content extends Component {
           path   : "/content/edit",
           urlKey : "id",
         },
+        button : {
+          buttonText : "Enter Data",
+          link       : {
+            path : "/content/entry",
+            key  : "id",
+          },
+        },
         name       : "name-col",
-        renderType : "link",
+        renderType : "buttonLink",
         text       : "Name",
         "actions"  : this.actionsCollection,
-      },
-      {
-        name       : "entry-col",
-        renderType : "entryButton",
-        buttonText : "Enter Data",
-        link       : {
-          path : "/content/entry",
-          key  : "id",
-        },
-        sortable   : false,
-        text       : "",
       },
       {
         dataKey    : "userRef.name",
@@ -88,12 +84,11 @@ class Content extends Component {
     this.colWidths = {
       "checkbox-col"   : 38,
       "favorite-col"   : 38,
-      "name-col"       : 150,
-      "entry-col"      : 85,
+      "name-col"       : 200,
       "user-col"       : 100,
-      "workbook-col"   : 175,
-      "created-at-col" : 145,
-      "updated-at-col" : 145,
+      "workbook-col"   : 150,
+      "created-at-col" : 100,
+      "updated-at-col" : 100,
     };
     this.colSortItems = this.getColumnSortList(props.sortColumn);
   }

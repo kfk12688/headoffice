@@ -2,7 +2,7 @@ import "isomorphic-fetch";
 
 export default function (method, api, params) {
   const headers = new Headers({
-    authorization : `Bearer fb67d945-4bf2-4597-8cb8-b581b02f63c6`,
+    authorization : `Bearer 42a39527-fba5-4cc5-9f9d-ce23eb6c08d9`,
   });
 
   let settings = {

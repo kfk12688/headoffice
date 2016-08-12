@@ -18,7 +18,8 @@ const _getSpec = params => ({
   },
 });
 export const loadSpec = params => (dispatch) =>
-  dispatch(_getSpec(params));
+  dispatch(_getSpec(params))
+    .then(dispatch(loadData(params)));
 
 /**
  * Get the available data for the requested template
@@ -42,7 +43,8 @@ const _updateRow = params => ({
   },
 });
 export const updateRow = params => dispatch =>
-  dispatch(_updateRow(params));
+  dispatch(_updateRow(params))
+    .then(dispatch(loadData(params)));
 
 /**
  * Delete an existing row from the collection
@@ -54,7 +56,8 @@ const _deleteRow = params => ({
   },
 });
 export const deleteRow = params => dispatch =>
-  dispatch(_deleteRow(params));
+  dispatch(_deleteRow(params))
+    .then(dispatch(loadData(params)));
 
 
 /**
@@ -67,7 +70,8 @@ const _addRow = params => ({
   },
 });
 export const addRow = params => dispatch =>
-  dispatch(_addRow(params));
+  dispatch(_addRow(params))
+    .then(dispatch(loadData(params)));
 
 
 // Actions that control the embedded form in TemplateEntry_Editor --> EntryGrid

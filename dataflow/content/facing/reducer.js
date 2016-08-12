@@ -1,57 +1,60 @@
 import { handleActions } from "redux-actions";
-import * as type from "./types";
+import {
+  GET_TEMPLATES_REQUEST, GET_TEMPLATES_SUCCESS, GET_TEMPLATES_FAILURE, ADD_TEMPLATE_REQUEST, ADD_TEMPLATE_SUCCESS,
+  ADD_TEMPLATE_FAILURE, DELETE_TEMPLATE_REQUEST, DELETE_TEMPLATE_SUCCESS, DELETE_TEMPLATE_FAILURE
+} from "./types";
 
 const initialState = {
-  data         : {},
-  isLoading    : false,
-  error        : {},
+  data      : {},
+  isLoading : false,
+  error     : {},
 };
 
 const local = handleActions({
-  [type.CONTENT_REQUEST]         : (state) => ({
+  [GET_TEMPLATES_REQUEST]   : (state) => ({
     ...state,
     isLoading : true,
   }),
-  [type.CONTENT_SUCCESS]         : (state, action) => {
+  [GET_TEMPLATES_SUCCESS]   : (state, action) => {
     return {
       ...state,
       isLoading : false,
       data      : action.payload.data,
     };
   },
-  [type.CONTENT_FAILURE]         : (state, action) => ({
+  [GET_TEMPLATES_FAILURE]   : (state, action) => ({
     ...state,
     isLoading : false,
     error     : action.payload.data,
   }),
-  [type.TEMPLATE_CREATE_REQUEST] : (state) => ({
+  [ADD_TEMPLATE_REQUEST]    : (state) => ({
     ...state,
     isLoading : true,
   }),
-  [type.TEMPLATE_CREATE_SUCCESS] : (state, action) => {
+  [ADD_TEMPLATE_SUCCESS]    : (state, action) => {
     return {
       ...state,
       isLoading : false,
       msg       : action.payload.data,
     };
   },
-  [type.TEMPLATE_CREATE_FAILURE] : (state, action) => ({
+  [ADD_TEMPLATE_FAILURE]    : (state, action) => ({
     ...state,
     isLoading : false,
     error     : action.payload.data,
   }),
-  [type.TEMPLATE_DELETE_REQUEST] : (state) => ({
+  [DELETE_TEMPLATE_REQUEST] : (state) => ({
     ...state,
     isLoading : true,
   }),
-  [type.TEMPLATE_DELETE_SUCCESS] : (state, action) => {
+  [DELETE_TEMPLATE_SUCCESS] : (state, action) => {
     return {
       ...state,
       isLoading : false,
       msg       : action.payload.data,
     };
   },
-  [type.TEMPLATE_DELETE_FAILURE] : (state, action) => ({
+  [DELETE_TEMPLATE_FAILURE] : (state, action) => ({
     ...state,
     isLoading : false,
     error     : action.payload.data,

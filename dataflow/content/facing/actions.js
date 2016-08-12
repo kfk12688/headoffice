@@ -1,5 +1,8 @@
 import { CALL_API } from "../../middleware/callAPI";
-import * as type from "./types";
+import {
+  GET_TEMPLATES_REQUEST, GET_TEMPLATES_SUCCESS, GET_TEMPLATES_FAILURE, ADD_TEMPLATE_REQUEST, ADD_TEMPLATE_SUCCESS,
+  ADD_TEMPLATE_FAILURE, DELETE_TEMPLATE_REQUEST, DELETE_TEMPLATE_SUCCESS, DELETE_TEMPLATE_FAILURE
+} from "./types";
 import * as api from "./api";
 import { clearFilterState } from "../../filter/actions";
 import { clearMenuState } from "../../menu/actions";
@@ -10,17 +13,16 @@ import { clearMenuState } from "../../menu/actions";
 function _loadTemplate() {
   return {
     [CALL_API] : {
-      types    : [type.CONTENT_REQUEST, type.CONTENT_SUCCESS, type.CONTENT_FAILURE],
-      callback : api.getContentList(),
+      types    : [GET_TEMPLATES_REQUEST, GET_TEMPLATES_SUCCESS, GET_TEMPLATES_FAILURE],
+      callback : api.getTemplates(),
     },
   };
 }
-
 export function loadTemplate() {
   return (dispatch) => {
     dispatch(clearFilterState());
     dispatch(clearMenuState());
-    return dispatch(_loadTemplate());
+    dispatch(_loadTemplate());
   };
 }
 
@@ -30,12 +32,11 @@ export function loadTemplate() {
 function _addTemplate(params) {
   return {
     [CALL_API] : {
-      types    : [type.TEMPLATE_CREATE_REQUEST, type.TEMPLATE_CREATE_SUCCESS, type.TEMPLATE_CREATE_FAILURE],
+      types    : [ADD_TEMPLATE_REQUEST, ADD_TEMPLATE_SUCCESS, ADD_TEMPLATE_FAILURE],
       callback : api.createTemplate(params),
     },
   };
 }
-
 export function addTemplate(params) {
   return (dispatch) =>
     dispatch(_addTemplate(params))
@@ -44,19 +45,15 @@ export function addTemplate(params) {
 
 /**
  * Delete an existing table template from db
- * @param params
- * @returns {{}}
- * @private
  */
 function _deleteTemplate(params) {
   return {
     [CALL_API] : {
-      types    : [type.TEMPLATE_DELETE_REQUEST, type.TEMPLATE_DELETE_SUCCESS, type.TEMPLATE_DELETE_FAILURE],
+      types    : [DELETE_TEMPLATE_REQUEST, DELETE_TEMPLATE_SUCCESS, DELETE_TEMPLATE_FAILURE],
       callback : api.deleteTemplate(params),
     },
   };
 }
-
 export function deleteTemplate(params) {
   return dispatch => {
     let promise = null;

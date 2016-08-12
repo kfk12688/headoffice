@@ -2,7 +2,7 @@ import fetch from "../../fetchWrapper";
 
 const api = "http://localhost:3001/api/template";
 
-export const getContentList = () => {
+export const getTemplates = () => {
   return fetch("GET", api)
     .then(res => res.json())
     .then(json => {

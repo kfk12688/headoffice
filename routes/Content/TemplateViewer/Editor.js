@@ -5,7 +5,7 @@ import { EditorMenu } from "./EditorMenu";
 import { TitleBar } from "./TitleBar";
 import {
   loadEditor, editTemplate, errorTemplate, editRow, deleteRow, clearEditFlag
-} from "../../../dataflow/editor/actions";
+} from "../../../dataflow/content/editor/actions";
 import { toggleMenuSidebar, clearMenuState } from "../../../dataflow/menu/actions";
 import styles from "./Editor.less";
 
@@ -173,7 +173,7 @@ Editor.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  editor      : state.editor,
+  editor      : state.content.editor,
   contextMenu : state.menu,
 });
 

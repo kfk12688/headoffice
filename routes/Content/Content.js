@@ -4,7 +4,7 @@ import { Breadcrumb, Search, DG } from "components";
 import { ContentMenu } from "./ContentMenu";
 import * as filterActions from "../../dataflow/filter/actions";
 import * as cmActions from "../../dataflow/menu/actions";
-import * as contentActions from "../../dataflow/content/actions";
+import * as contentActions from "../../dataflow/content/facing/actions";
 import { getRows, Formatter as formatter } from "../utils";
 import styles from "./Content.less";
 
@@ -46,6 +46,17 @@ class Content extends Component {
         "actions"  : this.actionsCollection,
       },
       {
+        name       : "entry-col",
+        renderType : "entryButton",
+        buttonText : "Enter Data",
+        link       : {
+          path : "/content/entry",
+          key  : "id",
+        },
+        sortable   : false,
+        text       : "",
+      },
+      {
         dataKey    : "userRef.name",
         name       : "user-col",
         renderType : "text",
@@ -78,10 +89,11 @@ class Content extends Component {
       "checkbox-col"   : 38,
       "favorite-col"   : 38,
       "name-col"       : 150,
-      "user-col"       : 120,
-      "workbook-col"   : 180,
-      "created-at-col" : 150,
-      "updated-at-col" : 150,
+      "entry-col"      : 85,
+      "user-col"       : 100,
+      "workbook-col"   : 175,
+      "created-at-col" : 145,
+      "updated-at-col" : 145,
     };
     this.colSortItems = this.getColumnSortList(props.sortColumn);
   }
@@ -307,10 +319,10 @@ const filterBindings = {
 };
 
 const mapStateToProps = (state) => ({
-  list        : state.content,
+  list        : state.content.facing,
   actionsMenu : state.menu,
   filter      : state.filter,
-  rows        : getRows(state.content.data, state.filter, filterBindings),
+  rows        : getRows(state.content.facing.data, state.filter, filterBindings),
 });
 
 const mapDispatchToProps = (dispatch) => ({

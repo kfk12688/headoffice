@@ -7,6 +7,7 @@ import { ListCell } from "./ListCell";
 import { NumberCell } from "./NumberCell";
 import { RefCell } from "./RefCell";
 import { TextCell } from "./TextCell";
+import { ButtonCell } from "./ButtonCell";
 import styles from "./common.less";
 
 function getCell(transform, type, row, col, isSelected) {
@@ -24,14 +25,12 @@ function getCell(transform, type, row, col, isSelected) {
     return (<ListCell value={transform()}/>);
   }
   if (type === "reference") {
-    return (
-      <RefCell
-        value={{
-          refTable : row.fieldReference && transform(row.fieldReference.tableName),
-          refField : row.fieldReference && transform(row.fieldReference.fieldName),
-        }}
-      />
-    );
+    return (<RefCell
+      value={{
+        refTable : row.fieldReference && transform(row.fieldReference.tableName),
+        refField : row.fieldReference && transform(row.fieldReference.fieldName),
+      }}
+    />);
   }
   if (type === "link") {
     const value = {
@@ -50,6 +49,9 @@ function getCell(transform, type, row, col, isSelected) {
   }
   if (type === "action") {
     return (<ActionCell data={row} actions={col.actions}/>);
+  }
+  if (type === "entryButton") {
+    return (<ButtonCell buttonText={col.buttonText} link={`${col.link.path}/${row[col.link.key]}`}/>);
   }
   return (<TextCell value={transform()}/>);
 }
@@ -109,3 +111,4 @@ export { ListCell } from "./ListCell";
 export { NumberCell } from "./NumberCell";
 export { RefCell } from "./RefCell";
 export { TextCell } from "./TextCell";
+export { ButtonCell } from "./ButtonCell";

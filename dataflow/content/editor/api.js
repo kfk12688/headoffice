@@ -1,5 +1,5 @@
 // import {data as egdata} from "../mock_data/EGData";
-import fetch from "../fetchWrapper";
+import fetch from "../../fetchWrapper";
 
 const api = "http://localhost:3001/api/template";
 

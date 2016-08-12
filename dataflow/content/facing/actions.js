@@ -1,8 +1,8 @@
-import { CALL_API } from "../middleware/callAPI";
+import { CALL_API } from "../../middleware/callAPI";
 import * as type from "./types";
 import * as api from "./api";
-import { clearFilterState } from "../filter/actions";
-import { clearMenuState } from "../menu/actions";
+import { clearFilterState } from "../../filter/actions";
+import { clearMenuState } from "../../menu/actions";
 
 /**
  * Load all the existing templates in the DB

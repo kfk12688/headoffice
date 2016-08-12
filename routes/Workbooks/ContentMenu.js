@@ -1,0 +1,97 @@
+import React, { Component } from "react";
+import { Button, Modal, PopupButton, Divider, PopupTextBox } from "components";
+import NewWorkbookForm from "./NewWorkbookForm";
+import cx from "classnames";
+import styles from "./ContentMenu.less";
+
+class ContentMenu extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { showModal : false };
+    this.toggleModal = this.toggleModal.bind(this);
+    this.selectAllHandler = this.selectAllHandler.bind(this);
+  }
+
+  getActions() {
+    const { actions } = this.props;
+    const actionsMenuContent = actions.map(action => {
+      const key = action.name.replace(/ /, "").toLowerCase();
+      return <div key={key} onClick={action.handler}>{action.name}</div>;
+    });
+
+    return (
+      <span>
+        <Divider vertical size={{ h: 24, w: 1 }} style={{ marginRight: 5 }}/>
+        <PopupButton label="Actions">
+          {actionsMenuContent}
+        </PopupButton>
+      </span>
+    );
+  }
+
+  toggleModal() {
+    if (this.state.showModal) {
+      this.setState({ showModal : false });
+    } else {
+      this.setState({ showModal : true });
+    }
+  }
+
+  selectAllHandler() {
+    this.props.selectAllRows(this.props.keys);
+  }
+
+  render() {
+    const {
+      className,
+      toggleSidebar,
+      colSortItems,
+      sortKey,
+      actionsMenu,
+      clearRowSelection,
+      addNewWorkbook,
+    } = this.props;
+
+    return (
+      <div
+        className={cx(styles.root, className)}
+      >
+        <div className={styles.left}>
+          <span>
+            <Button
+              faName="sliders"
+              onClick={toggleSidebar}
+              className={cx(styles.icon, { [styles.iconActive]: actionsMenu.showSidebar })}
+            />
+            <Modal
+              show={this.state.showModal}
+              toggleModal={this.toggleModal}
+              caption="Add New Workbook"
+              faName="plus"
+              accent
+            >
+              <NewWorkbookForm submitForm={addNewWorkbook} toggleModal={this.toggleModal}/>
+            </Modal>
+            <PopupButton label={`${actionsMenu.selectedKeys.length} selected`}>
+              <div onClick={this.selectAllHandler}>Select All</div>
+              <div onClick={clearRowSelection}>Clear selection</div>
+            </PopupButton>
+          </span>
+
+          {(actionsMenu.selectedKeys.length > 0) && this.getActions()}
+        </div>
+
+        <div className={styles.right}>
+          <span>Sort by : </span>
+          <span className={styles.sortBlock}>
+            <PopupTextBox matchParentWidth label={sortKey}>
+              {colSortItems}
+            </PopupTextBox>
+          </span>
+        </div>
+      </div>
+    );
+  }
+}
+
+export { ContentMenu };

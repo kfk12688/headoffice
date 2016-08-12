@@ -9,6 +9,7 @@ import filter from "./filter/reducer";
 import content from "./content/reducer";
 import user from "./user/reducer";
 import editor from "./editor/reducer";
+import workbooks from "./workbooks/reducer";
 
 const rootReducer = combineReducers({
   menu,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   user,
   editor,
   form,
+  workbooks,
   routing,
 });
 

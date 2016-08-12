@@ -1,6 +1,7 @@
 import App from "./App";
 import contentRoute from "../Content";
 import userRoute from "../Users";
+import workbooksRoute from "../Workbooks";
 
 const RootRoute = {
   path        : "/",
@@ -8,6 +9,7 @@ const RootRoute = {
   childRoutes : [
     contentRoute,
     userRoute,
+    workbooksRoute,
   ],
 };
 

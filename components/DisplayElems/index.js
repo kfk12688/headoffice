@@ -11,13 +11,12 @@ import { DateCell } from "./DateCell";
 import { ButtonCell } from "./ButtonCell";
 import styles from "./common.less";
 
-function getCell(transform, type, row, col, isSelected) {
+function getCell(transform, type, row, col) {
   if (type === "number") {
     return (<NumberCell value={transform()}/>);
   }
   if (type === "checkbox") {
-    const value = isSelected;
-    return (<CheckboxCell value={value}/>);
+    return (<CheckboxCell value={transform()}/>);
   }
   if (type === "favorite") {
     return (<FavoriteCell value={transform()}/>);
@@ -78,7 +77,7 @@ function getCell(transform, type, row, col, isSelected) {
   return (<TextCell value={transform()}/>);
 }
 
-export function renderDGCell(type, row, col, isSelected) {
+export function renderDGCell(type, row, col) {
   function transform() {
     const dataKeyParts = col.dataKey.split(".");
     let value = null;
@@ -100,7 +99,7 @@ export function renderDGCell(type, row, col, isSelected) {
     return value;
   }
 
-  return getCell(transform, type, row, col, isSelected);
+  return getCell(transform, type, row, col);
 }
 
 export function renderEGCell(type, row, col, colKey) {

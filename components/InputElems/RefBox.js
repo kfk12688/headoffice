@@ -3,6 +3,7 @@ import styles from "./common.less";
 
 export const RefBox = ({ title, tableOptions, fieldOptions, field }) => {
   const { tableName:tableField, colName:colField } = field;
+  const parse = e => JSON.parse(e.target.value);
 
   const tableOpts = tableOptions.map(opt => <option key={opt.id} value={JSON.stringify(opt)}>{opt.label}</option>);
   tableOpts.unshift(<option key="-1" value=""></option>);
@@ -16,14 +17,16 @@ export const RefBox = ({ title, tableOptions, fieldOptions, field }) => {
 
       <select
         className={styles.listboxSelect}
-        {...tableField}
+        onChange={e => tableField.onChange(parse(e))}
+        value={JSON.stringify(tableField.value) || ""}
       >
         {tableOpts}
       </select>
 
       <select
         className={styles.listboxSelect}
-        {...colField}
+        onChange={e => colField.onChange(parse(e))}
+        value={JSON.stringify(colField.value) || ""}
       >
         {fieldOpts}
       </select>

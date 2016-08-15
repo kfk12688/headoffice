@@ -20,6 +20,7 @@ class Content extends Component {
     // Defines the static colum specification for the Content Area
     this.colSpec = [
       {
+        dataKey     : "isSelected",
         headerStyle : { borderRight : 0 },
         name        : "checkbox-col",
         renderType  : "checkbox",
@@ -40,7 +41,7 @@ class Content extends Component {
           path   : "/content/edit",
           urlKey : "id",
         },
-        button : {
+        button     : {
           buttonText : "Enter Data",
           link       : {
             path : "/content/entry",

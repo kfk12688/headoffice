@@ -19,6 +19,7 @@ class Workbooks extends Component {
 
     this.colSpec = [
       {
+        dataKey     : "isSelected",
         headerStyle : { borderRight : 0 },
         name        : "has-alert-col",
         renderType  : "checkbox",

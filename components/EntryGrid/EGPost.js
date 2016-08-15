@@ -11,6 +11,14 @@ class EGPost extends React.Component {
     this.state = { entryState : ADD_NEW_ENTRY };
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.selectedRow !== null) {
+      this.setState({ entryState : EDIT_EXISTING_ENTRY });
+    } else {
+      this.setState({ entryState : ADD_NEW_ENTRY });
+    }
+  }
+
   getFormFields(cols) {
     const fields = [];
     for (const k in cols) {
@@ -33,14 +41,6 @@ class EGPost extends React.Component {
     return fields;
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.selectedRow !== null) {
-      this.setState({ entryState : EDIT_EXISTING_ENTRY });
-    } else {
-      this.setState({ entryState : ADD_NEW_ENTRY });
-    }
-  }
-
   render() {
     const { cols, postHandler, clearEditFlag } = this.props;
 
@@ -57,6 +57,7 @@ class EGPost extends React.Component {
           fields={this.getFormFields(cols)}
           submitForm={postHandler}
           clearEditFlag={clearEditFlag}
+          editorState={this.state.entryState}
         />
 
       </div>

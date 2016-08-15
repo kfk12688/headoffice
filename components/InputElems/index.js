@@ -100,7 +100,7 @@ class EditorEntryForm extends Component {
   }
 
   render() {
-    const { cols, fields } = this.props;
+    const { cols, fields, editorState } = this.props;
 
     return (
       <form onSubmit={this.submitForm}>
@@ -108,7 +108,7 @@ class EditorEntryForm extends Component {
         {getForm(cols, fields)}
 
         <div className={styles.formSubmitGroup}>
-          <FormButton accent type="submit">Add</FormButton>
+          <FormButton accent type="submit">{editorState ? "Add" : "Edit"}</FormButton>
           <FormButton onClick={this.resetForm}>Cancel</FormButton>
         </div>
       </form>
@@ -123,6 +123,8 @@ EditorEntryForm.propTypes = {
   submitForm    : React.PropTypes.func,
   resetForm     : React.PropTypes.func,
   clearEditFlag : React.PropTypes.func,
+  // indicates the state of the form - whether edit/addition
+  editorState : React.PropTypes.bool,
 };
 
 export default reduxForm()(EditorEntryForm);

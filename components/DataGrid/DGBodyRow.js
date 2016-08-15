@@ -15,13 +15,16 @@ class DGBodyRow extends Component {
     const dataGridBodyCells = cols.map((col, index) => {
       const colName = col.name;
 
+      if (col.renderType === "checkbox") {
+        row.isSelected = isRowSelected;
+      }
+
       return (
         <DGBodyCell
           key={`${row.id} ${index}`}
           col={col}
           colWidth={colWidths[colName]}
           row={row}
-          isSelected={isRowSelected}
         />
       );
     });

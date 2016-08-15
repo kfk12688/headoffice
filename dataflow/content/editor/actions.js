@@ -35,11 +35,11 @@ export const editTemplate = params => (dispatch) =>
 
 // Actions that control the embedded form in TemplateViewer_Editor --> EntryGrid
 const _setEditFlag = createAction(SET_EDIT_FLAG, row => ({ row }));
+export const clearEditFlag = createAction(CLEAR_EDIT_FLAG);
 export const editRow = row => dispatch => {
   dispatch(_setEditFlag(row));
   dispatch(populateForm(row));
 };
-export const clearEditFlag = createAction(CLEAR_EDIT_FLAG);
 
 // Deletes a row from the db
 export const deleteRow = row => dispatch => {

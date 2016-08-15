@@ -2,10 +2,14 @@
 
 .alignLeft {
   text-align: left;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .alignRight {
   text-align: right;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .iconSize {
@@ -46,11 +50,26 @@
   width: inherit;
   &Action {
     position: absolute;
-    right: 12px;
+    right: 24px;
+  }
+  &Link_1 {
+    position: absolute;
+    left: 0;
+    width: 90px;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
   &Link {
     position: absolute;
     left: 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  &Button {
+    position: absolute;
+    top: 8px;
+    right: 48px;
+    line-height: 0;
   }
 }
 
@@ -73,7 +92,7 @@
       text-decoration: none;
     }
   }
-  padding: 4px 3px;
+  padding: 3px 3px;
   font-size: 11px;
   border-radius: 2px;
   background-color: @indigoA100;

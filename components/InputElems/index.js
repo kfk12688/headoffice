@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { TextBox } from "./TextBox";
+import { NumberBox } from "./NumberBox";
 import { ListBox } from "./ListBox";
 import { DateBox } from "./DateBox";
 import { RefBox } from "./RefBox";
@@ -39,6 +40,15 @@ function getForm(cols, fields) {
     if (type === "date") {
       return (
         <DateBox
+          key={title}
+          title={title}
+          field={field}
+        />
+      );
+    }
+    if (type === "number") {
+      return (
+        <NumberBox
           key={title}
           title={title}
           field={field}

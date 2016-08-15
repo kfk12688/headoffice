@@ -1,9 +1,11 @@
 import { createAction } from "redux-actions";
 import { ON_CHANGE, DESTROY, RESET_FORM, POPULATE } from "./types";
 
+const isDefined = variable =>
+  (variable !== undefined) && (variable !== null);
+
 export const onChange = createAction(ON_CHANGE, (field, event) => {
-  // fixme : this workaround needs to be fixed
-  const value = (event.target !== undefined) && (event.target.value !== undefined) ?
+  const value = isDefined(event) && isDefined(event.target) && isDefined(event.target.value) ?
                 event.target.value :
                 event;
 

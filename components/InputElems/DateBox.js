@@ -1,9 +1,10 @@
 import React from "react";
 import styles from "./common.less";
+import moment from "moment";
 
 export const DateBox = ({ title, field }) => {
   const { onChange, value, ...rest } = field;
-  const parse = event => ({ val : event.target.value });
+  const parse = event => moment.utc(event.target.value);
 
   return (
     <div className={styles.datebox}>
@@ -12,7 +13,7 @@ export const DateBox = ({ title, field }) => {
         type="date"
         className={styles.dateboxInput}
         onChange={e => onChange(parse(e))}
-        value={value.val || ""}
+        value={moment(value).isValid() && moment(value).format("YYYY-MM-DD") || ""}
         {...rest}
       />
     </div>

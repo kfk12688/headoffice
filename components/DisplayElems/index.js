@@ -7,6 +7,7 @@ import { ListCell } from "./ListCell";
 import { NumberCell } from "./NumberCell";
 import { RefCell } from "./RefCell";
 import { TextCell } from "./TextCell";
+import { DateCell } from "./DateCell";
 import { ButtonCell } from "./ButtonCell";
 import styles from "./common.less";
 
@@ -32,6 +33,27 @@ function getCell(transform, type, row, col, isSelected) {
       }}
     />);
   }
+  if (type === "buttonLink") {
+    const value = {
+      text   : transform(),
+      urlKey : row[col.linkRef.urlKey],
+      path   : col.linkRef.path,
+    };
+    const { actions = [] } = col;
+    const { buttonText, link } = col.button;
+
+    return (
+      <div className={styles.linkCellContainer}>
+        <LinkCell className={styles.linkCellContainerLink_1} value={value}/>
+        <ButtonCell
+          className={styles.linkCellContainerButton}
+          buttonText={buttonText}
+          link={`${link.path}/${row[link.key]}`}
+        />
+        <ActionCell className={styles.linkCellContainerAction} actions={actions}/>
+      </div>
+    );
+  }
   if (type === "link") {
     const value = {
       text   : transform(),
@@ -50,8 +72,8 @@ function getCell(transform, type, row, col, isSelected) {
   if (type === "action") {
     return (<ActionCell data={row} actions={col.actions}/>);
   }
-  if (type === "entryButton") {
-    return (<ButtonCell buttonText={col.buttonText} link={`${col.link.path}/${row[col.link.key]}`}/>);
+  if (type === "date") {
+    return (<DateCell value={transform()}/>);
   }
   return (<TextCell value={transform()}/>);
 }
@@ -84,16 +106,16 @@ export function renderDGCell(type, row, col, isSelected) {
 export function renderEGCell(type, row, col, colKey) {
   function transform() {
     let value = "";
-    const isKeyPresent = ((row[colKey] !== undefined) && ("val" in row[colKey]));
+    const isKeyPresent = row[colKey] !== undefined;
     const isKeyNull = row[colKey] === null;
 
     if (isKeyPresent) {
       if (isKeyNull) {
         value = "";
       } else if (col.cellFormatter !== undefined) {
-        value = col.cellFormatter(row[colKey].val);
+        value = col.cellFormatter(row[colKey]);
       } else {
-        value = row[colKey].val;
+        value = row[colKey];
       }
     }
 
@@ -111,4 +133,5 @@ export { ListCell } from "./ListCell";
 export { NumberCell } from "./NumberCell";
 export { RefCell } from "./RefCell";
 export { TextCell } from "./TextCell";
+export { DateCell } from "./DateCell";
 export { ButtonCell } from "./ButtonCell";

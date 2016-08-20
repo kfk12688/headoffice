@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Sidebar, EG } from "components";
+import { Sidebar, EntryGrid } from "components";
 import { TitleBar } from "./TitleBar";
 import { clearMenuState } from "../../../dataflow/menu/actions";
-import { loadSpec, addRow } from "../../../dataflow/content/entry/actions";
+import { loadSpec, addRow, deleteRow, editRow } from "../../../dataflow/content/entry/actions";
 import styles from "./Editor.less";
 
 class Editor extends Component {
@@ -56,7 +56,7 @@ class Editor extends Component {
           }
 
           {/* DataGrid Container */}
-          <EG
+          <EntryGrid
             className={styles.entrygrid}
             style={{ left: !contextMenuStore.showSidebar && 0 }}
             colSpec={entryStore.spec.fields}
@@ -85,6 +85,8 @@ Editor.propTypes = {
   clearMenuState : React.PropTypes.func.isRequired,
   loadSpec       : React.PropTypes.func,
   addRow         : React.PropTypes.func,
+  editRow        : React.PropTypes.func,
+  deleteRow      : React.PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -96,6 +98,8 @@ const mapDisptachToProps = dispatch => ({
   clearMenuState : () => dispatch(clearMenuState()),
   loadSpec       : (params) => dispatch(loadSpec(params)),
   addRow         : params => dispatch(addRow(params)),
+  editRow        : params => dispatch(editRow(params)),
+  deleteRow      : params => dispatch(deleteRow(params)),
 });
 
 export default connect(mapStateToProps, mapDisptachToProps)(Editor);

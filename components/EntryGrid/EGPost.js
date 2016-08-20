@@ -1,5 +1,5 @@
 import React from "react";
-import EditorEntryForm from "../InputElems";
+import EditorEntryForm from "./EGForm";
 import styles from "./EGPost.less";
 
 const ADD_NEW_ENTRY = true;

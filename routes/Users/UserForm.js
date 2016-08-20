@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { FormButton } from "components";
-import FontAwesome from "react-fontawesome";
 import "../../styles/Select.css";
 import cx from "classnames";
-import reduxForm from "../../lib/FormWrapper";
+import reduxForm from "../../lib/ReduxForm";
 import styles from "./UserForm.less";
 
 class CreateUserForm extends Component {

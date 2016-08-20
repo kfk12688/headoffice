@@ -46,15 +46,19 @@ const FormButton = ({ style, className, faName, faClassName, onClick, after, acc
 };
 
 FormButton.displayName = "FormButton";
-FormButton.PropTypes = {
+FormButton.propTypes = {
   style       : PropTypes.object,
   className   : PropTypes.string,
+  type        : PropTypes.string,       // specifies the button type
   faName      : PropTypes.string,
   faClassName : PropTypes.string,
   children    : PropTypes.element,
   onClick     : PropTypes.func,
   after       : PropTypes.boolean,
-  accent      : PropTypes.boolean,
+  accent      : PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.boolean,
+  ]),
 };
 
 export { FormButton };

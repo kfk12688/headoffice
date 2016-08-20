@@ -3,7 +3,7 @@ import { FormButton } from "components";
 import Select from "react-select";
 import "../../styles/Select.css";
 import { searchWorkbook } from "../../dataflow/workbooks/api";
-import reduxForm from "../../lib/FormWrapper";
+import reduxForm from "../../lib/ReduxForm";
 import styles from "./TemplateForm.less";
 
 const WorkbookSelect = ({ value, onChange, className }) =>

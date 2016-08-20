@@ -1,14 +1,14 @@
 import React, { Component } from "react";
-import { SearchBox, PopupDateBox, PopupCheckBox, PopupSearchBox } from "components";
+import { SearchInput, CheckBoxInput, ListInput, DateInput } from "components";
 import cx from "classnames";
-import styles from "./Search.less";
+import styles from "./SearchBar.less";
 
 const ClearSpan = ({ h }) => <span className={styles.clear} onClick={h}>Clear</span>;
 ClearSpan.propTypes = {
   h : React.PropTypes.func.isRequired,    // The handler function for clearing the data
 };
 
-class Search extends Component {
+class SearchBar extends Component {
   constructor(props) {
     super(props);
     this.getSearchElements = this.getSearchElements.bind(this);
@@ -23,9 +23,9 @@ class Search extends Component {
               <span className={styles.label}>{label}</span>
               {(value !== undefined) && value.isValid() && <ClearSpan h={handler}/>}
             </div>
-            <PopupDateBox
-              value={value}
-              onChangeHandler={handler}
+            <DateInput
+              className={styles.dateInput}
+              field={{ value, onChange : handler }}
             />
           </div>
         );
@@ -38,10 +38,9 @@ class Search extends Component {
               <span className={styles.label}>{label}</span>
               {(value !== undefined) && <ClearSpan h={handler}/>}
             </div>
-            <PopupSearchBox
-              value={value}
-              onChangeHandler={handler}
+            <ListInput
               matchParentWidth
+              field={{ value, onChange : handler }}
             />
           </div>
         );
@@ -50,13 +49,12 @@ class Search extends Component {
       if (type === "checkbox") {
         return (
           <div className={styles.filterHeaderBlock} key={label}>
-            <PopupCheckBox
+            <CheckBoxInput
               className={styles.label}
-              value={value}
-              onChangeHandler={handler}
+              field={{ value, onChange : handler }}
             >
               {label}
-            </PopupCheckBox>
+            </CheckBoxInput>
           </div>
         );
       }
@@ -75,7 +73,7 @@ class Search extends Component {
     return (
       <div className={cx(styles.base, className)}>
         <div className={styles.searchbox}>
-          <SearchBox />
+          <SearchInput />
         </div>
         <div>
           <div className={styles.filterHeader}>General Filters</div>
@@ -88,9 +86,9 @@ class Search extends Component {
   }
 }
 
-Search.propTypes = {
+SearchBar.propTypes = {
   className : React.PropTypes.string,
   config    : React.PropTypes.array,
 };
 
-export { Search };
+export { SearchBar };

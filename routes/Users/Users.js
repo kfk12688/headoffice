@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { DG, Breadcrumb, Search } from "components";
+import { DataGrid, Breadcrumb, SearchBar } from "components";
 import { ContentMenu } from "./ContentMenu";
 import * as userActions from "../../dataflow/user/actions";
 import * as cmActions from "../../dataflow/menu/actions";
@@ -187,17 +187,17 @@ class User extends Component {
         />
 
         <div>
-          {/* Search Container */}
+          {/* SearchBar Container */}
           {
             actionsMenu.showSidebar &&
-            <Search
+            <SearchBar
               className={styles.search}
               config={searchConfig}
             />
           }
 
           {/* DataGrid Container */}
-          <DG
+          <DataGrid
             className={styles.datagrid}
             style={{ left: !actionsMenu.showSidebar && 0 }}
             isLoading={user.isLoading}

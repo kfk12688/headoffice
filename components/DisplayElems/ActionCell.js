@@ -1,6 +1,6 @@
 import React from "react";
 import style from "./common.less";
-import { PopupButton } from "../Popup";
+import { PopupButton } from "../Button";
 
 export const ActionCell = ({ actions, className, data }) => {
   const actionsElement = actions.map(action => {

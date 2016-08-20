@@ -8,7 +8,7 @@ import FontAwesome from "react-fontawesome";
 import styles from "./DG.less";
 import cx from "classnames";
 
-class DG extends Component {
+class DataGrid extends Component {
   constructor(props) {
     super(props);
     this.state = { colWidths : props.colWidths };
@@ -49,7 +49,7 @@ class DG extends Component {
   }
 }
 
-DG.PropTypes = {
+DataGrid.PropTypes = {
   rows              : PropTypes.object.isRequired,
   cols              : PropTypes.object.isRequired,
   colWidths         : PropTypes.object.isRequired,
@@ -61,4 +61,4 @@ DG.PropTypes = {
   onRowClick        : PropTypes.func,
 };
 
-export { DG };
+export { DataGrid };

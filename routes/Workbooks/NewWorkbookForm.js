@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { FormButton } from "components";
 import "../../styles/Select.css";
 import cx from "classnames";
-import reduxForm from "../../lib/FormWrapper";
+import reduxForm from "../../lib/ReduxForm";
 import styles from "./NewWorkbookForm.less";
 
 class CreateUserForm extends Component {

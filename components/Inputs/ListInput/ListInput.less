@@ -1,5 +1,4 @@
-@import url("../../styles/colors");
-@import url("../../styles/spacing");
+@import "../../../styles/colors";
 
 .base {
   position: relative;
@@ -38,3 +37,29 @@
   height: 200px;
   overflow-y: auto;
 }
+
+.searchBox {
+  height: 25px;
+  position: relative;
+  &Input {
+    height: 100%;
+    width: 100%;
+    padding: 2px;
+    outline: none;
+    border: 1px solid @grey500;
+    &:hover,
+    &:focus {
+      cursor: pointer;
+      border: 1px solid @grey900;
+    }
+  }
+
+  &Icon {
+    font-size: 12px!important;
+    color: gray;
+    position: absolute;
+    right: 0;
+    padding: 6px 5px;
+  }
+}
+

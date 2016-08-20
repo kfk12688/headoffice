@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Sidebar, EG } from "components";
-import { EditorMenu } from "./EditorMenu";
+import { EntryGrid, FormButton } from "components";
 import { TitleBar } from "./TitleBar";
 import {
   loadEditor, editTemplate, errorTemplate, editRow, deleteRow, clearEditFlag
@@ -120,24 +119,9 @@ class Editor extends Component {
           editTemplate={this.editTemplateMetaHandler}
         />
 
-        {/* Contextual Menu */}
-        <EditorMenu
-          className={styles.editorMenu}
-          toggleSidebar={toggleSidebar}
-          store={contextMenu}
-        />
-
         <div>
-          {/* Sidebar Container */}
-          {
-            contextMenu.showSidebar &&
-            <Sidebar
-              className={styles.sidebar}
-            />
-          }
-
           {/* DataGrid Container */}
-          <EG
+          <EntryGrid
             className={styles.entrygrid}
             style={{ left: !contextMenu.showSidebar && 0 }}
             colSpec={this.colSpec}
@@ -148,6 +132,14 @@ class Editor extends Component {
             selectedRow={editor.selectedRow}
             clearEditFlag={clearEditFlag}
           />
+
+          {/* Sidebar Container */}
+          <div className={styles.sidebar}>
+            <FormButton accent="green" className={styles.sidebarButton}>Save</FormButton>
+            <FormButton accent="green" className={styles.sidebarButton}>Undo</FormButton>
+            <FormButton accent="green" className={styles.sidebarButton}>Redo</FormButton>
+            <FormButton accent="green" className={styles.sidebarButton}>Cancel</FormButton>
+          </div>
         </div>
       </div>
     );

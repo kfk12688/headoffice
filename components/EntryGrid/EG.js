@@ -6,7 +6,7 @@ import FontAwesome from "react-fontawesome";
 import styles from "./EG.less";
 import cx from "classnames";
 
-class EG extends React.Component {
+class EntryGrid extends React.Component {
   constructor(props) {
     super(props);
     this.state = { colWidths : props.colWidths };
@@ -47,4 +47,4 @@ class EG extends React.Component {
   }
 }
 
-export { EG };
+export { EntryGrid };

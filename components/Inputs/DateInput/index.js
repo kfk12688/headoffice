@@ -1,14 +1,13 @@
 import React from "react";
-import styles from "./common.less";
 import moment from "moment";
+import styles from "./DateInput.less";
 
-export const DateBox = ({ title, field }) => {
+export const DateInput = ({ field, className }) => {
   const { onChange, value, ...rest } = field;
   const parse = event => moment.utc(event.target.value);
 
   return (
-    <div className={styles.datebox}>
-      <span className={styles.dateboxTitle}>{title}</span>
+    <div className={className || styles.datebox}>
       <input
         type="date"
         className={styles.dateboxInput}
@@ -20,7 +19,7 @@ export const DateBox = ({ title, field }) => {
   );
 };
 
-DateBox.propTypes = {
-  title : React.PropTypes.string.isRequired,
-  field : React.PropTypes.object,
+DateInput.propTypes = {
+  className : React.PropTypes.string,
+  field     : React.PropTypes.object.isRequired,
 };

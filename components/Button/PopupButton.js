@@ -1,8 +1,5 @@
-/**
- * Created by sharavan on 21/05/16.
- */
 import React from "react";
-import { Button } from "../Button/index";
+import { Button } from "./index";
 import cx from "classnames";
 import Overlay from "react-overlays/lib/Overlay";
 import styles from "./PopupButton.less";

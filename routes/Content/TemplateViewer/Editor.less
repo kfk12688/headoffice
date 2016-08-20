@@ -19,21 +19,26 @@
   .absolute-position-mixin(@breadcrumbHt);
 }
 
-// Context Menu Style
-.editorMenu {
-  .absolute-position-mixin(@breadcrumbHt+@titleBarHt);
-}
-
 // Sidebar Container Style
 .sidebar {
-  .absolute-position-mixin(@breadcrumbHt+@actionContainerHt+@titleBarHt);
-  width: 230px;
+  .absolute-position-mixin(@breadcrumbHt+@titleBarHt, @left: auto);
+  width: 150px;
   background-color: @grey50;
+  border-left: 4px solid @grey300;
+  padding-top: 15px;
+  &Button {
+    width: 130px;
+    margin: 0px 8px;
+    height: 25px;
+    text-align: left;
+    font-weight: 400;
+    margin-bottom: 5px;
+  }
 }
 
-// DG Container Style
+// DataGrid Container Style
 .entrygrid {
-  .absolute-position-mixin(@top: @breadcrumbHt+@actionContainerHt+@titleBarHt, @left: 230px);
+  .absolute-position-mixin(@top: @breadcrumbHt+@titleBarHt, @right: 150px);
   padding: 0 0 10px 0;
   background-color: @white;
 }

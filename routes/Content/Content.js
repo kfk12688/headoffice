@@ -39,7 +39,7 @@ class Content extends Component {
         dataKey    : "templateName",
         linkRef    : {
           path   : "/content/edit",
-          urlKey : "id",
+          urlKey : "_id",
         },
         button     : {
           buttonText : "Enter Data",
@@ -54,10 +54,10 @@ class Content extends Component {
         "actions"  : this.actionsCollection,
       },
       {
-        dataKey    : "userRef.name",
+        dataKey    : "createdBy.username",
         name       : "user-col",
         renderType : "text",
-        text       : "User",
+        text       : "Created By",
       },
       {
         dataKey    : "workBook.name",
@@ -66,15 +66,15 @@ class Content extends Component {
         text       : "Work Book",
       },
       {
-        cellFormatter : formatter.toDate,
+        cellFormatter : formatter.toDate.bind(undefined, "DD-MM-YYYY"),
         dataKey       : "createdAt",
         name          : "created-at-col",
         renderType    : "date",
         sortable      : true,
-        text          : "Created At",
+        text          : "Created On",
       },
       {
-        cellFormatter : formatter.toDate,
+        cellFormatter : formatter.toDate.bind(undefined, "DD-MM-YY h:mm A"),
         dataKey       : "modifiedAt",
         name          : "updated-at-col",
         renderType    : "date",
@@ -87,9 +87,9 @@ class Content extends Component {
       "favorite-col"   : 38,
       "name-col"       : 200,
       "user-col"       : 100,
-      "workbook-col"   : 150,
+      "workbook-col"   : 170,
       "created-at-col" : 100,
-      "updated-at-col" : 100,
+      "updated-at-col" : 130,
     };
     this.colSortItems = this.getColumnSortList(props.sortColumn);
   }
@@ -243,7 +243,7 @@ class Content extends Component {
           {/* DataGrid Container */}
           <DataGrid
             className={styles.datagrid}
-            style={{ left: !actionsMenu.showSidebar && 0 }}
+            style={{ left : !actionsMenu.showSidebar && 0 }}
             isLoading={list.isLoading}
             cols={this.colSpec}
             colWidths={this.colWidths}
@@ -265,7 +265,7 @@ class Content extends Component {
     return (
       <div
         className={styles.base}
-        style={{ top: rollUp ? 62 : 0 }}
+        style={{ top : rollUp ? 53 : 0 }}
       >
 
         {/* Breadcrumb */}

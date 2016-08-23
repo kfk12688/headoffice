@@ -12,7 +12,7 @@ const CheckBoxInput = ({ field, className, children }) => {
         checked={value}
         onChange={onChange}
       />
-      <span className={className}>{children}</span>
+      {children && <span>{children}</span>}
     </div>
   );
 };
@@ -20,7 +20,7 @@ const CheckBoxInput = ({ field, className, children }) => {
 CheckBoxInput.propTypes = {
   field     : React.PropTypes.object.isRequired,
   className : React.PropTypes.string,
-  children  : React.PropTypes.node.isRequired,
+  children  : React.PropTypes.node,
 };
 
 export { CheckBoxInput };

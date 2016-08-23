@@ -1,0 +1,23 @@
+@import "../../../styles/colors";
+
+.base {
+  border: 1px solid @grey500;
+  background-color: white;
+  padding-left: 3px;
+  cursor: pointer;
+  &:hover,
+  &:focus {
+    border: 1px solid @grey900;
+  }
+}
+
+.menu {
+  background: @white;
+  border: 1px solid @grey500;
+  font-size: 12px;
+  padding: 4px;
+  color: @grey700;
+  position: absolute;
+  min-height: 90px;
+  overflow-y: auto;
+}

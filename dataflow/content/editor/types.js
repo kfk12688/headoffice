@@ -10,4 +10,5 @@ export const EDIT_SUCCESS = "routes/content/template_viewer/TEMPLATE_EDIT_SUCCES
 export const EDIT_FAILURE = "routes/content/template_viewer/TEMPLATE_EDIT_FAILURE";
 export const SET_EDIT_FLAG = "routes/content/template_viewer/TEMPLATE_EDITOR_SET_EDIT_ROW_FLAG";
 export const CLEAR_EDIT_FLAG = "routes/content/template_viewer/TEMPLATE_EDITOR_CLEAR_EDIT_ROW_FLAG";
-export const DELETE = "routes/content/template_viewer/TEMPLATE_EDITOR_DELETE_ROW";
+
+export const ADD_FIELD = "routes/content/template_viewer/ADD_FIELD_TO_REDUX";

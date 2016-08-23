@@ -16,8 +16,8 @@ class DataGrid extends Component {
 
   render() {
     const {
-      style, className, cols, colWidths, colSortFunction,
-      sortKey, sortAscending, selectedKeys, onRowClick, rows, isLoading
+      style, className, cols, colSortFunction,
+      sortKey, sortAscending, selectedKeys, onRowClick, rows, isLoading,
     } = this.props;
 
     return (
@@ -49,8 +49,14 @@ class DataGrid extends Component {
   }
 }
 
-DataGrid.PropTypes = {
-  rows              : PropTypes.object.isRequired,
+DataGrid.propTypes = {
+  className         : PropTypes.string,
+  style             : PropTypes.object,
+  isLoading         : PropTypes.bool,
+  rows              : PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.object),
+    PropTypes.object,
+  ]),
   cols              : PropTypes.object.isRequired,
   colWidths         : PropTypes.object.isRequired,
   sortAscending     : PropTypes.boolean,

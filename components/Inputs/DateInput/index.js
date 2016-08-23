@@ -12,7 +12,7 @@ export const DateInput = ({ field, className }) => {
         type="date"
         className={styles.dateboxInput}
         onChange={e => onChange(parse(e))}
-        value={moment(value).isValid() && moment(value).format("YYYY-MM-DD") || ""}
+        value={(value && moment(value).isValid()) ? moment(value).format("YYYY-MM-DD") : ""}
         {...rest}
       />
     </div>

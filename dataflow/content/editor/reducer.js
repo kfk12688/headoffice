@@ -1,14 +1,12 @@
 import { handleActions } from "redux-actions";
 import {
   SET_EDIT_FLAG, CLEAR_EDIT_FLAG, EDIT_FAILURE, EDIT_REQUEST, EDIT_SUCCESS, EDITOR_SUCCESS, EDITOR_FAILURE,
-  EDITOR_REQUEST
+  EDITOR_REQUEST, ADD_FIELD
 } from "./types";
 
 const initialState = {
   // Object of objects with key as the template id
   primaryKey  : "fieldName",
-  data        : {},
-  postData    : {},
   isLoading   : false,
   error       : {},
   selectedRow : null,
@@ -22,7 +20,7 @@ const reducer = handleActions({
   }),
   [EDITOR_SUCCESS]  : (state, action) => ({
     ...state,
-    data      : action.payload.data,
+    ...action.payload.data,
     isLoading : false,
   }),
   [EDITOR_FAILURE]  : (state, action) => ({
@@ -59,6 +57,21 @@ const reducer = handleActions({
     ...state,
     selectedRow : null,
   }),
+
+  [ADD_FIELD] : (state, action) => {
+    const { field } = action.payload;
+    const { primaryKey } = state;
+    const idx = state.fields.indexOf(f => f[primaryKey] === field[primaryKey]);
+
+    return {
+      ...state,
+      fields : {
+        ...state.fields.slice(0, idx),
+        ...field,
+        ...state.fields.slice(idx + 1),
+      },
+    };
+  },
 }, initialState);
 
 export default reducer;

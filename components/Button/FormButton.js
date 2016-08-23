@@ -6,7 +6,7 @@ import FontAwesome from "react-fontawesome";
 import cx from "classnames";
 import styles from "./FormButton.less";
 
-const FormButton = ({ style, className, faName, faClassName, onClick, after, accent, type, children }) => {
+const FormButton = ({ style, className, faName, faClassName, onClick, after, accent, type, children, disabled }) => {
   const faIcon = faName && <FontAwesome name={faName} className={faClassName}/>;
 
   let accentBtnStyle = styles.button;
@@ -14,6 +14,9 @@ const FormButton = ({ style, className, faName, faClassName, onClick, after, acc
     accentBtnStyle = styles.buttonWithGreenAccent;
   } else if (accent) {
     accentBtnStyle = styles.buttonWithAccent;
+  }
+  if ((disabled !== undefined) && disabled) {
+    accentBtnStyle = styles.disabledButton;
   }
 
   if (after) {
@@ -23,6 +26,7 @@ const FormButton = ({ style, className, faName, faClassName, onClick, after, acc
         style={style}
         onClick={onClick}
         type={type}
+        disabled={disabled}
       >
         {children}
         {" "}
@@ -37,6 +41,7 @@ const FormButton = ({ style, className, faName, faClassName, onClick, after, acc
       style={style}
       onClick={onClick}
       type={type}
+      disabled={disabled}
     >
       {faIcon}
       {" "}
@@ -59,6 +64,7 @@ FormButton.propTypes = {
     PropTypes.string,
     PropTypes.boolean,
   ]),
+  disabled    : React.PropTypes.bool,
 };
 
 export { FormButton };

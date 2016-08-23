@@ -3,12 +3,10 @@ import { ActionCell } from "./ActionCell";
 import { CheckboxCell } from "./CheckboxCell";
 import { FavoriteCell } from "./FavoriteCell";
 import { LinkCell } from "./LinkCell";
-import { ListCell } from "./ListCell";
 import { NumberCell } from "./NumberCell";
-import { RefCell } from "./RefCell";
 import { TextCell } from "./TextCell";
-import { DateCell } from "./DateCell";
 import { ButtonCell } from "./ButtonCell";
+import { LabelCell } from "./LabelCell";
 import styles from "./common.less";
 
 function getCell(transform, type, row, col) {
@@ -20,17 +18,6 @@ function getCell(transform, type, row, col) {
   }
   if (type === "favorite") {
     return (<FavoriteCell value={transform()}/>);
-  }
-  if (type === "list") {
-    return (<ListCell value={transform()}/>);
-  }
-  if (type === "reference") {
-    return (<RefCell
-      value={{
-        refTable : row.fieldReference && transform(row.fieldReference.tableName),
-        refField : row.fieldReference && transform(row.fieldReference.fieldName),
-      }}
-    />);
   }
   if (type === "buttonLink") {
     const value = {
@@ -71,15 +58,23 @@ function getCell(transform, type, row, col) {
   if (type === "action") {
     return (<ActionCell data={row} actions={col.actions}/>);
   }
-  if (type === "date") {
-    return (<DateCell value={transform()}/>);
+  if (type === "label") {
+    return (<LabelCell value={transform()}/>);
+  }
+  if (type === "join") {
+    const values = [];
+    const dataKeys = col.dataKey;
+    dataKeys.forEach(k => {
+      values.push(transform(k));
+    });
+    return (<TextCell value={values.reduce((ov, nv) => `${ov} ${nv}`)}/>);
   }
   return (<TextCell value={transform()}/>);
 }
 
 export function renderDGCell(type, row, col) {
-  function transform() {
-    const dataKeyParts = col.dataKey.split(".");
+  function transform(dataKey = col.dataKey) {
+    const dataKeyParts = dataKey.split(".");
     let value = null;
     let obj = row;
 
@@ -124,13 +119,4 @@ export function renderEGCell(type, row, col, colKey) {
   return getCell(transform, type, row, col);
 }
 
-export { ActionCell } from "./ActionCell";
-export { CheckboxCell } from "./CheckboxCell";
 export { FavoriteCell } from "./FavoriteCell";
-export { LinkCell } from "./LinkCell";
-export { ListCell } from "./ListCell";
-export { NumberCell } from "./NumberCell";
-export { RefCell } from "./RefCell";
-export { TextCell } from "./TextCell";
-export { DateCell } from "./DateCell";
-export { ButtonCell } from "./ButtonCell";

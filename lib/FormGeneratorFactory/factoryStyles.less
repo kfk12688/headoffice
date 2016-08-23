@@ -1,12 +1,20 @@
 @import "../../styles/colors";
 
 .input {
-  &Container{
-    height: 22px;
+  &Table {
+    display: table;
+    &Row {
+      display: table-row;
+    }
   }
-  &Title{
-    float: left;
+  &Title {
+    display: table-cell;
     height: inherit;
-    padding: 2px 0;
+    min-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  &Field {
+    display: table-cell;
   }
 }

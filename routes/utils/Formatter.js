@@ -12,10 +12,10 @@ class Formatter {
       return "0 Byte";
     }
 
-    let k = 1000; // or 1024 for binary
-    let dm = decimals + 1 || 1;
-    let sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
-    let i = Math.floor(Math.log(bytes) / Math.log(k));
+    const k = 1000; // or 1024 for binary
+    const dm = decimals + 1 || 1;
+    const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
   }
 
@@ -25,8 +25,8 @@ class Formatter {
    * @param format - the format string
    * @returns {any} - converted date string
    */
-  static toDate(date, format) {
-    let formatString = format || "D MMM YYYY, HH:mm";
+  static toDate(format, date) {
+    const formatString = format || "D MMM YYYY, HH:mm";
     return moment(date).format(formatString);
   }
 }

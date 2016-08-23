@@ -5,7 +5,7 @@ import { ContentMenu } from "./ContentMenu";
 import * as userActions from "../../dataflow/user/actions";
 import * as cmActions from "../../dataflow/menu/actions";
 import * as filterActions from "../../dataflow/filter/actions";
-import { getRows } from "../utils";
+import { getRows, Formatter as formatter } from "../utils";
 import styles from "./Users.less";
 
 class User extends Component {
@@ -28,8 +28,8 @@ class User extends Component {
         text        : "",
       },
       {
-        dataKey    : "name",
-        name       : "name-col",
+        dataKey    : "username",
+        name       : "username-col",
         renderType : "link",
         text       : "Display Name",
         actions    : this.actionsCollection,
@@ -37,6 +37,20 @@ class User extends Component {
           path   : "/user/edit",
           urlKey : "id",
         },
+      },
+      {
+        dataKey    : ["firstName", "lastName"],
+        name       : "full-name-col",
+        renderType : "join",
+        text       : "Full Name",
+      },
+      {
+        cellFormatter : formatter.toDate.bind(undefined, "DD-MM-YYYY"),
+        dataKey       : "createdAt",
+        name          : "created-at-col",
+        renderType    : "date",
+        sortable      : true,
+        text          : "Created On",
       },
       {
         dataKey    : "phoneNumber",
@@ -47,7 +61,9 @@ class User extends Component {
     ];
     this.colWidths = {
       "has-alert-col"    : 38,
-      "name-col"         : 160,
+      "username-col"     : 160,
+      "full-name-col"    : 200,
+      "created-at-col"   : 120,
       "phone-number-col" : 160,
     };
 
@@ -199,7 +215,7 @@ class User extends Component {
           {/* DataGrid Container */}
           <DataGrid
             className={styles.datagrid}
-            style={{ left: !actionsMenu.showSidebar && 0 }}
+            style={{ left : !actionsMenu.showSidebar && 0 }}
             isLoading={user.isLoading}
             cols={this.colSpec}
             colWidths={this.colWidths}
@@ -222,7 +238,7 @@ class User extends Component {
     return (
       <div
         className={styles.base}
-        style={{ top: rollUp ? 62 : 0 }}
+        style={{ top : rollUp ? 53 : 0 }}
       >
 
         {/* Breadcrumb */}

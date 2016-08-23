@@ -59,10 +59,9 @@ class FilterHelpers {
     if (sortAscending) {
       return data
         .sort((a, b) => +(a[sortKey] > b[sortKey]) || +(a[sortKey] === b[sortKey]) - 1);
-    } else {
-      return data
-        .sort((a, b) => +(a[sortKey] < b[sortKey]));
     }
+    return data
+      .sort((a, b) => +(a[sortKey] < b[sortKey]));
   }
 }
 

@@ -39,7 +39,7 @@ class DGBodyRow extends Component {
   }
 
   render() {
-    const { rowKey, isRowSelected } = this.props;
+    const { isRowSelected } = this.props;
     let rowStyle = {
       backgroundColor : isRowSelected ?
                         blueGrey50 :
@@ -67,7 +67,7 @@ DGBodyRow.propTypes = {
   rowKey        : React.PropTypes.string.isRequired,
   isRowSelected : React.PropTypes.bool,
   row           : React.PropTypes.object,
-  col           : React.PropTypes.object,
+  cols          : React.PropTypes.object,
   colWidths     : React.PropTypes.object,
 };
 

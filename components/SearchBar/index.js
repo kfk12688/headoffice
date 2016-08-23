@@ -1,9 +1,10 @@
 import React, { Component } from "react";
+import moment from "moment";
 import { SearchInput, CheckBoxInput, ListInput, DateInput } from "components";
 import cx from "classnames";
 import styles from "./SearchBar.less";
 
-const ClearSpan = ({ h }) => <span className={styles.clear} onClick={h}>Clear</span>;
+const ClearSpan = ({ h }) => <span className={styles.clear} onClick={h.bind(this, "")}>Clear</span>;
 ClearSpan.propTypes = {
   h : React.PropTypes.func.isRequired,    // The handler function for clearing the data
 };
@@ -21,10 +22,10 @@ class SearchBar extends Component {
           <div className={styles.filterHeaderBlock} key={label}>
             <div>
               <span className={styles.label}>{label}</span>
-              {(value !== undefined) && value.isValid() && <ClearSpan h={handler}/>}
+              {value && moment(value).isValid() && <ClearSpan h={handler}/>}
             </div>
             <DateInput
-              className={styles.dateInput}
+              className={styles.inputContainer}
               field={{ value, onChange : handler }}
             />
           </div>
@@ -36,9 +37,10 @@ class SearchBar extends Component {
           <div className={styles.filterHeaderBlock} key={label}>
             <div>
               <span className={styles.label}>{label}</span>
-              {(value !== undefined) && <ClearSpan h={handler}/>}
+              {value && <ClearSpan h={handler}/>}
             </div>
             <ListInput
+              className={styles.inputContainer}
               matchParentWidth
               field={{ value, onChange : handler }}
             />

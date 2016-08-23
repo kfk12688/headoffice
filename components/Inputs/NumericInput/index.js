@@ -6,19 +6,17 @@ export const NumericInput = ({ className, field }) => {
   const parse = event => Number(event.target.value);
 
   return (
-    <div className={className || styles.numericBox}>
-      <input
-        type="number"
-        className={styles.numericBoxInput}
-        onChange={e => onChange(parse(e))}
-        value={value}
-        {...rest}
-      />
-    </div>
+    <input
+      className={className || styles.numericInput}
+      type="number"
+      onChange={e => onChange(parse(e))}
+      value={value}
+      {...rest}
+    />
   );
 };
 
 NumericInput.propTypes = {
   className : React.PropTypes.string,
-  field : React.PropTypes.object.isRequired,
+  field     : React.PropTypes.object.isRequired,
 };

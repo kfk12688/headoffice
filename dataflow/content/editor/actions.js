@@ -2,7 +2,7 @@ import { createAction } from "redux-actions";
 import { CALL_API } from "../../middleware/callAPI";
 import {
   SET_EDIT_FLAG, CLEAR_EDIT_FLAG, EDITOR_REQUEST, EDITOR_SUCCESS, EDITOR_FAILURE, EDIT_FAILURE, EDIT_REQUEST,
-  EDIT_SUCCESS
+  EDIT_SUCCESS, ADD_FIELD
 } from "./types";
 import { populate as populateForm } from "../../form/actions";
 import * as api from "./api";
@@ -41,6 +41,4 @@ export const editRow = row => dispatch => {
   dispatch(populateForm(row));
 };
 
-// Deletes a row from the db
-export const deleteRow = row => dispatch => {
-};
+export const addField = createAction(ADD_FIELD, field => ({ field }));

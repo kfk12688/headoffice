@@ -38,17 +38,24 @@ class Workbooks extends Component {
         },
       },
       {
-        cellFormatter : formatter.toDate,
+        dataKey    : ["createdBy.firstName", "createdBy.lastName"],
+        name       : "full-name-col",
+        renderType : "join",
+        text       : "Created By",
+      },
+      {
+        cellFormatter : formatter.toDate.bind(undefined, "DD-MM-YYYY"),
         dataKey       : "createdAt",
         name          : "created-at-col",
         renderType    : "date",
         sortable      : true,
-        text          : "Created At",
+        text          : "Created On",
       },
     ];
     this.colWidths = {
       "has-alert-col"  : 38,
       "name-col"       : 260,
+      "full-name-col"  : 200,
       "created-at-col" : 160,
     };
     this.colSortItems = this.getColumnSortList(props.sortColumn);
@@ -205,7 +212,7 @@ class Workbooks extends Component {
           {/* DataGrid Container */}
           <DataGrid
             className={styles.datagrid}
-            style={{ left: !actionsMenu.showSidebar && 0 }}
+            style={{ left : !actionsMenu.showSidebar && 0 }}
             isLoading={workbooks.isLoading}
             cols={this.colSpec}
             colWidths={this.colWidths}
@@ -228,7 +235,7 @@ class Workbooks extends Component {
     return (
       <div
         className={styles.base}
-        style={{ top: rollUp ? 62 : 0 }}
+        style={{ top : rollUp ? 53 : 0 }}
       >
 
         {/* Breadcrumb */}

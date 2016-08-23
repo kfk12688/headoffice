@@ -1,7 +1,7 @@
 // import {data as egdata} from "../mock_data/EGData";
 import fetch from "../../fetchWrapper";
 
-const api = "http://localhost:3001/api/template";
+const api = "http://localhost:3001/api/template/spec";
 
 export const getTemplate = params => {
   return fetch("GET", `${api}/${params.id}`)

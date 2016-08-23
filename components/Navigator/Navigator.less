@@ -4,7 +4,7 @@
 // *********************************************************************************************************
 // Navigator
 // *********************************************************************************************************
-@navigatorHeight : 62px;
+@navigatorHeight : 53px;
 
 .root {
   .absolute-position-mixin();
@@ -14,7 +14,7 @@
 }
 
 .header {
-  padding: 4px 15px;
+  padding: 3px 15px;
   height: @navigatorHeight * 0.55;
   width: 100%;
   display: table;
@@ -22,8 +22,8 @@
 }
 
 .brand {
-  padding: 1px 0;
-  font-size: 18px;
+  padding: 2px 0;
+  font-size: 16px;
   float: left;
 }
 
@@ -34,12 +34,13 @@
 
 .nav {
   .absolute-position-mixin(@top: auto);
-  padding: 4px 15px;
+  padding: 2px 15px;
   height: @navigatorHeight * 0.45;
 }
 
 .link {
   border: none;
+  font-size: 13px;
   color: @grey400;
   margin-right: 22px;
   a {

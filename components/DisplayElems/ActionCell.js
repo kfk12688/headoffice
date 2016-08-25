@@ -1,21 +1,16 @@
 import React from "react";
-import style from "./common.less";
 import { PopupButton } from "../Button";
 
 export const ActionCell = ({ actions, className, data }) => {
   const actionsElement = actions.map(action => {
-    const key = action.name.replace(/ /, "").toLowerCase();
+    const key = action.name.replace(/ /g, "").toLowerCase();
     return <div key={key} onClick={action.handler.bind(this, data)}>{action.name}</div>;
   });
 
   return (
-    <span className={className}>
-      <div className={style.actionCellInner}>
-        <PopupButton label="" faName="ellipsis-v">
-          {actionsElement}
-        </PopupButton>
-      </div>
-    </span>
+    <PopupButton className={className} label="" faName="ellipsis-v" bordered>
+      {actionsElement}
+    </PopupButton>
   );
 };
 

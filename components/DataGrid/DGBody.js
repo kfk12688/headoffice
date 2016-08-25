@@ -7,11 +7,12 @@ const DGBody = ({ rows, cols, colWidths, selectedKeys, onRowClick }) => {
   const datagridBodyRows = [];
 
   _.forEach(rows, row => {
-    const selectedKeyIdx = selectedKeys.findIndex((key) => key === row.id);
+    const selectedKeyIdx = selectedKeys.findIndex((key) => key === row._id);
 
     datagridBodyRows.push(
       <DGBodyRow
-        key={row.id}
+        key={row._id}
+        rowKey={row._id}
         cols={cols}
         row={row}
         colWidths={colWidths}
@@ -34,7 +35,7 @@ DGBody.displayName = "DGBody";
 
 DGBody.propTypes = {
   rows         : React.PropTypes.object.isRequired,
-  cols         : React.PropTypes.object.isRequired,
+  cols         : React.PropTypes.arrayOf(React.PropTypes.object),
   colWidths    : React.PropTypes.object.isRequired,
   selectedKeys : React.PropTypes.array.isRequired,
   onRowClick   : React.PropTypes.func.isRequired,

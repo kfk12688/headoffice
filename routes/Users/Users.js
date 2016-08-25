@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { DataGrid, Breadcrumb, SearchBar } from "components";
+import { Breadcrumb, SearchBar, DataGrid } from "components";
 import { ContentMenu } from "./ContentMenu";
 import * as userActions from "../../dataflow/user/actions";
 import * as cmActions from "../../dataflow/menu/actions";
@@ -18,6 +18,7 @@ class User extends Component {
       { name : "XXXify User", handler : actions.deleteUser },
     ];
 
+    // Defines the static colum specification for the Content Area
     this.colSpec = [
       {
         dataKey     : "isSelected",
@@ -195,7 +196,7 @@ class User extends Component {
           actionsMenu={actionsMenu}
           actions={this.actionsCollection}
           colSortItems={this.colSortItems.items}
-          keys={rows.map(row => row.id)}
+          keys={Object.keys(rows)}
           sortKey={sortKey}
           selectAllRows={selectAllRows}
           clearRowSelection={clearRowSelection}
@@ -262,7 +263,7 @@ User.propTypes = {
   actionsMenu : React.PropTypes.object.isRequired,
   user        : React.PropTypes.object.isRequired,
   filter      : React.PropTypes.object.isRequired,
-  rows        : React.PropTypes.array.isRequired,
+  rows        : React.PropTypes.object.isRequired,
 
   // Actions
   toggleSidebar        : React.PropTypes.func.isRequired,

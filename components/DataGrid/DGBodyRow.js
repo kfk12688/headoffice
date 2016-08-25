@@ -21,7 +21,7 @@ class DGBodyRow extends Component {
 
       return (
         <DGBodyCell
-          key={`${row.id} ${index}`}
+          key={`${row._id} ${index}`}
           col={col}
           colWidth={colWidths[colName]}
           row={row}
@@ -67,7 +67,7 @@ DGBodyRow.propTypes = {
   rowKey        : React.PropTypes.string.isRequired,
   isRowSelected : React.PropTypes.bool,
   row           : React.PropTypes.object,
-  cols          : React.PropTypes.object,
+  cols          : React.PropTypes.arrayOf(React.PropTypes.object),
   colWidths     : React.PropTypes.object,
 };
 

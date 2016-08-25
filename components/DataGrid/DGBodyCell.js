@@ -32,8 +32,8 @@ class DGBodyCell extends Component {
 }
 
 DGBodyCell.propTypes = {
-  row        : React.PropTypes.any.isRequired,
-  col        : React.PropTypes.any.isRequired,
+  row        : React.PropTypes.object.isRequired,
+  col        : React.PropTypes.object.isRequired,
   colWidth   : React.PropTypes.number.isRequired,
 };
 

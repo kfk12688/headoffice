@@ -1,7 +1,5 @@
 import React from "react";
 import { NavLink } from "../NavLink";
-import style from "./common.less";
-import cx from "classnames";
 
 export const LinkCell = ({ value, className }) => {
   const { path, text, urlKey } = value;
@@ -10,9 +8,7 @@ export const LinkCell = ({ value, className }) => {
   url = url.replace(/ /g, "");
 
   return (
-    <div className={cx(style.alignLeft, className)}>
-      <NavLink to={url}>{text}</NavLink>
-    </div>
+    <NavLink className={className} to={url}>{text}</NavLink>
   );
 };
 

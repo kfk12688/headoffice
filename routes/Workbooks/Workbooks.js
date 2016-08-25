@@ -192,7 +192,7 @@ class Workbooks extends Component {
           actionsMenu={actionsMenu}
           actions={this.actionsCollection}
           colSortItems={this.colSortItems.items}
-          keys={rows.map(row => row.id)}
+          keys={Object.keys(rows)}
           sortKey={sortKey}
           selectAllRows={selectAllRows}
           clearRowSelection={clearRowSelection}
@@ -259,7 +259,7 @@ Workbooks.propTypes = {
   actionsMenu : React.PropTypes.object.isRequired,
   workbooks   : React.PropTypes.object.isRequired,
   filter      : React.PropTypes.object.isRequired,
-  rows        : React.PropTypes.array.isRequired,
+  rows        : React.PropTypes.object.isRequired,
 
   // Actions
   toggleSidebar        : React.PropTypes.func,

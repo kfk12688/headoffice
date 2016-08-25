@@ -57,7 +57,7 @@ FormButton.propTypes = {
   type        : PropTypes.string,       // specifies the button type
   faName      : PropTypes.string,
   faClassName : PropTypes.string,
-  children    : PropTypes.element,
+  children    : PropTypes.string,
   onClick     : PropTypes.func,
   after       : PropTypes.boolean,
   accent      : PropTypes.oneOfType([

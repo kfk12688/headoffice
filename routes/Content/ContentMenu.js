@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Modal, PopupButton, Divider, PopupTextBox } from "components";
+import { Button, Modal, PopupButton, PopupTextBox } from "components";
 import CreateTemplateForm from "./TemplateForm";
 import cx from "classnames";
 import styles from "./ContentMenu.less";
@@ -21,7 +21,7 @@ class ContentMenu extends Component {
 
     return (
       <span>
-        <Divider vertical size={{ h: 24, w: 1 }} style={{ marginRight: 5 }}/>
+        <span className={styles.actionsSeperator}/>
         <PopupButton label="Actions">
           {actionsMenuContent}
         </PopupButton>
@@ -43,13 +43,8 @@ class ContentMenu extends Component {
 
   render() {
     const {
-      className,
-      toggleSidebar,
-      colSortItems,
-      sortKey,
-      actionsMenu,
-      clearRowSelection,
-      addTemplate,
+      className, toggleSidebar, colSortItems, sortKey, actionsMenu,
+      clearRowSelection, addTemplate,
     } = this.props;
 
     return (
@@ -61,7 +56,7 @@ class ContentMenu extends Component {
             <Button
               faName="sliders"
               onClick={toggleSidebar}
-              className={cx(styles.icon, { [styles.iconActive]: actionsMenu.showSidebar })}
+              className={cx(styles.icon, { [styles.iconActive] : actionsMenu.showSidebar })}
             />
 
             <Modal

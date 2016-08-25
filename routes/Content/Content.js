@@ -223,7 +223,7 @@ class Content extends Component {
           actionsMenu={actionsMenu}
           actions={this.actionsCollection}
           colSortItems={this.colSortItems.items}
-          keys={rows.map(row => row.id)}
+          keys={Object.keys(rows)}
           sortKey={sortKey}
           selectAllRows={selectAll}
           clearRowSelection={clearSelection}
@@ -287,7 +287,7 @@ Content.propTypes = {
   list        : React.PropTypes.object.isRequired,
   actionsMenu : React.PropTypes.object.isRequired,
   filter      : React.PropTypes.object.isRequired,
-  rows        : React.PropTypes.array.isRequired,
+  rows        : React.PropTypes.object.isRequired,
 
   // Actions
   toggleSidebar        : React.PropTypes.func.isRequired,
@@ -315,7 +315,7 @@ const filterBindings = {
 };
 
 const mapStateToProps = (state) => ({
-  list        : state.content.facing,
+  list        : state.content.facing.data,
   actionsMenu : state.menu,
   filter      : state.filter,
   rows        : getRows(state.content.facing.data, state.filter, filterBindings),

@@ -2,7 +2,7 @@
  * Created by sharavan on 16/06/16.
  */
 import moment from "moment";
-import { mapObject } from "underscore";
+import _ from "underscore";
 
 class FilterHelpers {
   static filter(bindings, item, filter) {
@@ -66,22 +66,26 @@ class FilterHelpers {
 }
 
 function getRows(data, appliedFilters, bindings) {
+  const sortAndFiltData = {};
   const filteredKeys = Object.keys(data);
 
-  for (const rowKey in data) {
-    const row = data[rowKey];
+  _.forEach(data, (row, rowKey) => {
     if (!FilterHelpers.filter(bindings, row, appliedFilters)) {
       filteredKeys.splice(filteredKeys.indexOf(rowKey), 1);
     }
-  }
+  });
 
-  return FilterHelpers.sortFilter(
+  FilterHelpers.sortFilter(
     filteredKeys.map(key => data[key]),
     {
       sortAscending : appliedFilters.sortAscending,
       sortKey       : appliedFilters.sortKey,
     }
-  );
+  ).forEach(obj => {
+    sortAndFiltData[obj._id] = obj;
+  });
+
+  return sortAndFiltData;
 }
 
 export { getRows };

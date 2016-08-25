@@ -29,14 +29,15 @@ function getCell(transform, type, row, col) {
     const { buttonText, link } = col.button;
 
     return (
-      <div className={styles.linkCellContainer}>
-        <LinkCell className={styles.linkCellContainerLink_1} value={value}/>
+      <div className={styles.linkCell}>
+        <LinkCell className={styles.linkCellLink} value={value}/>
         <ButtonCell
-          className={styles.linkCellContainerButton}
+          className={styles.linkCellAnchorButton}
+          btnClassName={styles.linkCellAnchorButtonBtn}
           buttonText={buttonText}
           link={`${link.path}/${row[link.key]}`}
         />
-        <ActionCell className={styles.linkCellContainerAction} actions={actions}/>
+        <ActionCell className={styles.linkCellAction} actions={actions}/>
       </div>
     );
   }
@@ -49,9 +50,9 @@ function getCell(transform, type, row, col) {
     const { actions = [] } = col;
 
     return (
-      <div className={styles.linkCellContainer}>
-        <LinkCell className={styles.linkCellContainerLink} value={value}/>
-        <ActionCell className={styles.linkCellContainerAction} actions={actions}/>
+      <div className={styles.linkCell}>
+        <LinkCell className={styles.linkCellLink} value={value}/>
+        <ActionCell className={styles.linkCellAction} actions={actions}/>
       </div>
     );
   }

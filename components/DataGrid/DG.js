@@ -53,11 +53,8 @@ DataGrid.propTypes = {
   className         : PropTypes.string,
   style             : PropTypes.object,
   isLoading         : PropTypes.bool,
-  rows              : PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.object),
-    PropTypes.object,
-  ]),
-  cols              : PropTypes.object.isRequired,
+  rows              : PropTypes.object.isRequired,
+  cols              : PropTypes.arrayOf(PropTypes.object),
   colWidths         : PropTypes.object.isRequired,
   sortAscending     : PropTypes.boolean,
   selectedKeys      : PropTypes.array,

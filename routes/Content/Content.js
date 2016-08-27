@@ -45,7 +45,7 @@ class Content extends Component {
           buttonText : "Enter Data",
           link       : {
             path : "/content/entry",
-            key  : "id",
+            key  : "_id",
           },
         },
         name       : "name-col",
@@ -85,13 +85,15 @@ class Content extends Component {
     this.colWidths = {
       "checkbox-col"   : 38,
       "favorite-col"   : 38,
-      "name-col"       : 200,
+      "name-col"       : 230,
       "user-col"       : 100,
       "workbook-col"   : 170,
       "created-at-col" : 100,
       "updated-at-col" : 130,
     };
+
     this.colSortItems = this.getColumnSortList(props.sortColumn);
+    this.createBlankTemplate = this.createBlankTemplate.bind(this);
   }
 
   componentWillMount() {
@@ -167,6 +169,11 @@ class Content extends Component {
     };
   }
 
+  createBlankTemplate(data) {
+    console.log(data);
+    this.props.addTemplate(data);
+  }
+
   renderChildren() {
     if (this.props.children) {
       return this.props.children;
@@ -174,7 +181,7 @@ class Content extends Component {
 
     const {
       list, actionsMenu, rows, toggleSidebar, selectAll,
-      clearSelection, sortColumn, toggleSelection, addTemplate,
+      clearSelection, sortColumn, toggleSelection,
     } = this.props;
 
     const { filterChangeHandlers, filter } = this.props;
@@ -227,7 +234,7 @@ class Content extends Component {
           sortKey={sortKey}
           selectAllRows={selectAll}
           clearRowSelection={clearSelection}
-          addTemplate={addTemplate}
+          addTemplate={this.createBlankTemplate}
         />
 
         <div>

@@ -12,3 +12,7 @@ export const SET_EDIT_FLAG = "routes/content/template_viewer/TEMPLATE_EDITOR_SET
 export const CLEAR_EDIT_FLAG = "routes/content/template_viewer/TEMPLATE_EDITOR_CLEAR_EDIT_ROW_FLAG";
 
 export const ADD_FIELD = "routes/content/template_viewer/ADD_FIELD_TO_REDUX";
+
+export const EDIT_SCHEMA_REQUEST = "routes/content/template_viewer/TEMPLATE_EDIT_SCHEMA_REQUEST";
+export const EDIT_SCHEMA_SUCCESS = "routes/content/template_viewer/TEMPLATE_EDIT_SCHEMA_SUCCESS";
+export const EDIT_SCHEMA_FAILURE = "routes/content/template_viewer/TEMPLATE_EDIT_SCHEMA_FAILURE";

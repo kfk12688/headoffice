@@ -1,7 +1,7 @@
 import { handleActions } from "redux-actions";
 import {
   SET_EDIT_FLAG, CLEAR_EDIT_FLAG, EDIT_FAILURE, EDIT_REQUEST, EDIT_SUCCESS, EDITOR_SUCCESS, EDITOR_FAILURE,
-  EDITOR_REQUEST, ADD_FIELD
+  EDITOR_REQUEST, ADD_FIELD, EDIT_SCHEMA_FAILURE, EDIT_SCHEMA_REQUEST, EDIT_SCHEMA_SUCCESS
 } from "./types";
 
 const initialState = {
@@ -14,34 +14,60 @@ const initialState = {
 };
 
 const reducer = handleActions({
-  [EDITOR_REQUEST]  : (state) => ({
+  [EDITOR_REQUEST] : (state) => ({
     ...state,
     isLoading : true,
   }),
-  [EDITOR_SUCCESS]  : (state, action) => ({
+  [EDITOR_SUCCESS] : (state, action) => ({
     ...state,
     ...action.payload.data,
     isLoading : false,
   }),
-  [EDITOR_FAILURE]  : (state, action) => ({
+  [EDITOR_FAILURE] : (state, action) => ({
     ...state,
     error     : action.payload.data,
     isLoading : false,
   }),
-  [EDIT_REQUEST]    : (state) => ({
+
+  [EDIT_REQUEST] : (state) => ({
     ...state,
     isLoading : true,
   }),
-  [EDIT_SUCCESS]    : (state, action) => ({
+  [EDIT_SUCCESS] : (state, action) => ({
     ...state,
     msg       : action.payload.data,
     isLoading : false,
   }),
-  [EDIT_FAILURE]    : (state, action) => ({
+  [EDIT_FAILURE] : (state, action) => ({
     ...state,
     error     : action.payload.data,
     isLoading : false,
   }),
+
+  [ADD_FIELD] : (state, action) => {
+    const { field } = action.payload;
+    const { primaryKey } = state;
+    const idx = state.userSchema.findIndex(f => f[primaryKey] === field[primaryKey]);
+
+    if (idx === -1) {
+      return {
+        ...state,
+        userSchema : [
+          ...state.userSchema
+            .slice(0, idx + 1)
+            .concat(state.userSchema.slice(idx + 1), [field]),
+        ],
+      };
+    }
+
+    return {
+      ...state,
+      error : {
+        msg : "Field exists already. Check the Field Name input.",
+      },
+    };
+  },
+
   [SET_EDIT_FLAG]   : (state, action) => {
     const { row } = action.payload;
     const { fields } = state.data;
@@ -58,20 +84,20 @@ const reducer = handleActions({
     selectedRow : null,
   }),
 
-  [ADD_FIELD] : (state, action) => {
-    const { field } = action.payload;
-    const { primaryKey } = state;
-    const idx = state.fields.indexOf(f => f[primaryKey] === field[primaryKey]);
-
-    return {
-      ...state,
-      fields : {
-        ...state.fields.slice(0, idx),
-        ...field,
-        ...state.fields.slice(idx + 1),
-      },
-    };
-  },
+  [EDIT_SCHEMA_REQUEST] : (state) => ({
+    ...state,
+    isLoading : true,
+  }),
+  [EDIT_SCHEMA_SUCCESS] : (state, action) => ({
+    ...state,
+    ...action.payload.data,
+    isLoading : false,
+  }),
+  [EDIT_SCHEMA_FAILURE] : (state, action) => ({
+    ...state,
+    error     : action.payload.data,
+    isLoading : false,
+  }),
 }, initialState);
 
 export default reducer;

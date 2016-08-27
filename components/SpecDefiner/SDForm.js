@@ -73,7 +73,14 @@ class EditorEntryForm extends Component {
 
   submitForm(e) {
     e.preventDefault();
-    this.props.submitForm(this.props.values);
+
+    const { values : { fieldName, fieldType, ...rest } } = this.props;
+    this.props.submitForm({
+      fieldName,
+      fieldType,
+      fieldProps : { ...rest },
+    });
+    this.props.resetForm();
   }
 
   resetForm(e) {

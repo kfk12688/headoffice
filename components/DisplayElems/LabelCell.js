@@ -4,13 +4,10 @@ import styles from "./common.less";
 
 export const LabelCell = ({ value: array }) => {
   const labels = _.map(array, (val, key) => {
-    if (val) {
-      if (typeof val === "boolean") {
-        return <span key={key} className={styles.labelCellTags}>{key}</span>;
-      }
-      return <span key={key} className={styles.labelCellTags}>{key} : <span>{val}</span></span>;
+    if (typeof val === "boolean") {
+      return <span key={key} className={styles.labelCellTags}>{key}</span>;
     }
-    return null;
+    return <span key={key} className={styles.labelCellTags}>{key} : <span>{val}</span></span>;
   });
 
   return (<div className={styles.alignLeft}>

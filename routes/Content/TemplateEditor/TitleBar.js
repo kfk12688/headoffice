@@ -41,8 +41,8 @@ export class TitleBar extends Component {
           </div>
 
           <div className={styles.meta}>
-            <span>Created At : <MetaInfo>{moment(store.createdAt).format("Do MMM, YYYY")}</MetaInfo></span>
-            <span>Last Modified : <MetaInfo>{moment(store.modifiedAt).format("Do MMM, YYYY")}</MetaInfo></span>
+            <span>Created At : <MetaInfo>{moment(store.createdAt).format("DD-MM-YYYY")}</MetaInfo></span>
+            <span>Last Modified : <MetaInfo>{moment(store.modifiedAt).format("h:mm A, DD-MM-YYYY")}</MetaInfo></span>
             <span>Belongs to : <MetaInfo>{store.workBook && store.workBook.name}</MetaInfo></span>
           </div>
         </div>

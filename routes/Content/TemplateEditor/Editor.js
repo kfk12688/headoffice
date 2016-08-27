@@ -3,17 +3,21 @@ import { connect } from "react-redux";
 import { SpecDefiner, FormButton } from "components";
 import { TitleBar } from "./TitleBar";
 import {
-  loadEditor, editTemplate, editRow, deleteRow, clearEditFlag, addField
+  loadEditor, editTemplate, editRow, deleteRow, clearEditFlag, addField, editTemplateSchema
 } from "../../../dataflow/content/editor/actions";
+import { resetForm } from "../../../lib/ReduxForm/actions";
 import styles from "./Editor.less";
 
 class Editor extends Component {
   constructor(props) {
     super(props);
     this.addField = this.addField.bind(this);
+    this.saveUserSchema = this.saveUserSchema.bind(this);
+    this.saveTemplateMeta = this.saveTemplateMeta.bind(this);
+    this.clearForm = this.clearForm.bind(this);
 
     this.colSpec = {
-      "action"         : {
+      "action"     : {
         "headerStyle" : { borderLeft : 0 },
         "displayText" : "",
         "renderType"  : "action",
@@ -24,24 +28,24 @@ class Editor extends Component {
         "sortable"    : false,
         "insertable"  : false,
       },
-      "fieldName"      : {
+      "fieldName"  : {
         "displayText" : "Field Name",
         "renderType"  : "text",
       },
-      "fieldType"      : {
+      "fieldType"  : {
         "displayText" : "Field Type",
         "renderType"  : "text",
       },
-      "fieldProps"     : {
+      "fieldProps" : {
         "displayText" : "Field Properties",
         "renderType"  : "label",
       },
     };
     this.colWidths = {
-      action         : 45,
-      fieldName      : 130,
-      fieldType      : 120,
-      fieldProps     : 450,
+      action     : 45,
+      fieldName  : 130,
+      fieldType  : 120,
+      fieldProps : 450,
     };
   }
 
@@ -54,6 +58,28 @@ class Editor extends Component {
     this.props.addField(field);
   }
 
+  // Persists data to the server
+  saveUserSchema() {
+    const { userSchema, _id, templateName } = this.props.editor;
+    // console.log({
+    //   userSchema,
+    //   id : _id,
+    // });
+    this.props.editTemplateSchema({
+      userSchema,
+      id : _id,
+      templateName,
+    });
+  }
+
+  saveTemplateMeta(data) {
+    console.log(data);
+  }
+
+  clearForm() {
+    this.props.resetForm();
+  }
+
   render() {
     const { editor } = this.props;
 
@@ -64,7 +90,7 @@ class Editor extends Component {
         <TitleBar
           className={styles.titleBar}
           store={editor}
-          editTemplate={() => {}}
+          editTemplate={this.saveTemplateMeta}
         />
 
         <div>
@@ -75,17 +101,17 @@ class Editor extends Component {
             colWidths={this.colWidths}
             data={editor.userSchema}
             isLoading={editor.isLoading}
-            postHandler={this.addField}
             selectedRow={editor.selectedRow}
+            postHandler={this.addField}
             clearEditFlag={() => {}}
           />
 
           {/* Sidebar Container */}
           <div className={styles.sidebar}>
-            <FormButton accent="green" className={styles.sidebarButton} onClick={this.saveData}>Save</FormButton>
+            <FormButton accent="green" className={styles.sidebarButton} onClick={this.saveUserSchema}>Save</FormButton>
             <FormButton accent="green" disabled className={styles.sidebarButton}>Undo</FormButton>
             <FormButton accent="green" disabled className={styles.sidebarButton}>Redo</FormButton>
-            <FormButton accent="green" className={styles.sidebarButton}>Cancel</FormButton>
+            <FormButton accent="green" className={styles.sidebarButton} onClick={this.clearForm}>Cancel</FormButton>
           </div>
         </div>
       </div>
@@ -105,6 +131,8 @@ Editor.propTypes = {
   editTemplate    : React.PropTypes.func.isRequired,
   editRow         : React.PropTypes.func.isRequired,
   deleteRow       : React.PropTypes.func.isRequired,
+  addField        : React.PropTypes.func.isRequired,
+  resetForm       : React.PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -112,12 +140,14 @@ const mapStateToProps = state => ({
 });
 
 const mapDisptachToProps = dispatch => ({
-  loadEditorTable : params => dispatch(loadEditor(params)),
-  editTemplate    : params => dispatch(editTemplate(params)),
-  editRow         : row => dispatch(editRow(row)),
-  deleteRow       : row => dispatch(deleteRow(row)),
-  clearEditFlag   : () => dispatch(clearEditFlag()),
-  addField        : field => dispatch(addField(field)),
+  loadEditorTable    : params => dispatch(loadEditor(params)),
+  editTemplate       : params => dispatch(editTemplate(params)),
+  editTemplateSchema : params => dispatch(editTemplateSchema(params)),
+  editRow            : row => dispatch(editRow(row)),
+  deleteRow          : row => dispatch(deleteRow(row)),
+  clearEditFlag      : () => dispatch(clearEditFlag()),
+  addField           : field => dispatch(addField(field)),
+  resetForm          : () => dispatch(resetForm()),
 });
 
 export default connect(mapStateToProps, mapDisptachToProps)(Editor);

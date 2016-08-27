@@ -9,3 +9,7 @@ export const getTemplate = params =>
 export const updateTemplate = params =>
   fetch("PUT", `${api}`, params)
     .then(res => res.json());
+
+export const updateTemplateSchema = params =>
+  fetch("PUT", `${api}/schema`, params)
+    .then(res => res.json());

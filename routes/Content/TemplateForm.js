@@ -25,15 +25,18 @@ class CreateTemplateForm extends Component {
   }
 
   onSubmit(e) {
-    const { values, state } = this.props;
-    const { templateName, workBook } = values;
-    const data = (state && ("data" in state)) ? state.data : null;
-
     e.preventDefault();
+    const { templateName, workBook } = this.props.values;
+
+    // console.log({
+    //   id         : _id,
+    //   templateName,
+    //   workBookId : workBook.id,
+    // });
+
     this.props.submitForm({
       templateName,
-      workBook : workBook.id,
-      fields   : (data && data.fields) || [],
+      workBookId : workBook.id,
     });
     this.props.toggleModal();
   }
@@ -51,9 +54,7 @@ class CreateTemplateForm extends Component {
       <form onSubmit={this.onSubmit}>
         <div className={styles.formElement}>
           <div className={styles.formElementTitle}>Enter the name of the template:</div>
-          <div>
-            <input className={styles.formElementInput} type="text" {...templateName}/>
-          </div>
+          <input className={styles.formElementInput} type="text" {...templateName}/>
         </div>
 
         <div className={styles.formElement}>

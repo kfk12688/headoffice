@@ -33,7 +33,7 @@ class DGBodyRow extends Component {
   }
 
   clickHandler(e) {
-    if (e.target.tagName !== "A") {
+    if ((e.target.tagName !== "A") && (e.target.tagName !== "BUTTON")) {
       this.props.onRowClick(this.props.rowKey);
     }
   }

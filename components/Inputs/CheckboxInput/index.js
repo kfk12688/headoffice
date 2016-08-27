@@ -9,7 +9,7 @@ const CheckBoxInput = ({ field, className, children }) => {
       <input
         type="checkbox"
         className={styles.checkboxInput}
-        checked={value}
+        checked={value || false}
         onChange={onChange}
       />
       {children && <span>{children}</span>}

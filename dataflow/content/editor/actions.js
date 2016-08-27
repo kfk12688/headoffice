@@ -4,7 +4,7 @@ import {
   SET_EDIT_FLAG, CLEAR_EDIT_FLAG, EDITOR_REQUEST, EDITOR_SUCCESS, EDITOR_FAILURE, EDIT_FAILURE, EDIT_REQUEST,
   EDIT_SUCCESS, ADD_FIELD
 } from "./types";
-import { populate as populateForm } from "../../form/actions";
+import { populate as populateForm } from "../../../lib/ReduxForm/actions";
 import * as api from "./api";
 
 // Async Actions

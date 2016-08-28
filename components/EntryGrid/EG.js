@@ -26,7 +26,7 @@ class EntryGrid extends React.Component {
         />
 
         {
-          isLoading ?
+          isLoading.data ?
           <FontAwesome className={styles.spinner} name="spinner" spin size="2x"/> :
           <EGBody
             cols={colSpec}
@@ -46,5 +46,17 @@ class EntryGrid extends React.Component {
     );
   }
 }
+
+EntryGrid.propTypes = {
+  style         : React.PropTypes.object,
+  className     : React.PropTypes.string,
+  isLoading     : React.PropTypes.object,
+  selectedRow   : React.PropTypes.string,
+  colSpec       : React.PropTypes.object.isRequired,
+  colWidths     : React.PropTypes.object.isRequired,
+  data          : React.PropTypes.object.isRequired,
+  postHandler   : React.PropTypes.func.isRequired,
+  clearEditFlag : React.PropTypes.func.isRequired,
+};
 
 export { EntryGrid };

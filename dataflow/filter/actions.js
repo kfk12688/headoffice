@@ -13,10 +13,10 @@ export const sortFilter = createAction(SORT, (sortKey, sortOrder) => ({
  * Content Filter Values
  */
 export const setDateModifiedStart = createAction(SET_DTMOD_START, value => ({
-  date : value || "",
+  date : value,
 }));
 export const setDateModifiedEnd = createAction(SET_DTMOD_END, value => ({
-  date : value || "",
+  date : value,
 }));
 export const setOwner = createAction(SET_OWNER, (e) => ({
   owner : e.target.value,
@@ -38,7 +38,7 @@ export const setUserHasRole = createAction(SET_HAS_ROLE, (e) => ({
   hasRole : e.target.value,
 }));
 export const setLastSignIn = createAction(SET_LAST_SIGN_IN, (value) => ({
-  lastSignIn : value || "",
+  lastSignIn : value,
 }));
 
 /**

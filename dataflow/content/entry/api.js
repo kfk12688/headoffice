@@ -1,6 +1,6 @@
 import fetch from "../../fetchWrapper";
 
-const api = "http://localhost:3001/api/entry";
+const api = "http://localhost:3001/api/data";
 
 export const getSpec = params => {
   const { templateId } = params;
@@ -10,13 +10,13 @@ export const getSpec = params => {
 
 export const getData = params => {
   const { templateId } = params;
-  return fetch("GET", `${api}/data/${templateId}`)
+  return fetch("GET", `${api}/${templateId}`)
     .then(res => res.json());
 };
 
 export const updateRow = params => {
   const { rowId, templateId, fields } = params;
-  return fetch("PUT", `${api}/data`, {
+  return fetch("PUT", api, {
     id : rowId,         // fixme :  for clarity, id needs to be changed to rowId
     templateId,
     fields,
@@ -25,10 +25,10 @@ export const updateRow = params => {
 };
 
 export const addRow = params => {
-  const { templateId, fields } = params;
-  return fetch("POST", `${api}/data`, {
+  const { templateId, row:data } = params;
+  return fetch("POST", api, {
     templateId,
-    fields,
+    data,
   })
     .then(res => res.json());
 };
@@ -36,9 +36,9 @@ export const addRow = params => {
 export const deleteRow = params => {
   const { templateId, rowId } = params;
 
-  return fetch("DELETE", `${api}/data`, {
+  return fetch("DELETE", api, {
     templateId,
-    rowId,
+    id : rowId,
   })
     .then(res => res.json());
 };

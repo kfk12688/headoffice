@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Sidebar, EntryGrid } from "components";
+import { EntryGrid } from "components";
 import { TitleBar } from "./TitleBar";
 import { clearMenuState } from "../../../dataflow/menu/actions";
 import { loadSpec, addRow, deleteRow, editRow } from "../../../dataflow/content/entry/actions";
@@ -18,17 +18,22 @@ class Editor extends Component {
   }
 
   addRow(rowData) {
-    const { entryStore : { spec }, addRow: addRowCb } = this.props;
-    const { templateId } = spec;
+    const { entryStore : { id : templateId } } = this.props;
 
-    addRowCb({
+    console.log({
       templateId,
-      fields : rowData,
+      row : rowData,
+    });
+
+    this.props.addRow({
+      templateId,
+      row : rowData,
     });
   }
 
   render() {
     const { entryStore, contextMenuStore } = this.props;
+    const { spec, data, loadingIndicators, selectedRow } = entryStore;
     let colWidths = {
       action             : 45,
       date               : 100,
@@ -50,20 +55,18 @@ class Editor extends Component {
           {/* Sidebar Container */}
           {
             contextMenuStore.showSidebar &&
-            <Sidebar
-              className={styles.sidebar}
-            />
+            <div className={styles.sidebar}/>
           }
 
           {/* DataGrid Container */}
           <EntryGrid
             className={styles.entrygrid}
-            style={{ left: !contextMenuStore.showSidebar && 0 }}
-            colSpec={entryStore.spec.fields}
+            style={{ left : !contextMenuStore.showSidebar && 0 }}
+            colSpec={spec}
             colWidths={colWidths}
-            data={entryStore.data.fields}
-            isLoading={entryStore.isLoading}
-            selectedRow={entryStore.selectedRow}
+            data={data}
+            isLoading={loadingIndicators}
+            selectedRow={selectedRow}
             postHandler={this.addRow}
             clearEditFlag={() => {}}
           />

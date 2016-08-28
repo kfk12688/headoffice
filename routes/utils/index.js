@@ -14,7 +14,9 @@ class FilterHelpers {
 
   static dateFilter(key, item, filter) {
     const oDate = moment(item[key]);
-    const { dateModifiedStart, dateModifiedEnd } = filter;
+    let { dateModifiedStart, dateModifiedEnd } = filter;
+    dateModifiedStart = dateModifiedStart ? moment(dateModifiedStart) : "";
+    dateModifiedEnd = dateModifiedEnd ? moment(dateModifiedEnd) : "";
 
     if (dateModifiedStart && dateModifiedEnd &&
       (dateModifiedStart.isValid()) &&
@@ -82,7 +84,7 @@ function getRows(data, appliedFilters, bindings) {
       sortKey       : appliedFilters.sortKey,
     }
   ).forEach(obj => {
-    sortAndFiltData[obj._id] = obj;
+    sortAndFiltData[obj.id] = obj;
   });
 
   return sortAndFiltData;

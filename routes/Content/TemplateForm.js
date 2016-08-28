@@ -29,7 +29,7 @@ class CreateTemplateForm extends Component {
     const { templateName, workBook } = this.props.values;
 
     // console.log({
-    //   id         : _id,
+    //   id         : id,
     //   templateName,
     //   workBookId : workBook.id,
     // });

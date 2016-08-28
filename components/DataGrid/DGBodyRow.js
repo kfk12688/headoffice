@@ -21,7 +21,7 @@ class DGBodyRow extends Component {
 
       return (
         <DGBodyCell
-          key={`${row._id} ${index}`}
+          key={`${row.id} ${index}`}
           col={col}
           colWidth={colWidths[colName]}
           row={row}

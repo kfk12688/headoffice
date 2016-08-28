@@ -9,14 +9,15 @@
 
 // Sidebar Container Style
 .sidebar {
-  .absolute-position-mixin(@breadcrumbHt+@titleBarHt);
+  .absolute-position-mixin(@breadcrumbHt+@titleBarHt, @left:auto);
   width: 230px;
   background-color: @grey50;
+  border-left: 1px solid @grey300;
 }
 
 // DataGrid Container Style
 .entrygrid {
-  .absolute-position-mixin(@top: @breadcrumbHt+@titleBarHt, @left: 230px);
+  .absolute-position-mixin(@top: @breadcrumbHt+@titleBarHt, @right: 230px);
   padding: 0 0 10px 0;
   background-color: @white;
 }

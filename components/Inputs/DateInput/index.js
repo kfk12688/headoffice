@@ -4,7 +4,7 @@ import styles from "./DateInput.less";
 
 export const DateInput = ({ field, className }) => {
   const { onChange, value, ...rest } = field;
-  const parse = event => moment.utc(event.target.value);
+  const parse = event => moment.utc(event.target.value).format();
 
   return (
     <div className={className || styles.datebox}>

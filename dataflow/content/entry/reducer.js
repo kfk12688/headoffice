@@ -4,7 +4,6 @@ import {
   UPDATE_ROW_SUCCESS, UPDATE_ROW_FAILURE, DELETE_ROW_REQUEST, DELETE_ROW_SUCCESS, DELETE_ROW_FAILURE, ADD_ROW_REQUEST,
   ADD_ROW_SUCCESS, ADD_ROW_FAILURE
 } from "./types";
-import { editRow, deleteRow } from "../../content/editor/actions";
 
 const initialState = {
   // Object of objects with key as the template id
@@ -30,35 +29,25 @@ const reducer = handleActions({
    */
   [SPEC_REQUEST] : state => ({
     ...state,
+    spec              : {},
     loadingIndicators : {
       ...state.loadingIndicators,
       spec : true,
     },
   }),
-  [SPEC_SUCCESS] : (state, action) => ({
-    ...state,
-    spec              : {
-      ...action.payload.data,
-      fields : {
-        action : {
-          headerStyle : { borderLeft : 0 },
-          displayText : "",
-          renderType  : "action",
-          actions     : [
-            { name : "Edit Row", handler : editRow },
-            { name : "Delete Row", handler : deleteRow },
-          ],
-          sortable    : false,
-          insertable  : false,
-        },
-        ...action.payload.data.fields,
+  [SPEC_SUCCESS] : (state, action) => {
+    const { userSchema, ...rest } = action.payload.data;
+
+    return {
+      ...state,
+      ...rest,
+      spec              : userSchema,
+      loadingIndicators : {
+        ...state.loadingIndicators,
+        spec : false,
       },
-    },
-    loadingIndicators : {
-      ...state.loadingIndicators,
-      spec : false,
-    },
-  }),
+    };
+  },
   [SPEC_FAILURE] : (state, action) => ({
     ...state,
     loadingIndicators : {

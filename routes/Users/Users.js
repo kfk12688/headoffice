@@ -46,7 +46,6 @@ class User extends Component {
         text       : "Full Name",
       },
       {
-        cellFormatter : formatter.toDate.bind(undefined, "DD-MM-YYYY"),
         dataKey       : "createdAt",
         name          : "created-at-col",
         renderType    : "date",

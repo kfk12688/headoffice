@@ -7,7 +7,7 @@ export const searchWorkbook = (query) =>
   fetch("GET", `${api}/workbook?query=${query}`)
     .then(res => res.json())
     .then(json => ({
-      options : _.map(json.data, item => ({ label : item.name, id : item._id })),
+      options : _.map(json.data, item => ({ label : item.name, id : item.id })),
     }));
 
 export const getWorkbooksList = () =>

@@ -7,11 +7,15 @@ import { NumberCell } from "./NumberCell";
 import { TextCell } from "./TextCell";
 import { ButtonCell } from "./ButtonCell";
 import { LabelCell } from "./LabelCell";
+import { DateCell } from "./DateCell";
 import styles from "./common.less";
 
 function getCell(transform, type, row, col) {
   if (type === "number") {
     return (<NumberCell value={transform()}/>);
+  }
+  if (type === "date") {
+    return (<DateCell value={transform()}/>);
   }
   if (type === "checkbox") {
     return (<CheckboxCell value={transform()}/>);
@@ -117,7 +121,8 @@ export function renderEGCell(type, row, col, colKey) {
     return value;
   }
 
-  return getCell(transform, type, row, col);
+  const nrmType = type.trim().toLowerCase();
+  return getCell(transform, nrmType, row, col);
 }
 
 export { FavoriteCell } from "./FavoriteCell";

@@ -39,13 +39,13 @@ class Content extends Component {
         dataKey    : "templateName",
         linkRef    : {
           path   : "/content/edit",
-          urlKey : "_id",
+          urlKey : "id",
         },
         button     : {
           buttonText : "Enter Data",
           link       : {
-            path : "/content/entry",
-            key  : "_id",
+            path : "/content/data",
+            key  : "id",
           },
         },
         name       : "name-col",
@@ -66,7 +66,6 @@ class Content extends Component {
         text       : "Work Book",
       },
       {
-        cellFormatter : formatter.toDate.bind(undefined, "DD-MM-YYYY"),
         dataKey       : "createdAt",
         name          : "created-at-col",
         renderType    : "date",
@@ -89,7 +88,7 @@ class Content extends Component {
       "user-col"       : 100,
       "workbook-col"   : 170,
       "created-at-col" : 100,
-      "updated-at-col" : 130,
+      "updated-at-col" : 140,
     };
 
     this.colSortItems = this.getColumnSortList(props.sortColumn);

@@ -44,7 +44,6 @@ class Workbooks extends Component {
         text       : "Created By",
       },
       {
-        cellFormatter : formatter.toDate.bind(undefined, "DD-MM-YYYY"),
         dataKey       : "createdAt",
         name          : "created-at-col",
         renderType    : "date",

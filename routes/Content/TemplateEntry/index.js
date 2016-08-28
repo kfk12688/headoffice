@@ -1,7 +1,7 @@
 import Editor from "./Editor";
 
 const Route = {
-  path : "entry/:id",
+  path : "data/:id",
   getComponent(nextState, replace) {
     require.ensure([], () => {
       replace(null, Editor);

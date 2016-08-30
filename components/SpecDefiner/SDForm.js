@@ -1,12 +1,10 @@
 import React, { Component } from "react";
-import { FormButton, TextInput, StaticListInput, CheckBoxInput, NumericInput } from "components";
+import { FormButton, TextInput, ComboInput, CheckBoxInput, NumericInput } from "components";
 import reduxForm from "../../lib/ReduxForm";
 import styles from "./SDForm.less";
 
 const Row = ({ children }) =>
-  <div style={{ display : "table-row", height : 21 }}>
-    {children}
-  </div>;
+  <div style={{ marginBottom : 5 }}>{children}</div>;
 Row.propTypes = {
   children : React.PropTypes.node,
 };
@@ -21,15 +19,15 @@ class EditorEntryForm extends Component {
   getFieldProps(fieldType, fields) {
     let formElements = [
       <Row key="1">
-        <div className={styles.key}>Is Required</div>
+        <span className={styles.key}>Is Required</span>
         <CheckBoxInput field={fields.required}/>
       </Row>,
       <Row key="2">
-        <div className={styles.key}>Is Unique</div>
+        <span className={styles.key}>Is Unique</span>
         <CheckBoxInput field={fields.unique}/>
       </Row>,
       <Row key="3">
-        <div className={styles.key}>Default values</div>
+        <span className={styles.key}>Default values</span>
         <TextInput field={fields.default}/>
       </Row>,
     ];
@@ -38,7 +36,7 @@ class EditorEntryForm extends Component {
       formElements = [
         ...formElements,
         <Row key="4">
-          <div className={styles.key}>Enum values</div>
+          <span className={styles.key}>Enum values</span>
           <TextInput field={fields.enum}/>
         </Row>,
       ];
@@ -48,11 +46,11 @@ class EditorEntryForm extends Component {
       formElements = [
         ...formElements,
         <Row key="5">
-          <div className={styles.key}>Min value</div>
+          <span className={styles.key}>Min value</span>
           <NumericInput field={fields.min}/>
         </Row>,
         <Row key="6">
-          <div className={styles.key}>Max value</div>
+          <span className={styles.key}>Max value</span>
           <NumericInput field={fields.max}/>
         </Row>,
       ];
@@ -62,7 +60,7 @@ class EditorEntryForm extends Component {
       formElements = [
         ...formElements,
         <Row key="7">
-          <div className={styles.key}>Specify Object Ref</div>
+          <span className={styles.key}>Specify Object Ref</span>
           <TextInput field={fields.ref}/>
         </Row>,
       ];
@@ -99,18 +97,18 @@ class EditorEntryForm extends Component {
         <div className={styles.fields}>
           <div className={styles.fieldsTitle}>Fields</div>
 
-          <div style={{ display : "table" }}>
+          <div>
 
             <Row key="s1">
-              <div className={styles.key}>Field Name :</div>
+              <span className={styles.key}>Field Name :</span>
               <TextInput field={fields.fieldName}/>
             </Row>
 
             <Row key="s2">
-              <div className={styles.key}>Field Type :</div>
-              <StaticListInput
+              <span className={styles.key}>Field Type :</span>
+              <ComboInput
+                matchParentWidth
                 field={fields.fieldType}
-                className={styles.field}
                 list={["Number", "Date", "String", "Boolean", "Reference"]}
               />
             </Row>
@@ -119,7 +117,7 @@ class EditorEntryForm extends Component {
 
         <div className={styles.defn}>
           <div className={styles.defnTitle}>Definition</div>
-          <div style={{ display : "table" }}>
+          <div>
             {this.getFieldProps(fieldType, fields)}
           </div>
         </div>

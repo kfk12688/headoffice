@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Modal, PopupButton, PopupTextBox } from "components";
+import { Button, Modal, PopupButton, ComboInput } from "components";
 import CreateTemplateForm from "./TemplateForm";
 import cx from "classnames";
 import styles from "./ContentMenu.less";
@@ -44,7 +44,7 @@ class ContentMenu extends Component {
   render() {
     const {
       className, toggleSidebar, colSortItems, sortKey, actionsMenu,
-      clearRowSelection, addTemplate,
+      clearRowSelection, addTemplate, colSortFunction
     } = this.props;
 
     return (
@@ -80,11 +80,15 @@ class ContentMenu extends Component {
 
         <div className={styles.right}>
           <span>Sort by : </span>
-          <span className={styles.sortBlock}>
-            <PopupTextBox matchParentWidth label={sortKey}>
-              {colSortItems}
-            </PopupTextBox>
-          </span>
+          <ComboInput
+            className={styles.sortBlock}
+            label={sortKey}
+            list={colSortItems}
+            field={{
+              value    : "",
+              onChange : colSortFunction,
+            }}
+          />
         </div>
       </div>
     );

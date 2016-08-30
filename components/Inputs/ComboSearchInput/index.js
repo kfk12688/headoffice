@@ -1,18 +1,17 @@
 import React from "react";
-import FontAwesome from "react-fontawesome";
 import Overlay from "react-overlays/lib/Overlay";
-import styles from "./ListInput.less";
+import styles from "./ComboSearchInput.less";
 import cx from "classnames";
 
-class ListInput extends React.Component {
+class ComboSearchInput extends React.Component {
   constructor() {
     super();
     this.popupMenuStyle = undefined;
     this.state = {
-      hovered      : false,
-      showPopup    : false,
-      width        : "auto",
-      searchText   : "",
+      hovered    : false,
+      showPopup  : false,
+      width      : "auto",
+      searchText : "",
     };
     this.ctrls = {};
     this.assignTarget = target => { this.ctrls.target = target };
@@ -23,14 +22,10 @@ class ListInput extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.matchParentWidth) {
-      this.popupMenuStyle = {
-        width : this.ctrls.target.getBoundingClientRect().width,
-        ...this.props.childrenStyle,
-      };
-    } else {
-      this.popupMenuStyle = { ...this.props.childrenStyle };
-    }
+    this.popupMenuStyle = {
+      width : this.ctrls.target.getBoundingClientRect().width,
+      ...this.props.childrenStyle,
+    };
   }
 
   setSearchText(value) {
@@ -66,7 +61,7 @@ class ListInput extends React.Component {
     const matches = this.populate();
 
     return (
-      <div
+      <span
         tabIndex="0"
         ref={this.assignTarget}
         className={cx(className, styles.base)}
@@ -86,39 +81,40 @@ class ListInput extends React.Component {
           placement="bottom"
           target={() => this.ctrls.target}
         >
-          <div className={styles.menu} style={this.popupMenuStyle}>
+          <div className={styles.overlay} style={this.popupMenuStyle}>
+
+            {/* Search Box */}
             <div className={styles.searchBox}>
-              <input
-                className={styles.searchBoxInput}
-                placeholder="Search ..."
+              <textarea
+                rows="1"
                 value={this.state.searchText}
                 onChange={e => this.setSearchText(e.target.value)}
               />
-              <FontAwesome
-                className={styles.searchBoxIcon}
-                name="search"
-              />
+              <span title="Close (Esc)" onClick={e => this.setSearchText("")}>X</span>
             </div>
-            {matches.map(elem =>
-              <div
-                key={elem.key}
-                onClick={e => this.setSelectedText(e.target.innerText)}
-              >
-                {elem.text}
-              </div>
-            )}
+
+            {/* Elements */}
+            <div className={styles.items}>
+              {matches.map(elem =>
+                <div
+                  key={elem.key}
+                  onClick={e => this.setSelectedText(e.target.innerText)}
+                >
+                  {elem.text}
+                </div>
+              )}
+            </div>
           </div>
         </Overlay>
-      </div>
+      </span>
     );
   }
 }
 
-ListInput.propTypes = {
-  className        : React.PropTypes.string,
-  matchParentWidth : React.PropTypes.bool,
-  childrenStyle    : React.PropTypes.object,
-  field            : React.PropTypes.object.isRequired,
+ComboSearchInput.propTypes = {
+  className     : React.PropTypes.string,
+  childrenStyle : React.PropTypes.object,
+  field         : React.PropTypes.object.isRequired,
 };
 
-export { ListInput };
+export { ComboSearchInput };

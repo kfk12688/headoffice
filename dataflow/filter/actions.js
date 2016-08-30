@@ -18,8 +18,8 @@ export const setDateModifiedStart = createAction(SET_DTMOD_START, value => ({
 export const setDateModifiedEnd = createAction(SET_DTMOD_END, value => ({
   date : value,
 }));
-export const setOwner = createAction(SET_OWNER, (e) => ({
-  owner : e.target.value,
+export const setOwner = createAction(SET_OWNER, value => ({
+  owner : value,
 }));
 export const setIsRecent = createAction(SET_IS_RECENT, (e) => ({
   flag : e.target.checked,
@@ -31,11 +31,11 @@ export const setIsStarred = createAction(SET_IS_STARRED, (e) => ({
 /**
  * User Filter Values
  */
-export const setUserName = createAction(SET_USER_NAME, (e) => ({
-  username : e.target.value,
+export const setUserName = createAction(SET_USER_NAME, value => ({
+  username : value,
 }));
-export const setUserHasRole = createAction(SET_HAS_ROLE, (e) => ({
-  hasRole : e.target.value,
+export const setUserHasRole = createAction(SET_HAS_ROLE, value => ({
+  hasRole : value,
 }));
 export const setLastSignIn = createAction(SET_LAST_SIGN_IN, (value) => ({
   lastSignIn : value,
@@ -44,8 +44,8 @@ export const setLastSignIn = createAction(SET_LAST_SIGN_IN, (value) => ({
 /**
  * Workbook Filter Values
  */
-export const setWorkbookName = createAction(SET_WORKBOOK_NAME, (e) => ({
-  workbookName : e.target.value,
+export const setWorkbookName = createAction(SET_WORKBOOK_NAME, value => ({
+  workbookName : value,
 }));
 
 /**

@@ -51,7 +51,7 @@ class EGBodyRow extends React.Component {
 EGBodyRow.propTypes = {
   isSelected : React.PropTypes.bool,
   cols       : React.PropTypes.object.isRequired,
-  colWidths  : React.PropTypes.array.isRequired,
+  colWidths  : React.PropTypes.object.isRequired,
   row        : React.PropTypes.object.isRequired,
 };
 

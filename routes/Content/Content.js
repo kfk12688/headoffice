@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import _ from "underscore";
 import { connect } from "react-redux";
 import { Breadcrumb, SearchBar, DataGrid } from "components";
 import { ContentMenu } from "./ContentMenu";
@@ -66,11 +67,11 @@ class Content extends Component {
         text       : "Work Book",
       },
       {
-        dataKey       : "createdAt",
-        name          : "created-at-col",
-        renderType    : "date",
-        sortable      : true,
-        text          : "Created On",
+        dataKey    : "createdAt",
+        name       : "created-at-col",
+        renderType : "date",
+        sortable   : true,
+        text       : "Created On",
       },
       {
         cellFormatter : formatter.toDate.bind(undefined, "DD-MM-YY h:mm A"),
@@ -135,32 +136,19 @@ class Content extends Component {
     const displayText = {};
     const cols = this.colSpec;
 
-    for (const colIdx in cols) {
-      if (cols.hasOwnProperty(colIdx)) {
-        const col = cols[colIdx];
-        const isColSortable = (col.sortable === undefined) || col.sortable;
+    _.forEach(cols, (col, key) => {
+      const isColSortable = (col.sortable === undefined) || col.sortable;
 
-        if (isColSortable) {
-          const colRenderType = (col.renderType === undefined) ? "text" : col.renderType;
-          displayText[col.dataKey] = {};
-          for (let i = 0; i < 2; i++) {
-            const name = `${col.text} (${sortOrders[i][colRenderType]})`;
-
-            items.push(
-              <div
-                callBack={cb.bind(this, col.dataKey, sortOrders[i].order)}
-                dataKey={col.dataKey}
-                key={`${colIdx}${i}`}
-              >
-                {name}
-              </div>
-            );
-
-            displayText[col.dataKey][i] = name;
-          }
+      if (isColSortable) {
+        const colRenderType = (col.renderType === undefined) ? "text" : col.renderType;
+        displayText[col.dataKey] = {};
+        for (let i = 0; i < 2; i++) {
+          const name = `${col.text} (${sortOrders[i][colRenderType]})`;
+          items.push(<div key={`${key}${i}`}>{name}</div>);
+          displayText[col.dataKey][i] = name;
         }
       }
-    }
+    });
 
     return {
       items,
@@ -228,9 +216,10 @@ class Content extends Component {
           toggleSidebar={toggleSidebar}
           actionsMenu={actionsMenu}
           actions={this.actionsCollection}
-          colSortItems={this.colSortItems.items}
-          keys={Object.keys(rows)}
           sortKey={sortKey}
+          colSortItems={this.colSortItems.items}
+          colSortFunction={sortColumn}
+          keys={Object.keys(rows)}
           selectAllRows={selectAll}
           clearRowSelection={clearSelection}
           addTemplate={this.createBlankTemplate}

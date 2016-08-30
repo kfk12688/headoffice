@@ -1,7 +1,7 @@
 export { CheckBoxInput } from "./CheckboxInput";
 export { NumericInput } from "./NumericInput";
 export { DateInput } from "./DateInput";
-export { ListInput } from "./ListInput";
-export { StaticListInput } from "./StaticListInput";
+export { ComboSearchInput } from "./ComboSearchInput";
+export { ComboInput } from "./ComboInput";
 export { TextInput } from "./TextInput";
 export { SearchInput } from "./SearchInput";

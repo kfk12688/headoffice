@@ -34,13 +34,6 @@ class Editor extends Component {
   render() {
     const { entryStore, contextMenuStore } = this.props;
     const { spec, data, loadingIndicators, selectedRow } = entryStore;
-    let colWidths = {
-      action             : 45,
-      date               : 100,
-      openingBalance     : 150,
-      purchasesAdditions : 170,
-      issues             : 100,
-    };
 
     return (
       <div>
@@ -63,7 +56,6 @@ class Editor extends Component {
             className={styles.entrygrid}
             style={{ left : !contextMenuStore.showSidebar && 0 }}
             colSpec={spec}
-            colWidths={colWidths}
             data={data}
             isLoading={loadingIndicators}
             selectedRow={selectedRow}

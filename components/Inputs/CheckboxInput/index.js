@@ -5,7 +5,7 @@ const CheckBoxInput = ({ field, className, children }) => {
   const { value, onChange } = field;
 
   return (
-    <div className={className || styles.checkbox}>
+    <span className={className || styles.checkbox}>
       <input
         type="checkbox"
         className={styles.checkboxInput}
@@ -13,7 +13,7 @@ const CheckBoxInput = ({ field, className, children }) => {
         onChange={onChange}
       />
       {children && <span>{children}</span>}
-    </div>
+    </span>
   );
 };
 

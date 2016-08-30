@@ -11,7 +11,6 @@ export { Navigator } from "./Navigator";
 export { Breadcrumb } from "./Breadcrumb";
 export { SearchBar } from "./SearchBar";
 export * from "./Button";
-export * from "./Popup";
 export * from "./DisplayElems";
 
 export * from "./Inputs";

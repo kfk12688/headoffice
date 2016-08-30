@@ -1,9 +1,9 @@
 import React from "react";
 import Overlay from "react-overlays/lib/Overlay";
-import styles from "./StaticListInput.less";
+import styles from "./ComboInput.less";
 import cx from "classnames";
 
-class StaticListInput extends React.Component {
+class ComboInput extends React.Component {
   constructor(props) {
     super(props);
     this.popupMenuStyle = undefined;
@@ -12,21 +12,17 @@ class StaticListInput extends React.Component {
       showPopup : false,
     };
     this.ctrls = {};
-    this.assignTarget = target => { this.ctrls.target = target };
+    this.assignTarget = target => { this.ctrls.target = target; };
     this.handleClick = this.handleClick.bind(this);
     this.setFieldValue = this.setFieldValue.bind(this);
     this.listItems = props.list.map((elem, idx) => ({ key : idx, text : elem }));
   }
 
   componentDidMount() {
-    if (this.props.matchParentWidth) {
-      this.popupMenuStyle = {
-        width : this.ctrls.target.getBoundingClientRect().width,
-        ...this.props.childrenStyle,
-      };
-    } else {
-      this.popupMenuStyle = { ...this.props.childrenStyle };
-    }
+    this.popupMenuStyle = {
+      width : this.ctrls.target.getBoundingClientRect().width,
+      ...this.props.childrenStyle,
+    };
   }
 
   setFieldValue(value) {
@@ -46,22 +42,23 @@ class StaticListInput extends React.Component {
     const { className, field } = this.props;
 
     return (
-      <div
+      <span
         ref={this.assignTarget}
         className={cx(className, styles.base)}
         onClick={this.handleClick}
         onMouseEnter={() => this.setState({ hovered : true })}
         onMouseLeave={() => this.setState({ hovered : false })}
       >
+        <i className={cx("fa fa-caret-down", styles.faIcon)} title="Click to open"/>
         {field.value}
         <Overlay
           rootClose
-          show={this.state.showPopup}
-          onHide={() => this.setState({ showPopup : false })}
           placement="bottom"
+          show={this.state.showPopup}
           target={() => this.ctrls.target}
+          onHide={() => this.setState({ showPopup : false })}
         >
-          <div className={styles.menu} style={this.popupMenuStyle}>
+          <div className={styles.items} style={this.popupMenuStyle}>
             {
               this.listItems.map(item =>
                 <div
@@ -73,17 +70,16 @@ class StaticListInput extends React.Component {
             }
           </div>
         </Overlay>
-      </div>
+      </span>
     );
   }
 }
 
-StaticListInput.propTypes = {
-  className : React.PropTypes.string,
-  field     : React.PropTypes.object.isRequired,
-  list      : React.PropTypes.arrayOf(React.PropTypes.string),
-  matchParentWidth : React.PropTypes.bool,
-  childrenStyle    : React.PropTypes.object,
+ComboInput.propTypes = {
+  className     : React.PropTypes.string,
+  field         : React.PropTypes.object.isRequired,
+  list          : React.PropTypes.arrayOf(React.PropTypes.string),
+  childrenStyle : React.PropTypes.object,
 };
 
-export { StaticListInput };
+export { ComboInput };

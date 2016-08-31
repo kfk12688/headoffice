@@ -15,13 +15,16 @@ class DGBodyRow extends Component {
     const dataGridBodyCells = cols.map((col, index) => {
       const colName = col.name;
 
+      if (col.renderType === "checkbox") {
+        row.isSelected = isRowSelected;
+      }
+
       return (
         <DGBodyCell
           key={`${row.id} ${index}`}
           col={col}
           colWidth={colWidths[colName]}
           row={row}
-          isSelected={isRowSelected}
         />
       );
     });
@@ -30,13 +33,13 @@ class DGBodyRow extends Component {
   }
 
   clickHandler(e) {
-    if (e.target.tagName !== "A") {
+    if ((e.target.tagName !== "A") && (e.target.tagName !== "BUTTON")) {
       this.props.onRowClick(this.props.rowKey);
     }
   }
 
   render() {
-    const { rowKey, isRowSelected } = this.props;
+    const { isRowSelected } = this.props;
     let rowStyle = {
       backgroundColor : isRowSelected ?
                         blueGrey50 :
@@ -64,7 +67,7 @@ DGBodyRow.propTypes = {
   rowKey        : React.PropTypes.string.isRequired,
   isRowSelected : React.PropTypes.bool,
   row           : React.PropTypes.object,
-  col           : React.PropTypes.object,
+  cols          : React.PropTypes.arrayOf(React.PropTypes.object),
   colWidths     : React.PropTypes.object,
 };
 

@@ -1,5 +1,5 @@
 import React from "react";
-import EditorEntryForm from "../InputElems";
+import EditorEntryForm from "./EGForm";
 import styles from "./EGPost.less";
 
 const ADD_NEW_ENTRY = true;
@@ -9,28 +9,6 @@ class EGPost extends React.Component {
   constructor(props) {
     super(props);
     this.state = { entryState : ADD_NEW_ENTRY };
-  }
-
-  getFormFields(cols) {
-    const fields = [];
-    for (const k in cols) {
-      const col = cols[k];
-
-      if (col.insertable !== false) {
-        const { fieldKey } = col;
-        if (Array.isArray(fieldKey)) {
-          for (let i = 0; i < fieldKey.length; i++) {
-            fields.push(`${k}.${fieldKey[i]}`);
-          }
-        } else if (k !== fieldKey) {
-          fields.push(`${k}.${fieldKey}`);
-        } else {
-          fields.push(fieldKey);
-        }
-      }
-    }
-
-    return fields;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -54,14 +32,21 @@ class EGPost extends React.Component {
 
         <EditorEntryForm
           cols={cols}
-          fields={this.getFormFields(cols)}
+          fields={Object.keys(cols)}
           submitForm={postHandler}
           clearEditFlag={clearEditFlag}
+          editorState={this.state.entryState}
         />
 
       </div>
     );
   }
 }
+
+EGPost.propTypes = {
+  cols          : React.PropTypes.object.isRequired,
+  postHandler   : React.PropTypes.func.isRequired,
+  clearEditFlag : React.PropTypes.func.isRequired,
+};
 
 export { EGPost };

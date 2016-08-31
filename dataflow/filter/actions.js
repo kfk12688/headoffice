@@ -1,4 +1,3 @@
-import moment from "moment";
 import {
   SET_DTMOD_END, SET_DTMOD_START, SET_HAS_ROLE, SET_IS_RECENT, SET_IS_STARRED, SET_LAST_SIGN_IN, SET_OWNER,
   SET_USER_NAME, SORT, CLEAR_STATE, SET_WORKBOOK_NAME
@@ -13,14 +12,14 @@ export const sortFilter = createAction(SORT, (sortKey, sortOrder) => ({
 /**
  * Content Filter Values
  */
-export const setDateModifiedStart = createAction(SET_DTMOD_START, (e) => ({
-  date : moment(e.target.value, "YYYY-MM-DD"),
+export const setDateModifiedStart = createAction(SET_DTMOD_START, value => ({
+  date : value,
 }));
-export const setDateModifiedEnd = createAction(SET_DTMOD_END, (e) => ({
-  date : moment(e.target.value, "YYYY-MM-DD"),
+export const setDateModifiedEnd = createAction(SET_DTMOD_END, value => ({
+  date : value,
 }));
-export const setOwner = createAction(SET_OWNER, (e) => ({
-  owner : e.target.value,
+export const setOwner = createAction(SET_OWNER, value => ({
+  owner : value,
 }));
 export const setIsRecent = createAction(SET_IS_RECENT, (e) => ({
   flag : e.target.checked,
@@ -32,21 +31,21 @@ export const setIsStarred = createAction(SET_IS_STARRED, (e) => ({
 /**
  * User Filter Values
  */
-export const setUserName = createAction(SET_USER_NAME, (e) => ({
-  username : e.target.value,
+export const setUserName = createAction(SET_USER_NAME, value => ({
+  username : value,
 }));
-export const setUserHasRole = createAction(SET_HAS_ROLE, (e) => ({
-  hasRole : e.target.value,
+export const setUserHasRole = createAction(SET_HAS_ROLE, value => ({
+  hasRole : value,
 }));
-export const setLastSignIn = createAction(SET_LAST_SIGN_IN, (e) => ({
-  lastSignIn : moment(e.target.value, "YYYY-MM-DD"),
+export const setLastSignIn = createAction(SET_LAST_SIGN_IN, (value) => ({
+  lastSignIn : value,
 }));
 
 /**
  * Workbook Filter Values
  */
-export const setWorkbookName = createAction(SET_WORKBOOK_NAME, (e) => ({
-  workbookName : e.target.value,
+export const setWorkbookName = createAction(SET_WORKBOOK_NAME, value => ({
+  workbookName : value,
 }));
 
 /**

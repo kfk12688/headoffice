@@ -1,5 +1,6 @@
 import Content from "./Content";
-import TemplateViewer from "./TemplateViewer";
+import TemplateEditor from "./TemplateEditor";
+import TemplateEntry from "./TemplateEntry";
 
 const Route = {
   path        : "content",
@@ -9,7 +10,8 @@ const Route = {
     });
   },
   childRoutes : [
-    TemplateViewer,
+    TemplateEditor,
+    TemplateEntry,
   ],
 };
 

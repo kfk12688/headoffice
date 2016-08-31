@@ -1,10 +1,11 @@
 import React, { Component } from "react";
+import _ from "underscore";
 import { connect } from "react-redux";
-import { Breadcrumb, Search, DG } from "components";
+import { Breadcrumb, SearchBar, DataGrid } from "components";
 import { ContentMenu } from "./ContentMenu";
 import * as filterActions from "../../dataflow/filter/actions";
 import * as cmActions from "../../dataflow/menu/actions";
-import * as contentActions from "../../dataflow/content/actions";
+import * as contentActions from "../../dataflow/content/facing/actions";
 import { getRows, Formatter as formatter } from "../utils";
 import styles from "./Content.less";
 
@@ -20,6 +21,7 @@ class Content extends Component {
     // Defines the static colum specification for the Content Area
     this.colSpec = [
       {
+        dataKey     : "isSelected",
         headerStyle : { borderRight : 0 },
         name        : "checkbox-col",
         renderType  : "checkbox",
@@ -40,16 +42,23 @@ class Content extends Component {
           path   : "/content/edit",
           urlKey : "id",
         },
+        button     : {
+          buttonText : "Enter Data",
+          link       : {
+            path : "/content/data",
+            key  : "id",
+          },
+        },
         name       : "name-col",
-        renderType : "link",
+        renderType : "buttonLink",
         text       : "Name",
         "actions"  : this.actionsCollection,
       },
       {
-        dataKey    : "userRef.name",
+        dataKey    : "createdBy.username",
         name       : "user-col",
         renderType : "text",
-        text       : "User",
+        text       : "Created By",
       },
       {
         dataKey    : "workBook.name",
@@ -58,15 +67,14 @@ class Content extends Component {
         text       : "Work Book",
       },
       {
-        cellFormatter : formatter.toDate,
-        dataKey       : "createdAt",
-        name          : "created-at-col",
-        renderType    : "date",
-        sortable      : true,
-        text          : "Created At",
+        dataKey    : "createdAt",
+        name       : "created-at-col",
+        renderType : "date",
+        sortable   : true,
+        text       : "Created On",
       },
       {
-        cellFormatter : formatter.toDate,
+        cellFormatter : formatter.toDate.bind(undefined, "DD-MM-YY h:mm A"),
         dataKey       : "modifiedAt",
         name          : "updated-at-col",
         renderType    : "date",
@@ -77,13 +85,15 @@ class Content extends Component {
     this.colWidths = {
       "checkbox-col"   : 38,
       "favorite-col"   : 38,
-      "name-col"       : 150,
-      "user-col"       : 120,
-      "workbook-col"   : 180,
-      "created-at-col" : 150,
-      "updated-at-col" : 150,
+      "name-col"       : 230,
+      "user-col"       : 100,
+      "workbook-col"   : 170,
+      "created-at-col" : 100,
+      "updated-at-col" : 140,
     };
+
     this.colSortItems = this.getColumnSortList(props.sortColumn);
+    this.createBlankTemplate = this.createBlankTemplate.bind(this);
   }
 
   componentWillMount() {
@@ -126,37 +136,29 @@ class Content extends Component {
     const displayText = {};
     const cols = this.colSpec;
 
-    for (const colIdx in cols) {
-      if (cols.hasOwnProperty(colIdx)) {
-        const col = cols[colIdx];
-        const isColSortable = (col.sortable === undefined) || col.sortable;
+    _.forEach(cols, (col, key) => {
+      const isColSortable = (col.sortable === undefined) || col.sortable;
 
-        if (isColSortable) {
-          const colRenderType = (col.renderType === undefined) ? "text" : col.renderType;
-          displayText[col.dataKey] = {};
-          for (let i = 0; i < 2; i++) {
-            const name = `${col.text} (${sortOrders[i][colRenderType]})`;
-
-            items.push(
-              <div
-                callBack={cb.bind(this, col.dataKey, sortOrders[i].order)}
-                dataKey={col.dataKey}
-                key={`${colIdx}${i}`}
-              >
-                {name}
-              </div>
-            );
-
-            displayText[col.dataKey][i] = name;
-          }
+      if (isColSortable) {
+        const colRenderType = (col.renderType === undefined) ? "text" : col.renderType;
+        displayText[col.dataKey] = {};
+        for (let i = 0; i < 2; i++) {
+          const name = `${col.text} (${sortOrders[i][colRenderType]})`;
+          items.push(<div key={`${key}${i}`}>{name}</div>);
+          displayText[col.dataKey][i] = name;
         }
       }
-    }
+    });
 
     return {
       items,
       displayText,
     };
+  }
+
+  createBlankTemplate(data) {
+    console.log(data);
+    this.props.addTemplate(data);
   }
 
   renderChildren() {
@@ -166,7 +168,7 @@ class Content extends Component {
 
     const {
       list, actionsMenu, rows, toggleSidebar, selectAll,
-      clearSelection, sortColumn, toggleSelection, addTemplate,
+      clearSelection, sortColumn, toggleSelection,
     } = this.props;
 
     const { filterChangeHandlers, filter } = this.props;
@@ -214,28 +216,29 @@ class Content extends Component {
           toggleSidebar={toggleSidebar}
           actionsMenu={actionsMenu}
           actions={this.actionsCollection}
-          colSortItems={this.colSortItems.items}
-          keys={rows.map(row => row.id)}
           sortKey={sortKey}
+          colSortItems={this.colSortItems.items}
+          colSortFunction={sortColumn}
+          keys={Object.keys(rows)}
           selectAllRows={selectAll}
           clearRowSelection={clearSelection}
-          addTemplate={addTemplate}
+          addTemplate={this.createBlankTemplate}
         />
 
         <div>
-          {/* Search Container */}
+          {/* SearchBar Container */}
           {
             actionsMenu.showSidebar &&
-            <Search
+            <SearchBar
               className={styles.search}
               config={searchConfig}
             />
           }
 
           {/* DataGrid Container */}
-          <DG
+          <DataGrid
             className={styles.datagrid}
-            style={{ left: !actionsMenu.showSidebar && 0 }}
+            style={{ left : !actionsMenu.showSidebar && 0 }}
             isLoading={list.isLoading}
             cols={this.colSpec}
             colWidths={this.colWidths}
@@ -257,7 +260,7 @@ class Content extends Component {
     return (
       <div
         className={styles.base}
-        style={{ top: rollUp ? 62 : 0 }}
+        style={{ top : rollUp ? 53 : 0 }}
       >
 
         {/* Breadcrumb */}
@@ -279,7 +282,7 @@ Content.propTypes = {
   list        : React.PropTypes.object.isRequired,
   actionsMenu : React.PropTypes.object.isRequired,
   filter      : React.PropTypes.object.isRequired,
-  rows        : React.PropTypes.array.isRequired,
+  rows        : React.PropTypes.object.isRequired,
 
   // Actions
   toggleSidebar        : React.PropTypes.func.isRequired,
@@ -307,10 +310,10 @@ const filterBindings = {
 };
 
 const mapStateToProps = (state) => ({
-  list        : state.content,
+  list        : state.content.facing.data,
   actionsMenu : state.menu,
   filter      : state.filter,
-  rows        : getRows(state.content.data, state.filter, filterBindings),
+  rows        : getRows(state.content.facing.data, state.filter, filterBindings),
 });
 
 const mapDispatchToProps = (dispatch) => ({

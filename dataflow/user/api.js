@@ -5,21 +5,7 @@ const api = "http://localhost:3001/api";
 
 export const getUserList = () =>
   fetch("GET", `${api}/user`)
-    .then(res => res.json())
-    .then(json => {
-      const payload = { data : {} };
-
-      for (const idx in json.data) {
-        const item = json.data[idx];
-        const id = item._id;
-        delete item._id;
-
-        payload.data[id] = { id, ...item };
-      }
-
-      return payload;
-    });
-
+    .then(res => res.json());
 
 export const addNewUser = (params) =>
   fetch("POST", `${api}/signUp`, params)

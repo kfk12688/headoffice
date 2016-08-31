@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Modal, PopupButton, Divider, PopupTextBox } from "components";
+import { Button, Modal, PopupButton, ComboInput } from "components";
 import UserForm from "./UserForm";
 import cx from "classnames";
 import styles from "./ContentMenu.less";
@@ -21,7 +21,7 @@ class ContentMenu extends Component {
 
     return (
       <span>
-        <Divider vertical size={{ h: 24, w: 1 }} style={{ marginRight: 5 }}/>
+        <span className={styles.actionsSeperator}/>
         <PopupButton label="Actions">
           {actionsMenuContent}
         </PopupButton>
@@ -43,13 +43,8 @@ class ContentMenu extends Component {
 
   render() {
     const {
-      className,
-      toggleSidebar,
-      colSortItems,
-      sortKey,
-      actionsMenu,
-      clearRowSelection,
-      addNewUser,
+      className, toggleSidebar, colSortItems, sortKey,
+      actionsMenu, clearRowSelection, addNewUser, colSortFunction
     } = this.props;
 
     return (
@@ -61,7 +56,7 @@ class ContentMenu extends Component {
             <Button
               faName="sliders"
               onClick={toggleSidebar}
-              className={cx(styles.icon, { [styles.iconActive]: actionsMenu.showSidebar })}
+              className={cx(styles.icon, { [styles.iconActive] : actionsMenu.showSidebar })}
             />
             <Modal
               show={this.state.showModal}
@@ -78,16 +73,20 @@ class ContentMenu extends Component {
             </PopupButton>
           </span>
 
-          {(actionsMenu.selectedKeys.length >=1) && this.getActions()}
+          {(actionsMenu.selectedKeys.length >= 1) && this.getActions()}
         </div>
 
         <div className={styles.right}>
           <span>Sort by : </span>
-          <span className={styles.sortBlock}>
-            <PopupTextBox matchParentWidth label={sortKey}>
-              {colSortItems}
-            </PopupTextBox>
-          </span>
+          <ComboInput
+            className={styles.sortBlock}
+            label={sortKey}
+            list={colSortItems}
+            field={{
+              value    : "",
+              onChange : colSortFunction,
+            }}
+          />
         </div>
       </div>
     );

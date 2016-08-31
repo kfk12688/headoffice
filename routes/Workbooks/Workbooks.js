@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { DG, Breadcrumb, Search } from "components";
+import { DataGrid, Breadcrumb, SearchBar } from "components";
 import { ContentMenu } from "./ContentMenu";
 import * as cmActions from "../../dataflow/menu/actions";
 import * as filterActions from "../../dataflow/filter/actions";
@@ -19,6 +19,7 @@ class Workbooks extends Component {
 
     this.colSpec = [
       {
+        dataKey     : "isSelected",
         headerStyle : { borderRight : 0 },
         name        : "has-alert-col",
         renderType  : "checkbox",
@@ -37,17 +38,23 @@ class Workbooks extends Component {
         },
       },
       {
-        cellFormatter : formatter.toDate,
+        dataKey    : ["createdBy.firstName", "createdBy.lastName"],
+        name       : "full-name-col",
+        renderType : "join",
+        text       : "Created By",
+      },
+      {
         dataKey       : "createdAt",
         name          : "created-at-col",
         renderType    : "date",
         sortable      : true,
-        text          : "Created At",
+        text          : "Created On",
       },
     ];
     this.colWidths = {
       "has-alert-col"  : 38,
       "name-col"       : 260,
+      "full-name-col"  : 200,
       "created-at-col" : 160,
     };
     this.colSortItems = this.getColumnSortList(props.sortColumn);
@@ -184,7 +191,7 @@ class Workbooks extends Component {
           actionsMenu={actionsMenu}
           actions={this.actionsCollection}
           colSortItems={this.colSortItems.items}
-          keys={rows.map(row => row.id)}
+          keys={Object.keys(rows)}
           sortKey={sortKey}
           selectAllRows={selectAllRows}
           clearRowSelection={clearRowSelection}
@@ -192,19 +199,19 @@ class Workbooks extends Component {
         />
 
         <div>
-          {/* Search Container */}
+          {/* SearchBar Container */}
           {
             actionsMenu.showSidebar &&
-            <Search
+            <SearchBar
               className={styles.search}
               config={searchConfig}
             />
           }
 
           {/* DataGrid Container */}
-          <DG
+          <DataGrid
             className={styles.datagrid}
-            style={{ left: !actionsMenu.showSidebar && 0 }}
+            style={{ left : !actionsMenu.showSidebar && 0 }}
             isLoading={workbooks.isLoading}
             cols={this.colSpec}
             colWidths={this.colWidths}
@@ -227,7 +234,7 @@ class Workbooks extends Component {
     return (
       <div
         className={styles.base}
-        style={{ top: rollUp ? 62 : 0 }}
+        style={{ top : rollUp ? 53 : 0 }}
       >
 
         {/* Breadcrumb */}
@@ -251,7 +258,7 @@ Workbooks.propTypes = {
   actionsMenu : React.PropTypes.object.isRequired,
   workbooks   : React.PropTypes.object.isRequired,
   filter      : React.PropTypes.object.isRequired,
-  rows        : React.PropTypes.array.isRequired,
+  rows        : React.PropTypes.object.isRequired,
 
   // Actions
   toggleSidebar        : React.PropTypes.func,

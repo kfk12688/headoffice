@@ -20,6 +20,21 @@
     margin-right: 0;
   }
 }
+.disabledButton {
+  height: 20px;
+  font-size: 12px;
+  min-width: 55px;
+  margin: 0 2px;
+  border: 1px solid @grey700;
+  border-radius: 1px;
+  background: @grey200;
+  color: @grey900;
+  text-align: center;
+  cursor: not-allowed;
+  &:last-child {
+    margin-right: 0;
+  }
+}
 
 .buttonWithAccent {
   height: 20px;
@@ -44,15 +59,14 @@
   font-size: 12px;
   min-width: 55px;
   margin: 0 2px;
-  border: 1px solid @green700;
+  border: 1px solid @greenDark;
   border-radius: 1px;
   text-align: center;
-  background: @green400;
-  color: @green900;
+  background: @greenLight;
+  color: @grey50;
   &:active,
   &:hover {
-    color: @green50;
-    background: @green700;
-    border: 1px solid @green900;
+    background: @greenDark;
+    border: 1px solid @greenDark;
   }
 }

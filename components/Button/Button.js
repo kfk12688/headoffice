@@ -30,6 +30,8 @@ const Button = ({ style, className, faName, faClassName, onClick, after, childre
 
 Button.displayName = "Button";
 Button.propTypes = {
+  after       : PropTypes.bool,
+  children    : PropTypes.node,
   style       : PropTypes.object,
   className   : PropTypes.string,
   faName      : PropTypes.string,

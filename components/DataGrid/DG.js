@@ -8,7 +8,7 @@ import FontAwesome from "react-fontawesome";
 import styles from "./DG.less";
 import cx from "classnames";
 
-class DG extends Component {
+class DataGrid extends Component {
   constructor(props) {
     super(props);
     this.state = { colWidths : props.colWidths };
@@ -16,8 +16,8 @@ class DG extends Component {
 
   render() {
     const {
-      style, className, cols, colWidths, colSortFunction,
-      sortKey, sortAscending, selectedKeys, onRowClick, rows, isLoading
+      style, className, cols, colSortFunction,
+      sortKey, sortAscending, selectedKeys, onRowClick, rows, isLoading,
     } = this.props;
 
     return (
@@ -49,9 +49,12 @@ class DG extends Component {
   }
 }
 
-DG.PropTypes = {
+DataGrid.propTypes = {
+  className         : PropTypes.string,
+  style             : PropTypes.object,
+  isLoading         : PropTypes.bool,
   rows              : PropTypes.object.isRequired,
-  cols              : PropTypes.object.isRequired,
+  cols              : PropTypes.arrayOf(PropTypes.object),
   colWidths         : PropTypes.object.isRequired,
   sortAscending     : PropTypes.boolean,
   selectedKeys      : PropTypes.array,
@@ -61,4 +64,4 @@ DG.PropTypes = {
   onRowClick        : PropTypes.func,
 };
 
-export { DG };
+export { DataGrid };

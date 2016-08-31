@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { DG, Breadcrumb, Search } from "components";
+import { Breadcrumb, SearchBar, DataGrid } from "components";
 import { ContentMenu } from "./ContentMenu";
 import * as userActions from "../../dataflow/user/actions";
 import * as cmActions from "../../dataflow/menu/actions";
 import * as filterActions from "../../dataflow/filter/actions";
-import { getRows } from "../utils";
+import { getRows, Formatter as formatter } from "../utils";
 import styles from "./Users.less";
 
 class User extends Component {
@@ -18,8 +18,10 @@ class User extends Component {
       { name : "XXXify User", handler : actions.deleteUser },
     ];
 
+    // Defines the static colum specification for the Content Area
     this.colSpec = [
       {
+        dataKey     : "isSelected",
         headerStyle : { borderRight : 0 },
         name        : "has-alert-col",
         renderType  : "checkbox",
@@ -27,8 +29,8 @@ class User extends Component {
         text        : "",
       },
       {
-        dataKey    : "name",
-        name       : "name-col",
+        dataKey    : "username",
+        name       : "username-col",
         renderType : "link",
         text       : "Display Name",
         actions    : this.actionsCollection,
@@ -36,6 +38,19 @@ class User extends Component {
           path   : "/user/edit",
           urlKey : "id",
         },
+      },
+      {
+        dataKey    : ["firstName", "lastName"],
+        name       : "full-name-col",
+        renderType : "join",
+        text       : "Full Name",
+      },
+      {
+        dataKey       : "createdAt",
+        name          : "created-at-col",
+        renderType    : "date",
+        sortable      : true,
+        text          : "Created On",
       },
       {
         dataKey    : "phoneNumber",
@@ -46,7 +61,9 @@ class User extends Component {
     ];
     this.colWidths = {
       "has-alert-col"    : 38,
-      "name-col"         : 160,
+      "username-col"     : 160,
+      "full-name-col"    : 200,
+      "created-at-col"   : 120,
       "phone-number-col" : 160,
     };
 
@@ -178,7 +195,7 @@ class User extends Component {
           actionsMenu={actionsMenu}
           actions={this.actionsCollection}
           colSortItems={this.colSortItems.items}
-          keys={rows.map(row => row.id)}
+          keys={Object.keys(rows)}
           sortKey={sortKey}
           selectAllRows={selectAllRows}
           clearRowSelection={clearRowSelection}
@@ -186,19 +203,19 @@ class User extends Component {
         />
 
         <div>
-          {/* Search Container */}
+          {/* SearchBar Container */}
           {
             actionsMenu.showSidebar &&
-            <Search
+            <SearchBar
               className={styles.search}
               config={searchConfig}
             />
           }
 
           {/* DataGrid Container */}
-          <DG
+          <DataGrid
             className={styles.datagrid}
-            style={{ left: !actionsMenu.showSidebar && 0 }}
+            style={{ left : !actionsMenu.showSidebar && 0 }}
             isLoading={user.isLoading}
             cols={this.colSpec}
             colWidths={this.colWidths}
@@ -221,7 +238,7 @@ class User extends Component {
     return (
       <div
         className={styles.base}
-        style={{ top: rollUp ? 62 : 0 }}
+        style={{ top : rollUp ? 53 : 0 }}
       >
 
         {/* Breadcrumb */}
@@ -245,7 +262,7 @@ User.propTypes = {
   actionsMenu : React.PropTypes.object.isRequired,
   user        : React.PropTypes.object.isRequired,
   filter      : React.PropTypes.object.isRequired,
-  rows        : React.PropTypes.array.isRequired,
+  rows        : React.PropTypes.object.isRequired,
 
   // Actions
   toggleSidebar        : React.PropTypes.func.isRequired,

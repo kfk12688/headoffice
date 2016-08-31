@@ -5,18 +5,6 @@ import React from "react";
 import { grey50 } from "../../styles/colors";
 import styles from "./EGHeaderCol.less";
 
-/**
- * EntryGridHeaderColumn Interface
- */
-// Props
-// interface IEGHeaderColumnProps {
-//   headerStyle: {
-//     [prop: string]: string | number;
-//   };
-//   displayText: string;
-//   colWidth: number;
-// }
-
 class EGHeaderCol extends React.Component {
   constructor() {
     super();
@@ -24,7 +12,6 @@ class EGHeaderCol extends React.Component {
   }
 
   render() {
-    // Props
     const { headerStyle, displayText, colWidth } = this.props;
 
     const hoverStyle = {
@@ -38,8 +25,8 @@ class EGHeaderCol extends React.Component {
       <span
         className={styles.col}
         style={{ ...hoverStyle, ...headerStyle }}
-        onMouseOver={() => this.setState({ hovered: true })}
-        onMouseOut={() => this.setState({ hovered: false })}
+        onMouseOver={() => this.setState({ hovered : true })}
+        onMouseOut={() => this.setState({ hovered : false })}
       >
         <div className={styles.cell}>
           <span>{displayText}</span>
@@ -48,5 +35,11 @@ class EGHeaderCol extends React.Component {
     );
   }
 }
+
+EGHeaderCol.propTypes = {
+  headerStyle : React.PropTypes.object,
+  displayText : React.PropTypes.string.isRequired,
+  colWidth    : React.PropTypes.number.isRequired,
+};
 
 export { EGHeaderCol };

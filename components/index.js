@@ -1,20 +1,16 @@
-/**
- * Created by sharavan on 11/05/16.
- */
+// Loads the font awesome css file
 import "font-awesome/css/font-awesome.css";
 
-export { Button, FormButton } from "./Button";
 export { TabGroup, Tab, TabMeta } from "./TabGroup";
-export { Divider } from "./Divider";
-export { DG } from "./DataGrid";
-export * from "./Popup";
+export { DataGrid } from "./DataGrid";
 export { NavLink } from "./NavLink";
 export { Modal } from "./Modal";
-export { EG } from "./EntryGrid";
+export { EntryGrid } from "./EntryGrid";
+export { SpecDefiner } from "./SpecDefiner";
 export { Navigator } from "./Navigator";
 export { Breadcrumb } from "./Breadcrumb";
-export { Search } from "./Search";
+export { SearchBar } from "./SearchBar";
+export * from "./Button";
 export * from "./DisplayElems";
 
-// Derivative components
-export * from "./Xtended";
+export * from "./Inputs";

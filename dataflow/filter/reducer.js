@@ -1,11 +1,13 @@
 import { handleActions } from "redux-actions";
-
 import {
   SET_DTMOD_END, SET_DTMOD_START, SET_HAS_ROLE, SET_IS_RECENT, SET_IS_STARRED, SET_LAST_SIGN_IN, SET_OWNER,
   SET_USER_NAME, SORT, CLEAR_STATE, SET_WORKBOOK_NAME
 } from "./types";
 
-const initialState = {};
+const initialState = {
+  sortAscending : false,
+  sortKey : "",
+};
 
 const reducer = handleActions({
   [SORT] : (state, action) => ({
@@ -41,7 +43,7 @@ const reducer = handleActions({
   /**
    * User Filter Reducer
    */
-  [SET_USER_NAME]     : (state, action) => ({
+  [SET_USER_NAME]    : (state, action) => ({
     ...state,
     username : action.payload.username,
   }),
@@ -57,7 +59,7 @@ const reducer = handleActions({
   /**
    * Workbook Filter Reducer
    */
-  [SET_WORKBOOK_NAME]     : (state, action) => ({
+  [SET_WORKBOOK_NAME] : (state, action) => ({
     ...state,
     workbookName : action.payload.workbookName,
   }),

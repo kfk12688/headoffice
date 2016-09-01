@@ -4,7 +4,8 @@ var webpack = require("webpack");
 module.exports = {
   devtool : "eval",
   entry   : [
-    "webpack/hot/dev-server",
+    "webpack-dev-server/client?http://localhost:3001", // WebpackDevServer host and port
+    "webpack/hot/only-dev-server", // "only" prevents reload on syntax errors
     "./index"
   ],
   resolve : {
@@ -20,12 +21,12 @@ module.exports = {
   },
   plugins : [
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
   ],
   module  : {
     loaders : [{
       test    : /\.js$/,
-      loaders : ["react-hot", "babel"],
+      loader : "babel",
       exclude : /node_modules/,
       include : __dirname
     }, {
@@ -43,4 +44,4 @@ module.exports = {
       loader : "style!css"
     }]
   }
-}
+};

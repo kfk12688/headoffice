@@ -42,7 +42,7 @@ class CreateTemplateForm extends Component {
       <form onSubmit={this.onSubmit}>
         <div className={styles.formElement}>
           <div className={styles.formElementTitle}>Enter the name of the template:</div>
-          <Field className={styles.formElementInput} name="templateName" component="input"/>
+          <Field className={styles.formElementInput} name="templateName" component={TextInput}/>
         </div>
 
         <div className={styles.formElement}>

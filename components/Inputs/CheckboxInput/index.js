@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./CheckBoxInput.less";
 
-const CheckBoxInput = ({ field, className, children }) => {
-  const { value, onChange } = field;
+const CheckBoxInput = ({ input, className, children }) => {
+  const { value, onChange } = input;
 
   return (
     <span className={className || styles.checkbox}>
@@ -18,7 +18,7 @@ const CheckBoxInput = ({ field, className, children }) => {
 };
 
 CheckBoxInput.propTypes = {
-  field     : React.PropTypes.object.isRequired,
+  input     : React.PropTypes.object.isRequired,
   className : React.PropTypes.string,
   children  : React.PropTypes.node,
 };

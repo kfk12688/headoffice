@@ -1,19 +1,14 @@
 import React from "react";
 import styles from "./TextInput.less";
 
-export const TextInput = (props) => {
-  const { className, ...rest } = props;
-
-  return (
-    <input
-      className={className || styles.twextboxInput}
-      type="text"
-      {...rest}
-    />
-  );
-}
+export const TextInput = ({ className, input }) =>
+  <input
+    className={className || styles.input}
+    type="text"
+    {...input}
+  />;
 
 TextInput.propTypes = {
-  field     : React.PropTypes.object.isRequired,
+  input     : React.PropTypes.object.isRequired,
   className : React.PropTypes.string,
 };

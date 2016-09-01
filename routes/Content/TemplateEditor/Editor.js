@@ -61,15 +61,15 @@ class Editor extends Component {
   // Persists data to the server
   saveUserSchema() {
     const { userSchema, id, templateName } = this.props.editor;
-    // console.log({
-    //   userSchema,
-    //   id : id,
-    // });
-    this.props.editTemplateSchema({
+    console.log({
       userSchema,
       id : id,
-      templateName,
     });
+    // this.props.editTemplateSchema({
+    //   userSchema,
+    //   id : id,
+    //   templateName,
+    // });
   }
 
   saveTemplateMeta(data) {

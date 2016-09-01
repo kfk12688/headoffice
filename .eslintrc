@@ -20,6 +20,8 @@
     "max-len" : [1, 150],
     "key-spacing": [0],
     "react/jsx-space-before-closing" : [0],
+    "react/jsx-indent-props" : [0],
+    "react/jsx-first-prop-new-line" : [0],
     "quote-props" : [0],
     "no-underscore-dangle" : [1]
   }

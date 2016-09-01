@@ -59,12 +59,12 @@ FormButton.propTypes = {
   faClassName : PropTypes.string,
   children    : PropTypes.string,
   onClick     : PropTypes.func,
-  after       : PropTypes.boolean,
+  after       : PropTypes.bool,
   accent      : PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.boolean,
   ]),
-  disabled    : React.PropTypes.bool,
+  disabled    : PropTypes.bool,
 };
 
 export { FormButton };

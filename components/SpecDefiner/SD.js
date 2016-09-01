@@ -13,7 +13,7 @@ class SpecDefiner extends React.Component {
   }
 
   render() {
-    const { className, colSpec, data, isLoading, postHandler, selectedRow, clearEditFlag } = this.props;
+    const { className, colSpec, data, isLoading, onSubmit, selectedRow, clearEditFlag } = this.props;
 
     return (
       <div
@@ -41,7 +41,7 @@ class SpecDefiner extends React.Component {
 
         <SDPost
           cols={colSpec}
-          postHandler={postHandler}
+          onSubmit={onSubmit}
           clearEditFlag={clearEditFlag}
           selectedRow={selectedRow}
         />

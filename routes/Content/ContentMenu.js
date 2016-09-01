@@ -84,7 +84,7 @@ class ContentMenu extends Component {
             className={styles.sortBlock}
             label={sortKey}
             list={colSortItems}
-            field={{
+            input={{
               value    : "",
               onChange : colSortFunction,
             }}

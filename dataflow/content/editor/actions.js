@@ -54,4 +54,4 @@ export const editRow = row => dispatch => {
   dispatch(populateForm(row));
 };
 
-export const addField = createAction(ADD_FIELD, field => ({ field }));
+export const addField = createAction(ADD_FIELD, field => ({ input }));

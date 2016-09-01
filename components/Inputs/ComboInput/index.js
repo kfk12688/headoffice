@@ -26,8 +26,8 @@ class ComboInput extends React.Component {
   }
 
   setFieldValue(value) {
-    const { field } = this.props;
-    field.onChange(value);
+    const { input } = this.props;
+    input.onChange(value);
   }
 
   handleClick() {
@@ -39,7 +39,7 @@ class ComboInput extends React.Component {
   }
 
   render() {
-    const { className, field } = this.props;
+    const { className, input } = this.props;
 
     return (
       <span
@@ -50,7 +50,7 @@ class ComboInput extends React.Component {
         onMouseLeave={() => this.setState({ hovered : false })}
       >
         <i className={cx("fa fa-caret-down", styles.faIcon)} title="Click to open"/>
-        {field.value}
+        {input.value}
         <Overlay
           rootClose
           placement="bottom"
@@ -77,7 +77,7 @@ class ComboInput extends React.Component {
 
 ComboInput.propTypes = {
   className     : React.PropTypes.string,
-  field         : React.PropTypes.object.isRequired,
+  input         : React.PropTypes.object.isRequired,
   list          : React.PropTypes.arrayOf(React.PropTypes.string),
   childrenStyle : React.PropTypes.object,
 };

@@ -43,7 +43,7 @@ Button.propTypes = {
   className   : PropTypes.string,
   faName      : PropTypes.string,
   faClassName : PropTypes.string,
-  children    : PropTypes.string,
+  children    : PropTypes.any,
   after       : PropTypes.bool,
   accent      : PropTypes.oneOfType([
     PropTypes.string,

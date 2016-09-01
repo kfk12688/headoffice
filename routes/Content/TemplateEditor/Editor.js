@@ -5,7 +5,6 @@ import { TitleBar } from "./TitleBar";
 import {
   loadEditor, editTemplate, editRow, deleteRow, clearEditFlag, addField, editTemplateSchema
 } from "../../../dataflow/content/editor/actions";
-import { resetForm } from "../../../lib/ReduxForm/actions";
 import styles from "./Editor.less";
 
 class Editor extends Component {
@@ -14,7 +13,6 @@ class Editor extends Component {
     this.addField = this.addField.bind(this);
     this.saveUserSchema = this.saveUserSchema.bind(this);
     this.saveTemplateMeta = this.saveTemplateMeta.bind(this);
-    this.clearForm = this.clearForm.bind(this);
 
     this.colSpec = {
       "action"     : {
@@ -76,10 +74,6 @@ class Editor extends Component {
     console.log(data);
   }
 
-  clearForm() {
-    this.props.resetForm();
-  }
-
   render() {
     const { editor } = this.props;
 
@@ -101,9 +95,7 @@ class Editor extends Component {
             colWidths={this.colWidths}
             data={editor.userSchema}
             isLoading={editor.isLoading}
-            selectedRow={editor.selectedRow}
-            postHandler={this.addField}
-            clearEditFlag={() => {}}
+            onSubmit={this.addField}
           />
 
           {/* Sidebar Container */}
@@ -111,7 +103,7 @@ class Editor extends Component {
             <Button accent="green" className={styles.sidebarButton} onClick={this.saveUserSchema}>Save</Button>
             <Button accent="green" disabled className={styles.sidebarButton}>Undo</Button>
             <Button accent="green" disabled className={styles.sidebarButton}>Redo</Button>
-            <Button accent="green" className={styles.sidebarButton} onClick={this.clearForm}>Cancel</Button>
+            <Button accent="green" className={styles.sidebarButton}>Cancel</Button>
           </div>
         </div>
       </div>
@@ -132,7 +124,6 @@ Editor.propTypes = {
   editRow         : React.PropTypes.func.isRequired,
   deleteRow       : React.PropTypes.func.isRequired,
   addField        : React.PropTypes.func.isRequired,
-  resetForm       : React.PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -147,7 +138,6 @@ const mapDisptachToProps = dispatch => ({
   deleteRow          : row => dispatch(deleteRow(row)),
   clearEditFlag      : () => dispatch(clearEditFlag()),
   addField           : field => dispatch(addField(field)),
-  resetForm          : () => dispatch(resetForm()),
 });
 
 export default connect(mapStateToProps, mapDisptachToProps)(Editor);

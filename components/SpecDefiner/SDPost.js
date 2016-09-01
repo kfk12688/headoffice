@@ -11,14 +11,6 @@ class SDPost extends React.Component {
     this.state = { entryState : ADD_NEW_ENTRY };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.selectedRow !== null) {
-      this.setState({ entryState : EDIT_EXISTING_ENTRY });
-    } else {
-      this.setState({ entryState : ADD_NEW_ENTRY });
-    }
-  }
-
   render() {
     const { onSubmit } = this.props;
 
@@ -37,8 +29,7 @@ class SDPost extends React.Component {
 }
 
 SDPost.propTypes = {
-  selectedRow : React.PropTypes.string,
-  onSubmit    : React.PropTypes.func,
+  onSubmit : React.PropTypes.func,
 };
 
 export { SDPost };

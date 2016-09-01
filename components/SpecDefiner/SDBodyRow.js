@@ -2,7 +2,6 @@ import React from "react";
 import _ from "underscore";
 import { renderEGCell } from "../DisplayElems";
 import styles from "./SDBodyRow.less";
-import cx from "classnames";
 
 class SDBodyRow extends React.Component {
   constructor() {
@@ -21,7 +20,7 @@ class SDBodyRow extends React.Component {
   }
 
   render() {
-    const { row, cols, colWidths, isSelected } = this.props;
+    const { row, cols, colWidths } = this.props;
     let bodyCells = [];
 
     _.forEach(cols, (col, colKey) => {
@@ -44,7 +43,7 @@ class SDBodyRow extends React.Component {
 
     return (
       <div
-        className={cx(styles.row, { [styles.rowIsSelected] : isSelected })}
+        className={styles.row}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
       >
@@ -55,10 +54,9 @@ class SDBodyRow extends React.Component {
 }
 
 SDBodyRow.propTypes = {
-  row        : React.PropTypes.object,
-  cols       : React.PropTypes.object,
-  colWidths  : React.PropTypes.object,
-  isSelected : React.PropTypes.bool,
+  row       : React.PropTypes.object,
+  cols      : React.PropTypes.object,
+  colWidths : React.PropTypes.object,
 };
 
 export { SDBodyRow };

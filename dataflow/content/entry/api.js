@@ -25,7 +25,7 @@ export const updateRow = params => {
 };
 
 export const addRow = params => {
-  const { templateId, row:data } = params;
+  const { templateId, data } = params;
   return fetch("POST", api, {
     templateId,
     data,

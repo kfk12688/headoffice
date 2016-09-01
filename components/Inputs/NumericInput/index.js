@@ -2,15 +2,14 @@ import React from "react";
 import styles from "./NumericInput.less";
 
 export const NumericInput = ({ className, input }) => {
-  const { onChange, value, ...rest } = input;
-  const parse = event => Number(event.target.value);
+  const { onChange, ...rest } = input;
+  const parse = val => Number(val);
 
   return (
     <input
       className={className || styles.numericInput}
       type="number"
-      onChange={e => onChange(parse(e))}
-      value={value}
+      onChange={e => onChange(parse(e.target.value))}
       {...rest}
     />
   );

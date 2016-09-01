@@ -12,58 +12,42 @@
   border-top: 1px solid @grey300;
 }
 
-.subSchema {
+.sub {
   position: absolute;
   right: 0;
-  width: 32px;
   top: 0;
   bottom: 37px;
   background: @grey50;
-}
-
-.subSchemaFields {
-  position: absolute;
-  right: 32px;
-  left: 0;
-  top: 0;
-  bottom: 0;
   border-left: 1px solid @grey300;
-  &Title {
-    line-height: 16px;
-    font-size: 13px;
-    font-family: lucida sans unicode;
-    margin-bottom: 6px;
-    padding-left: 6px;
-    padding-top: 4px;
-    color: @red500;
+  overflow: auto;
+  padding: 8px;
+  padding-top: 0;
+  width: 60%;
+  font-size: 12px;
+  span {
+    margin-right: 5px;
   }
 }
 
-.tabIcons {
-  border-left: 1px solid @grey300;
-  position: absolute;
-  right: 0;
-  width: 32px;
-  bottom: 0;
-  height: 100%;
-  i {
-    font-size: 18px;
-    padding: 4px 6px;
-    border-bottom: 1px solid @grey300;
-    border-top: 1px solid @transparent;
-    border-right: 1px solid @transparent;
-    border-left: 1px solid @transparent;
-    &:hover {
-      border: 1px solid @grey600;
-    }
+.fieldCounter {
+  text-align: right;
+  margin-bottom: 5px;
+}
 
+.addBtn {
+  font-size: 11px;
+}
+
+.clsBtn {
+  padding: 0px 3px;
+  min-width: 0;
+  font-size: 11px;
+  span {
+    margin : 0;
   }
 }
 
 .input {
-  &Row {
-    height: 25px;
-  }
   &Title {
     min-width: 150px;
     overflow: hidden;

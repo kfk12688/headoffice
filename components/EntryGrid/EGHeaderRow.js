@@ -24,7 +24,7 @@ const EGHeaderRow = ({ cols, colWidths }) => {
 };
 
 EGHeaderRow.propTypes = {
-  cols      : React.PropTypes.object.isRequired,
+  cols      : React.PropTypes.array.isRequired,
   colWidths : React.PropTypes.object.isRequired,
 };
 

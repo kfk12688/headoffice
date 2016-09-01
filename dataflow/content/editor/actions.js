@@ -1,10 +1,8 @@
-import { createAction } from "redux-actions";
 import { CALL_API } from "../../middleware/callAPI";
 import {
-  SET_EDIT_FLAG, CLEAR_EDIT_FLAG, EDITOR_REQUEST, EDITOR_SUCCESS, EDITOR_FAILURE, EDIT_FAILURE, EDIT_REQUEST,
-  EDIT_SUCCESS, ADD_FIELD, EDIT_SCHEMA_REQUEST, EDIT_SCHEMA_SUCCESS, EDIT_SCHEMA_FAILURE
+  EDITOR_REQUEST, EDITOR_SUCCESS, EDITOR_FAILURE, EDIT_FAILURE, EDIT_REQUEST, EDIT_SUCCESS, EDIT_SCHEMA_REQUEST,
+  EDIT_SCHEMA_SUCCESS, EDIT_SCHEMA_FAILURE
 } from "./types";
-import { populate as populateForm } from "../../../lib/ReduxForm/actions";
 import * as api from "./api";
 
 // Async Actions
@@ -45,13 +43,3 @@ export const editTemplate = params => (dispatch) =>
 export const editTemplateSchema = params => (dispatch) =>
   dispatch(_updateTemplateSchema(params))
     .then(dispatch(loadEditor(params)));
-
-// Actions that control the embedded form in TemplateViewer_Editor --> EntryGrid
-const _setEditFlag = createAction(SET_EDIT_FLAG, row => ({ row }));
-export const clearEditFlag = createAction(CLEAR_EDIT_FLAG);
-export const editRow = row => dispatch => {
-  dispatch(_setEditFlag(row));
-  dispatch(populateForm(row));
-};
-
-export const addField = createAction(ADD_FIELD, field => ({ input }));

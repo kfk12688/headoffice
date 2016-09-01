@@ -1,143 +1,148 @@
-import React, { Component } from "react";
 import _ from "underscore";
-import { FormButton } from "components";
-import reduxForm from "../../lib/ReduxForm";
-import getInputElement from "../../lib/FormGeneratorFactory";
+import React, { Component } from "react";
+import { Field, FieldArray, reduxForm } from "redux-form";
+import { Button, TextInput, NumericInput, DateInput } from "components";
 import styles from "./EGForm.less";
 
-class EditorEntryForm extends Component {
+const zPad = (string, size) => {
+  let retVal = "";
+  if (typeof string !== "string") retVal = string.toString();
+  while (retVal.length !== size) retVal = `0${retVal}`;
+  return retVal;
+};
+
+class EGForm extends Component {
   constructor(props) {
     super(props);
-    this.embeddedFields = [];
-    this.state = {
-      showSubSchema : false,
-    };
 
-    this.submitForm = this.submitForm.bind(this);
     this.resetForm = this.resetForm.bind(this);
-    this.toggleSubSchemaEditor = this.toggleSubSchemaEditor.bind(this);
-    this.generateFormFields = this.generateFormFields.bind(this);
-    this.generateEmbeddedFields = this.generateEmbeddedFields.bind(this);
+    this.constructFields = this.constructFields.bind(this);
+
+    this.renderFieldArray = this.renderFieldArray.bind(this);
   }
 
-  _getElement(type, col, field) {
-    return (
-      <div className={styles.inputRow}>
-        <span className={styles.inputTitle}>{col.displayText} :</span>
-        {getInputElement(type, col, field)}
-      </div>
-    );
+  getComponent(type) {
+    if (type === "Date") return DateInput;
+    if (type === "Number") return NumericInput;
+    if (type === "SchemaArray") return this.renderFieldArray;
+    return TextInput;
   }
 
-  submitForm(e) {
-    e.preventDefault();
-    this.props.submitForm(this.props.values);
+  constructFields(fieldProps) {
+    const fields = _.map(fieldProps, (field, key) => {
+      const { title, type, sub } = field;
+      const component = this.getComponent(type);
+      const name = key;
+
+      if (sub) {
+        return (
+          <div key={name}>
+            <span className={styles.inputTitle}>{title} </span>
+            <FieldArray
+              className={styles.inputField}
+              name={name}
+              component={component}
+              subKeys={sub}
+            />
+          </div>
+        );
+      }
+
+      return (
+        <div key={name}>
+          <span className={styles.inputTitle}>{title} </span>
+          <Field
+            className={styles.inputField}
+            name={name}
+            component={component}
+          />
+        </div>
+      );
+    });
+
+    return fields;
   }
 
   resetForm(e) {
     e.preventDefault();
-    this.props.clearEditFlag();
-    this.props.resetForm();
+    this.props.reset();
   }
 
-  toggleSubSchemaEditor() {
-    this.setState({
-      showSubSchema : !this.state.showSubSchema,
-    });
-  }
-
-  generateEmbeddedFields(fieldSchema, fields, col) {
-    const { fieldName } = col;
-    _.forEach(fieldSchema, subCol => {
-      const nrmType = subCol.fieldType.trim().toLowerCase();
-      const subFieldName = subCol.fieldName;
-      const field = fields[fieldName][subFieldName];
-
-      this.embeddedFields.push(this._getElement(nrmType, subCol, field));
-    });
-  }
-
-  generateFormFields() {
-    const { cols, fields } = this.props;
-    const formFields = [];
-
-    _.forEach(cols, col => {
-      let { insertable : isFormInputNeeded } = col;
-      isFormInputNeeded = (isFormInputNeeded === undefined) ? true : isFormInputNeeded;
-
-      if (isFormInputNeeded) {
-        const { fieldSchema, fieldName } = col;
-        const nrmType = col.fieldType.trim().toLowerCase();
-        const field = fields[fieldName];
-
-        if (Array.isArray(fieldSchema) && (fieldSchema.length !== 0)) {
-          formFields.push(
-            <div className={styles.inputTableRow}>
-              <span className={styles.inputTitle}>{col.displayText} :</span>
-              <a
-                style={{ fontSize : 12 }}
-                href="#"
-                onClick={this.toggleSubSchemaEditor}
-                title="Click to open the Sub-Editor"
-              >
-                Open Sub-Editor
-              </a>
-            </div>
+  renderFieldArray(props) {
+    const { fields, name, subKeys } = props;
+    const onClickAddHandler = e => {
+      e.preventDefault();
+      fields.push({});
+    };
+    const onClickRemoveHandler = (e, index) => {
+      e.preventDefault();
+      fields.remove(index);
+    };
+    const areFieldsPresent = (fields.length !== 0);
+    const subFields = () => fields.map((field, idx) =>
+      <div key={idx}>
+        <span> {zPad(idx + 1, 2)} </span>
+        {_.map(subKeys, (subField, key) => {
+          const { title, type } = subField;
+          const component = this.getComponent(type);
+          return (
+            <span key={key}>
+              <span>{title} </span>
+              <Field
+                className={styles.inputField}
+                name={`${field}.${key}`}
+                component={component}
+              />
+            </span>
           );
-        } else {
-          formFields.push(this._getElement(nrmType, col, field));
-        }
-      }
-    });
+        })}
+        <Button accent className={styles.clsBtn} faName="times" onClick={e => onClickRemoveHandler(e, idx)}/>
+      </div>
+    );
 
-    return formFields;
+    return (
+      <span>
+        <Button accent="indigo" className={styles.addBtn} title={`Click to add data to ${name}`}
+                onClick={onClickAddHandler}
+        >
+          Add Data
+        </Button>
+        {
+          areFieldsPresent &&
+          <div className={styles.sub}>
+            <div className={styles.fieldCounter}>{`${fields.length} Fields`}</div>
+            {subFields()}
+          </div>
+        }
+      </span>
+    );
   }
 
   render() {
-    const { editorState, className } = this.props;
-    const fieldInputs = this.generateFormFields();
-
-    const subSchemaEditorStyle = {
-      width : this.state.showSubSchema && "55%",
-    };
+    const { editorState, className, handleSubmit, fieldProps } = this.props;
+    const fields = this.constructFields(fieldProps);
 
     return (
-      <form className={className} onSubmit={this.submitForm}>
-
-        {fieldInputs.formFields}
-
-        <div className={styles.subSchema} style={subSchemaEditorStyle}>
-          <div className={styles.tabIcons}>
-            <i onClick={this.toggleSubSchemaEditor} className="fa fa-columns"></i>
-          </div>
-          {
-            this.state.showSubSchema &&
-            <div className={styles.subSchemaFields}>
-              <div className={styles.subSchemaFieldsTitle}>Adding data for Items</div>
-              {fieldInputs.embeddedFields}
-            </div>
-          }
-        </div>
-
+      <form className={className} onSubmit={handleSubmit}>
+        {fields}
         <div className={styles.formSubmitGroup}>
-          <FormButton accent type="submit">{editorState ? "Add" : "Edit"}</FormButton>
-          <FormButton onClick={this.resetForm}>Cancel</FormButton>
+          <Button accent type="submit">{editorState ? "Add" : "Edit"}</Button>
+          <Button onClick={this.resetForm}>Cancel</Button>
         </div>
       </form>
     );
   }
 }
 
-EditorEntryForm.propTypes = {
-  className     : React.PropTypes.string,
-  fields        : React.PropTypes.object.isRequired,
-  cols          : React.PropTypes.object.isRequired,
-  values        : React.PropTypes.object.isRequired,
-  submitForm    : React.PropTypes.func,
-  resetForm     : React.PropTypes.func,
-  clearEditFlag : React.PropTypes.func,
-  // indicates the state of the form - whether edit/addition
-  editorState   : React.PropTypes.bool,
+EGForm.propTypes = {
+  className    : React.PropTypes.string,
+  fieldProps   : React.PropTypes.object.isRequired,
+  cols         : React.PropTypes.array.isRequired,
+  handleSubmit : React.PropTypes.func,
+  reset        : React.PropTypes.func,
+  editorState  : React.PropTypes.bool,             // indicates the state of the form - whether edit/addition
 };
 
-export default reduxForm()(EditorEntryForm);
+export default reduxForm({
+  form : "EGForm",
+})(EGForm);

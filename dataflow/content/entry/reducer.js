@@ -8,7 +8,7 @@ import {
 const initialState = {
   // Object of objects with key as the template id
   primaryKey        : "",
-  spec              : {},
+  spec              : [],
   data              : {},
   error             : {
     code : "",
@@ -29,7 +29,7 @@ const reducer = handleActions({
    */
   [SPEC_REQUEST] : state => ({
     ...state,
-    spec              : {},
+    spec              : [],
     loadingIndicators : {
       ...state.loadingIndicators,
       spec : true,

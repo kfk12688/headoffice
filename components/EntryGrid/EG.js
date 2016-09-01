@@ -8,8 +8,8 @@ import calcColWidths from "../calculateColWidths";
 import cx from "classnames";
 
 const EntryGrid = (props) => {
-  const { style, className, colSpec, data, isLoading, postHandler, selectedRow, clearEditFlag } = props;
-  const colWidths = calcColWidths(colSpec, data);
+  const { style, className, spec, data, isLoading, onSubmit } = props;
+  const colWidths = calcColWidths(spec, data);
 
   return (
     <div
@@ -17,7 +17,7 @@ const EntryGrid = (props) => {
       style={style}
     >
       <EGHeaderRow
-        cols={colSpec}
+        cols={spec}
         colWidths={colWidths}
       />
 
@@ -25,32 +25,27 @@ const EntryGrid = (props) => {
         isLoading.data ?
         <FontAwesome className={styles.spinner} name="spinner" spin size="2x"/> :
         <EGBody
-          cols={colSpec}
+          cols={spec}
           colWidths={colWidths}
           rows={data}
-          selectedRow={selectedRow}
         />
       }
 
       <EGPost
-        cols={colSpec}
-        postHandler={postHandler}
-        clearEditFlag={clearEditFlag}
-        selectedRow={selectedRow}
+        cols={spec}
+        onSubmit={onSubmit}
       />
     </div>
   );
 };
 
 EntryGrid.propTypes = {
-  style         : React.PropTypes.object,
-  className     : React.PropTypes.string,
-  isLoading     : React.PropTypes.object,
-  selectedRow   : React.PropTypes.string,
-  colSpec       : React.PropTypes.object.isRequired,
-  data          : React.PropTypes.object.isRequired,
-  postHandler   : React.PropTypes.func.isRequired,
-  clearEditFlag : React.PropTypes.func.isRequired,
+  style     : React.PropTypes.object,
+  className : React.PropTypes.string,
+  isLoading : React.PropTypes.object,
+  spec   : React.PropTypes.array.isRequired,
+  data      : React.PropTypes.object.isRequired,
+  onSubmit  : React.PropTypes.func.isRequired,
 };
 
 export { EntryGrid };

@@ -4,5 +4,4 @@
 import "./common.css";
 
 export { Button } from "./Button";
-export { FormButton } from "./FormButton";
 export { PopupButton } from "./PopupButton";

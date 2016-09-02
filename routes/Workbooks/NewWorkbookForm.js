@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { FormButton } from "components";
+import { reduxForm, Field } from "redux-form";
+import { Button, TextInput } from "components";
 import "../../styles/Select.css";
 import cx from "classnames";
 import reduxForm from "../../lib/ReduxForm";
@@ -64,8 +65,8 @@ class CreateUserForm extends Component {
         </div>
 
         <div className={styles.addContentBtnGroup}>
-          <FormButton accent="green" type="submit">Save</FormButton>
-          <FormButton onClick={this.resetForm}>Cancel</FormButton>
+          <Button accent="green" type="submit" disabled={pristine || submitting}>Save</Button>
+          <Button onClick={this.resetForm}>Cancel</Button>
         </div>
       </form>
     );

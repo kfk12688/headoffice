@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { SpecDefiner, FormButton } from "components";
+import { SpecDefiner, Button } from "components";
 import { TitleBar } from "./TitleBar";
 import {
   loadEditor, editTemplate, editRow, deleteRow, clearEditFlag, addField, editTemplateSchema
@@ -108,10 +108,10 @@ class Editor extends Component {
 
           {/* Sidebar Container */}
           <div className={styles.sidebar}>
-            <FormButton accent="green" className={styles.sidebarButton} onClick={this.saveUserSchema}>Save</FormButton>
-            <FormButton accent="green" disabled className={styles.sidebarButton}>Undo</FormButton>
-            <FormButton accent="green" disabled className={styles.sidebarButton}>Redo</FormButton>
-            <FormButton accent="green" className={styles.sidebarButton} onClick={this.clearForm}>Cancel</FormButton>
+            <Button accent="green" className={styles.sidebarButton} onClick={this.saveUserSchema}>Save</Button>
+            <Button accent="green" disabled className={styles.sidebarButton}>Undo</Button>
+            <Button accent="green" disabled className={styles.sidebarButton}>Redo</Button>
+            <Button accent="green" className={styles.sidebarButton} onClick={this.clearForm}>Cancel</Button>
           </div>
         </div>
       </div>

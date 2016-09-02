@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { FormButton, TextInput, ComboInput, CheckBoxInput, NumericInput } from "components";
-import reduxForm from "../../lib/ReduxForm";
+import { connect } from "react-redux";
+import { reduxForm, Field, formValueSelector } from "redux-form";
+import { Button, TextInput, CheckBoxInput, NumericInput, ComboInput, DateInput } from "components";
 import styles from "./SDForm.less";
 
 const Row = ({ children }) =>
@@ -123,8 +124,8 @@ class EditorEntryForm extends Component {
         </div>
 
         <div className={styles.formSubmitGroup}>
-          <FormButton accent type="submit">{editorState ? "Add" : "Edit"}</FormButton>
-          <FormButton onClick={this.resetForm}>Cancel</FormButton>
+          <Button accent type="submit" disabled={pristine || submitting}>{editorState ? "Add" : "Edit"}</Button>
+          <Button onClick={this.resetForm}>Cancel</Button>
         </div>
       </form>
     );

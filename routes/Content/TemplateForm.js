@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { FormButton } from "components";
-import Select from "react-select";
+import { Field, reduxForm } from "redux-form";
+import { Button, TextInput } from "components";
 import "../../styles/Select.css";
 import { searchWorkbook } from "../../dataflow/workbooks/api";
 import reduxForm from "../../lib/ReduxForm";
@@ -63,8 +63,8 @@ class CreateTemplateForm extends Component {
         </div>
 
         <div className={styles.addContentBtnGroup}>
-          <FormButton accent="green" type="submit">Save</FormButton>
-          <FormButton onClick={this.resetForm}>Cancel</FormButton>
+          <Button accent="green" type="submit" disabled={pristine || submitting}>Save</Button>
+          <Button onClick={this.resetForm}>Cancel</Button>
         </div>
       </form>
     );

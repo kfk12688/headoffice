@@ -6,12 +6,20 @@ import FontAwesome from "react-fontawesome";
 import cx from "classnames";
 import styles from "./Button.less";
 
-const Button = ({ style, className, faName, faClassName, onClick, after, children }) => {
+const Button = ({ className, faName, faClassName, after, accent, children, ...rest }) => {
   const faIcon = faName && <FontAwesome name={faName} className={faClassName}/>;
+
+  let style = styles.button;
+  if (accent) style = styles.buttonBrdRed;
+  if (accent === "green") style = styles.buttonBrdGreen;
+  if (accent === "indigo") style = styles.buttonBrdIndigo;
 
   if (after) {
     return (
-      <button style={style} className={cx(styles.button, className)} onClick={onClick}>
+      <button
+        className={cx(style, className)}
+        {...rest}
+      >
         {children}
         {" "}
         {faIcon}
@@ -20,7 +28,10 @@ const Button = ({ style, className, faName, faClassName, onClick, after, childre
   }
 
   return (
-    <button style={style} className={cx(styles.button, className)} onClick={onClick}>
+    <button
+      className={cx(style, className)}
+      {...rest}
+    >
       {faIcon}
       {" "}
       {children}
@@ -28,15 +39,16 @@ const Button = ({ style, className, faName, faClassName, onClick, after, childre
   );
 };
 
-Button.displayName = "Button";
 Button.propTypes = {
-  after       : PropTypes.bool,
-  children    : PropTypes.node,
-  style       : PropTypes.object,
   className   : PropTypes.string,
   faName      : PropTypes.string,
   faClassName : PropTypes.string,
-  onClick     : PropTypes.func,
+  children    : PropTypes.string,
+  after       : PropTypes.bool,
+  accent      : PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.boolean,
+  ]),
 };
 
 export { Button };

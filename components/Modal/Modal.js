@@ -2,7 +2,7 @@
  * Created by sharavan on 08/06/16.
  */
 import React from "react";
-import { FormButton } from "../Button/index";
+import { Button } from "../Button/index";
 import FontAwesome from "react-fontawesome";
 import cx from "classnames";
 import BSModal from "react-overlays/lib/Modal";
@@ -25,14 +25,14 @@ const Modal = ({ btnClassName, faName, caption, children, className, accent, sho
 
   return (
     <span>
-      <FormButton
+      <Button
         className={btnClassName}
         faName={faName}
         accent={accent}
         onClick={toggleModal}
       >
          {caption}
-      </FormButton>
+      </Button>
 
       <BSModal
         aria-labelledby="modal-label"

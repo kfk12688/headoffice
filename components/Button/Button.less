@@ -1,15 +1,93 @@
 @import url("../../styles/colors");
 
 .button {
-  height: 22px;
+  height: 20px;
+  font-size: 12px;
   min-width: 26px;
   margin-right: 8px;
   padding: 2px 6px;
-  border: solid 1px @grey600;
-  font-size: inherit;
-  color: @grey500;
+  text-align: center;
+  color: @white;
+  background: @grey500;
+  border: 1px solid @grey700;
+  border-radius: 1px;
+  &:active,
   &:hover {
-    border: solid 1px @grey900;
-    color: @grey900;
+    color: @white;
+    background: @grey800;
+  }
+  &:last-child {
+    margin-right: 0;
+  }
+  &:disabled {
+    background: @grey200;
+    border-color: @grey400;
+    cursor: not-allowed;
+  }
+}
+
+.buttonBrdRed {
+  height: 20px;
+  font-size: 12px;
+  min-width: 55px;
+  margin: 0 2px;
+  border: 1px solid @red700;
+  border-radius: 1px;
+  text-align: center;
+  background: @red300;
+  color: @grey100;
+  &:active,
+  &:hover {
+    color: @grey100;
+    background: @red500;
+  }
+  &:disabled {
+    background: @red200;
+    border-color: @red300;
+    cursor: not-allowed;
+  }
+}
+
+.buttonBrdGreen {
+  height: 20px;
+  font-size: 12px;
+  min-width: 55px;
+  margin: 0 2px;
+  border: 1px solid @greenDark;
+  border-radius: 1px;
+  text-align: center;
+  background: @greenLight;
+  color: @grey100;
+  &:active,
+  &:hover {
+    color: @grey100;
+    background: @greenDark;
+  }
+  &:disabled {
+    background: @green200;
+    border-color: @green400;
+    cursor: not-allowed;
+  }
+}
+
+.buttonBrdIndigo {
+  height: 20px;
+  font-size: 12px;
+  min-width: 55px;
+  margin: 0 2px;
+  border-radius: 1px;
+  text-align: center;
+  border: 1px solid @indigo700;
+  background: @indigo200;
+  color: @grey100;
+  &:active,
+  &:hover {
+    color: @grey100;
+    background: @indigo400;
+  }
+  &:disabled {
+    background: @indigo100;
+    border-color: @indigo300;
+    cursor: not-allowed;
   }
 }

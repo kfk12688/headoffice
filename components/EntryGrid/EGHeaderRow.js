@@ -13,7 +13,7 @@ const EGHeaderRow = ({ cols, colWidths }) => {
     headerRowCols.push(
       <EGHeaderCol
         key={colKey}
-        colWidth={colWidths[colKey]}
+        colWidth={colWidths[col.fieldName]}
         headerStyle={col.headerStyle}
         displayText={col.displayText}
       />

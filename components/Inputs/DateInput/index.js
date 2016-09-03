@@ -3,9 +3,9 @@ import moment from "moment";
 import styles from "./DateInput.less";
 
 export const DateInput = ({ input, className, meta, ...rest }) => {
-  const { onChange, onBlur, value, ...restInput } = input;
+  const { onChange, value, ...restInput } = input;
   const parse = val => val && moment.utc(val).format();
-  const format = val => moment(val).format("YYYY-MM-DD");
+  const format = val => val && moment(val).format("YYYY-MM-DD");
 
   return (
     <div className={className || styles.datebox}>
@@ -13,7 +13,6 @@ export const DateInput = ({ input, className, meta, ...rest }) => {
         type="date"
         className={styles.input}
         onChange={e => onChange(parse(e.target.value))}
-        onBlur={e => onBlur(parse(e.target.value))}
         value={format(value)}
         {...restInput}
         {...rest}

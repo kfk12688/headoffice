@@ -13,7 +13,6 @@ class EGHeaderCol extends React.Component {
 
   render() {
     const { headerStyle, displayText, colWidth } = this.props;
-
     const hoverStyle = {
       backgroundColor : this.state.hovered && grey50,
       cursor          : this.state.hovered && "pointer",
@@ -39,7 +38,7 @@ class EGHeaderCol extends React.Component {
 EGHeaderCol.propTypes = {
   headerStyle : React.PropTypes.object,
   displayText : React.PropTypes.string.isRequired,
-  colWidth    : React.PropTypes.number.isRequired,
+  colWidth    : React.PropTypes.number,
 };
 
 export { EGHeaderCol };

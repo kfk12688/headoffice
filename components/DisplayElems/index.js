@@ -1,4 +1,5 @@
 import React from "react";
+import { ModalCell } from "./ModalCell";
 import { ActionCell } from "./ActionCell";
 import { CheckboxCell } from "./CheckboxCell";
 import { FavoriteCell } from "./FavoriteCell";
@@ -22,6 +23,18 @@ function getCell(transform, type, row, col) {
   }
   if (type === "favorite") {
     return (<FavoriteCell value={transform()}/>);
+  }
+  if (type === "schemaarray") {
+    const rows = transform();
+    const cols = col.fieldSchema.map(f => ({
+      displayText : f.displayText,
+      key         : f.fieldName,
+    }));
+
+    return (<ModalCell rows={rows} cols={cols} caption={col.displayText}/>);
+  }
+  if (type === "schema") {
+    return null;
   }
   if (type === "buttonLink") {
     const value = {

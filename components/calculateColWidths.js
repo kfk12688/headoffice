@@ -18,6 +18,8 @@ const sizer = (colData) => {
     } else if (typeof val === "string") {
       size = Math.max(size, val.length * arbitraryWidth + 30);
     }
+
+    size = 100;
   });
 
   return size;

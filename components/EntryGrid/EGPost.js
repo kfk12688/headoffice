@@ -33,10 +33,10 @@ class EGPost extends React.Component {
   }
 
   render() {
-    const { cols, onSubmit } = this.props;
+    const { cols, onSubmit, className } = this.props;
 
     return (
-      <div className={styles.container}>
+      <div className={className}>
         <div className={styles.postHeading}>
           {this.state.entryState ? "Add new data" : "Edit highlighted data"}
         </div>

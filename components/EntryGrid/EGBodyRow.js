@@ -20,16 +20,16 @@ class EGBodyRow extends React.Component {
   }
 
   render() {
-    const { row, cols, colWidths } = this.props;
+    const { row, cols, colWidths, rowKey } = this.props;
     let bodyCells = [];
+
 
     _.forEach(cols, (col, colKey) => {
       bodyCells.push(
         <EGBodyCell
           key={colKey}
-          colKey={colKey}
           col={col}
-          colWidth={colWidths[colKey]}
+          colWidth={colWidths[col.fieldName]}
           row={row}
         />
       );
@@ -37,6 +37,7 @@ class EGBodyRow extends React.Component {
 
     return (
       <div
+        data-id={rowKey}
         className={styles.row}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
@@ -51,6 +52,7 @@ EGBodyRow.propTypes = {
   cols      : React.PropTypes.array.isRequired,
   colWidths : React.PropTypes.object.isRequired,
   row       : React.PropTypes.object.isRequired,
+  rowKey    : React.PropTypes.string,
 };
 
 export { EGBodyRow };

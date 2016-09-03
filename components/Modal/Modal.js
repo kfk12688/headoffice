@@ -3,7 +3,6 @@
  */
 import React from "react";
 import { Button } from "../Button/index";
-import FontAwesome from "react-fontawesome";
 import cx from "classnames";
 import BSModal from "react-overlays/lib/Modal";
 import styles from "./Modal.less";
@@ -24,7 +23,7 @@ const Modal = ({ btnClassName, faName, caption, children, className, accent, sho
   };
 
   return (
-    <span>
+    <div style={{ display : "inline-block" }}>
       <Button
         className={btnClassName}
         faName={faName}
@@ -33,7 +32,7 @@ const Modal = ({ btnClassName, faName, caption, children, className, accent, sho
         title={title}
         bordered={bordered}
       >
-         {caption}
+        {caption}
       </Button>
 
       <BSModal
@@ -46,18 +45,14 @@ const Modal = ({ btnClassName, faName, caption, children, className, accent, sho
         <div style={dialogStyle} className={cx(styles.base, className)}>
           <div>
             <span className={styles.caption}>{modalTitle || caption}</span>
-            <FontAwesome
-              name="times"
-              className={styles.closeButton}
-              onClick={toggleModal}
-            />
+            <i className={cx("fa fa-times", styles.closeButton)} onClick={toggleModal}/>
           </div>
           <div className={styles.content}>
-          {children}
+            {children}
           </div>
         </div>
       </BSModal>
-    </span>
+    </div>
   );
 };
 

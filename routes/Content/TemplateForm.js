@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
 import { Button, TextInput } from "components";
-import "../../styles/Select.css";
 import styles from "./TemplateForm.less";
 
 // FORM COMPONENT FOR Creating a new template

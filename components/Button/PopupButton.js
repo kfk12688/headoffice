@@ -7,75 +7,59 @@ import cx from "classnames";
 class PopupButton extends React.Component {
   constructor() {
     super();
-    this.state = {
-      hovered   : false,
-      showPopup : false,
-    };
+    this.state = { showPopup : false };
     this.ctrls = {};
-    this.childrenStyle = null;
-    this.popupMenuStyle = null;
-    this.popupMenuItems = null;
-    this.assignTarget = target => { this.ctrls.target = target };
+    this.assignTarget = target => { this.ctrls.target = target; };
+
     this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
     const { children, childrenStyle } = this.props;
 
-    if (childrenStyle) {
-      if (typeof childrenStyle === "string") {
-        this.childrenStyle = childrenStyle;
-      }
+    if (childrenStyle && (typeof childrenStyle === "string")) {
+      this.childrenStyle = childrenStyle;
     } else {
-      this.popupMenuStyle = Object.assign({}, childrenStyle);
+      this.popupMenuStyle = childrenStyle;
     }
 
-    this.popupMenuItems = React.Children.map(children, (child: React.ReactElement<any>) => {
-      return React.cloneElement(child, {
-        className : cx(this.childrenStyle, {
-          [styles.menuItem] : !childrenStyle,
-        }),
-      });
-    });
+    this.popupMenuItems = React.Children.map(children, child => React.cloneElement(child, {
+      className : cx(this.childrenStyle, {
+        [styles.menuItem] : !childrenStyle,
+      }),
+    }));
   }
 
   handleClick() {
-    if (this.state.showPopup) {
-      this.setState({ showPopup : false });
-    } else {
-      this.setState({ showPopup : true });
-    }
+    this.setState({ showPopup : !this.state.showPopup });
   }
 
   render() {
     const { label, faName, className, bordered } = this.props;
     let baseClass = styles.base;
-    if ((bordered !== undefined) && bordered) {
-      baseClass = cx(styles.base, styles.border, className);
-    }
+    if (bordered) baseClass = cx(styles.base, styles.border, className);
 
     return (
-      <span
-        ref={this.assignTarget}
+      <div
         className={baseClass}
+        ref={this.assignTarget}
         onClick={this.handleClick}
-        onMouseEnter={() => this.setState({ hovered : true })}
-        onMouseLeave={() => this.setState({ hovered : false })}
       >
         <Button className={styles.icon} faName={faName || "caret-down"} after> {label} </Button>
 
         <Overlay
           rootClose
+          placement="bottom"
+          container={this.ctrls.target}
           show={this.state.showPopup}
           onHide={() => this.setState({ showPopup : false })}
-          placement="bottom"
           target={() => this.ctrls.target}
         >
           <div className={styles.menu}>
             {this.popupMenuItems}
           </div>
         </Overlay>
-      </span>
+      </div>
     );
   }
 }

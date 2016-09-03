@@ -4,7 +4,6 @@
 import React, { Component, PropTypes } from "react";
 import { DGHeaderRow } from "./DGHeaderRow";
 import { DGBody } from "./DGBody";
-import FontAwesome from "react-fontawesome";
 import styles from "./DG.less";
 import cx from "classnames";
 
@@ -35,7 +34,7 @@ class DataGrid extends Component {
 
         {
           isLoading ?
-          <FontAwesome className={styles.spinner} name="spinner" spin size="2x"/> :
+          <i className={cx("fa fa-spinner fa-2x", styles.spinner)}/> :
           <DGBody
             cols={cols}
             colWidths={this.state.colWidths}

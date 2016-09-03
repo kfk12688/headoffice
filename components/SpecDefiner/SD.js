@@ -2,7 +2,6 @@ import React from "react";
 import { SDHeaderRow } from "./SDHeaderRow";
 import { SDBody } from "./SDBody";
 import { SDPost } from "./SDPost";
-import FontAwesome from "react-fontawesome";
 import styles from "./SD.less";
 import cx from "classnames";
 
@@ -29,7 +28,7 @@ class SpecDefiner extends React.Component {
 
           {
             isLoading ?
-            <FontAwesome className={styles.spinner} name="spinner" spin size="2x"/> :
+            <i className={cx("fa fa-spinner fa-2x", styles.spinner)}/> :
             <SDBody
               cols={colSpec}
               colWidths={this.state.colWidths}

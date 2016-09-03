@@ -1,11 +1,9 @@
 import React from "react";
-import FontAwesome from "react-fontawesome";
 import styles from "./SearchInput.less";
+import cx from "classnames";
 
 const SearchInput = ({ className, placeHolder, field }) => {
-  if (typeof placeHolder === "boolean") {
-    placeHolder = placeHolder ? "Search" : "";
-  }
+  if (typeof placeHolder === "boolean") placeHolder = placeHolder ? "Search" : "";
 
   return (
     <div className={className || styles.box}>
@@ -14,10 +12,7 @@ const SearchInput = ({ className, placeHolder, field }) => {
         placeholder={placeHolder}
         {...field}
       />
-      <FontAwesome
-        className={styles.icon}
-        name="search"
-      />
+      <i className={cx("fa fa-search", styles.icon)}/>
     </div>
   );
 };
@@ -32,4 +27,3 @@ SearchInput.propTypes = {
 };
 
 export { SearchInput } ;
-

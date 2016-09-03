@@ -2,9 +2,9 @@
  * Created by sharavan on 18/05/16.
  */
 import React, { Component, PropTypes } from "react";
-import FontAwesome from "react-fontawesome";
 import { grey50 } from "../../styles/colors";
 import styles from "./DGHeaderColumn.less";
+import cx from "classnames";
 
 class DGHeaderColumn extends Component {
   constructor() {
@@ -15,20 +15,20 @@ class DGHeaderColumn extends Component {
     this.onClick = this.onClick.bind(this);
   }
 
-  handleMouseOver(event) {
-    this.setState({ hovered : true });
-  }
-
-  handleMouseOut(event) {
-    this.setState({ hovered : false });
-  }
-
   onClick(dataKey, event) {
     if (this.props.sortAscending) {
       this.props.onClick(dataKey, "desc", event);
     } else {
       this.props.onClick(dataKey, "asc", event);
     }
+  }
+
+  handleMouseOut() {
+    this.setState({ hovered : false });
+  }
+
+  handleMouseOver() {
+    this.setState({ hovered : true });
   }
 
   render() {
@@ -49,9 +49,9 @@ class DGHeaderColumn extends Component {
 
     if (isColSortable && sorted) {
       if (this.props.sortAscending) {
-        arrow = <FontAwesome className={styles.fa} name="long-arrow-down"/>;
+        arrow = <i className={cx("fa fa-long-arrow-down", styles.fa)}/>;
       } else {
-        arrow = <FontAwesome className={styles.fa} name="long-arrow-up"/>;
+        arrow = <i className={cx("fa fa-long-arrow-up", styles.fa)}/>;
       }
     }
 
@@ -73,7 +73,7 @@ class DGHeaderColumn extends Component {
   }
 }
 
-DGHeaderColumn.PropTypes = {
+DGHeaderColumn.propTypes = {
   col           : PropTypes.object.isRequired,
   colWidth      : PropTypes.number.isRequired,
   onClick       : PropTypes.func.isRequired,

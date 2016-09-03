@@ -2,7 +2,6 @@ import React from "react";
 import { EGHeaderRow } from "./EGHeaderRow";
 import { EGBody } from "./EGBody";
 import { EGPost } from "./EGPost";
-import FontAwesome from "react-fontawesome";
 import calcColWidths from "../calculateColWidths";
 import cx from "classnames";
 import styles from "./EG.less";
@@ -36,7 +35,7 @@ const EntryGrid = (props) => {
 
         {
           isLoading.data ?
-          <FontAwesome className={styles.spinner} name="spinner" spin size="2x"/> :
+          <i className={cx("fa fa-spinner fa-2x", styles.spinner)}/> :
           <EGBody
             cols={spec}
             colWidths={colWidths}

@@ -1,7 +1,8 @@
+import { createAction } from "redux-actions";
 import { CALL_API } from "../../middleware/callAPI";
 import {
   EDITOR_REQUEST, EDITOR_SUCCESS, EDITOR_FAILURE, EDIT_FAILURE, EDIT_REQUEST, EDIT_SUCCESS, EDIT_SCHEMA_REQUEST,
-  EDIT_SCHEMA_SUCCESS, EDIT_SCHEMA_FAILURE
+  EDIT_SCHEMA_SUCCESS, EDIT_SCHEMA_FAILURE, ADD_FIELD
 } from "./types";
 import * as api from "./api";
 
@@ -43,3 +44,5 @@ export const editTemplate = params => (dispatch) =>
 export const editTemplateSchema = params => (dispatch) =>
   dispatch(_updateTemplateSchema(params))
     .then(dispatch(loadEditor(params)));
+
+export const addField = createAction(ADD_FIELD, field => ({ field }));

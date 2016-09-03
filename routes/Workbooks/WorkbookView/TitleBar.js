@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import moment from "moment";
 import cx from "classnames";
 import { Modal } from "components";
-import FontAwesome from "react-fontawesome";
 import styles from "./TitleBar.less";
 
 const MetaInfo = ({ children }) => <span className={styles.metaInfo}>{children}</span>;
@@ -31,7 +30,7 @@ export class TitleBar extends Component {
     return (
       <div className={cx(styles.base, className)}>
         <div className={styles.title}>
-          <FontAwesome name="user"/>
+          <i className="fa fa-user"/>
           &nbsp;
           {title}
           <Modal

@@ -14,7 +14,8 @@ class ComboSearchInput extends React.Component {
       searchText : "",
     };
     this.ctrls = {};
-    this.assignTarget = target => { this.ctrls.target = target };
+    this.assignTarget = target => this.ctrls.target = target;
+
     this.handleClick = this.handleClick.bind(this);
     this.setSearchText = this.setSearchText.bind(this);
     this.setSelectedText = this.setSelectedText.bind(this);
@@ -23,7 +24,7 @@ class ComboSearchInput extends React.Component {
 
   componentDidMount() {
     this.popupMenuStyle = {
-      width : this.ctrls.target.getBoundingClientRect().width,
+      width : this.ctrls.target.offsetWidth,
       ...this.props.childrenStyle,
     };
   }
@@ -76,9 +77,10 @@ class ComboSearchInput extends React.Component {
         {input.value}
         <Overlay
           rootClose
+          placement="bottom"
+          container={this.ctrls.target}
           show={this.state.showPopup}
           onHide={() => this.setState({ showPopup : false })}
-          placement="bottom"
           target={() => this.ctrls.target}
         >
           <div className={styles.overlay} style={this.popupMenuStyle}>

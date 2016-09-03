@@ -52,7 +52,7 @@ class ContentMenu extends Component {
         className={cx(styles.root, className)}
       >
         <div className={styles.left}>
-          <span>
+          <div>
             <Button
               faName="sliders"
               onClick={toggleSidebar}
@@ -73,7 +73,7 @@ class ContentMenu extends Component {
               <div onClick={this.selectAllHandler}>Select All</div>
               <div onClick={clearRowSelection}>Clear selection</div>
             </PopupButton>
-          </span>
+          </div>
 
           {(actionsMenu.selectedKeys.length >= 1) && this.getActions()}
         </div>

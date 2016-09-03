@@ -61,13 +61,14 @@ class Editor extends Component {
     const { userSchema, id, templateName } = this.props.editor;
     console.log({
       userSchema,
-      id : id,
+      id,
+      templateName,
     });
-    // this.props.editTemplateSchema({
-    //   userSchema,
-    //   id : id,
-    //   templateName,
-    // });
+    this.props.editTemplateSchema({
+      userSchema,
+      id,
+      templateName,
+    });
   }
 
   saveTemplateMeta(data) {
@@ -119,11 +120,12 @@ Editor.propTypes = {
   editor : React.PropTypes.object.isRequired,
 
   // actions
-  loadEditorTable : React.PropTypes.func.isRequired,
-  editTemplate    : React.PropTypes.func.isRequired,
-  editRow         : React.PropTypes.func.isRequired,
-  deleteRow       : React.PropTypes.func.isRequired,
-  addField        : React.PropTypes.func.isRequired,
+  loadEditorTable    : React.PropTypes.func.isRequired,
+  editTemplate       : React.PropTypes.func.isRequired,
+  editTemplateSchema : React.PropTypes.func.isRequired,
+  editRow            : React.PropTypes.func.isRequired,
+  deleteRow          : React.PropTypes.func.isRequired,
+  addField           : React.PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

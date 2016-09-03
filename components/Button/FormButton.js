@@ -2,12 +2,11 @@
  * Created by sharavan on 12/05/16.
  */
 import React, { PropTypes } from "react";
-import FontAwesome from "react-fontawesome";
 import cx from "classnames";
 import styles from "./FormButton.less";
 
 const FormButton = ({ style, className, faName, faClassName, onClick, after, accent, type, children, disabled }) => {
-  const faIcon = faName && <FontAwesome name={faName} className={faClassName}/>;
+  const faIcon = faName && <i className={cx(`fa fa-${faName}`, faClassName)}/>;
 
   let accentBtnStyle = styles.button;
   if (accent === "green") {

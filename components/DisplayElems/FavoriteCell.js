@@ -1,5 +1,4 @@
 import React from "react";
-import FontAwesome from "react-fontawesome";
 import { red500 } from "../../styles/colors";
 
 export const FavoriteCell = ({ value: isStarred, inheritSize, style }) => {
@@ -11,9 +10,9 @@ export const FavoriteCell = ({ value: isStarred, inheritSize, style }) => {
 
   let starredElement = null;
   if (isStarred) {
-    starredElement = <FontAwesome name="star" style={faStyle}/>;
+    starredElement = <i className="fa fa-star" style={faStyle}/>;
   } else {
-    starredElement = <FontAwesome name="star-o" style={faStyle}/>;
+    starredElement = <i className="fa fa-star-o" style={faStyle}/>;
   }
 
   return starredElement;

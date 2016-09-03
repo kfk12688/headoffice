@@ -2,12 +2,11 @@
  * Created by sharavan on 12/05/16.
  */
 import React, { PropTypes } from "react";
-import FontAwesome from "react-fontawesome";
-import cx from "classnames";
 import styles from "./Button.less";
+import cx from "classnames";
 
 const Button = ({ className, faName, faClassName, after, accent, children, bordered, ...rest }) => {
-  const faIcon = faName && <FontAwesome name={faName} className={faClassName}/>;
+  const faIcon = faName && <i className={cx(`fa fa-${faName}`, faClassName)}/>;
 
   let style = styles.button;
   if (bordered) style = cx(styles.button, styles.bordered);

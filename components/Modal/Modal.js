@@ -8,7 +8,7 @@ import cx from "classnames";
 import BSModal from "react-overlays/lib/Modal";
 import styles from "./Modal.less";
 
-const Modal = ({ btnClassName, faName, caption, children, className, accent, show, toggleModal, modalTitle, title }) => {
+const Modal = ({ btnClassName, faName, caption, children, className, accent, show, toggleModal, modalTitle, title, bordered }) => {
   const modalStyle = {
     bottom   : 0,
     left     : 0,
@@ -31,6 +31,7 @@ const Modal = ({ btnClassName, faName, caption, children, className, accent, sho
         accent={accent}
         onClick={toggleModal}
         title={title}
+        bordered={bordered}
       >
          {caption}
       </Button>
@@ -73,6 +74,8 @@ Modal.propTypes = {
   toggleModal  : React.PropTypes.func.isRequired,
   children     : React.PropTypes.node.isRequired,
   modalTitle   : React.PropTypes.string,
+  title        : React.PropTypes.string,
+  bordered     : React.PropTypes.bool,
 };
 
 export { Modal };

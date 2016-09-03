@@ -127,7 +127,7 @@ class EGForm extends Component {
         {fields}
         <div className={styles.formSubmitGroup}>
           <Button accent type="submit">{editorState ? "Add" : "Edit"}</Button>
-          <Button onClick={this.resetForm}>Cancel</Button>
+          <Button bordered onClick={this.resetForm}>Cancel</Button>
         </div>
       </form>
     );

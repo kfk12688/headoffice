@@ -154,7 +154,7 @@ class EditorEntryForm extends Component {
 
         <div className={styles.formSubmitGroup}>
           <Button accent type="submit" disabled={pristine || submitting}>{editorState ? "Add" : "Edit"}</Button>
-          <Button onClick={this.resetForm}>Cancel</Button>
+          <Button bordered onClick={this.resetForm}>Cancel</Button>
         </div>
       </form>
     );

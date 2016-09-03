@@ -7,8 +7,6 @@ const EGBody = ({ rows, cols, colWidths }) => {
   let bodyRows = [];
 
   _.forEach(rows, (row, rowKey) => {
-    console.log(row, rowKey);
-
     bodyRows.push(
       <EGBodyRow
         key={rowKey}

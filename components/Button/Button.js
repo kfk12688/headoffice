@@ -6,10 +6,11 @@ import FontAwesome from "react-fontawesome";
 import cx from "classnames";
 import styles from "./Button.less";
 
-const Button = ({ className, faName, faClassName, after, accent, children, ...rest }) => {
+const Button = ({ className, faName, faClassName, after, accent, children, bordered, ...rest }) => {
   const faIcon = faName && <FontAwesome name={faName} className={faClassName}/>;
 
   let style = styles.button;
+  if (bordered) style = cx(styles.button, styles.bordered);
   if (accent) style = styles.buttonBrdRed;
   if (accent === "green") style = styles.buttonBrdGreen;
   if (accent === "indigo") style = styles.buttonBrdIndigo;
@@ -49,6 +50,7 @@ Button.propTypes = {
     PropTypes.string,
     PropTypes.boolean,
   ]),
+  bordered    : PropTypes.bool,
 };
 
 export { Button };

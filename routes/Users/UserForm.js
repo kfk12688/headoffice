@@ -91,7 +91,7 @@ class CreateUserForm extends Component {
 
         <div className={styles.addContentBtnGroup}>
           <Button accent="green" type="submit" disabled={pristine || submitting}>Save</Button>
-          <Button onClick={this.resetForm}>Cancel</Button>
+          <Button bordered onClick={this.resetForm}>Cancel</Button>
         </div>
       </form>
     );

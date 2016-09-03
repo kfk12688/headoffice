@@ -2,27 +2,34 @@
 
 .button {
   height: 20px;
-  font-size: 12px;
+  font-size: inherit;
   min-width: 26px;
   margin-right: 8px;
   padding: 2px 6px;
   text-align: center;
-  color: @white;
-  background: @grey500;
-  border: 1px solid @grey700;
-  border-radius: 1px;
+  border: 0;
+  color: @grey500;
   &:active,
   &:hover {
-    color: @white;
-    background: @grey800;
+    color: @grey800;
   }
   &:last-child {
     margin-right: 0;
   }
   &:disabled {
     background: @grey200;
-    border-color: @grey400;
     cursor: not-allowed;
+  }
+}
+
+.bordered {
+  color: @white;
+  background: @grey500;
+  border: 1px solid @grey700;
+  border-radius: 1px;
+  &:hover {
+    color: @white;
+    background: @grey800;
   }
 }
 

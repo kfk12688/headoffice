@@ -26,7 +26,7 @@ class SearchBar extends Component {
             </div>
             <DateInput
               className={styles.inputContainer}
-              field={{ value, onChange : handler }}
+              input={{ value, onChange : handler }}
             />
           </div>
         );
@@ -42,7 +42,7 @@ class SearchBar extends Component {
             <ComboSearchInput
               className={styles.inputContainer}
               matchParentWidth
-              field={{ value, onChange : handler }}
+              input={{ value, onChange : handler }}
             />
           </div>
         );
@@ -53,7 +53,7 @@ class SearchBar extends Component {
           <div className={styles.filterHeaderBlock} key={label}>
             <CheckBoxInput
               className={styles.label}
-              field={{ value, onChange : handler }}
+              input={{ value, onChange : handler }}
             >
               {label}
             </CheckBoxInput>

@@ -1,130 +1,160 @@
 import React, { Component } from "react";
-import { FormButton, TextInput, ComboInput, CheckBoxInput, NumericInput } from "components";
-import reduxForm from "../../lib/ReduxForm";
+import { connect } from "react-redux";
+import { reduxForm, Field, formValueSelector } from "redux-form";
+import { Button, TextInput, CheckBoxInput, NumericInput, ComboInput, DateInput } from "components";
 import styles from "./SDForm.less";
 
-const Row = ({ children }) =>
-  <div style={{ marginBottom : 5 }}>{children}</div>;
+const Row = ({ prop, component, ...rest }) =>
+  <div style={{ marginBottom : 5 }}>
+    <span className={styles.key}>{prop.displayText}</span>
+    <Field name={prop.key} {...rest} component={component}/>
+  </div>;
 Row.propTypes = {
-  children : React.PropTypes.node,
+  prop      : React.PropTypes.object,
+  component : React.PropTypes.func,
 };
 
 class EditorEntryForm extends Component {
   constructor(props) {
     super(props);
-    this.submitForm = this.submitForm.bind(this);
     this.resetForm = this.resetForm.bind(this);
   }
 
-  getFieldProps(fieldType, fields) {
+  getFieldProps(props, fieldType) {
     let formElements = [
-      <Row key="1">
-        <span className={styles.key}>Is Required</span>
-        <CheckBoxInput field={fields.required}/>
-      </Row>,
-      <Row key="2">
-        <span className={styles.key}>Is Unique</span>
-        <CheckBoxInput field={fields.unique}/>
-      </Row>,
-      <Row key="3">
-        <span className={styles.key}>Default values</span>
-        <TextInput field={fields.default}/>
-      </Row>,
+      <Row key={`fieldProps.${props.required.key}`} prop={props.required} component={CheckBoxInput}/>,
+      <Row key={`fieldProps.${props.unique.key}`} prop={props.unique} component={CheckBoxInput}/>,
     ];
 
+    if (fieldType === "Boolean") {
+      formElements = [
+        ...formElements,
+        <Row key={`fieldProps.${props.default.key}`} prop={props.default} component={CheckBoxInput}/>,
+      ];
+    }
+
+    if (fieldType === "Date") {
+      formElements = [
+        ...formElements,
+        <Row key={`fieldProps.${props.default.key}`} prop={props.default} component={DateInput}/>,
+      ];
+    }
     if (fieldType === "String") {
       formElements = [
         ...formElements,
-        <Row key="4">
-          <span className={styles.key}>Enum values</span>
-          <TextInput field={fields.enum}/>
-        </Row>,
+        <Row key={`fieldProps.${props.default.key}`} prop={props.default} component={TextInput}/>,
       ];
     }
 
     if (fieldType === "Number") {
       formElements = [
         ...formElements,
-        <Row key="5">
-          <span className={styles.key}>Min value</span>
-          <NumericInput field={fields.min}/>
-        </Row>,
-        <Row key="6">
-          <span className={styles.key}>Max value</span>
-          <NumericInput field={fields.max}/>
-        </Row>,
+        <Row key={`fieldProps.${props.min.key}`} prop={props.min} component={NumericInput}/>,
+        <Row key={`fieldProps.${props.max.key}`} prop={props.max} component={NumericInput}/>,
+        <Row key={`fieldProps.${props.default.key}`} prop={props.default} component={NumericInput}/>,
       ];
     }
-
     if (fieldType === "Reference") {
       formElements = [
         ...formElements,
-        <Row key="7">
-          <span className={styles.key}>Specify Object Ref</span>
-          <TextInput field={fields.ref}/>
-        </Row>,
+        <Row key={`fieldProps.${props.ref.key}`} prop={props.ref} component={TextInput}/>,
       ];
     }
 
     return formElements;
-  }
 
-  submitForm(e) {
-    e.preventDefault();
-
-    const { values : { fieldName, fieldType, ...rest } } = this.props;
-    this.props.submitForm({
-      fieldName,
-      fieldType,
-      fieldProps : { ...rest },
-    });
-    this.props.resetForm();
+    //
+    // let formElements = [
+    //   <Row key="1">
+    //     <span className={styles.key}>Is Required</span>
+    //     <Field name="fieldProps.required" component={CheckBoxInput}/>
+    //   </Row>,
+    //   <Row key="2">
+    //     <span className={styles.key}>Is Unique</span>
+    //     <Field name="fieldProps.unique" component={CheckBoxInput}/>
+    //   </Row>,
+    //   <Row key="3">
+    //     <span className={styles.key}>Default values</span>
+    //     <Field name="fieldProps.default" component={TextInput}/>
+    //   </Row>,
+    // ];
+    //
+    // if (fieldType === "String") {
+    //   formElements = [
+    //     ...formElements,
+    //     <Row key="4">
+    //       <span className={styles.key}>Enum values</span>
+    //       <FieldArray name="enum" component={TextInput}/>
+    //     </Row>,
+    //   ];
+    // }
+    //
+    // if (fieldType === "Number") {
+    //   formElements = [
+    //     ...formElements,
+    //     <Row key="5">
+    //       <span className={styles.key}>Min value</span>
+    //       <Field name="fieldProps.min" component={NumericInput}/>
+    //     </Row>,
+    //     <Row key="6">
+    //       <span className={styles.key}>Max value</span>
+    //       <Field name="fieldProps.max" component={NumericInput}/>
+    //     </Row>,
+    //   ];
+    // }
+    //
+    // if (fieldType === "Reference") {
+    //   formElements = [
+    //     ...formElements,
+    //     <Row key="7">
+    //       <span className={styles.key}>Specify Object Ref</span>
+    //       <Field name="fieldProps.ref" component={TextInput}/>
+    //     </Row>,
+    //   ];
+    // }
+    //
+    // return formElements;
   }
 
   resetForm(e) {
     e.preventDefault();
-    this.props.clearEditFlag();
-    this.props.resetForm();
+    this.props.reset();
   }
 
   render() {
-    const { fields, editorState } = this.props;
-    const fieldType = fields.fieldType.value;
+    const { handleSubmit, editorState, pristine, submitting, fieldType } = this.props;
+    const fieldDefn = {
+      fieldName : { key : "fieldName", displayText : "Field Name" },
+      fieldType : { key : "fieldType", displayText : "Field Type" },
+    };
+    const fieldProps = {
+      required : { key : "fieldProps.required", displayText : "Is Required" },
+      unique   : { key : "fieldProps.unique", displayText : "Is Unique" },
+      default  : { key : "fieldProps.default", displayText : "Default values" },
+      min      : { key : "fieldProps.min", displayText : "Minimum" },
+      max      : { key : "fieldProps.max", displayText : "Maximum" },
+      ref      : { key : "fieldProps.ref", displayText : "Reference value" },
+    };
 
     return (
-      <form onSubmit={this.submitForm}>
+      <form onSubmit={handleSubmit}>
 
         <div className={styles.fields}>
           <div className={styles.fieldsTitle}>Fields</div>
-
-          <div>
-
-            <Row key="s1">
-              <span className={styles.key}>Field Name :</span>
-              <TextInput field={fields.fieldName}/>
-            </Row>
-
-            <Row key="s2">
-              <span className={styles.key}>Field Type :</span>
-              <ComboInput
-                matchParentWidth
-                field={fields.fieldType}
-                list={["Number", "Date", "String", "Boolean", "Reference"]}
-              />
-            </Row>
-          </div>
+          <Row prop={fieldDefn.fieldName} component={TextInput}/>
+          <Row prop={fieldDefn.fieldType} component={ComboInput}
+               list={["Number", "Date", "String", "Boolean", "Reference"]}
+          />
         </div>
 
         <div className={styles.defn}>
           <div className={styles.defnTitle}>Definition</div>
-          <div>
-            {this.getFieldProps(fieldType, fields)}
-          </div>
+          <div>{this.getFieldProps(fieldProps, fieldType)}</div>
         </div>
 
         <div className={styles.formSubmitGroup}>
-          <FormButton accent type="submit">{editorState ? "Add" : "Edit"}</FormButton>
-          <FormButton onClick={this.resetForm}>Cancel</FormButton>
+          <Button accent type="submit" disabled={pristine || submitting}>{editorState ? "Add" : "Edit"}</Button>
+          <Button bordered onClick={this.resetForm}>Cancel</Button>
         </div>
       </form>
     );
@@ -132,19 +162,25 @@ class EditorEntryForm extends Component {
 }
 
 EditorEntryForm.propTypes = {
-  fields        : React.PropTypes.object.isRequired,
-  cols          : React.PropTypes.object.isRequired,
-  values        : React.PropTypes.object.isRequired,
-  submitForm    : React.PropTypes.func,
-  resetForm     : React.PropTypes.func,
-  clearEditFlag : React.PropTypes.func,
+  handleSubmit : React.PropTypes.func.isRequired,
+  pristine     : React.PropTypes.bool,
+  submitting   : React.PropTypes.bool,
+  reset        : React.PropTypes.func,
   // indicates the state of the form - whether edit/addition
-  editorState   : React.PropTypes.bool,
+  editorState  : React.PropTypes.bool,
+
+  fieldType : React.PropTypes.any,
 };
 
-export default reduxForm({
-  fields : [
-    "fieldName", "fieldType", "default", "required",
-    "unique", "enum", "min", "max", "ref",
-  ],
+let form = reduxForm({
+  form : "SDForm",
 })(EditorEntryForm);
+
+const selector = formValueSelector("SDForm"); // <-- same as form name
+form = connect(
+  state => ({
+    fieldType : selector(state, "fieldType"),
+  })
+)(form);
+
+export default form;

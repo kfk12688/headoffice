@@ -2,17 +2,19 @@ import React from "react";
 import moment from "moment";
 import styles from "./DateInput.less";
 
-export const DateInput = ({ field, className }) => {
-  const { onChange, value, ...rest } = field;
-  const parse = event => moment.utc(event.target.value).format();
+export const DateInput = ({ input, className, meta, ...rest }) => {
+  const { onChange, value, ...restInput } = input;
+  const parse = val => val && moment.utc(val).format();
+  const format = val => val && moment(val).format("YYYY-MM-DD");
 
   return (
     <div className={className || styles.datebox}>
       <input
         type="date"
-        className={styles.dateboxInput}
-        onChange={e => onChange(parse(e))}
-        value={(value && moment(value).isValid()) ? moment(value).format("YYYY-MM-DD") : ""}
+        className={styles.input}
+        onChange={e => onChange(parse(e.target.value))}
+        value={format(value)}
+        {...restInput}
         {...rest}
       />
     </div>
@@ -21,5 +23,6 @@ export const DateInput = ({ field, className }) => {
 
 DateInput.propTypes = {
   className : React.PropTypes.string,
-  field     : React.PropTypes.object.isRequired,
+  input     : React.PropTypes.object.isRequired,
+  meta      : React.PropTypes.object,
 };

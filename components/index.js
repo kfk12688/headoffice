@@ -10,6 +10,7 @@ export { SpecDefiner } from "./SpecDefiner";
 export { Navigator } from "./Navigator";
 export { Breadcrumb } from "./Breadcrumb";
 export { SearchBar } from "./SearchBar";
+export { Table } from "./Table";
 export * from "./Button";
 export * from "./DisplayElems";
 

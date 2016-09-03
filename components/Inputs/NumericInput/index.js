@@ -1,16 +1,15 @@
 import React from "react";
 import styles from "./NumericInput.less";
 
-export const NumericInput = ({ className, field }) => {
-  const { onChange, value, ...rest } = field;
-  const parse = event => Number(event.target.value);
+export const NumericInput = ({ className, input }) => {
+  const { onChange, ...rest } = input;
+  const parse = val => Number(val);
 
   return (
     <input
       className={className || styles.numericInput}
       type="number"
-      onChange={e => onChange(parse(e))}
-      value={value}
+      onChange={e => onChange(parse(e.target.value))}
       {...rest}
     />
   );
@@ -18,5 +17,5 @@ export const NumericInput = ({ className, field }) => {
 
 NumericInput.propTypes = {
   className : React.PropTypes.string,
-  field     : React.PropTypes.object.isRequired,
+  input     : React.PropTypes.object.isRequired,
 };

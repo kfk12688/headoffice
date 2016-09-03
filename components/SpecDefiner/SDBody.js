@@ -3,7 +3,7 @@ import _ from "underscore";
 import { SDBodyRow } from "./SDBodyRow";
 import styles from "./SDBody.less";
 
-const SDBody = ({ rows, cols, colWidths, selectedRow }) => {
+const SDBody = ({ rows, cols, colWidths }) => {
   let bodyRows = [];
 
   _.forEach(rows, (row, rowKey) => {
@@ -13,7 +13,6 @@ const SDBody = ({ rows, cols, colWidths, selectedRow }) => {
         colWidths={colWidths}
         cols={cols}
         row={row}
-        isSelected={selectedRow === rowKey}
       />
     );
   });
@@ -22,10 +21,9 @@ const SDBody = ({ rows, cols, colWidths, selectedRow }) => {
 };
 
 SDBody.propTypes = {
-  rows        : React.PropTypes.arrayOf(React.PropTypes.object),
-  cols        : React.PropTypes.object,
-  colWidths   : React.PropTypes.object,
-  selectedRow : React.PropTypes.string,
+  rows      : React.PropTypes.arrayOf(React.PropTypes.object),
+  cols      : React.PropTypes.object,
+  colWidths : React.PropTypes.object,
 };
 
 export { SDBody };

@@ -13,7 +13,7 @@ class SpecDefiner extends React.Component {
   }
 
   render() {
-    const { className, colSpec, data, isLoading, postHandler, selectedRow, clearEditFlag } = this.props;
+    const { className, colSpec, data, isLoading, onSubmit } = this.props;
 
     return (
       <div
@@ -34,16 +34,13 @@ class SpecDefiner extends React.Component {
               cols={colSpec}
               colWidths={this.state.colWidths}
               rows={data}
-              selectedRow={selectedRow}
             />
           }
         </div>
 
         <SDPost
           cols={colSpec}
-          postHandler={postHandler}
-          clearEditFlag={clearEditFlag}
-          selectedRow={selectedRow}
+          onSubmit={onSubmit}
         />
       </div>
     );
@@ -51,14 +48,12 @@ class SpecDefiner extends React.Component {
 }
 
 SpecDefiner.propTypes = {
-  className     : React.PropTypes.string,
-  colWidths     : React.PropTypes.object.isRequired,
-  colSpec       : React.PropTypes.object.isRequired,
-  data          : React.PropTypes.arrayOf(React.PropTypes.object),
-  isLoading     : React.PropTypes.bool,
-  postHandler   : React.PropTypes.func.isRequired,
-  selectedRow   : React.PropTypes.any,
-  clearEditFlag : React.PropTypes.func,
+  className : React.PropTypes.string,
+  colWidths : React.PropTypes.object.isRequired,
+  colSpec   : React.PropTypes.object.isRequired,
+  data      : React.PropTypes.arrayOf(React.PropTypes.object),
+  isLoading : React.PropTypes.bool,
+  onSubmit  : React.PropTypes.func.isRequired,
 };
 
 export { SpecDefiner };

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { EntryGrid } from "components";
 import { TitleBar } from "./TitleBar";
 import { clearMenuState } from "../../../dataflow/menu/actions";
-import { loadSpec, addRow, deleteRow, editRow } from "../../../dataflow/content/entry/actions";
+import { loadSpec, addRow, deleteRow } from "../../../dataflow/content/entry/actions";
 import styles from "./Editor.less";
 
 class Editor extends Component {
@@ -19,21 +19,20 @@ class Editor extends Component {
 
   addRow(rowData) {
     const { entryStore : { id : templateId } } = this.props;
-
-    console.log({
-      templateId,
-      row : rowData,
-    });
+    // console.log({
+    //   templateId,
+    //   row : rowData,
+    // });
 
     this.props.addRow({
       templateId,
-      row : rowData,
+      data : rowData,
     });
   }
 
   render() {
     const { entryStore, contextMenuStore } = this.props;
-    const { spec, data, loadingIndicators, selectedRow } = entryStore;
+    const { spec, data, loadingIndicators } = entryStore;
 
     return (
       <div>
@@ -55,12 +54,10 @@ class Editor extends Component {
           <EntryGrid
             className={styles.entrygrid}
             style={{ left : !contextMenuStore.showSidebar && 0 }}
-            colSpec={spec}
+            spec={spec}
             data={data}
             isLoading={loadingIndicators}
-            selectedRow={selectedRow}
-            postHandler={this.addRow}
-            clearEditFlag={() => {}}
+            onSubmit={this.addRow}
           />
         </div>
       </div>
@@ -80,7 +77,6 @@ Editor.propTypes = {
   clearMenuState : React.PropTypes.func.isRequired,
   loadSpec       : React.PropTypes.func,
   addRow         : React.PropTypes.func,
-  editRow        : React.PropTypes.func,
   deleteRow      : React.PropTypes.func,
 };
 
@@ -93,7 +89,6 @@ const mapDisptachToProps = dispatch => ({
   clearMenuState : () => dispatch(clearMenuState()),
   loadSpec       : (params) => dispatch(loadSpec(params)),
   addRow         : params => dispatch(addRow(params)),
-  editRow        : params => dispatch(editRow(params)),
   deleteRow      : params => dispatch(deleteRow(params)),
 });
 

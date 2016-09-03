@@ -2,13 +2,13 @@
  * Created by sharavan on 08/06/16.
  */
 import React from "react";
-import { FormButton } from "../Button/index";
+import { Button } from "../Button/index";
 import FontAwesome from "react-fontawesome";
 import cx from "classnames";
 import BSModal from "react-overlays/lib/Modal";
 import styles from "./Modal.less";
 
-const Modal = ({ btnClassName, faName, caption, children, className, accent, show, toggleModal, modalTitle }) => {
+const Modal = ({ btnClassName, faName, caption, children, className, accent, show, toggleModal, modalTitle, title, bordered }) => {
   const modalStyle = {
     bottom   : 0,
     left     : 0,
@@ -25,14 +25,16 @@ const Modal = ({ btnClassName, faName, caption, children, className, accent, sho
 
   return (
     <span>
-      <FormButton
+      <Button
         className={btnClassName}
         faName={faName}
         accent={accent}
         onClick={toggleModal}
+        title={title}
+        bordered={bordered}
       >
          {caption}
-      </FormButton>
+      </Button>
 
       <BSModal
         aria-labelledby="modal-label"
@@ -60,7 +62,10 @@ const Modal = ({ btnClassName, faName, caption, children, className, accent, sho
 };
 
 Modal.propTypes = {
-  accent       : React.PropTypes.bool,
+  accent       : React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.bool,
+  ]),
   show         : React.PropTypes.bool.isRequired,
   className    : React.PropTypes.string,
   btnClassName : React.PropTypes.string,
@@ -69,6 +74,8 @@ Modal.propTypes = {
   toggleModal  : React.PropTypes.func.isRequired,
   children     : React.PropTypes.node.isRequired,
   modalTitle   : React.PropTypes.string,
+  title        : React.PropTypes.string,
+  bordered     : React.PropTypes.bool,
 };
 
 export { Modal };

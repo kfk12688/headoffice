@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { FormButton } from "components";
+import { reduxForm, Field } from "redux-form";
+import { Button, TextInput } from "components";
 import "../../styles/Select.css";
 import cx from "classnames";
-import reduxForm from "../../lib/ReduxForm";
 import styles from "./NewWorkbookForm.less";
 
 class CreateUserForm extends Component {
@@ -16,56 +16,52 @@ class CreateUserForm extends Component {
     const { workbookName, users } = this.props.values;
 
     e.preventDefault();
-    this.props.submitForm({
-      name : workbookName,
-      // users : users,
-    });
+    // this.props.submitForm({
+    //   name : workbookName,
+    //   // users : users,
+    // });
     this.props.toggleModal();
   }
 
   resetForm(e) {
     e.preventDefault();
-    this.props.resetForm();
-    this.props.toggleModal();
+    this.props.reset();
   }
 
   render() {
-    const { fields : { workbookName, users } } = this.props;
+    const { pristine, submitting } = this.props;
 
     return (
       <form onSubmit={this.onSubmit}>
         <div className={styles.formElement}>
           <div className={styles.formElementTitle}>Enter the name of the workbook/collection:</div>
-          <div>
-            <input
-              className={styles.formElementInput}
-              type="text"
-              {...workbookName}
-            />
-          </div>
+          <Field
+            name="workbookName"
+            className={styles.formElementInput}
+            component={TextInput}
+          />
         </div>
 
         <div className={styles.formElement}>
           <div className={styles.formElementTitle}>Select the users who will have access to the workbook/collection:
           </div>
-          <div>
-            <select
-              className={cx(styles.formElementInput, styles.selectElement)}
-              {...users}
-              value={users.value || ""}
-            >
-              <option value=""></option>
-              <option value="SuperAdmin">SuperAdmin</option>
-              <option value="Admin">Admin</option>
-              <option value="Manager">Manager</option>
-              <option value="Technician">Technician</option>
-            </select>
-          </div>
+
+          <Field
+            name="users"
+            className={cx(styles.formElementInput, styles.selectElement)}
+            component="select"
+          >
+            <option value=""></option>
+            <option value="SuperAdmin">SuperAdmin</option>
+            <option value="Admin">Admin</option>
+            <option value="Manager">Manager</option>
+            <option value="Technician">Technician</option>
+          </Field>
         </div>
 
         <div className={styles.addContentBtnGroup}>
-          <FormButton accent="green" type="submit">Save</FormButton>
-          <FormButton onClick={this.resetForm}>Cancel</FormButton>
+          <Button accent="green" type="submit" disabled={pristine || submitting}>Save</Button>
+          <Button bordered onClick={this.resetForm}>Cancel</Button>
         </div>
       </form>
     );
@@ -73,14 +69,13 @@ class CreateUserForm extends Component {
 }
 
 CreateUserForm.propTypes = {
-  fields      : React.PropTypes.object.isRequired,
   submitForm  : React.PropTypes.func.isRequired,
-  resetForm   : React.PropTypes.func.isRequired,
+  reset       : React.PropTypes.func.isRequired,
   values      : React.PropTypes.object,
   toggleModal : React.PropTypes.func,
   state       : React.PropTypes.any,
 };
 
 export default reduxForm({
-  fields : ["workbookName", "users"],
+  form : "newWorkBook",
 })(CreateUserForm);

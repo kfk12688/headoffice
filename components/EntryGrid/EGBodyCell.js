@@ -3,9 +3,9 @@ import { renderEGCell } from "../DisplayElems";
 import styles from "./EGBodyCell.less";
 
 export const EGBodyCell = (props) => {
-  const { row, col, colKey, colWidth } = props;
-  const { fieldType : type } = col;
-
+  const { row, col, colWidth } = props;
+  const type = col.fieldType.toLowerCase();
+  const colKey = col.fieldName;
   const hoverStyle = {
     boxSizing : "border-box",
     display   : "inline-block",
@@ -25,6 +25,5 @@ export const EGBodyCell = (props) => {
 EGBodyCell.propTypes = {
   row      : React.PropTypes.object.isRequired,
   col      : React.PropTypes.object.isRequired,
-  colKey   : React.PropTypes.string.isRequired,
   colWidth : React.PropTypes.number.isRequired,
 };

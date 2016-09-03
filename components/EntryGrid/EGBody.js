@@ -3,17 +3,17 @@ import _ from "underscore";
 import { EGBodyRow } from "./EGBodyRow";
 import styles from "./EGBody.less";
 
-const EGBody = ({ rows, cols, colWidths, selectedRow }) => {
+const EGBody = ({ rows, cols, colWidths }) => {
   let bodyRows = [];
 
   _.forEach(rows, (row, rowKey) => {
     bodyRows.push(
       <EGBodyRow
         key={rowKey}
+        rowKey={rowKey}
         colWidths={colWidths}
         cols={cols}
         row={row}
-        isSelected={selectedRow === rowKey}
       />
     );
   });
@@ -22,8 +22,7 @@ const EGBody = ({ rows, cols, colWidths, selectedRow }) => {
 };
 
 EGBody.propTypes = {
-  selectedRow : React.PropTypes.string,
-  cols        : React.PropTypes.object.isRequired,
+  cols        : React.PropTypes.array.isRequired,
   colWidths   : React.PropTypes.object.isRequired,
   rows        : React.PropTypes.object.isRequired,
 };

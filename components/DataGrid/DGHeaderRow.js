@@ -32,7 +32,7 @@ DGHeaderRow.propTypes = {
   colWidths     : PropTypes.object.isRequired,
   onClick       : PropTypes.func.isRequired,
   sortKey       : PropTypes.string.isRequired,
-  sortAscending : PropTypes.boolean,
+  sortAscending : PropTypes.bool,
 };
 
 export { DGHeaderRow };

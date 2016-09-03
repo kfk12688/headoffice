@@ -33,8 +33,8 @@ class ComboSearchInput extends React.Component {
   }
 
   setSelectedText(value) {
-    const { field } = this.props;
-    field.onChange(value);
+    const { input } = this.props;
+    input.onChange(value);
   }
 
   populate() {
@@ -56,7 +56,7 @@ class ComboSearchInput extends React.Component {
   }
 
   render() {
-    const { className, field } = this.props;
+    const { className, input } = this.props;
 
     const matches = this.populate();
 
@@ -73,7 +73,7 @@ class ComboSearchInput extends React.Component {
           className={cx("fa fa-caret-down", styles.faIcon)}
           title="Click to open"
         />
-        {field.value}
+        {input.value}
         <Overlay
           rootClose
           show={this.state.showPopup}
@@ -114,7 +114,7 @@ class ComboSearchInput extends React.Component {
 ComboSearchInput.propTypes = {
   className     : React.PropTypes.string,
   childrenStyle : React.PropTypes.object,
-  field         : React.PropTypes.object.isRequired,
+  input         : React.PropTypes.object.isRequired,
 };
 
 export { ComboSearchInput };

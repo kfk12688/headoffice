@@ -1,53 +1,148 @@
+import _ from "underscore";
 import React, { Component } from "react";
-import { FormButton } from "components";
-import reduxForm from "../../lib/ReduxForm";
-import getFormFields from "../../lib/FormGeneratorFactory";
+import { Field, FieldArray, reduxForm } from "redux-form";
+import { Button, TextInput, NumericInput, DateInput } from "components";
 import styles from "./EGForm.less";
 
-class EditorEntryForm extends Component {
+const zPad = (string, size) => {
+  let retVal = "";
+  if (typeof string !== "string") retVal = string.toString();
+  while (retVal.length !== size) retVal = `0${retVal}`;
+  return retVal;
+};
+
+class EGForm extends Component {
   constructor(props) {
     super(props);
-    this.submitForm = this.submitForm.bind(this);
+
     this.resetForm = this.resetForm.bind(this);
+    this.constructFields = this.constructFields.bind(this);
+
+    this.renderFieldArray = this.renderFieldArray.bind(this);
   }
 
-  submitForm(e) {
-    e.preventDefault();
-    this.props.submitForm(this.props.values);
+  getComponent(type) {
+    if (type === "Date") return DateInput;
+    if (type === "Number") return NumericInput;
+    if (type === "SchemaArray") return this.renderFieldArray;
+    return TextInput;
+  }
+
+  constructFields(fieldProps) {
+    const fields = _.map(fieldProps, (field, key) => {
+      const { title, type, sub } = field;
+      const component = this.getComponent(type);
+      const name = key;
+
+      if (sub) {
+        return (
+          <div key={name}>
+            <span className={styles.inputTitle}>{title} </span>
+            <FieldArray
+              className={styles.inputField}
+              name={name}
+              component={component}
+              subKeys={sub}
+            />
+          </div>
+        );
+      }
+
+      return (
+        <div key={name}>
+          <span className={styles.inputTitle}>{title} </span>
+          <Field
+            className={styles.inputField}
+            name={name}
+            component={component}
+          />
+        </div>
+      );
+    });
+
+    return fields;
   }
 
   resetForm(e) {
     e.preventDefault();
-    this.props.clearEditFlag();
-    this.props.resetForm();
+    this.props.reset();
+  }
+
+  renderFieldArray(props) {
+    const { fields, name, subKeys } = props;
+    const onClickAddHandler = e => {
+      e.preventDefault();
+      fields.push({});
+    };
+    const onClickRemoveHandler = (e, index) => {
+      e.preventDefault();
+      fields.remove(index);
+    };
+    const areFieldsPresent = (fields.length !== 0);
+    const subFields = () => fields.map((field, idx) =>
+      <div key={idx}>
+        <span> {zPad(idx + 1, 2)} </span>
+        {_.map(subKeys, (subField, key) => {
+          const { title, type } = subField;
+          const component = this.getComponent(type);
+          return (
+            <span key={key}>
+              <span>{title} </span>
+              <Field
+                className={styles.inputField}
+                name={`${field}.${key}`}
+                component={component}
+              />
+            </span>
+          );
+        })}
+        <Button accent className={styles.clsBtn} faName="times" onClick={e => onClickRemoveHandler(e, idx)}/>
+      </div>
+    );
+
+    return (
+      <span>
+        <Button accent="indigo" className={styles.addBtn} title={`Click to add data to ${name}`}
+                onClick={onClickAddHandler}
+        >
+          Add Data
+        </Button>
+        {
+          areFieldsPresent &&
+          <div className={styles.sub}>
+            <div className={styles.fieldCounter}>{`${fields.length} Fields`}</div>
+            {subFields()}
+          </div>
+        }
+      </span>
+    );
   }
 
   render() {
-    const { cols, fields, editorState } = this.props;
+    const { editorState, className, handleSubmit, fieldProps } = this.props;
+    const fields = this.constructFields(fieldProps);
 
     return (
-      <form onSubmit={this.submitForm}>
-
-        {getFormFields(cols, fields)}
-
+      <form className={className} onSubmit={handleSubmit}>
+        {fields}
         <div className={styles.formSubmitGroup}>
-          <FormButton accent type="submit">{editorState ? "Add" : "Edit"}</FormButton>
-          <FormButton onClick={this.resetForm}>Cancel</FormButton>
+          <Button accent type="submit">{editorState ? "Add" : "Edit"}</Button>
+          <Button bordered onClick={this.resetForm}>Cancel</Button>
         </div>
       </form>
     );
   }
 }
 
-EditorEntryForm.propTypes = {
-  fields        : React.PropTypes.object.isRequired,
-  cols          : React.PropTypes.object.isRequired,
-  values        : React.PropTypes.object.isRequired,
-  submitForm    : React.PropTypes.func,
-  resetForm     : React.PropTypes.func,
-  clearEditFlag : React.PropTypes.func,
-  // indicates the state of the form - whether edit/addition
-  editorState   : React.PropTypes.bool,
+EGForm.propTypes = {
+  className    : React.PropTypes.string,
+  fieldProps   : React.PropTypes.object.isRequired,
+  cols         : React.PropTypes.array.isRequired,
+  handleSubmit : React.PropTypes.func,
+  reset        : React.PropTypes.func,
+  editorState  : React.PropTypes.bool,             // indicates the state of the form - whether edit/addition
 };
 
-export default reduxForm()(EditorEntryForm);
+export default reduxForm({
+  form : "EGForm",
+})(EGForm);

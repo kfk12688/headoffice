@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
-import { Button, TextInput } from "components";
+import { Button, TextInput, ComboSearchInput } from "components";
+import { searchWorkbook as loadWorkbooks } from "../../dataflow/workbooks/api";
 import styles from "./CreateForm.less";
 
 // FORM COMPONENT FOR Creating a new template
@@ -11,20 +12,13 @@ class CreateForm extends Component {
     this.resetForm = this.resetForm.bind(this);
   }
 
-  onSubmit(e) {
-    e.preventDefault();
-    // const { templateName, workBook } = this.props.values;
+  onSubmit(values) {
+    const { templateName, workbookName } = values;
 
-    // console.log({
-    //   id         : id,
-    //   templateName,
-    //   workBookId : workBook.id,
-    // });
-
-    // this.props.handleSubmit({
-    //   templateName,
-    //   workBookId : workBook.id,
-    // });
+    this.props.submitForm({
+      templateName,
+      workbookId : workbookName.id,
+    });
     this.props.toggleModal();
   }
 
@@ -35,10 +29,10 @@ class CreateForm extends Component {
   }
 
   render() {
-    const { pristine, submitting } = this.props;
+    const { pristine, submitting, handleSubmit } = this.props;
 
     return (
-      <form onSubmit={this.onSubmit}>
+      <form onSubmit={handleSubmit(this.onSubmit)}>
         <div className={styles.formElement}>
           <div className={styles.formElementTitle}>Enter the name of the template:</div>
           <Field className={styles.formElementInput} name="templateName" component={TextInput}/>
@@ -46,6 +40,9 @@ class CreateForm extends Component {
 
         <div className={styles.formElement}>
           <div className={styles.formElementTitle}>Workbook</div>
+          <Field className={styles.formElementInput} name="workbookName" component={ComboSearchInput}
+                 loadOptions={loadWorkbooks}
+          />
         </div>
 
         <div className={styles.addContentBtnGroup}>

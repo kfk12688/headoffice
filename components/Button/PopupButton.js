@@ -40,7 +40,7 @@ class PopupButton extends React.Component {
     if (bordered) baseClass = cx(styles.base, styles.border, className);
 
     return (
-      <div
+      <span
         className={baseClass}
         ref={this.assignTarget}
         onClick={this.handleClick}
@@ -50,7 +50,6 @@ class PopupButton extends React.Component {
         <Overlay
           rootClose
           placement="bottom"
-          container={this.ctrls.target}
           show={this.state.showPopup}
           onHide={() => this.setState({ showPopup : false })}
           target={() => this.ctrls.target}
@@ -59,7 +58,7 @@ class PopupButton extends React.Component {
             {this.popupMenuItems}
           </div>
         </Overlay>
-      </div>
+      </span>
     );
   }
 }

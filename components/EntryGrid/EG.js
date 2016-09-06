@@ -1,13 +1,12 @@
 import React from "react";
 import { EGHeaderRow } from "./EGHeaderRow";
 import { EGBody } from "./EGBody";
-import { EGPost } from "./EGPost";
 import calcColWidths from "../calculateColWidths";
 import cx from "classnames";
 import styles from "./EG.less";
 
 const EntryGrid = (props) => {
-  const { style, className, spec, data, isLoading, onSubmit } = props;
+  const { style, className, spec, data, isLoading } = props;
   const colWidths = calcColWidths(spec, data);
 
   return (
@@ -34,7 +33,7 @@ const EntryGrid = (props) => {
         />
 
         {
-          isLoading.data ?
+          isLoading ?
           <i className={cx("fa fa-spinner fa-2x", styles.spinner)}/> :
           <EGBody
             cols={spec}
@@ -43,13 +42,6 @@ const EntryGrid = (props) => {
           />
         }
       </div>
-
-      {/* Edit Data Form */}
-      <EGPost
-        className={styles.postContainer}
-        cols={spec}
-        onSubmit={onSubmit}
-      />
     </div>
   );
 };
@@ -60,7 +52,6 @@ EntryGrid.propTypes = {
   isLoading : React.PropTypes.object,
   spec      : React.PropTypes.array.isRequired,
   data      : React.PropTypes.object.isRequired,
-  onSubmit  : React.PropTypes.func.isRequired,
 };
 
 export { EntryGrid };

@@ -49,7 +49,7 @@ class EGForm extends Component {
       }
 
       return (
-        <div key={name}>
+        <div key={name} className={styles.fieldsRow}>
           <span className={styles.inputTitle}>{title} </span>
           <Field
             className={styles.inputField}
@@ -119,15 +119,18 @@ class EGForm extends Component {
   }
 
   render() {
-    const { editorState, className, handleSubmit, fieldProps } = this.props;
+    const { className, handleSubmit, fieldProps } = this.props;
     const fields = this.constructFields(fieldProps);
+    const fields = this.constructSubFields(fieldProps);
 
     return (
       <form className={className} onSubmit={handleSubmit}>
-        {fields}
+        <div className={styles.fields}>{fields}</div>
+        <div className={styles.subFields}>{subFields}</div>
+
         <div className={styles.formSubmitGroup}>
-          <Button accent type="submit">{editorState ? "Add" : "Edit"}</Button>
-          <Button bordered onClick={this.resetForm}>Cancel</Button>
+          <Button className={styles.formSubmitGroupBtn} accent type="submit">Save</Button>
+          <Button className={styles.formSubmitGroupBtn} bordered onClick={this.resetForm}>Cancel</Button>
         </div>
       </form>
     );
@@ -140,7 +143,6 @@ EGForm.propTypes = {
   cols         : React.PropTypes.array.isRequired,
   handleSubmit : React.PropTypes.func,
   reset        : React.PropTypes.func,
-  editorState  : React.PropTypes.bool,             // indicates the state of the form - whether edit/addition
 };
 
 export default reduxForm({

@@ -4,7 +4,7 @@ import { SpecDefiner, Button } from "components";
 import { TitleBar } from "./TitleBar";
 import {
   loadEditor, editTemplate, editRow, deleteRow, clearEditFlag, addField, editTemplateSchema
-} from "../../../dataflow/content/editor/actions";
+} from "dataflow/template/editor/actions";
 import styles from "./Editor.less";
 
 class Editor extends Component {
@@ -124,7 +124,7 @@ Editor.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  editor : state.content.editor,
+  editor : state.template.editor,
 });
 
 const mapDisptachToProps = dispatch => ({

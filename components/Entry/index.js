@@ -3,13 +3,9 @@ import _ from "underscore";
 import EGForm from "./EGForm";
 import styles from "./EGPost.less";
 
-const ADD_NEW_ENTRY = true;
-const EDIT_EXISTING_ENTRY = false;
-
-class EGPost extends React.Component {
+class Entry extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { entryState : ADD_NEW_ENTRY };
     this.getFormFields = this.getFormFields.bind(this);
   }
 
@@ -33,20 +29,15 @@ class EGPost extends React.Component {
   }
 
   render() {
-    const { cols, onSubmit, className } = this.props;
+    const { spec, onSubmit, className } = this.props;
 
     return (
       <div className={className}>
-        <div className={styles.postHeading}>
-          {this.state.entryState ? "Add new data" : "Edit highlighted data"}
-        </div>
-
         <EGForm
           className={styles.form}
-          cols={cols}
-          fieldProps={this.getFormFields(cols)}
+          cols={spec}
+          fieldProps={this.getFormFields(spec)}
           onSubmit={onSubmit}
-          editorState={this.state.entryState}
         />
 
       </div>
@@ -54,9 +45,10 @@ class EGPost extends React.Component {
   }
 }
 
-EGPost.propTypes = {
-  cols     : React.PropTypes.array.isRequired,
-  onSubmit : React.PropTypes.func.isRequired,
+Entry.propTypes = {
+  className : React.PropTypes.string,
+  spec      : React.PropTypes.array.isRequired,
+  onSubmit  : React.PropTypes.func.isRequired,
 };
 
-export { EGPost };
+export { Entry };

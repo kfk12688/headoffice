@@ -4,7 +4,7 @@ import {
   EDITOR_REQUEST, EDITOR_SUCCESS, EDITOR_FAILURE, EDIT_FAILURE, EDIT_REQUEST, EDIT_SUCCESS, EDIT_SCHEMA_REQUEST,
   EDIT_SCHEMA_SUCCESS, EDIT_SCHEMA_FAILURE, ADD_FIELD
 } from "./types";
-import * as api from "./api";
+import * as api from "../api";
 
 // Async Actions
 function _getTemplate(params) {

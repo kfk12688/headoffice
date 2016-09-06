@@ -1,10 +1,7 @@
-/**
- * Created by sharavan on 06/09/16.
- */
-import Editor from "../DataEntry/Editor";
+import Editor from "./Editor";
 
 const Route = {
-  path : "entry/:id",
+  path : "view/:id",
   getComponent(nextState, replace) {
     require.ensure([], () => {
       replace(null, Editor);

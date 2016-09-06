@@ -1,0 +1,44 @@
+@import "../../../styles/colors";
+@import "../config";
+
+@titleBarHt: 45px;
+
+.container {
+  .absolute-position-mixin(@breadcrumbHt);
+}
+
+// TitleBar Style
+.titleBar {
+  .absolute-position-mixin();
+}
+
+// Sidebar Container Style
+.sidebar {
+  .absolute-position-mixin(@titleBarHt, @left:auto);
+  width: 180px;
+  background-color: @grey50;
+  border-left: 1px solid @grey300;
+}
+
+.sbBtn {
+  font-size: 13px;
+  margin-left: 5px;
+  color: @grey700;
+  margin-top: 5px;
+  &:hover {
+    color: @grey500;
+  }
+}
+
+.sbIcon {
+  font-size: 16px;
+  color: @grey900;
+}
+
+// DataGrid Container Style
+.entrygrid {
+  .absolute-position-mixin(@top: @titleBarHt, @right: 180px);
+  margin-bottom: 10px;
+  margin-top: 5px;
+  background-color: @white;
+}

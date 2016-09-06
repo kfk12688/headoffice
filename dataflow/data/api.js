@@ -1,4 +1,4 @@
-import fetch from "../../fetchWrapper";
+import fetch from "../fetchWrapper";
 
 const api = "http://localhost:3001/api/data";
 

@@ -11,7 +11,8 @@ module.exports = {
   resolve : {
     root  : path.resolve(__dirname),
     alias : {
-      components : path.resolve(__dirname, "components")
+      components : path.resolve(__dirname, "components"),
+      dataflow   : path.resolve(__dirname, "dataflow")
     }
   },
   output  : {
@@ -26,7 +27,7 @@ module.exports = {
   module  : {
     loaders : [{
       test    : /\.js$/,
-      loader : "babel",
+      loader  : "babel",
       exclude : /node_modules/,
       include : __dirname
     }, {

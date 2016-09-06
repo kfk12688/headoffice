@@ -3,9 +3,9 @@ import _ from "underscore";
 import { connect } from "react-redux";
 import { Breadcrumb, SearchBar, DataGrid } from "components";
 import { Menu } from "./Menu";
-import * as filterActions from "../../dataflow/filter/actions";
-import * as cmActions from "../../dataflow/menu/actions";
-import * as contentActions from "../../dataflow/content/facing/actions";
+import * as filterActions from "dataflow/filter/actions";
+import * as cmActions from "dataflow/menu/actions";
+import * as listActions from "dataflow/template/list/actions";
 import { Formatter as formatter } from "../utils";
 import styles from "./Template.less";
 
@@ -287,7 +287,7 @@ Template.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  list        : state.content.facing,
+  list        : state.template.list,
   actionsMenu : state.menu,
   filter      : state.filter,
 });
@@ -297,9 +297,9 @@ const mapDispatchToProps = (dispatch) => ({
   selectAll            : (keys) => dispatch(cmActions.selectAll(keys)),
   clearSelection       : () => dispatch(cmActions.clearSelection()),
   toggleSelection      : (index) => dispatch(cmActions.toggleSelection(index)),
-  loadTemplate         : (params) => dispatch(contentActions.loadTemplate(params)),
-  deleteTemplate       : (params) => dispatch(contentActions.deleteTemplate(params)),
-  addTemplate          : (params) => dispatch(contentActions.addTemplate(params)),
+  loadTemplate         : (params) => dispatch(listActions.loadTemplate(params)),
+  deleteTemplate       : (params) => dispatch(listActions.deleteTemplate(params)),
+  addTemplate          : (params) => dispatch(listActions.addTemplate(params)),
   filterChangeHandlers : {
     setDateModifiedStart : (e) => dispatch(filterActions.setDateModifiedStart(e)),
     setDateModifiedEnd   : (e) => dispatch(filterActions.setDateModifiedEnd(e)),

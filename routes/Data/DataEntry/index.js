@@ -1,10 +1,10 @@
-import Editor from "./Editor";
+import EntryForm from "./EntryForm";
 
 const Route = {
-  path : ":id",
+  path : "entry/:id",
   getComponent(nextState, replace) {
     require.ensure([], () => {
-      replace(null, Editor);
+      replace(null, EntryForm);
     });
   },
 };

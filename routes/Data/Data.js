@@ -3,10 +3,10 @@ import _ from "underscore";
 import { connect } from "react-redux";
 import { Breadcrumb, SearchBar, DataGrid } from "components";
 import { Menu } from "./Menu";
-import * as filterActions from "../../dataflow/filter/actions";
-import * as cmActions from "../../dataflow/menu/actions";
-import * as contentActions from "../../dataflow/content/facing/actions";
-import { getRows, Formatter as formatter } from "../utils";
+import * as filterActions from "dataflow/filter/actions";
+import * as cmActions from "dataflow/menu/actions";
+import * as listActions from "dataflow/data/list/actions";
+import { Formatter as formatter } from "../utils";
 import styles from "./Data.less";
 
 class Data extends Component {
@@ -39,7 +39,7 @@ class Data extends Component {
       {
         dataKey    : "templateName",
         linkRef    : {
-          path   : "/data",
+          path   : "/data/view",
           urlKey : "id",
         },
         button     : {
@@ -92,7 +92,7 @@ class Data extends Component {
       "updated-at-col" : 140,
     };
 
-    this.colSortItems = this.getColumnSortList(props.sortColumn);
+    this.colSortItems = this.getColumnSortList();
   }
 
   componentWillMount() {
@@ -115,7 +115,7 @@ class Data extends Component {
     };
   }
 
-  getColumnSortList(cb) {
+  getColumnSortList() {
     const sortOrders = [
       {
         date   : "New - Old",
@@ -161,8 +161,8 @@ class Data extends Component {
     }
 
     const {
-      list, actionsMenu, rows, toggleSidebar, selectAll,
-      clearSelection, sortColumn, toggleSelection,
+      list, actionsMenu, toggleSidebar, selectAll,
+      clearSelection, toggleSelection,
     } = this.props;
 
     const { filterChangeHandlers, filter } = this.props;
@@ -212,8 +212,7 @@ class Data extends Component {
           actions={this.actionsCollection}
           sortKey={sortKey}
           colSortItems={this.colSortItems.items}
-          colSortFunction={sortColumn}
-          keys={Object.keys(rows)}
+          keys={Object.keys(list.data)}
           selectAllRows={selectAll}
           clearRowSelection={clearSelection}
         />
@@ -235,8 +234,7 @@ class Data extends Component {
             isLoading={list.isLoading}
             cols={this.colSpec}
             colWidths={this.colWidths}
-            rows={rows}
-            colSortFunction={sortColumn}
+            rows={list.data}
             sortKey={filter.sortKey}
             sortAscending={filter.sortAscending}
             onRowClick={toggleSelection}
@@ -282,7 +280,6 @@ Data.propTypes = {
   selectAll            : React.PropTypes.func.isRequired,
   clearSelection       : React.PropTypes.func.isRequired,
   toggleSelection      : React.PropTypes.func.isRequired,
-  sortColumn           : React.PropTypes.func.isRequired,
   loadTemplate         : React.PropTypes.func.isRequired,
   deleteTemplate       : React.PropTypes.func.isRequired,
   filterChangeHandlers : React.PropTypes.shape({
@@ -294,18 +291,10 @@ Data.propTypes = {
   }),
 };
 
-const filterBindings = {
-  dateFilter     : "createdAt",
-  textFilter     : "owner",
-  recentFilter   : "createdAt",
-  favoriteFilter : "favorite",
-};
-
 const mapStateToProps = (state) => ({
-  list        : state.content.facing.data,
+  list        : state.data.list,
   actionsMenu : state.menu,
   filter      : state.filter,
-  rows        : getRows(state.content.facing.data, state.filter, filterBindings),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -313,9 +302,8 @@ const mapDispatchToProps = (dispatch) => ({
   selectAll            : (keys) => dispatch(cmActions.selectAll(keys)),
   clearSelection       : () => dispatch(cmActions.clearSelection()),
   toggleSelection      : (index) => dispatch(cmActions.toggleSelection(index)),
-  sortColumn           : (sortKey, sortOrder) => dispatch(filterActions.sortFilter(sortKey, sortOrder)),
-  loadTemplate         : (params) => dispatch(contentActions.loadTemplate(params)),
-  deleteTemplate       : (params) => dispatch(contentActions.deleteTemplate(params)),
+  loadTemplate         : (params) => dispatch(listActions.loadTemplate(params)),
+  deleteTemplate       : (params) => dispatch(listActions.deleteTemplate(params)),
   filterChangeHandlers : {
     setDateModifiedStart : (e) => dispatch(filterActions.setDateModifiedStart(e)),
     setDateModifiedEnd   : (e) => dispatch(filterActions.setDateModifiedEnd(e)),

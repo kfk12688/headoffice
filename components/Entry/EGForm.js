@@ -1,63 +1,54 @@
 import _ from "underscore";
 import React, { Component } from "react";
 import { Field, FieldArray, reduxForm } from "redux-form";
-import { Button, TextInput, NumericInput, DateInput } from "components";
+import { getComponentFromType, Button } from "components";
 import styles from "./EGForm.less";
-
-const zPad = (string, size) => {
-  let retVal = "";
-  if (typeof string !== "string") retVal = string.toString();
-  while (retVal.length !== size) retVal = `0${retVal}`;
-  return retVal;
-};
 
 class EGForm extends Component {
   constructor(props) {
     super(props);
+    this.subFields = [];
 
     this.resetForm = this.resetForm.bind(this);
     this.constructFields = this.constructFields.bind(this);
-
-    this.renderFieldArray = this.renderFieldArray.bind(this);
-  }
-
-  getComponent(type) {
-    if (type === "Date") return DateInput;
-    if (type === "Number") return NumericInput;
-    if (type === "SchemaArray") return this.renderFieldArray;
-    return TextInput;
+    this.constructSubFields = this.constructSubFields.bind(this);
   }
 
   constructFields(fieldProps) {
     const fields = _.map(fieldProps, (field, key) => {
       const { title, type, sub } = field;
-      const component = this.getComponent(type);
+      const renderComponent = getComponentFromType(type);
+      const name = key;
+
+      if (sub) return null;
+      return (
+        <div key={name} className={styles.fieldsRow}>
+          <div className={styles.title}>{title} </div>
+          <Field className={styles.box} name={name} {...renderComponent}/>
+        </div>
+      );
+    });
+
+    return fields;
+  }
+
+  constructSubFields(fieldProps) {
+    const fields = _.map(fieldProps, (field, key) => {
+      const { title, type, sub } = field;
+      const renderComponent = getComponentFromType(type);
       const name = key;
 
       if (sub) {
         return (
-          <div key={name}>
-            <span className={styles.inputTitle}>{title} </span>
-            <FieldArray
-              className={styles.inputField}
-              name={name}
-              component={component}
-              subKeys={sub}
+          <div key={name} className={styles.fieldsRowArray}>
+            <FieldArray name={name} subKeys={sub}
+                        title={title} {...renderComponent}
             />
           </div>
         );
       }
 
-      return (
-        <div key={name} className={styles.fieldsRow}>
-          <span className={styles.inputTitle}>{title} </span>
-          <Field
-            className={styles.inputField}
-            name={name}
-            component={component}
-          />
-        </div>
-      );
+      return null;
     });
 
     return fields;
@@ -68,66 +59,15 @@ class EGForm extends Component {
     this.props.reset();
   }
 
-  renderFieldArray(props) {
-    const { fields, name, subKeys } = props;
-    const onClickAddHandler = e => {
-      e.preventDefault();
-      fields.push({});
-    };
-    const onClickRemoveHandler = (e, index) => {
-      e.preventDefault();
-      fields.remove(index);
-    };
-    const areFieldsPresent = (fields.length !== 0);
-    const subFields = () => fields.map((field, idx) =>
-      <div key={idx}>
-        <span> {zPad(idx + 1, 2)} </span>
-        {_.map(subKeys, (subField, key) => {
-          const { title, type } = subField;
-          const component = this.getComponent(type);
-          return (
-            <span key={key}>
-              <span>{title} </span>
-              <Field
-                className={styles.inputField}
-                name={`${field}.${key}`}
-                component={component}
-              />
-            </span>
-          );
-        })}
-        <Button accent className={styles.clsBtn} faName="times" onClick={e => onClickRemoveHandler(e, idx)}/>
-      </div>
-    );
-
-    return (
-      <span>
-        <Button accent="indigo" className={styles.addBtn} title={`Click to add data to ${name}`}
-                onClick={onClickAddHandler}
-        >
-          Add Data
-        </Button>
-        {
-          areFieldsPresent &&
-          <div className={styles.sub}>
-            <div className={styles.fieldCounter}>{`${fields.length} Fields`}</div>
-            {subFields()}
-          </div>
-        }
-      </span>
-    );
-  }
-
   render() {
     const { className, handleSubmit, fieldProps } = this.props;
     const fields = this.constructFields(fieldProps);
-    const fields = this.constructSubFields(fieldProps);
+    const subFields = this.constructSubFields(fieldProps);
 
     return (
       <form className={className} onSubmit={handleSubmit}>
         <div className={styles.fields}>{fields}</div>
         <div className={styles.subFields}>{subFields}</div>
-
         <div className={styles.formSubmitGroup}>
           <Button className={styles.formSubmitGroupBtn} accent type="submit">Save</Button>
           <Button className={styles.formSubmitGroupBtn} bordered onClick={this.resetForm}>Cancel</Button>

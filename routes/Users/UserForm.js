@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Button, TextInput, NumericInput } from "components";
-import "../../styles/Select.css";
 import cx from "classnames";
 import { Field, reduxForm } from "redux-form";
 import styles from "./UserForm.less";

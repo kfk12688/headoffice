@@ -48,8 +48,6 @@ class ComboSearchInput extends React.Component {
     this.assignTarget = target => this.ctrls.target = target;
     this.assignInput = input => this.ctrls.input = input;
 
-    this.resetState = this.resetState.bind(this);
-
     this.togglePopup = this.togglePopup.bind(this);
     this.setSearchText = this.setSearchText.bind(this);
     this.setSelectedText = this.setSelectedText.bind(this);
@@ -89,14 +87,6 @@ class ComboSearchInput extends React.Component {
     const { input } = this.props;
     input.onChange(value);
     this.setState({ showPopup : false, searchText : "" });
-  }
-
-  resetState() {
-    this.setState({
-      searchText : "",
-      options    : [],
-      isLoading  : false,
-    });
   }
 
   focus() {
@@ -169,11 +159,11 @@ class ComboSearchInput extends React.Component {
     const { className, input } = this.props;
 
     return (
-      <div>
+      <div className={className}>
         <div
           tabIndex="0"
           ref={this.assignTarget}
-          className={cx(className, styles.base)}
+          className={styles.base}
           onClick={this.togglePopup}
         >
           <i className={cx("fa fa-caret-down", styles.faIcon)} title="Click to open"/>

@@ -13,7 +13,7 @@ class Entry extends React.Component {
     const fields = {};
 
     _.forEach(cols, col => {
-      const { fieldName, fieldSchema, fieldType, displayText } = col;
+      const { fieldName, fieldSchema, fieldType, fieldProps, displayText } = col;
       let fieldSub = undefined;
       if (Array.isArray(fieldSchema) && (fieldSchema.length !== 0)) fieldSub = this.getFormFields(fieldSchema);
 
@@ -21,6 +21,7 @@ class Entry extends React.Component {
         key   : fieldName,
         type  : fieldType,
         title : displayText,
+        props : fieldProps,
         sub   : fieldSub,
       };
     });
@@ -29,10 +30,12 @@ class Entry extends React.Component {
   }
 
   render() {
-    const { spec, onSubmit, className } = this.props;
+    const { spec, onSubmit, className, templateName } = this.props;
 
     return (
       <div className={className}>
+        <div className={styles.title}>{`Add a new row to ${templateName} table`}</div>
+
         <EGForm
           className={styles.form}
           cols={spec}
@@ -46,9 +49,10 @@ class Entry extends React.Component {
 }
 
 Entry.propTypes = {
-  className : React.PropTypes.string,
-  spec      : React.PropTypes.array.isRequired,
-  onSubmit  : React.PropTypes.func.isRequired,
+  className    : React.PropTypes.string,
+  templateName : React.PropTypes.string,
+  spec         : React.PropTypes.array.isRequired,
+  onSubmit     : React.PropTypes.func.isRequired,
 };
 
 export { Entry };

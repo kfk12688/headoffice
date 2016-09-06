@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import _ from "underscore";
 import { connect } from "react-redux";
 import { Breadcrumb, SearchBar, DataGrid } from "components";
-import { ContentMenu } from "./ContentMenu";
+import { Menu } from "./Menu";
 import * as filterActions from "../../dataflow/filter/actions";
 import * as cmActions from "../../dataflow/menu/actions";
 import * as contentActions from "../../dataflow/content/facing/actions";
-import { getRows, Formatter as formatter } from "../utils";
-import styles from "./Content.less";
+import { Formatter as formatter } from "../utils";
+import styles from "./Template.less";
 
-class Content extends Component {
+class Template extends Component {
   constructor(props) {
     super(props);
     this.getActions = this.getActions.bind(this);
@@ -18,7 +18,7 @@ class Content extends Component {
       { name : "Delete Template", handler : actions.deleteTemplate }, // fixme
     ];
 
-    // Defines the static colum specification for the Content Area
+    // Defines the static colum specification for the Template Area
     this.colSpec = [
       {
         dataKey     : "isSelected",
@@ -39,18 +39,11 @@ class Content extends Component {
       {
         dataKey    : "templateName",
         linkRef    : {
-          path   : "/content/edit",
+          path   : "template",
           urlKey : "id",
         },
-        button     : {
-          buttonText : "Enter Data",
-          link       : {
-            path : "/content/data",
-            key  : "id",
-          },
-        },
         name       : "name-col",
-        renderType : "buttonLink",
+        renderType : "link",
         text       : "Name",
         "actions"  : this.actionsCollection,
       },
@@ -92,7 +85,7 @@ class Content extends Component {
       "updated-at-col" : 140,
     };
 
-    this.colSortItems = this.getColumnSortList(props.sortColumn);
+    this.colSortItems = this.getColumnSortList();
     this.createBlankTemplate = this.createBlankTemplate.bind(this);
   }
 
@@ -116,7 +109,7 @@ class Content extends Component {
     };
   }
 
-  getColumnSortList(cb) {
+  getColumnSortList() {
     const sortOrders = [
       {
         date   : "New - Old",
@@ -157,7 +150,6 @@ class Content extends Component {
   }
 
   createBlankTemplate(data) {
-    console.log(data);
     this.props.addTemplate(data);
   }
 
@@ -167,14 +159,11 @@ class Content extends Component {
     }
 
     const {
-      list, actionsMenu, rows, toggleSidebar, selectAll,
-      clearSelection, sortColumn, toggleSelection,
+      list, actionsMenu, toggleSidebar, selectAll,
+      clearSelection, toggleSelection,
     } = this.props;
 
     const { filterChangeHandlers, filter } = this.props;
-    const sortOrderIndex = filter.sortAscending ? 0 : 1;
-    const sortKey = filter.sortKey ? this.colSortItems.displayText[filter.sortKey][sortOrderIndex] : null;
-
     const searchConfig = [
       {
         label         : "Owner",
@@ -211,15 +200,13 @@ class Content extends Component {
     return (
       <div>
         {/* Contextual Menu */}
-        <ContentMenu
+        <Menu
           className={styles.contextMenu}
           toggleSidebar={toggleSidebar}
           actionsMenu={actionsMenu}
           actions={this.actionsCollection}
-          sortKey={sortKey}
           colSortItems={this.colSortItems.items}
-          colSortFunction={sortColumn}
-          keys={Object.keys(rows)}
+          keys={Object.keys(list.data)}
           selectAllRows={selectAll}
           clearRowSelection={clearSelection}
           addTemplate={this.createBlankTemplate}
@@ -242,8 +229,7 @@ class Content extends Component {
             isLoading={list.isLoading}
             cols={this.colSpec}
             colWidths={this.colWidths}
-            rows={rows}
-            colSortFunction={sortColumn}
+            rows={list.data}
             sortKey={filter.sortKey}
             sortAscending={filter.sortAscending}
             onRowClick={toggleSelection}
@@ -274,7 +260,7 @@ class Content extends Component {
   }
 }
 
-Content.propTypes = {
+Template.propTypes = {
   rollUp   : React.PropTypes.bool,
   children : React.PropTypes.node,
 
@@ -282,14 +268,12 @@ Content.propTypes = {
   list        : React.PropTypes.object.isRequired,
   actionsMenu : React.PropTypes.object.isRequired,
   filter      : React.PropTypes.object.isRequired,
-  rows        : React.PropTypes.object.isRequired,
 
   // Actions
   toggleSidebar        : React.PropTypes.func.isRequired,
   selectAll            : React.PropTypes.func.isRequired,
   clearSelection       : React.PropTypes.func.isRequired,
   toggleSelection      : React.PropTypes.func.isRequired,
-  sortColumn           : React.PropTypes.func.isRequired,
   loadTemplate         : React.PropTypes.func.isRequired,
   deleteTemplate       : React.PropTypes.func.isRequired,
   addTemplate          : React.PropTypes.func.isRequired,
@@ -302,18 +286,10 @@ Content.propTypes = {
   }),
 };
 
-const filterBindings = {
-  dateFilter     : "createdAt",
-  textFilter     : "owner",
-  recentFilter   : "createdAt",
-  favoriteFilter : "favorite",
-};
-
 const mapStateToProps = (state) => ({
-  list        : state.content.facing.data,
+  list        : state.content.facing,
   actionsMenu : state.menu,
   filter      : state.filter,
-  rows        : getRows(state.content.facing.data, state.filter, filterBindings),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -321,7 +297,6 @@ const mapDispatchToProps = (dispatch) => ({
   selectAll            : (keys) => dispatch(cmActions.selectAll(keys)),
   clearSelection       : () => dispatch(cmActions.clearSelection()),
   toggleSelection      : (index) => dispatch(cmActions.toggleSelection(index)),
-  sortColumn           : (sortKey, sortOrder) => dispatch(filterActions.sortFilter(sortKey, sortOrder)),
   loadTemplate         : (params) => dispatch(contentActions.loadTemplate(params)),
   deleteTemplate       : (params) => dispatch(contentActions.deleteTemplate(params)),
   addTemplate          : (params) => dispatch(contentActions.addTemplate(params)),
@@ -335,4 +310,4 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 export default
-connect(mapStateToProps, mapDispatchToProps)(Content);
+connect(mapStateToProps, mapDispatchToProps)(Template);

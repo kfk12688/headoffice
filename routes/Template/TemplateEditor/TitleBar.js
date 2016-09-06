@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import moment from "moment";
 import cx from "classnames";
 import { Modal, FavoriteCell } from "components";
-import EditTemplateForm from "../TemplateForm";
+import EditTemplateForm from "../CreateForm";
 import styles from "./TitleBar.less";
 
 const MetaInfo = ({ children }) => <span className={styles.metaInfo}>{children}&nbsp;&#8226;&nbsp;</span>;

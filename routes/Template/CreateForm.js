@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
 import { Button, TextInput } from "components";
-import styles from "./TemplateForm.less";
+import styles from "./CreateForm.less";
 
 // FORM COMPONENT FOR Creating a new template
-class CreateTemplateForm extends Component {
+class CreateForm extends Component {
   constructor() {
     super();
     this.onSubmit = this.onSubmit.bind(this);
@@ -57,7 +57,7 @@ class CreateTemplateForm extends Component {
   }
 }
 
-CreateTemplateForm.propTypes = {
+CreateForm.propTypes = {
   handleSubmit : React.PropTypes.func.isRequired,
   reset        : React.PropTypes.func.isRequired,
   toggleModal  : React.PropTypes.func,
@@ -66,4 +66,4 @@ CreateTemplateForm.propTypes = {
 
 export default reduxForm({
   form : "newTemplate",
-})(CreateTemplateForm);
+})(CreateForm);

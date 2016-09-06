@@ -1,5 +1,6 @@
 import App from "./App";
-import contentRoute from "../Content";
+import templateRoute from "../Template";
+import dataRoute from "../Data";
 import userRoute from "../Users";
 import workbooksRoute from "../Workbooks";
 
@@ -7,7 +8,8 @@ const RootRoute = {
   path        : "/",
   component   : App,
   childRoutes : [
-    contentRoute,
+    templateRoute,
+    dataRoute,
     userRoute,
     workbooksRoute,
   ],

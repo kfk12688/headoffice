@@ -10,7 +10,7 @@ export const sortFilter = createAction(SORT, (sortKey, sortOrder) => ({
 }));
 
 /**
- * Content Filter Values
+ * Template Filter Values
  */
 export const setDateModifiedStart = createAction(SET_DTMOD_START, value => ({
   date : value,

@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import { Button, Modal, PopupButton, ComboInput } from "components";
-import CreateTemplateForm from "./TemplateForm";
+import { Button, PopupButton, ComboInput } from "components";
 import cx from "classnames";
-import styles from "./ContentMenu.less";
+import styles from "./Menu.less";
 
-class ContentMenu extends Component {
+class Menu extends Component {
   constructor(props) {
     super(props);
     this.state = { showModal : false };
@@ -59,16 +58,6 @@ class ContentMenu extends Component {
               className={cx(styles.icon, { [styles.iconActive] : actionsMenu.showSidebar })}
             />
 
-            <Modal
-              show={this.state.showModal}
-              toggleModal={this.toggleModal}
-              caption="Add New Content"
-              faName="plus"
-              accent
-            >
-              <CreateTemplateForm submitForm={addTemplate} toggleModal={this.toggleModal}/>
-            </Modal>
-
             <PopupButton label={`${actionsMenu.selectedKeys.length} selected`}>
               <div onClick={this.selectAllHandler}>Select All</div>
               <div onClick={clearRowSelection}>Clear selection</div>
@@ -95,4 +84,4 @@ class ContentMenu extends Component {
   }
 }
 
-export { ContentMenu };
+export { Menu };

@@ -1,17 +1,15 @@
-import Content from "./Content";
+import Template from "./Template";
 import TemplateEditor from "./TemplateEditor";
-import TemplateEntry from "./TemplateEntry";
 
 const Route = {
-  path        : "content",
+  path        : "template",
   getComponent(nextState, replace) {
     require.ensure([], () => {
-      replace(null, Content);
+      replace(null, Template);
     });
   },
   childRoutes : [
     TemplateEditor,
-    TemplateEntry,
   ],
 };
 

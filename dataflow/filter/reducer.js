@@ -17,7 +17,7 @@ const reducer = handleActions({
   }),
 
   /**
-   * Content Filter Reducer
+   * Template Filter Reducer
    */
   [SET_DTMOD_START] : (state, action) => ({
     ...state,

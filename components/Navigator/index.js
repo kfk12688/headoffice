@@ -21,8 +21,9 @@ const Navigator = () =>
     </div>
     <div className={styles.nav}>
       <TabGroup childClassName={styles.link}>
-        <Tab><NavLink to="/content">Content</NavLink></Tab>
-        <Tab><NavLink to="/view">View</NavLink></Tab>
+        <Tab><NavLink to="/template">Templates</NavLink></Tab>
+        <Tab><NavLink to="/data">Data</NavLink></Tab>
+        <Tab><NavLink to="/view">Views</NavLink></Tab>
         <Tab><NavLink to="/user">Users</NavLink></Tab>
         <Tab><NavLink to="/workbooks">Workbooks</NavLink></Tab>
       </TabGroup>

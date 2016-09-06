@@ -1,0 +1,29 @@
+@import "../../styles/colors";
+
+.postContainer {
+  .absolute-position-mixin(@top: 52%);
+  font-family: "Lucida Sans Unicode";
+  font-size: 13px;
+  margin-top: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: @white;
+}
+
+.selected {
+  color: @red400;
+  cursor: pointer;
+}
+
+.postHeading {
+  color: @red600;
+  margin-left: 8px;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 600;
+}
+
+.form {
+  .absolute-position-mixin();
+  font-size: 12px;
+}

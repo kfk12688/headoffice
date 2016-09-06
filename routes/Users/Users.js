@@ -18,7 +18,7 @@ class User extends Component {
       { name : "XXXify User", handler : actions.deleteUser },
     ];
 
-    // Defines the static colum specification for the Content Area
+    // Defines the static colum specification for the Template Area
     this.colSpec = [
       {
         dataKey     : "isSelected",

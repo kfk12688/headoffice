@@ -5,12 +5,14 @@ import menu from "./menu/reducer";
 import filter from "./filter/reducer";
 import user from "./user/reducer";
 import workbooks from "./workbooks/reducer";
-import content from "./content";
+import template from "./template";
+import data from "./data";
 
 const rootReducer = combineReducers({
   menu,
   filter,
-  content,
+  template,
+  data,
   user,
   workbooks,
   form : formReducer,

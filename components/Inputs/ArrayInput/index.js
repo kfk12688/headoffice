@@ -23,7 +23,6 @@ class ArrayInput extends Component {
 
   getFields() {
     const { fields, subKeys } = this.props;
-    console.log(subKeys);
     const areFieldsPresent = (fields.length !== 0);
     const onClickRemoveHandler = (e, index) => {
       e.preventDefault();

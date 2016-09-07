@@ -10,18 +10,20 @@ class EGForm extends Component {
     this.subFields = [];
 
     this.resetForm = this.resetForm.bind(this);
+    this.submitForm = this.submitForm.bind(this);
     this.constructFields = this.constructFields.bind(this);
     this.constructSubFields = this.constructSubFields.bind(this);
   }
 
   constructFields(fieldProps) {
-    const fields = _.map(fieldProps, (field, key) => {
+    const fields = [];
+    _.forEach(fieldProps, (field, key) => {
       const { title, type, sub } = field;
       const renderComponent = getComponentFromType(type);
       const name = key;
 
-      if (sub) return null;
-      return (
+      if (sub) return;
+      fields.push(
         <div key={name} className={styles.fieldsRow}>
           <div className={styles.title}>{title} </div>
           <Field className={styles.box} name={name} {...renderComponent}/>
@@ -33,13 +35,14 @@ class EGForm extends Component {
   }
 
   constructSubFields(fieldProps) {
-    const fields = _.map(fieldProps, (field, key) => {
+    const fields = [];
+    _.forEach(fieldProps, (field, key) => {
       const { title, type, sub } = field;
       const renderComponent = getComponentFromType(type);
       const name = key;
 
       if (sub) {
-        return (
+        fields.push(
           <div key={name} className={styles.fieldsRowArray}>
             <FieldArray name={name} subKeys={sub}
                         title={title} {...renderComponent}
@@ -47,8 +50,6 @@ class EGForm extends Component {
           </div>
         );
       }
-
-      return null;
     });
 
     return fields;
@@ -59,15 +60,23 @@ class EGForm extends Component {
     this.props.reset();
   }
 
+  submitForm(e) {
+    e.preventDefault();
+
+    const { handleSubmit } = this.props;
+    handleSubmit();
+
+    this.props.reset();
+  }
+
   render() {
-    const { className, handleSubmit, fieldProps } = this.props;
+    const { className, fieldProps } = this.props;
     const fields = this.constructFields(fieldProps);
     const subFields = this.constructSubFields(fieldProps);
-
     return (
-      <form className={className} onSubmit={handleSubmit}>
+      <form className={className} onSubmit={this.submitForm}>
         <div className={styles.fields}>{fields}</div>
-        <div className={styles.subFields}>{subFields}</div>
+        {(subFields.length !== 0) && <div className={styles.subFields}>{subFields}</div>}
         <div className={styles.formSubmitGroup}>
           <Button className={styles.formSubmitGroupBtn} accent type="submit">Save</Button>
           <Button className={styles.formSubmitGroupBtn} bordered onClick={this.resetForm}>Cancel</Button>

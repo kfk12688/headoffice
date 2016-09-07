@@ -9,7 +9,7 @@ const api = "http://localhost:3001/api";
 const listFieldValues = (query) => {
   const { refId, refFieldName } = query;
 
-  const fetchPromise = () => fetch("GET", `${api}/user/${refId}/${refFieldName}`)
+  const fetchPromise = () => fetch("GET", `${api}/list/${refId}/${refFieldName}`)
     .then(res => res.json())
     .then(json => ({
       options : _.map(json.data, item => ({ label : item[refFieldName], id : item._id })),

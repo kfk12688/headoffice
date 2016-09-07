@@ -18,10 +18,6 @@ class EntryForm extends Component {
 
   addRow(rowData) {
     const { entryStore : { id : templateId } } = this.props;
-    // console.log({
-    //   templateId,
-    //   row : rowData,
-    // });
 
     this.props.addRow({
       templateId,

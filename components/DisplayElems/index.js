@@ -46,15 +46,15 @@ function getCell(transform, type, row, col) {
     const { buttonText, link } = col.button;
 
     return (
-      <div className={styles.linkCell}>
-        <LinkCell className={styles.linkCellLink} value={value}/>
+      <div className={styles.btnCell}>
+        <LinkCell className={styles.btnCellLink} value={value}/>
         <ButtonCell
-          className={styles.linkCellAnchorButton}
-          btnClassName={styles.linkCellAnchorButtonBtn}
+          className={styles.btnCellAnchorButton}
+          btnClassName={styles.btnCellAnchorButtonBtn}
           buttonText={buttonText}
           link={`${link.path}/${row[link.key]}`}
         />
-        <ActionCell className={styles.linkCellAction} actions={actions}/>
+        <ActionCell className={styles.btnCellAction} actions={actions}/>
       </div>
     );
   }

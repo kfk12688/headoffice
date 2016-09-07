@@ -79,9 +79,9 @@ class Menu extends Component {
         </span>
 
         <span className={styles.right}>
-          <span>Sort by : </span>
+          <span className={styles.sortTitle}>Sort by : </span>
           <ComboInput
-            className={styles.sortBlock}
+            className={styles.sortList}
             label={sortKey}
             list={colSortItems}
             input={{

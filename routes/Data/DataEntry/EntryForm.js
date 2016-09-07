@@ -18,10 +18,6 @@ class EntryForm extends Component {
 
   addRow(rowData) {
     const { entryStore : { id : templateId } } = this.props;
-    // console.log({
-    //   templateId,
-    //   row : rowData,
-    // });
 
     this.props.addRow({
       templateId,
@@ -31,7 +27,7 @@ class EntryForm extends Component {
 
   render() {
     const { entryStore } = this.props;
-    const { spec, data, loadingIndicators, id } = entryStore;
+    const { spec, data, loadingIndicators, id, templateName } = entryStore;
 
     return (
       <div className={styles.container}>
@@ -52,6 +48,7 @@ class EntryForm extends Component {
         {/* DataGrid Container */}
         <Entry
           className={styles.entrygrid}
+          templateName={templateName}
           spec={spec}
           data={data}
           isLoading={loadingIndicators}

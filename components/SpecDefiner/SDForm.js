@@ -7,7 +7,7 @@ import styles from "./SDForm.less";
 const Row = ({ prop, component, ...rest }) =>
   <div style={{ marginBottom : 5 }}>
     <span className={styles.key}>{prop.displayText}</span>
-    <Field name={prop.key} {...rest} component={component}/>
+    <Field name={prop.key} className={styles.field} {...rest} component={component}/>
   </div>;
 Row.propTypes = {
   prop      : React.PropTypes.object,
@@ -62,58 +62,6 @@ class EditorEntryForm extends Component {
     }
 
     return formElements;
-
-    //
-    // let formElements = [
-    //   <Row key="1">
-    //     <span className={styles.key}>Is Required</span>
-    //     <Field name="fieldProps.required" component={CheckBoxInput}/>
-    //   </Row>,
-    //   <Row key="2">
-    //     <span className={styles.key}>Is Unique</span>
-    //     <Field name="fieldProps.unique" component={CheckBoxInput}/>
-    //   </Row>,
-    //   <Row key="3">
-    //     <span className={styles.key}>Default values</span>
-    //     <Field name="fieldProps.default" component={TextInput}/>
-    //   </Row>,
-    // ];
-    //
-    // if (fieldType === "String") {
-    //   formElements = [
-    //     ...formElements,
-    //     <Row key="4">
-    //       <span className={styles.key}>Enum values</span>
-    //       <FieldArray name="enum" component={TextInput}/>
-    //     </Row>,
-    //   ];
-    // }
-    //
-    // if (fieldType === "Number") {
-    //   formElements = [
-    //     ...formElements,
-    //     <Row key="5">
-    //       <span className={styles.key}>Min value</span>
-    //       <Field name="fieldProps.min" component={NumericInput}/>
-    //     </Row>,
-    //     <Row key="6">
-    //       <span className={styles.key}>Max value</span>
-    //       <Field name="fieldProps.max" component={NumericInput}/>
-    //     </Row>,
-    //   ];
-    // }
-    //
-    // if (fieldType === "Reference") {
-    //   formElements = [
-    //     ...formElements,
-    //     <Row key="7">
-    //       <span className={styles.key}>Specify Object Ref</span>
-    //       <Field name="fieldProps.ref" component={TextInput}/>
-    //     </Row>,
-    //   ];
-    // }
-    //
-    // return formElements;
   }
 
   resetForm(e) {

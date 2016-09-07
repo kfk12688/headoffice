@@ -51,7 +51,7 @@ class Menu extends Component {
         className={cx(styles.root, className)}
       >
         <div className={styles.left}>
-          <div>
+          <span>
             <Button
               faName="sliders"
               onClick={toggleSidebar}
@@ -62,15 +62,15 @@ class Menu extends Component {
               <div onClick={this.selectAllHandler}>Select All</div>
               <div onClick={clearRowSelection}>Clear selection</div>
             </PopupButton>
-          </div>
+          </span>
 
           {(actionsMenu.selectedKeys.length >= 1) && this.getActions()}
         </div>
 
         <div className={styles.right}>
-          <span>Sort by : </span>
+          <span className={styles.sortTitle}>Sort by :</span>
           <ComboInput
-            className={styles.sortBlock}
+            className={styles.sortList}
             label={sortKey}
             list={colSortItems}
             input={{

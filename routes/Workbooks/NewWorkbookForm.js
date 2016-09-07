@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
 import { Button, TextInput } from "components";
-import "../../styles/Select.css";
 import cx from "classnames";
 import styles from "./NewWorkbookForm.less";
 

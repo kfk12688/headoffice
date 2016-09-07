@@ -16,6 +16,11 @@ const EntryGrid = (props) => {
     >
       {/* Table Nav and Meta Container */}
       <div className={styles.tableMetaContainer}>
+        <select>
+          <option value="10">10</option>
+          <option value="15">15</option>
+          <option value="20">20</option>
+        </select>
         <div>
           <i className="fa fa-angle-double-left"></i>
           <i className="fa fa-angle-left"></i>

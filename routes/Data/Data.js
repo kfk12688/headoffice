@@ -55,12 +55,6 @@ class Data extends Component {
         "actions"  : this.actionsCollection,
       },
       {
-        dataKey    : "createdBy.username",
-        name       : "user-col",
-        renderType : "text",
-        text       : "Created By",
-      },
-      {
         dataKey    : "workBook.name",
         name       : "workbook-col",
         renderType : "text",
@@ -86,7 +80,6 @@ class Data extends Component {
       "checkbox-col"   : 38,
       "favorite-col"   : 38,
       "name-col"       : 230,
-      "user-col"       : 100,
       "workbook-col"   : 170,
       "created-at-col" : 100,
       "updated-at-col" : 140,
@@ -101,12 +94,12 @@ class Data extends Component {
 
   getActions() {
     const _deleteTemplate = () => {
-      const { deleteTemplate, actionsMenu: { selectedKeys } } = this.props;
+      const { actionsMenu: { selectedKeys } } = this.props;
 
       if (selectedKeys.length > 1) {
-        deleteTemplate({ id : selectedKeys });
+        this.props.deleteTemplate({ id : selectedKeys });
       } else {
-        deleteTemplate({ id : selectedKeys[0] });
+        this.props.deleteTemplate({ id : selectedKeys[0] });
       }
     };
 

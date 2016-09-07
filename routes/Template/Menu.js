@@ -48,11 +48,11 @@ class Menu extends Component {
     } = this.props;
 
     return (
-      <div
+      <span
         className={cx(styles.root, className)}
       >
-        <div className={styles.left}>
-          <div>
+        <span className={styles.left}>
+          <span>
             <Button
               faName="sliders"
               onClick={toggleSidebar}
@@ -73,15 +73,15 @@ class Menu extends Component {
               <div onClick={this.selectAllHandler}>Select All</div>
               <div onClick={clearRowSelection}>Clear selection</div>
             </PopupButton>
-          </div>
+          </span>
 
           {(actionsMenu.selectedKeys.length >= 1) && this.getActions()}
-        </div>
+        </span>
 
-        <div className={styles.right}>
-          <span>Sort by : </span>
+        <span className={styles.right}>
+          <span className={styles.sortTitle}>Sort by : </span>
           <ComboInput
-            className={styles.sortBlock}
+            className={styles.sortList}
             label={sortKey}
             list={colSortItems}
             input={{
@@ -89,8 +89,8 @@ class Menu extends Component {
               onChange : colSortFunction,
             }}
           />
-        </div>
-      </div>
+        </span>
+      </span>
     );
   }
 }

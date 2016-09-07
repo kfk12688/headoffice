@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import moment from "moment";
-import { SearchInput, CheckBoxInput, ComboSearchInput, DateInput } from "components";
+import { SearchInput, CheckBoxInput, ComboInput, DateInput } from "components";
 import cx from "classnames";
 import styles from "./SearchBar.less";
 
@@ -39,10 +39,11 @@ class SearchBar extends Component {
               <span className={styles.label}>{label}</span>
               {value && <ClearSpan h={handler}/>}
             </div>
-            <ComboSearchInput
+            <ComboInput
               className={styles.inputContainer}
               matchParentWidth
               input={{ value, onChange : handler }}
+              list={[]}
             />
           </div>
         );

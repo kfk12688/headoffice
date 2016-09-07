@@ -42,36 +42,39 @@ class ComboInput extends React.Component {
     const { className, input } = this.props;
 
     return (
-      <span
-        ref={this.assignTarget}
-        className={cx(className, styles.base)}
-        onClick={this.handleClick}
-        onMouseEnter={() => this.setState({ hovered : true })}
-        onMouseLeave={() => this.setState({ hovered : false })}
-      >
-        <i className={cx("fa fa-caret-down", styles.faIcon)} title="Click to open"/>
-        {input.value}
-        <Overlay
-          rootClose
-          placement="bottom"
-          container={this.ctrls.target}
-          show={this.state.showPopup}
-          target={() => this.ctrls.target}
-          onHide={() => this.setState({ showPopup : false })}
+      <div className={className}>
+        <div
+          tabIndex="0"
+          ref={this.assignTarget}
+          className={styles.input}
+          onClick={this.handleClick}
+          onMouseEnter={() => this.setState({ hovered : true })}
+          onMouseLeave={() => this.setState({ hovered : false })}
         >
-          <div className={styles.items} style={this.popupMenuStyle}>
-            {
-              this.listItems.map(item =>
-                <div
-                  key={item.key}
-                  onClick={e => this.setFieldValue(e.target.innerText)}
-                >
-                  {item.text}
-                </div>)
-            }
-          </div>
-        </Overlay>
-      </span>
+          <i className={cx("fa fa-caret-down", styles.faIcon)} title="Click to open"/>
+          {input.value}
+          <Overlay
+            rootClose
+            placement="bottom"
+            container={this.ctrls.target}
+            show={this.state.showPopup}
+            target={() => this.ctrls.target}
+            onHide={() => this.setState({ showPopup : false })}
+          >
+            <div className={styles.items} style={this.popupMenuStyle}>
+              {
+                this.listItems.map(item =>
+                  <div
+                    key={item.key}
+                    onClick={e => this.setFieldValue(e.target.innerText)}
+                  >
+                    {item.text}
+                  </div>)
+              }
+            </div>
+          </Overlay>
+        </div>
+      </div>
     );
   }
 }

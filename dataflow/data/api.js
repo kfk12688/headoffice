@@ -9,8 +9,8 @@ export const getSpec = params => {
 };
 
 export const getData = params => {
-  const { templateId, page = 1 } = params;
-  return fetch("GET", `${api}/${templateId}/${page}`)
+  const { templateId, page = 1, limit = 15 } = params;
+  return fetch("GET", `${api}/${templateId}/${page}/${limit}`)
     .then(res => res.json());
 };
 

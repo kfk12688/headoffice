@@ -55,7 +55,7 @@ UserView.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  userData    : state.user.data,
+  userData    : state.userStore.data,
   contextMenu : state.menu,
 });
 

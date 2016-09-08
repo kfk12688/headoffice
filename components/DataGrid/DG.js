@@ -49,15 +49,17 @@ class DataGrid extends Component {
 }
 
 DataGrid.propTypes = {
-  className         : PropTypes.string,
-  style             : PropTypes.object,
-  isLoading         : PropTypes.bool,
-  rows              : PropTypes.object.isRequired,
-  cols              : PropTypes.arrayOf(PropTypes.object),
-  colWidths         : PropTypes.object.isRequired,
-  sortAscending     : PropTypes.boolean,
-  selectedKeys      : PropTypes.array,
-  sortKey           : PropTypes.string,
+  style         : PropTypes.object,
+  className     : PropTypes.string,
+  isLoading     : PropTypes.bool,
+  rows          : PropTypes.object.isRequired,
+  cols          : PropTypes.arrayOf(PropTypes.object),
+  colWidths     : PropTypes.object.isRequired,
+  sortKey       : PropTypes.string,
+  sortAscending : PropTypes.boolean,
+  selectedKeys  : PropTypes.array,
+
+  // functions
   colResizeFunction : PropTypes.func,
   colSortFunction   : PropTypes.func,
   onRowClick        : PropTypes.func,

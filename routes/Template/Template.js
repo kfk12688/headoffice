@@ -1,11 +1,11 @@
-import React, { Component } from "react";
 import _ from "underscore";
+import React, { Component } from "react";
 import { connect } from "react-redux";
+import { setDateModifiedStart, setDateModifiedEnd, setIsRecent, setIsStarred, setOwner } from "dataflow/filter/actions";
+import { toggleSelection } from "dataflow/menu/actions";
+import { loadTemplate, deleteTemplate, addTemplate, makeFavorite } from "dataflow/template/list/actions";
 import { Breadcrumb, SearchBar, DataGrid } from "components";
-import { Menu } from "./Menu";
-import * as filterActions from "dataflow/filter/actions";
-import * as cmActions from "dataflow/menu/actions";
-import * as listActions from "dataflow/template/list/actions";
+import { ContentMenu } from "./ContentMenu";
 import { Formatter as formatter } from "../utils";
 import styles from "./Template.less";
 
@@ -14,8 +14,11 @@ class Template extends Component {
     super(props);
     this.getActions = this.getActions.bind(this);
     const actions = this.getActions();
+    // fixme
     this.actionsCollection = [
-      { name : "Delete Template", handler : actions.deleteTemplate }, // fixme
+      { name : "Delete Template", handler : actions.deleteTemplate },
+      { name : "Mark favorite", handler : actions.makeFavorite },
+      { name : "Un Favorite", handler : actions.unFavorite },
     ];
 
     // Defines the static colum specification for the Template Area
@@ -86,7 +89,6 @@ class Template extends Component {
     };
 
     this.colSortItems = this.getColumnSortList();
-    this.createBlankTemplate = this.createBlankTemplate.bind(this);
   }
 
   componentWillMount() {
@@ -95,17 +97,40 @@ class Template extends Component {
 
   getActions() {
     const _deleteTemplate = () => {
-      const { deleteTemplate, actionsMenu: { selectedKeys } } = this.props;
+      const { menuStore: { selectedKeys } } = this.props;
 
       if (selectedKeys.length > 1) {
-        deleteTemplate({ id : selectedKeys });
+        const objs = selectedKeys.map(key => ({ id : key }));
+        this.props.deleteTemplate(objs);
       } else {
-        deleteTemplate({ id : selectedKeys[0] });
+        this.props.deleteTemplate({ id : selectedKeys[0] });
+      }
+    };
+    const _makeFavorite = () => {
+      const { menuStore: { selectedKeys } } = this.props;
+
+      if (selectedKeys.length > 1) {
+        const objs = selectedKeys.map(key => ({ id : key, isFavorite : true }));
+        this.props.makeFavorite(objs);
+      } else {
+        this.props.makeFavorite({ id : selectedKeys[0], isFavorite : true });
+      }
+    };
+    const _unFavorite = () => {
+      const { menuStore: { selectedKeys } } = this.props;
+
+      if (selectedKeys.length > 1) {
+        const objs = selectedKeys.map(key => ({ id : key, isFavorite : false }));
+        this.props.makeFavorite(objs);
+      } else {
+        this.props.makeFavorite({ id : selectedKeys[0], isFavorite : false });
       }
     };
 
     return {
       deleteTemplate : _deleteTemplate,
+      makeFavorite   : _makeFavorite,
+      unFavorite   : _unFavorite,
     };
   }
 
@@ -149,49 +174,38 @@ class Template extends Component {
     };
   }
 
-  createBlankTemplate(data) {
-    this.props.addTemplate(data);
-  }
-
   renderChildren() {
-    if (this.props.children) {
-      return this.props.children;
-    }
+    if (this.props.children) return this.props.children;
 
-    const {
-      list, actionsMenu, toggleSidebar, selectAll,
-      clearSelection, toggleSelection,
-    } = this.props;
-
-    const { filterChangeHandlers, filter } = this.props;
+    const { list, filterChangeHandlers, filterStore, menuStore } = this.props;
     const searchConfig = [
       {
         label         : "Owner",
-        data          : filter.owner,
+        data          : filterStore.owner,
         changeHandler : filterChangeHandlers.setOwner,
         type          : "searchbox",
       },
       {
         label         : "Created on or after",
-        data          : filter.dateModifiedStart,
+        data          : filterStore.dateModifiedStart,
         changeHandler : filterChangeHandlers.setDateModifiedStart,
         type          : "datebox",
       },
       {
         label         : "Created on or before",
-        data          : filter.dateModifiedEnd,
+        data          : filterStore.dateModifiedEnd,
         changeHandler : filterChangeHandlers.setDateModifiedEnd,
         type          : "datebox",
       },
       {
         label         : "Show starred only",
-        data          : filter.isStarred,
+        data          : filterStore.isStarred,
         changeHandler : filterChangeHandlers.setIsStarred,
         type          : "checkbox",
       },
       {
         label         : "Recents only",
-        data          : filter.isRecent,
+        data          : filterStore.isRecent,
         changeHandler : filterChangeHandlers.setIsRecent,
         type          : "checkbox",
       },
@@ -200,22 +214,17 @@ class Template extends Component {
     return (
       <div>
         {/* Contextual Menu */}
-        <Menu
+        <ContentMenu
           className={styles.contextMenu}
-          toggleSidebar={toggleSidebar}
-          actionsMenu={actionsMenu}
+          dataKeys={Object.keys(list.data)}
           actions={this.actionsCollection}
-          colSortItems={this.colSortItems.items}
-          keys={Object.keys(list.data)}
-          selectAllRows={selectAll}
-          clearRowSelection={clearSelection}
-          addTemplate={this.createBlankTemplate}
+          addTemplate={this.props.addTemplate}
         />
 
         <div>
           {/* SearchBar Container */}
           {
-            actionsMenu.showSidebar &&
+            menuStore.showSidebar &&
             <SearchBar
               className={styles.search}
               config={searchConfig}
@@ -225,15 +234,15 @@ class Template extends Component {
           {/* DataGrid Container */}
           <DataGrid
             className={styles.datagrid}
-            style={{ left : !actionsMenu.showSidebar && 0 }}
+            style={{ left : !menuStore.showSidebar && 0 }}
             isLoading={list.isLoading}
             cols={this.colSpec}
             colWidths={this.colWidths}
             rows={list.data}
-            sortKey={filter.sortKey}
-            sortAscending={filter.sortAscending}
-            onRowClick={toggleSelection}
-            selectedKeys={actionsMenu.selectedKeys}
+            sortKey={filterStore.sortKey}
+            sortAscending={filterStore.sortAscending}
+            onRowClick={this.props.toggleSelection}
+            selectedKeys={menuStore.selectedKeys}
           />
         </div>
       </div>
@@ -266,17 +275,19 @@ Template.propTypes = {
 
   // Store
   list        : React.PropTypes.object.isRequired,
-  actionsMenu : React.PropTypes.object.isRequired,
-  filter      : React.PropTypes.object.isRequired,
+  menuStore   : React.PropTypes.object.isRequired,
+  filterStore : React.PropTypes.object.isRequired,
 
-  // Actions
-  toggleSidebar        : React.PropTypes.func.isRequired,
-  selectAll            : React.PropTypes.func.isRequired,
-  clearSelection       : React.PropTypes.func.isRequired,
-  toggleSelection      : React.PropTypes.func.isRequired,
-  loadTemplate         : React.PropTypes.func.isRequired,
-  deleteTemplate       : React.PropTypes.func.isRequired,
-  addTemplate          : React.PropTypes.func.isRequired,
+  // Action types for Menu Store
+  toggleSelection : React.PropTypes.func.isRequired,
+
+  // Action types for Data Store
+  loadTemplate   : React.PropTypes.func.isRequired,
+  deleteTemplate : React.PropTypes.func.isRequired,
+  addTemplate    : React.PropTypes.func.isRequired,
+  makeFavorite   : React.PropTypes.func.isRequired,
+
+  // Action types for Filter Store
   filterChangeHandlers : React.PropTypes.shape({
     setDateModifiedStart : React.PropTypes.func.isRequired,
     setDateModifiedEnd   : React.PropTypes.func.isRequired,
@@ -288,24 +299,22 @@ Template.propTypes = {
 
 const mapStateToProps = (state) => ({
   list        : state.template.list,
-  actionsMenu : state.menu,
-  filter      : state.filter,
+  menuStore   : state.menu,
+  filterStore : state.filter,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  toggleSidebar        : () => dispatch(cmActions.toggleMenuSidebar()),
-  selectAll            : (keys) => dispatch(cmActions.selectAll(keys)),
-  clearSelection       : () => dispatch(cmActions.clearSelection()),
-  toggleSelection      : (index) => dispatch(cmActions.toggleSelection(index)),
-  loadTemplate         : (params) => dispatch(listActions.loadTemplate(params)),
-  deleteTemplate       : (params) => dispatch(listActions.deleteTemplate(params)),
-  addTemplate          : (params) => dispatch(listActions.addTemplate(params)),
+  toggleSelection      : (index) => dispatch(toggleSelection(index)),
+  loadTemplate         : (params) => dispatch(loadTemplate(params)),
+  deleteTemplate       : (params) => dispatch(deleteTemplate(params)),
+  addTemplate          : (params) => dispatch(addTemplate(params)),
+  makeFavorite         : (params) => dispatch(makeFavorite(params)),
   filterChangeHandlers : {
-    setDateModifiedStart : (e) => dispatch(filterActions.setDateModifiedStart(e)),
-    setDateModifiedEnd   : (e) => dispatch(filterActions.setDateModifiedEnd(e)),
-    setOwner             : (e) => dispatch(filterActions.setOwner(e)),
-    setIsRecent          : (e) => dispatch(filterActions.setIsRecent(e)),
-    setIsStarred         : (e) => dispatch(filterActions.setIsStarred(e)),
+    setDateModifiedStart : (e) => dispatch(setDateModifiedStart(e)),
+    setDateModifiedEnd   : (e) => dispatch(setDateModifiedEnd(e)),
+    setOwner             : (e) => dispatch(setOwner(e)),
+    setIsRecent          : (e) => dispatch(setIsRecent(e)),
+    setIsStarred         : (e) => dispatch(setIsStarred(e)),
   },
 });
 

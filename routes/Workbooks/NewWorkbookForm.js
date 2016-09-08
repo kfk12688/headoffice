@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
-import { Button, TextInput } from "components";
-import cx from "classnames";
+import { Button, TextInput, ComboInput } from "components";
 import styles from "./NewWorkbookForm.less";
 
 class CreateUserForm extends Component {
@@ -12,13 +11,8 @@ class CreateUserForm extends Component {
   }
 
   onSubmit(e) {
-    const { workbookName, users } = this.props.values;
-
     e.preventDefault();
-    // this.props.submitForm({
-    //   name : workbookName,
-    //   // users : users,
-    // });
+    this.props.handleSubmit();
     this.props.toggleModal();
   }
 
@@ -35,7 +29,7 @@ class CreateUserForm extends Component {
         <div className={styles.formElement}>
           <div className={styles.formElementTitle}>Enter the name of the workbook/collection:</div>
           <Field
-            name="workbookName"
+            name="name"
             className={styles.formElementInput}
             component={TextInput}
           />
@@ -44,18 +38,12 @@ class CreateUserForm extends Component {
         <div className={styles.formElement}>
           <div className={styles.formElementTitle}>Select the users who will have access to the workbook/collection:
           </div>
-
           <Field
             name="users"
-            className={cx(styles.formElementInput, styles.selectElement)}
-            component="select"
-          >
-            <option value=""></option>
-            <option value="SuperAdmin">SuperAdmin</option>
-            <option value="Admin">Admin</option>
-            <option value="Manager">Manager</option>
-            <option value="Technician">Technician</option>
-          </Field>
+            className={styles.formElementInput}
+            component={ComboInput}
+            list={["", "SuperAdmin", "Admin", "Manager", "Technician"]}
+          />
         </div>
 
         <div className={styles.addContentBtnGroup}>
@@ -68,11 +56,13 @@ class CreateUserForm extends Component {
 }
 
 CreateUserForm.propTypes = {
-  submitForm  : React.PropTypes.func.isRequired,
-  reset       : React.PropTypes.func.isRequired,
-  values      : React.PropTypes.object,
+  // redux-form injected props
+  pristine     : React.PropTypes.bool,
+  submitting   : React.PropTypes.bool,
+  handleSubmit : React.PropTypes.func.isRequired,
+  reset        : React.PropTypes.func.isRequired,
+
   toggleModal : React.PropTypes.func,
-  state       : React.PropTypes.any,
 };
 
 export default reduxForm({

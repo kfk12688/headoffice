@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { Button, TextInput, NumericInput } from "components";
-import cx from "classnames";
 import { Field, reduxForm } from "redux-form";
-import styles from "./UserForm.less";
+import { Button, TextInput, NumericInput, ComboInput } from "components";
+import styles from "./NewUserForm.less";
 
 class CreateUserForm extends Component {
   constructor() {
@@ -12,15 +11,9 @@ class CreateUserForm extends Component {
   }
 
   onSubmit(e) {
-    const { userName, userRole, phoneNumber, password } = this.props.values;
-
     e.preventDefault();
-    console.log({
-      name : userName,
-      phoneNumber,
-      role : userRole,
-      password,
-    });
+    this.props.handleSubmit();
+    this.props.reset();
     this.props.toggleModal();
   }
 
@@ -35,9 +28,27 @@ class CreateUserForm extends Component {
     return (
       <form onSubmit={this.onSubmit}>
         <div className={styles.formElement}>
-          <div className={styles.formElementTitle}>Enter the name of the user:</div>
+          <div className={styles.formElementTitle}>Enter a user name:</div>
           <Field
-            name="userName"
+            name="username"
+            className={styles.formElementInput}
+            component={TextInput}
+          />
+        </div>
+
+        <div className={styles.formElement} style={{ float : "left", width : "48%" }}>
+          <div className={styles.formElementTitle}>First name :</div>
+          <Field
+            name="firstName"
+            className={styles.formElementInput}
+            component={TextInput}
+          />
+        </div>
+
+        <div className={styles.formElement} style={{ float : "right", width : "48%" }}>
+          <div className={styles.formElementTitle}>Last name :</div>
+          <Field
+            name="lastName"
             className={styles.formElementInput}
             component={TextInput}
           />
@@ -47,16 +58,11 @@ class CreateUserForm extends Component {
           <div className={styles.formElementTitle}>Enter the role of the user:</div>
 
           <Field
-            name="userRole"
-            className={cx(styles.formElementInput, styles.selectElement)}
-            component="select"
-          >
-            <option value=""></option>
-            <option value="SuperAdmin">SuperAdmin</option>
-            <option value="Admin">Admin</option>
-            <option value="Manager">Manager</option>
-            <option value="Technician">Technician</option>
-          </Field>
+            name="role"
+            className={styles.formElementInput}
+            component={ComboInput}
+            list={["", "SuperAdmin", "Admin", "Manager", "Technician"]}
+          />
         </div>
 
         <div className={styles.formElement}>
@@ -98,12 +104,13 @@ class CreateUserForm extends Component {
 }
 
 CreateUserForm.propTypes = {
-  fields       : React.PropTypes.object.isRequired,
+  // redux-form injected props
+  pristine     : React.PropTypes.bool,
+  submitting   : React.PropTypes.bool,
   handleSubmit : React.PropTypes.func.isRequired,
   reset        : React.PropTypes.func.isRequired,
-  values       : React.PropTypes.object,
-  toggleModal  : React.PropTypes.func,
-  state        : React.PropTypes.any,
+
+  toggleModal : React.PropTypes.func,
 };
 
 export default reduxForm({

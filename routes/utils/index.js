@@ -72,7 +72,7 @@ function getRows(data, appliedFilters, bindings) {
   const filteredKeys = Object.keys(data);
 
   _.forEach(data, (row, rowKey) => {
-    if (!FilterHelpers.filter(bindings, row, appliedFilters)) {
+    if (!FilterHelpers.filterStore(bindings, row, appliedFilters)) {
       filteredKeys.splice(filteredKeys.indexOf(rowKey), 1);
     }
   });

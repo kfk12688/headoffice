@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { EntryGrid, Button, NavLink } from "components";
+import { EntryGrid, NavLinkBtn } from "components";
 import { clearMenuState } from "dataflow/menu/actions";
 import { loadSpec } from "dataflow/data/view/actions";
 import { TitleBar } from "./TitleBar";
@@ -28,16 +28,8 @@ class Editor extends Component {
         <div>
           {/* Sidebar Container */}
           <div className={styles.sidebar}>
-            <NavLink to="/data">
-              <Button className={styles.sbBtn} faClassName={styles.sbIcon} faName="times-circle-o">
-                Close View
-              </Button>
-            </NavLink>
-            <NavLink to={`/data/entry/${id}`}>
-              <Button className={styles.sbBtn} faClassName={styles.sbIcon} faName="arrow-circle-o-right">
-                Goto Entry View
-              </Button>
-            </NavLink>
+            <NavLinkBtn to="/data" faName="times-circle-o">Close View</NavLinkBtn>
+            <NavLinkBtn to={`/data/entry/${id}`} faName="arrow-circle-o-right">Goto Entry View</NavLinkBtn>
           </div>
 
           {/* DataGrid Container */}
@@ -58,7 +50,7 @@ Editor.propTypes = {
   params : React.PropTypes.object,
 
   // state
-  viewStore        : React.PropTypes.object.isRequired,
+  viewStore : React.PropTypes.object.isRequired,
 
   // actions
   clearMenuState : React.PropTypes.func.isRequired,
@@ -66,7 +58,7 @@ Editor.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  viewStore        : state.data.view,
+  viewStore : state.data.view,
 });
 
 const mapDisptachToProps = dispatch => ({

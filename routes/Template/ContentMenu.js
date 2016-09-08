@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { selectAll, clearSelection, toggleMenuSidebar } from "dataflow/menu/actions";
 import { Button, Modal, PopupButton } from "components";
-import NewWorkbookForm from "./NewWorkbookForm";
-import cx from "classnames";
+import CreateTemplateForm from "./NewTemplateForm";
 import styles from "./ContentMenu.less";
+import cx from "classnames";
 
 class ContentMenu extends Component {
   constructor(props) {
@@ -24,9 +24,7 @@ class ContentMenu extends Component {
     return (
       <span>
         <span className={styles.actionsSeperator}/>
-        <PopupButton label="Actions">
-          {actionsMenuContent}
-        </PopupButton>
+        <PopupButton label="Actions">{actionsMenuContent}</PopupButton>
       </span>
     );
   }
@@ -44,54 +42,59 @@ class ContentMenu extends Component {
   }
 
   render() {
-    const { className, toggleMenuSidebar, addNewWorkbook, menuStore, clearSelection } = this.props;
+    const { className, menuStore } = this.props;
 
     return (
-      <div
+      <span
         className={cx(styles.root, className)}
       >
-        <div className={styles.left}>
+        <span className={styles.left}>
           <span>
             <Button
               faName="sliders"
-              onClick={toggleMenuSidebar}
+              onClick={this.props.toggleMenuSidebar}
               className={cx(styles.icon, { [styles.iconActive] : menuStore.showSidebar })}
             />
+
             <Modal
               show={this.state.showModal}
               toggleModal={this.toggleModal}
-              caption="Add New Workbook"
+              caption="Add New Content"
               faName="plus"
               accent
             >
-              <NewWorkbookForm onSubmit={addNewWorkbook} toggleModal={this.toggleModal}/>
+              <CreateTemplateForm onSubmit={this.props.addTemplate} toggleModal={this.toggleModal}/>
             </Modal>
+
             <PopupButton label={`${menuStore.selectedKeys.length} selected`}>
               <div onClick={this.selectAllHandler}>Select All</div>
-              <div onClick={clearSelection}>Clear selection</div>
+              <div onClick={this.props.clearRowSelection}>Clear selection</div>
             </PopupButton>
           </span>
 
-          {(menuStore.selectedKeys.length > 0) && this.getActions()}
-        </div>
+          {(menuStore.selectedKeys.length >= 1) && this.getActions()}
+        </span>
 
-        <div className={styles.right}>
+        <span className={styles.right}>
           <span className={styles.sortTitle}>Sort by : </span>
-        </div>
-      </div>
+        </span>
+      </span>
     );
   }
 }
 
 ContentMenu.propTypes = {
   className : React.PropTypes.string,
-  menuStore : React.PropTypes.any,  // redux store
-  dataKeys  : React.PropTypes.array.isRequired,
+  menuStore : React.PropTypes.any,
 
-  addNewWorkbook    : React.PropTypes.func,
+  dataKeys : React.PropTypes.array,
+  actions  : React.PropTypes.array,
+
+  // Functions
   selectAllRows     : React.PropTypes.func,
   clearSelection    : React.PropTypes.func,
   toggleMenuSidebar : React.PropTypes.func,
+  addNewUser        : React.PropTypes.func,
 };
 
 const menu = connect(

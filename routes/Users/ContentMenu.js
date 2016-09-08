@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { Button, Modal, PopupButton, ComboInput } from "components";
-import UserForm from "./UserForm";
+import { connect } from "react-redux";
+import { selectAll, clearSelection, toggleMenuSidebar } from "dataflow/menu/actions";
+import { Button, Modal, PopupButton } from "components";
+import UserForm from "./NewUserForm";
 import cx from "classnames";
 import styles from "./ContentMenu.less";
 
@@ -38,14 +40,11 @@ class ContentMenu extends Component {
   }
 
   selectAllHandler() {
-    this.props.selectAllRows(this.props.keys);
+    this.props.selectAllRows(this.props.dataKeys);
   }
 
   render() {
-    const {
-      className, toggleSidebar, colSortItems, sortKey,
-      actionsMenu, clearRowSelection, addNewUser, colSortFunction
-    } = this.props;
+    const { className, toggleMenuSidebar, menuStore, clearSelection, addNewUser } = this.props;
 
     return (
       <div
@@ -55,8 +54,8 @@ class ContentMenu extends Component {
           <span>
             <Button
               faName="sliders"
-              onClick={toggleSidebar}
-              className={cx(styles.icon, { [styles.iconActive] : actionsMenu.showSidebar })}
+              onClick={toggleMenuSidebar}
+              className={cx(styles.icon, { [styles.iconActive] : menuStore.showSidebar })}
             />
             <Modal
               show={this.state.showModal}
@@ -65,32 +64,47 @@ class ContentMenu extends Component {
               faName="plus"
               accent
             >
-              <UserForm submitForm={addNewUser} toggleModal={this.toggleModal}/>
+              <UserForm onSubmit={addNewUser} toggleModal={this.toggleModal}/>
             </Modal>
-            <PopupButton label={`${actionsMenu.selectedKeys.length} selected`}>
+            <PopupButton label={`${menuStore.selectedKeys.length} selected`}>
               <div onClick={this.selectAllHandler}>Select All</div>
-              <div onClick={clearRowSelection}>Clear selection</div>
+              <div onClick={clearSelection}>Clear selection</div>
             </PopupButton>
           </span>
 
-          {(actionsMenu.selectedKeys.length >= 1) && this.getActions()}
+          {(menuStore.selectedKeys.length >= 1) && this.getActions()}
         </div>
 
         <div className={styles.right}>
           <span className={styles.sortTitle}>Sort by : </span>
-          <ComboInput
-            className={styles.sortList}
-            label={sortKey}
-            list={colSortItems}
-            input={{
-              value    : "",
-              onChange : colSortFunction,
-            }}
-          />
         </div>
       </div>
     );
   }
 }
 
-export { ContentMenu };
+ContentMenu.propTypes = {
+  className : React.PropTypes.string,
+  menuStore : React.PropTypes.any,
+
+  dataKeys : React.PropTypes.array,
+
+  // Functions
+  selectAllRows     : React.PropTypes.func,
+  clearSelection    : React.PropTypes.func,
+  toggleMenuSidebar : React.PropTypes.func,
+  addNewUser        : React.PropTypes.func,
+};
+
+const menu = connect(
+  state => ({
+    menuStore : state.menu,
+  }),
+  dispatch => ({
+    selectAllRows     : (keys) => dispatch(selectAll(keys)),
+    clearSelection    : () => dispatch(clearSelection()),
+    toggleMenuSidebar : () => dispatch(toggleMenuSidebar()),
+  })
+)(ContentMenu);
+
+export { menu as ContentMenu };

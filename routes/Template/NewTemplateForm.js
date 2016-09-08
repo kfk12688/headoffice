@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
 import { Button, TextInput, ComboSearchInput } from "components";
-import { searchWorkbook as loadWorkbooks } from "../../dataflow/workbooks/api";
-import styles from "./CreateForm.less";
+import { searchWorkbook as loadWorkbooks } from "dataflow/workbooks/api";
+import styles from "./NewTemplateForm.less";
 
 // FORM COMPONENT FOR Creating a new template
 class CreateForm extends Component {
@@ -12,27 +12,23 @@ class CreateForm extends Component {
     this.resetForm = this.resetForm.bind(this);
   }
 
-  onSubmit(values) {
-    const { templateName, workbookName } = values;
-
-    this.props.submitForm({
-      templateName,
-      workbookId : workbookName.id,
-    });
+  onSubmit(e) {
+    e.preventDefault();
+    this.props.handleSubmit();
+    this.props.reset();
     this.props.toggleModal();
   }
 
   resetForm(e) {
     e.preventDefault();
-    this.props.reset();
     this.props.toggleModal();
   }
 
   render() {
-    const { pristine, submitting, handleSubmit } = this.props;
+    const { pristine, submitting } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(this.onSubmit)}>
+      <form onSubmit={this.onSubmit}>
         <div className={styles.formElement}>
           <div className={styles.formElementTitle}>Enter the name of the template:</div>
           <Field className={styles.formElementInput} name="templateName" component={TextInput}/>
@@ -40,7 +36,7 @@ class CreateForm extends Component {
 
         <div className={styles.formElement}>
           <div className={styles.formElementTitle}>Workbook</div>
-          <Field className={styles.formElementInput} name="workbookName" component={ComboSearchInput}
+          <Field className={styles.formElementInput} name="workBookId" component={ComboSearchInput}
                  loadOptions={loadWorkbooks}
           />
         </div>
@@ -55,10 +51,13 @@ class CreateForm extends Component {
 }
 
 CreateForm.propTypes = {
+  // redux-form injected props
+  pristine     : React.PropTypes.bool,
+  submitting   : React.PropTypes.bool,
   handleSubmit : React.PropTypes.func.isRequired,
   reset        : React.PropTypes.func.isRequired,
-  toggleModal  : React.PropTypes.func,
-  state        : React.PropTypes.any,
+
+  toggleModal : React.PropTypes.func,
 };
 
 export default reduxForm({

@@ -1,24 +1,29 @@
-import { CALL_API } from "../../middleware/callAPI";
-import { GET_TEMPLATES_REQUEST, GET_TEMPLATES_SUCCESS, GET_TEMPLATES_FAILURE } from "./types";
-import * as templateApi from "../../template/api";
 import { clearFilterState } from "../../filter/actions";
 import { clearMenuState } from "../../menu/actions";
+import { getTemplates, editTemplate } from "./apiActions";
 
-/**
- * Load all the existing templates in the DB
- */
-function _loadTemplate() {
-  return {
-    [CALL_API] : {
-      types    : [GET_TEMPLATES_REQUEST, GET_TEMPLATES_SUCCESS, GET_TEMPLATES_FAILURE],
-      callback : templateApi.getTemplates(),
-    },
-  };
-}
 export function loadTemplate() {
   return (dispatch) => {
     dispatch(clearFilterState());
     dispatch(clearMenuState());
-    dispatch(_loadTemplate());
+    dispatch(getTemplates());
+  };
+}
+
+/**
+ * Mark templates as favorites
+ */
+export function makeFavorite(params) {
+  return dispatch => {
+    let promise = null;
+
+    if (Array.isArray(params)) {
+      promise = params.map(obj => dispatch(editTemplate(obj)));
+      promise = Promise.all(promise);
+    } else {
+      promise = dispatch(editTemplate(params));
+    }
+
+    promise.then(dispatch(loadTemplate()));
   };
 }

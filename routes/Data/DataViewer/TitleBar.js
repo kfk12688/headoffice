@@ -25,7 +25,7 @@ export class TitleBar extends Component {
   }
 
   render() {
-    const { className, store : { createdAt, createdBy, templateName, workBook, favorite } } = this.props;
+    const { className, store : { createdAt, createdBy, templateName, workBook, isFavorite } } = this.props;
 
     return (
       <div className={cx(styles.base, className)}>
@@ -40,7 +40,7 @@ export class TitleBar extends Component {
         </div>
 
         <div className={styles.icons}>
-          <FavoriteCell style={{ float : "right" }} value={favorite || false} inheritSize/>
+          <FavoriteCell style={{ float : "right" }} value={isFavorite || false} inheritSize/>
         </div>
       </div>
     );

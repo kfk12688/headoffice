@@ -12,7 +12,14 @@ class DGHeaderColumn extends Component {
     this.state = { hovered : false };
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
+
+    this.ctrls = {};
+    this.assignCol = (dataKey, target) => {
+      this.ctrls[dataKey] = target;
+    };
+
     this.onClick = this.onClick.bind(this);
+    this.onDrag = this.onDrag.bind(this);
   }
 
   onClick(dataKey, event) {
@@ -23,12 +30,16 @@ class DGHeaderColumn extends Component {
     }
   }
 
-  handleMouseOut() {
-    this.setState({ hovered : false });
+  onDrag(e, colKey) {
+    this.props.onDrag(colKey, this.ctrls[colKey], e.screenX);
   }
 
   handleMouseOver() {
     this.setState({ hovered : true });
+  }
+
+  handleMouseOut() {
+    this.setState({ hovered : false });
   }
 
   render() {
@@ -61,13 +72,16 @@ class DGHeaderColumn extends Component {
         style={{ ...hoverStyle, ...this.props.col.headerStyle }}
         onMouseOver={isColSortable && this.handleMouseOver}
         onMouseOut={isColSortable && this.handleMouseOut}
-        onClick={isColSortable && this.onClick.bind(this, col.dataKey)}
       >
-        <div className={styles.cell}>
+        <div
+          className={styles.cell}
+          onClick={isColSortable && this.onClick.bind(this, col.dataKey)}
+          ref={target => this.assignCol(col.name, target)}
+        >
           <span>{col.text}</span>
         </div>
         {arrow}
-        <div className={styles.divider}/>
+        <div className={styles.divider} onDragEnd={e => this.onDrag(e, col.name)}/>
       </span>
     );
   }

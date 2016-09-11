@@ -5,7 +5,7 @@ import React, { PropTypes } from "react";
 import { DGHeaderColumn } from "./DGHeaderColumn";
 import styles from "./DGHeaderRow.less";
 
-const DGHeaderRow = ({ cols, colWidths, onClick, sortKey, sortAscending }) => {
+const DGHeaderRow = ({ cols, colWidths, onClick, onDrag, sortKey, sortAscending }) => {
   const dataGridHeaderColumns = cols.map((headerColumn, index) => {
     const colName = headerColumn.name;
     return (
@@ -14,6 +14,7 @@ const DGHeaderRow = ({ cols, colWidths, onClick, sortKey, sortAscending }) => {
         col={headerColumn}
         colWidth={colWidths[colName]}
         onClick={onClick}
+        onDrag={onDrag}
         sortAscending={sortAscending}
         sorted={sortKey === headerColumn.dataKey}
       />

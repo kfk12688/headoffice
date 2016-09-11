@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Entry, Button, NavLink } from "components";
+import { Entry, NavLinkBtn } from "components";
 import { clearMenuState } from "dataflow/menu/actions";
 import { loadSpec, addRow, deleteRow } from "dataflow/data/entry/actions";
 import styles from "./EntryForm.less";
@@ -33,16 +33,8 @@ class EntryForm extends Component {
       <div className={styles.container}>
         {/* Sidebar Container */}
         <div className={styles.sidebar}>
-          <NavLink to="/data">
-            <Button className={styles.sbBtn} faClassName={styles.sbIcon} faName="times-circle-o">
-              Close View
-            </Button>
-          </NavLink>
-          <NavLink to={`/data/view/${id}`}>
-            <Button className={styles.sbBtn} faClassName={styles.sbIcon} faName="arrow-circle-o-right">
-              Goto Data View
-            </Button>
-          </NavLink>
+          <NavLinkBtn to="/data" faName="times-circle-o">Close View</NavLinkBtn>
+          <NavLinkBtn to={`/data/view/${id}`} faName="arrow-circle-o-right">Goto Data View</NavLinkBtn>
         </div>
 
         {/* DataGrid Container */}

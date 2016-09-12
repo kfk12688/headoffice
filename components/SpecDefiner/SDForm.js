@@ -17,6 +17,7 @@ Row.propTypes = {
 class EditorEntryForm extends Component {
   constructor(props) {
     super(props);
+    this.submitForm = this.submitForm.bind(this);
     this.resetForm = this.resetForm.bind(this);
   }
 
@@ -64,13 +65,19 @@ class EditorEntryForm extends Component {
     return formElements;
   }
 
+  submitForm(e) {
+    e.preventDefault();
+    this.props.reset();
+    this.props.handleSubmit();
+  }
+
   resetForm(e) {
     e.preventDefault();
     this.props.reset();
   }
 
   render() {
-    const { handleSubmit, editorState, pristine, submitting, fieldType } = this.props;
+    const { pristine, submitting, fieldType } = this.props;
     const fieldDefn = {
       fieldName : { key : "fieldName", displayText : "Field Name" },
       fieldType : { key : "fieldType", displayText : "Field Type" },
@@ -85,7 +92,7 @@ class EditorEntryForm extends Component {
     };
 
     return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={this.submitForm}>
 
         <div className={styles.fields}>
           <div className={styles.fieldsTitle}>Fields</div>
@@ -101,7 +108,7 @@ class EditorEntryForm extends Component {
         </div>
 
         <div className={styles.formSubmitGroup}>
-          <Button accent type="submit" disabled={pristine || submitting}>{editorState ? "Add" : "Edit"}</Button>
+          <Button accent type="submit" disabled={pristine || submitting}>Add</Button>
           <Button bordered onClick={this.resetForm}>Cancel</Button>
         </div>
       </form>
@@ -114,8 +121,6 @@ EditorEntryForm.propTypes = {
   pristine     : React.PropTypes.bool,
   submitting   : React.PropTypes.bool,
   reset        : React.PropTypes.func,
-  // indicates the state of the form - whether edit/addition
-  editorState  : React.PropTypes.bool,
 
   fieldType : React.PropTypes.any,
 };

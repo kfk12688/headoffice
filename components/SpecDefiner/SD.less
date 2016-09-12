@@ -1,23 +1,36 @@
 @import "../../styles/colors";
 
-@tableSpacing : 10px;
+@tableSpacing: 10px;
 
 .base {
   overflow: hidden;
+  margin: 0 @tableSpacing;
 }
 
-.tableInfo {
-  margin: 0 @tableSpacing;
-  padding-bottom: 3px;
-  line-height: 18px;
+.info {
+  .absolute-position-mixin(@bottom: auto);
+  padding: 3px 0;
+  padding-right: 3px;
   font-size: 12px;
-  text-align: right;
+
+  .meta {
+    float: left;
+  }
+  .btn {
+    float: right;
+  }
 }
 
-.tableContent {
-  margin: 0 @tableSpacing;
+.content {
+  .absolute-position-mixin(@top: 30px);
+  font-size: 13px;
+}
+
+.table {
   border: 1px solid @grey300;
   border-radius: 2px;
+  min-height: 100%;
+  overflow: auto;
 }
 
 .spinner {

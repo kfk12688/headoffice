@@ -69,7 +69,7 @@ DataGrid.propTypes = {
   cols          : PropTypes.arrayOf(PropTypes.object),
   colWidths     : PropTypes.object.isRequired,
   sortKey       : PropTypes.string,
-  sortAscending : PropTypes.boolean,
+  sortAscending : PropTypes.bool,
   selectedKeys  : PropTypes.array,
 
   // functions

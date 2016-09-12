@@ -88,6 +88,7 @@ ContentMenu.propTypes = {
   menuStore : React.PropTypes.any,
 
   dataKeys : React.PropTypes.array,
+  actions  : React.PropTypes.array,
 
   // Functions
   selectAllRows     : React.PropTypes.func,

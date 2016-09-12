@@ -31,8 +31,8 @@ const DGHeaderRow = ({ cols, colWidths, onClick, onDrag, sortKey, sortAscending 
 DGHeaderRow.propTypes = {
   cols          : PropTypes.arrayOf(PropTypes.object),
   colWidths     : PropTypes.object.isRequired,
-  onClick       : PropTypes.func.isRequired,
   sortKey       : PropTypes.string.isRequired,
+  onClick       : PropTypes.func,
   sortAscending : PropTypes.bool,
 };
 

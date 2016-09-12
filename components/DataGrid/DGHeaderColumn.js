@@ -90,9 +90,9 @@ class DGHeaderColumn extends Component {
 DGHeaderColumn.propTypes = {
   col           : PropTypes.object.isRequired,
   colWidth      : PropTypes.number.isRequired,
-  onClick       : PropTypes.func.isRequired,
-  sorted        : PropTypes.boolean,
-  sortAscending : PropTypes.boolean,
+  onClick       : PropTypes.func,
+  sorted        : PropTypes.bool,
+  sortAscending : PropTypes.bool,
 };
 
 export { DGHeaderColumn };

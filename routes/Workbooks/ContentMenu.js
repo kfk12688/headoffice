@@ -44,7 +44,7 @@ class ContentMenu extends Component {
   }
 
   render() {
-    const { className, toggleMenuSidebar, addNewWorkbook, menuStore, clearSelection } = this.props;
+    const { className, menuStore } = this.props;
 
     return (
       <div
@@ -54,7 +54,7 @@ class ContentMenu extends Component {
           <span>
             <Button
               faName="sliders"
-              onClick={toggleMenuSidebar}
+              onClick={this.props.toggleMenuSidebar}
               className={cx(styles.icon, { [styles.iconActive] : menuStore.showSidebar })}
             />
             <Modal
@@ -64,11 +64,11 @@ class ContentMenu extends Component {
               faName="plus"
               accent
             >
-              <NewWorkbookForm onSubmit={addNewWorkbook} toggleModal={this.toggleModal}/>
+              <NewWorkbookForm onSubmit={this.props.addNewWorkbook} toggleModal={this.toggleModal}/>
             </Modal>
             <PopupButton label={`${menuStore.selectedKeys.length} selected`}>
               <div onClick={this.selectAllHandler}>Select All</div>
-              <div onClick={clearSelection}>Clear selection</div>
+              <div onClick={this.props.clearSelection}>Clear selection</div>
             </PopupButton>
           </span>
 
@@ -86,12 +86,14 @@ class ContentMenu extends Component {
 ContentMenu.propTypes = {
   className : React.PropTypes.string,
   menuStore : React.PropTypes.any,  // redux store
-  dataKeys  : React.PropTypes.array.isRequired,
 
-  addNewWorkbook    : React.PropTypes.func,
+  dataKeys : React.PropTypes.array.isRequired,
+  actions  : React.PropTypes.array.isRequired,
+
   selectAllRows     : React.PropTypes.func,
   clearSelection    : React.PropTypes.func,
   toggleMenuSidebar : React.PropTypes.func,
+  addNewWorkbook    : React.PropTypes.func,
 };
 
 const menu = connect(

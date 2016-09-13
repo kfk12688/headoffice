@@ -38,7 +38,7 @@ class ArrayInput extends Component {
             const renderComponent = getComponentFromType(type, { refId : ref, refFieldName });
             return (
               <div key={key} className={styles.ip}>
-                <div style={{ float : "left", marginRight : 3 }}>{title} </div>
+                <div>{title}</div>
                 <Field name={`${field}.${key}`} {...renderComponent}/>
               </div>
             );

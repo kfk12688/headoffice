@@ -22,6 +22,7 @@ const sizer = (colData) => {
     }
   });
 
+  if (size <= 100) size = 100;
   return size;
 };
 
@@ -38,10 +39,9 @@ const calculateColWidths = (titleCol, dataCol) => {
     });
   });
 
-  _.forEach(objArray, (set, key) => {
-    if (titleCol && titleCol[key]) {
-      objArray[key].push(titleCol[key].displayText);
-    }
+  _.forEach(titleCol, titleObj => {
+    const key = titleObj.displayText;
+    if (!(key in objArray)) objArray[key] = [];
   });
 
   _.forEach(objArray, (col, key) => {

@@ -21,16 +21,14 @@ class EGHeaderCol extends React.Component {
     };
 
     return (
-      <span
+      <div
         className={styles.col}
         style={{ ...hoverStyle, ...headerStyle }}
         onMouseOver={() => this.setState({ hovered : true })}
         onMouseOut={() => this.setState({ hovered : false })}
       >
-        <div className={styles.cell}>
-          <span>{displayText}</span>
-        </div>
-      </span>
+        <div className={styles.cell} title={displayText}>{displayText}</div>
+      </div>
     );
   }
 }

@@ -6,7 +6,9 @@ import Row from "./FieldSchemaRow";
 import { TextInput, ComboSearchInput, DateInput, CheckBoxInput, NumericInput } from "components";
 import { listTemplates, listTemplateFields } from "dataflow/lister/api";
 
-const getFields = (fieldName, fieldType) => {
+const getFields = (fieldName, fieldType, fieldProps) => {
+  const refId = fieldProps && fieldProps.ref;
+
   const config = {
     required : { key : `${fieldName}.required`, displayText : "Is Required" },
     unique   : { key : `${fieldName}.unique`, displayText : "Is Unique" },
@@ -16,8 +18,6 @@ const getFields = (fieldName, fieldType) => {
     ref      : { key : `${fieldName}.ref`, displayText : "Reference to Table" },
     refField : { key : `${fieldName}.refField`, displayText : "Reference to Field" },
   };
-
-  console.log(config);
 
   let formElements = [
     <Row key={`fieldProps.${config.required.key}`} prop={config.required} component={CheckBoxInput}/>,
@@ -57,7 +57,7 @@ const getFields = (fieldName, fieldType) => {
            component={ComboSearchInput} loadOptions={listTemplates}
       />,
       <Row key={`fieldProps.${config.refField.key}`} prop={config.refField}
-           component={ComboSearchInput} loadOptions={listTemplateFields(id)}
+           component={ComboSearchInput} loadOptions={listTemplateFields(refId)}
       />,
     ];
   }

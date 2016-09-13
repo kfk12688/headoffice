@@ -28,7 +28,7 @@ class EditorEntryForm extends Component {
   }
 
   render() {
-    const { pristine, submitting, fieldType, fieldSchema } = this.props;
+    const { pristine, submitting, fieldType, fieldSchema, fieldProps } = this.props;
     const fieldDefn = {
       fieldName : { key : "fieldName", displayText : "Field Name" },
       fieldType : { key : "fieldType", displayText : "Field Type" },
@@ -48,7 +48,7 @@ class EditorEntryForm extends Component {
 
           <div className={styles.defn}>
             <div className={styles.defnTitle}>Field Definition</div>
-            <div>{getFields("fieldProps", fieldType)}</div>
+            <div>{getFields("fieldProps", fieldType, fieldProps)}</div>
           </div>
         </div>
 
@@ -76,6 +76,7 @@ EditorEntryForm.propTypes = {
   reset        : React.PropTypes.func,
 
   fieldType   : React.PropTypes.any,
+  fieldProps  : React.PropTypes.any,
   fieldSchema : React.PropTypes.any,
 };
 
@@ -87,6 +88,7 @@ const selector = formValueSelector("SDForm"); // <-- same as form name
 form = connect(
   state => ({
     fieldType   : selector(state, "fieldType"),
+    fieldProps  : selector(state, "fieldProps"),
     fieldSchema : selector(state, "fieldSchema"),
   })
 )(form);

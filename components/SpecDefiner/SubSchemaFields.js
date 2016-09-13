@@ -37,7 +37,7 @@ export const SubSchemaFields = ({ fields, fieldSchema }) => {
           fieldSchema && fieldSchema[idx] && fieldSchema[idx].fieldType &&
           <div className={styles.schemaDefn}>
             <div className={styles.schemaDefnTitle}>{`Field Definition-${idx + 1}`}</div>
-            <div>{getFields(`${field}.fieldProps`, fieldSchema[idx].fieldType)}</div>
+            <div>{getFields(`${field}.fieldProps`, fieldSchema[idx].fieldType, fieldSchema[idx].fieldProps)}</div>
           </div>
         }
 

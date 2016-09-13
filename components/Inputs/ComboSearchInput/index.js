@@ -180,6 +180,7 @@ class ComboSearchInput extends React.Component {
 ComboSearchInput.propTypes = {
   className     : React.PropTypes.string,
   childrenStyle : React.PropTypes.object,
+  loadOptions   : React.PropTypes.any.isRequired,
   input         : React.PropTypes.object.isRequired,
 };
 

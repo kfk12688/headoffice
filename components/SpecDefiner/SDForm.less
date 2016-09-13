@@ -1,63 +1,18 @@
 @import "../../styles/colors";
+@import "./common";
+
+.formCtn {
+  font-size: 12px;
+  .clearfix;
+}
 
 .formSubmitGroup {
   position: absolute;
-  right: 10px;
+  right: 0;
   bottom: 8px;
 }
 
-.fields {
-  width: 60%;
-  float: left;
-  padding-right: 30px;
-  &Title {
-    margin-bottom: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    padding-bottom: 3px;
-    border-bottom: 2px solid @blueGrey700;
-  }
-}
-
-.defn {
-  width: 40%;
-  float: right;
-  &Title {
-    margin-bottom: 8px;
-    font-size: 13px;
-    font-weight: 600;
-    padding-bottom: 3px;
-    border-bottom: 2px solid @blueGrey700;
-  }
-}
-
-.key {
-  min-width: 150px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  position: relative;
-  display: inline-block;
-}
-
-.field {
-  width: 180px;
-  height: 20px;
-  display: inline-block;
-}
-
-.schemaCtn {
-  border: 1px solid @grey300;
-  padding: 10px;
-  margin-top: 15px;
-  float: left;
-  width: 100%;
-  overflow: auto;
-  height: 280px;
-}
-
-.fieldSchemaCtn {
-  clear: both;
-  height: 170px;
-  margin: 8px 0;
-  border-bottom: 1px solid @grey300;
+.firstLevelSchemaCtn {
+  .clearfix;
+  margin-bottom: 8px;
 }

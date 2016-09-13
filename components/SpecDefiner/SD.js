@@ -38,7 +38,7 @@ class SpecDefiner extends React.Component {
         <div>
           <div className={styles.info}>
             <div className={styles.meta}>{data && data.length} Fields</div>
-            <Button className={styles.btn} accent onClick={this.toggleAddMode}>Add new Field</Button>
+            <Button faName="plus" className={styles.btn} accent onClick={this.toggleAddMode}>Add new Field</Button>
           </div>
 
           <div className={styles.content}>
@@ -66,7 +66,7 @@ class SpecDefiner extends React.Component {
         <div>
           <div className={styles.info}>
             <div className={styles.meta}>{data && data.length} Fields</div>
-            <Button className={styles.btn} bordered onClick={this.toggleViewMode}>Back</Button>
+            <Button faName="long-arrow-left" className={styles.btn} bordered onClick={this.toggleViewMode}>Go Back</Button>
           </div>
 
           <SDPost

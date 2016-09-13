@@ -1,1 +1,42 @@
-@rowHeight : 30px;
+@import "../../styles/colors";
+@rowHeight: 30px;
+
+.key {
+  min-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+  display: inline-block;
+}
+
+.field {
+  width: 180px;
+  height: 18px;
+  display: inline-block;
+}
+
+.fields {
+  width: 60%;
+  float: left;
+  padding-right: 30px;
+  &Title {
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    padding-bottom: 3px;
+    border-bottom: 2px solid @blueGrey700;
+  }
+}
+
+.defn {
+  width: 40%;
+  float: right;
+  &Title {
+    margin-bottom: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    padding-bottom: 3px;
+    border-bottom: 2px solid @blueGrey700;
+  }
+}
+

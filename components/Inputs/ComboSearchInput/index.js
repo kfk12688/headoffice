@@ -67,6 +67,10 @@ class ComboSearchInput extends React.Component {
     this.loadOptions("");
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    if (this.state.searchText !== nextState.searchText) this.loadOptions(nextState.searchText);
+  }
+
   getResponseHandler(input) {
     return (err, data) => {
       if (err) throw err;
@@ -180,6 +184,7 @@ class ComboSearchInput extends React.Component {
 ComboSearchInput.propTypes = {
   className     : React.PropTypes.string,
   childrenStyle : React.PropTypes.object,
+  loadOptions   : React.PropTypes.func,
   input         : React.PropTypes.object.isRequired,
 };
 

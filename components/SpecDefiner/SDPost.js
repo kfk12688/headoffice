@@ -2,34 +2,19 @@ import React from "react";
 import SDForm from "./SDForm";
 import styles from "./SDPost.less";
 
-const ADD_NEW_ENTRY = true;
-const EDIT_EXISTING_ENTRY = false;
+const SDPost = ({ onSubmit, className }) =>
+  <div className={className}>
 
-class SDPost extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { entryState : ADD_NEW_ENTRY };
-  }
+    <SDForm
+      className={styles.fieldsForm}
+      onSubmit={onSubmit}
+    />
 
-  render() {
-    const { onSubmit } = this.props;
-
-    return (
-      <div className={styles.post}>
-
-        <SDForm
-          className={styles.fieldsForm}
-          editorState={this.state.entryState}
-          onSubmit={onSubmit}
-        />
-
-      </div>
-    );
-  }
-}
+  </div>;
 
 SDPost.propTypes = {
-  onSubmit : React.PropTypes.func,
+  className : React.PropTypes.string,
+  onSubmit  : React.PropTypes.func,
 };
 
 export { SDPost };

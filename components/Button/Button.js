@@ -18,6 +18,7 @@ const Button = ({ className, faName, faClassName, after, accent, children, borde
     return (
       <button
         className={cx(style, className)}
+        type="button"
         {...rest}
       >
         {children}
@@ -30,6 +31,7 @@ const Button = ({ className, faName, faClassName, after, accent, children, borde
   return (
     <button
       className={cx(style, className)}
+      type="button"
       {...rest}
     >
       {faIcon}

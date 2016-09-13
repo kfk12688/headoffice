@@ -34,11 +34,12 @@ class ArrayInput extends Component {
         <div key={idx} className={styles.row}>
           <div className={styles.idx}> {zPad(idx + 1, 2)} </div>
           {_.map(subKeys, (subField, key) => {
-            const { title, type, props : { ref, refFieldName } } = subField;
-            const renderComponent = getComponentFromType(type, { refId : ref, refFieldName });
+            const { title, type, props } = subField;
+            const renderComponent = getComponentFromType(type, props);
+
             return (
               <div key={key} className={styles.ip}>
-                <div>{title}</div>
+                <div>{title}{props.required && <sup>*</sup>}</div>
                 <Field name={`${field}.${key}`} {...renderComponent}/>
               </div>
             );
@@ -62,10 +63,14 @@ class ArrayInput extends Component {
       <div>
         <div className={styles.arrayHeader}>
           <div style={{ float : "left" }}>{`Enter data into ${name} Array`}</div>
-          <Button style={{ float : "right" }} bordered onClick={onClickAddHandler}>{`Add ${name}`}</Button>
+          <Button style={{ float : "right" }} bordered
+                  faName="plus" onClick={onClickAddHandler}
+          >
+            {`Add ${name}`}
+          </Button>
         </div>
 
-        <div className={styles.arrayFields}>{this.getFields()}</div>
+        {(fields.length !== 0) && <div className={styles.arrayFields}>{this.getFields()}</div>}
       </div>
     );
   }

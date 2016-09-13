@@ -1,12 +1,18 @@
 @import "../../../styles/colors";
 
 .arrayHeader {
+  .clearfix;
   font-size: 14px;
+  margin-bottom: 4px;
 }
 
 .arrayFields {
-  clear: both;
-  padding-top: 10px;
+  .clearfix;
+  max-height: 230px;
+  border: 1px solid @grey400;
+  border-radius: 1px;
+  padding: 0 10px 10px 10px;
+  overflow-y: auto;
 }
 
 .row {

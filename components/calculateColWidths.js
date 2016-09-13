@@ -40,8 +40,9 @@ const calculateColWidths = (titleCol, dataCol) => {
   });
 
   _.forEach(titleCol, titleObj => {
-    const key = titleObj.displayText;
+    const key = titleObj.fieldName;
     if (!(key in objArray)) objArray[key] = [];
+    objArray[key].push(key);
   });
 
   _.forEach(objArray, (col, key) => {

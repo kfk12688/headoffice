@@ -29,6 +29,7 @@ class Editor extends Component {
       "fieldName"  : {
         "displayText" : "Field Name",
         "renderType"  : "text",
+        "dataKey"     : "displayText",
       },
       "fieldType"  : {
         "displayText" : "Field Type",

@@ -56,7 +56,6 @@ class ComboInput extends React.Component {
           <Overlay
             rootClose
             placement="bottom"
-            container={this.ctrls.target}
             show={this.state.showPopup}
             target={() => this.ctrls.target}
             onHide={() => this.setState({ showPopup : false })}

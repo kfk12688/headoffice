@@ -1,20 +1,12 @@
 @import "../../styles/colors";
 
 .formSubmitGroup {
-  position: absolute;
-  left: 0;
-  right: 0;
-  padding: 10px;
+  .absolute-position-mixin(@top: auto);
   text-align: right;
 }
 
 .subFields {
-  border: 1px solid @grey400;
-  border-radius: 1px;
   margin-bottom: 12px;
-  padding: 4px 10px 10px 10px;
-  overflow: auto;
-  max-height: 55%;
 }
 
 .fields {
@@ -23,23 +15,26 @@
   margin-bottom: 12px;
   padding: 10px;
   overflow: auto;
-  max-height: 30%;
+  column-count: 2;
   &Row {
-    padding: 5px 0;
+    margin-bottom: 5px;
   }
   &RowArray {
-    padding: 5px 0;
+    margin: 5px 0;
     border-bottom: 1px solid @grey400;
   }
   &RowArray:first-child {
+    margin: 5px 0;
     border-bottom: 0;
-    padding: 5px 0;
   }
 }
 
 .title {
-  min-width: 180px;
+  width: 200px;
   display: inline-block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  float: left;
 }
 
 .box {

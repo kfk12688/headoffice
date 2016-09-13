@@ -1,15 +1,23 @@
 /**
  * Created by sharavan on 05/09/16.
  */
-import { ComboSearchInput, TextInput, DateInput, NumericInput, ArrayInput } from "components";
+import { ComboSearchInput, TextInput, DateInput, NumericInput, ArrayInput, ComboInput } from "components";
 import styles from "./common.less";
 import { listFieldValues } from "../../dataflow/lister/api";
 
-export function getComponentFromType(type, ref) {
+export function getComponentFromType(type, props) {
   if (type === "Date") {
     return {
       component : DateInput,
       className : styles.ctn,
+    };
+  }
+
+  if ((type === "String") && (props.enum.length !== 0)) {
+    return {
+      component : ComboInput,
+      className : styles.ctn,
+      list      : props.enum,
     };
   }
 
@@ -23,12 +31,17 @@ export function getComponentFromType(type, ref) {
   if (type === "ObjectId") {
     return {
       component   : ComboSearchInput,
-      loadOptions : listFieldValues(ref),
+      loadOptions : listFieldValues({
+        refId        : props.ref,
+        refFieldName : props.refFieldName,
+      }),
       className   : styles.ctn,
     };
   }
 
-  if (type === "SchemaArray") return { component : ArrayInput };
+  if ((type === "SchemaArray") || (type === "Schema")) {
+    return { component : ArrayInput };
+  }
 
   return {
     component : TextInput,

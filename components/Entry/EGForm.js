@@ -8,6 +8,8 @@ class EGForm extends Component {
   constructor(props) {
     super(props);
     this.subFields = [];
+    this.ctrls = {};
+    this.assignFieldTarget = target => this.ctrls.fieldDOM = target;
 
     this.resetForm = this.resetForm.bind(this);
     this.submitForm = this.submitForm.bind(this);
@@ -18,14 +20,18 @@ class EGForm extends Component {
   constructFields(fieldProps) {
     const fields = [];
     _.forEach(fieldProps, (field, key) => {
-      const { title, type, sub } = field;
-      const renderComponent = getComponentFromType(type);
+      const { title, type, sub, props } = field;
+      const renderComponent = getComponentFromType(type, props);
       const name = key;
 
       if (sub) return;
       fields.push(
         <div key={name} className={styles.fieldsRow}>
-          <div className={styles.title}>{title} </div>
+          <div className={styles.title}>
+            {title}
+            {props.required && <bold><sup>*</sup></bold>}
+            {props.unique && <bold><sup>u</sup></bold>}
+          </div>
           <Field className={styles.box} name={name} {...renderComponent}/>
         </div>
       );
@@ -37,8 +43,8 @@ class EGForm extends Component {
   constructSubFields(fieldProps) {
     const fields = [];
     _.forEach(fieldProps, (field, key) => {
-      const { title, type, sub } = field;
-      const renderComponent = getComponentFromType(type);
+      const { title, type, sub, props } = field;
+      const renderComponent = getComponentFromType(type, props);
       const name = key;
 
       if (sub) {
@@ -46,6 +52,7 @@ class EGForm extends Component {
           <div key={name} className={styles.fieldsRowArray}>
             <FieldArray name={name} subKeys={sub}
                         title={title} {...renderComponent}
+                        fieldsDOM={this.ctrls.fieldDOM}
             />
           </div>
         );
@@ -73,9 +80,13 @@ class EGForm extends Component {
     const { className, fieldProps } = this.props;
     const fields = this.constructFields(fieldProps);
     const subFields = this.constructSubFields(fieldProps);
+    const fieldHeightCss = {
+      maxHeight : (subFields.length !== 0) ? 190 : "auto",
+    };
+
     return (
       <form className={className} onSubmit={this.submitForm}>
-        <div className={styles.fields}>{fields}</div>
+        <div ref={this.assignFieldTarget} className={styles.fields} style={fieldHeightCss}>{fields}</div>
         {(subFields.length !== 0) && <div className={styles.subFields}>{subFields}</div>}
         <div className={styles.formSubmitGroup}>
           <Button className={styles.formSubmitGroupBtn} accent type="submit">Save</Button>

@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { reduxForm, Field, formValueSelector } from "redux-form";
+import { reduxForm, Field, FieldArray, formValueSelector } from "redux-form";
 import { Button, TextInput, CheckBoxInput, NumericInput, ComboInput, DateInput } from "components";
 import styles from "./SDForm.less";
+
+const FIELD_TYPES = ["Number", "Date", "String", "Boolean", "Reference", "Schema", "SchemaArray"];
 
 const Row = ({ prop, component, ...rest }) =>
   <div style={{ marginBottom : 5 }}>
@@ -59,10 +61,63 @@ class EditorEntryForm extends Component {
       formElements = [
         ...formElements,
         <Row key={`fieldProps.${props.ref.key}`} prop={props.ref} component={TextInput}/>,
+        <Row key={`fieldProps.${props.refField.key}`} prop={props.refField} component={TextInput}/>,
       ];
     }
 
     return formElements;
+  }
+
+  getSubSchemaFields(props) {
+    const { fields, typeObject:fieldSchema, thisClass } = props;
+    const addSchema = (e) => {
+      e.preventDefault();
+      fields.push({});
+    };
+
+    const subSchemaFields = fields.map((field, idx) => {
+      const fieldDefn = {
+        fieldName : { key : `${field}.fieldName`, displayText : "Field Name" },
+        fieldType : { key : `${field}.fieldType`, displayText : "Field Type" },
+      };
+      const fieldProps = {
+        required : { key : `${field}.fieldProps.required`, displayText : "Is Required" },
+        unique   : { key : `${field}.fieldProps.unique`, displayText : "Is Unique" },
+        default  : { key : `${field}.fieldProps.default`, displayText : "Default values" },
+        min      : { key : `${field}.fieldProps.min`, displayText : "Minimum" },
+        max      : { key : `${field}.fieldProps.max`, displayText : "Maximum" },
+        ref      : { key : `${field}.fieldProps.ref`, displayText : "Reference to Table" },
+        refField : { key : `${field}.fieldProps.refField`, displayText : "Reference to Field" },
+      };
+
+      return (
+        <div className={styles.fieldSchemaCtn} key={idx}>
+          <div className={styles.fields}>
+            <div className={styles.fieldsTitle}>{`Sub-Field-${idx + 1}`}</div>
+            <Row prop={fieldDefn.fieldName} component={TextInput}/>
+            <Row prop={fieldDefn.fieldType} component={ComboInput}
+                 list={["Number", "Date", "String", "Boolean", "Reference"]}
+            />
+          </div>
+
+          {
+            fieldSchema && fieldSchema[idx] && fieldSchema[idx].fieldType &&
+            <div className={styles.defn}>
+              <div className={styles.defnTitle}>{`Field Definition-${idx + 1}`}</div>
+              <div>{thisClass.getFieldProps(fieldProps, fieldSchema[idx].fieldType)}</div>
+            </div>
+          }
+
+        </div>
+      );
+    });
+
+    return (
+      <div className={styles.schemaCtn}>
+        <Button accent="indigo" onClick={addSchema}>Add</Button>
+        {subSchemaFields}
+      </div>
+    );
   }
 
   submitForm(e) {
@@ -77,7 +132,7 @@ class EditorEntryForm extends Component {
   }
 
   render() {
-    const { pristine, submitting, fieldType } = this.props;
+    const { pristine, submitting, fieldType, fieldSchema } = this.props;
     const fieldDefn = {
       fieldName : { key : "fieldName", displayText : "Field Name" },
       fieldType : { key : "fieldType", displayText : "Field Type" },
@@ -88,24 +143,33 @@ class EditorEntryForm extends Component {
       default  : { key : "fieldProps.default", displayText : "Default values" },
       min      : { key : "fieldProps.min", displayText : "Minimum" },
       max      : { key : "fieldProps.max", displayText : "Maximum" },
-      ref      : { key : "fieldProps.ref", displayText : "Reference value" },
+      ref      : { key : "fieldProps.ref", displayText : "Reference to Table" },
+      refField : { key : "fieldProps.refField", displayText : "Reference to Field" },
     };
 
     return (
       <form onSubmit={this.submitForm}>
 
         <div className={styles.fields}>
-          <div className={styles.fieldsTitle}>Fields</div>
+          <div className={styles.fieldsTitle}>Field</div>
           <Row prop={fieldDefn.fieldName} component={TextInput}/>
           <Row prop={fieldDefn.fieldType} component={ComboInput}
-               list={["Number", "Date", "String", "Boolean", "Reference"]}
+               list={FIELD_TYPES}
           />
         </div>
 
         <div className={styles.defn}>
-          <div className={styles.defnTitle}>Definition</div>
+          <div className={styles.defnTitle}>Field Definition</div>
           <div>{this.getFieldProps(fieldProps, fieldType)}</div>
         </div>
+
+        {
+          ((fieldType === "SchemaArray") || (fieldType === "Schema")) &&
+          <FieldArray
+            name="fieldSchema" className={styles.field} component={this.getSubSchemaFields}
+            typeObject={fieldSchema} thisClass={this}
+          />
+        }
 
         <div className={styles.formSubmitGroup}>
           <Button accent type="submit" disabled={pristine || submitting}>Add</Button>
@@ -122,7 +186,8 @@ EditorEntryForm.propTypes = {
   submitting   : React.PropTypes.bool,
   reset        : React.PropTypes.func,
 
-  fieldType : React.PropTypes.any,
+  fieldType   : React.PropTypes.any,
+  fieldSchema : React.PropTypes.any,
 };
 
 let form = reduxForm({
@@ -132,7 +197,8 @@ let form = reduxForm({
 const selector = formValueSelector("SDForm"); // <-- same as form name
 form = connect(
   state => ({
-    fieldType : selector(state, "fieldType"),
+    fieldType   : selector(state, "fieldType"),
+    fieldSchema : selector(state, "fieldSchema"),
   })
 )(form);
 

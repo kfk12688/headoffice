@@ -68,7 +68,7 @@ class ContentMenu extends Component {
 
             <PopupButton label={`${menuStore.selectedKeys.length} selected`}>
               <div onClick={this.selectAllHandler}>Select All</div>
-              <div onClick={this.props.clearRowSelection}>Clear selection</div>
+              <div onClick={this.props.clearSelection}>Clear selection</div>
             </PopupButton>
           </span>
 
@@ -94,7 +94,7 @@ ContentMenu.propTypes = {
   selectAllRows     : React.PropTypes.func,
   clearSelection    : React.PropTypes.func,
   toggleMenuSidebar : React.PropTypes.func,
-  addNewUser        : React.PropTypes.func,
+  addTemplate       : React.PropTypes.func,
 };
 
 const menu = connect(

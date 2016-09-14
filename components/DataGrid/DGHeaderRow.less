@@ -1,6 +1,14 @@
-@import url(../../styles/colors.less);
+@import "../../styles/colors.less";
 
 .row {
+  .absolute-position-mixin();
+  height: 37px;
   background-color: @white;
   border-bottom: 1px solid @grey300;
+}
+
+.cols {
+  display: inline-block;
+  height: 37px;
+  white-space: nowrap;
 }

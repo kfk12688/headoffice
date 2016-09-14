@@ -11,9 +11,18 @@ import cx from "classnames";
 class DataGrid extends Component {
   constructor(props) {
     super(props);
-    this.state = { colWidths : props.colWidths };
+    this.state = {
+      colWidths  : props.colWidths,
+      scrollLeft : 0,
+    };
 
     this.resize = this.resize.bind(this);
+    this.reportScrollLeftFn = this.reportScrollLeftFn.bind(this);
+    this.renderContent = this.renderContent.bind(this);
+  }
+
+  reportScrollLeftFn(spacing) {
+    this.setState({ scrollLeft : spacing });
   }
 
   resize(colKey, domElement, newPos) {
@@ -28,8 +37,31 @@ class DataGrid extends Component {
     this.setState({ colWidths });
   }
 
+  renderContent() {
+    const { isLoading, rows, cols, onRowClick, selectedKeys } = this.props;
+
+    if (_.isEmpty(rows)) {
+      return <div className={styles.dgBody}>No Data Present</div>;
+    }
+
+    if (isLoading) {
+      return <i className={cx("fa fa-spinner fa-2x", styles.spinner)}/>;
+    }
+
+    return (
+      <DGBody
+        cols={cols}
+        colWidths={this.state.colWidths}
+        rows={rows}
+        selectedKeys={selectedKeys}
+        onRowClick={onRowClick}
+        reportScrollLeftFn={this.reportScrollLeftFn}
+      />
+    );
+  }
+
   render() {
-    const { style, className, cols, colSortFunction, sortKey, sortAscending, selectedKeys, onRowClick, rows, isLoading, } = this.props;
+    const { style, className, cols, colSortFunction, sortKey, sortAscending } = this.props;
 
     return (
       <div
@@ -43,19 +75,10 @@ class DataGrid extends Component {
           onDrag={this.resize}
           sortKey={sortKey}
           sortAscending={sortAscending}
+          scrollLeft={this.state.scrollLeft}
         />
 
-        {
-          isLoading ?
-          <i className={cx("fa fa-spinner fa-2x", styles.spinner)}/> :
-          <DGBody
-            cols={cols}
-            colWidths={this.state.colWidths}
-            rows={rows}
-            selectedKeys={selectedKeys}
-            onRowClick={onRowClick}
-          />
-        }
+        {this.renderContent()}
       </div>
     );
   }

@@ -11,11 +11,12 @@ class Editor extends Component {
   constructor(props) {
     super(props);
     this.addField = this.addField.bind(this);
+    this.loadSchema = this.loadSchema.bind(this);
     this.saveUserSchema = this.saveUserSchema.bind(this);
     this.saveTemplateMeta = this.saveTemplateMeta.bind(this);
 
     this.colSpec = {
-      "action"     : {
+      "action"      : {
         "headerStyle" : { borderLeft : 0 },
         "displayText" : "",
         "renderType"  : "action",
@@ -26,29 +27,32 @@ class Editor extends Component {
         "sortable"    : false,
         "insertable"  : false,
       },
-      "fieldName"  : {
+      "displayText" : {
         "displayText" : "Field Name",
         "renderType"  : "text",
-        "dataKey"     : "displayText",
       },
-      "fieldType"  : {
+      "fieldType"   : {
         "displayText" : "Field Type",
         "renderType"  : "text",
       },
-      "fieldProps" : {
+      "fieldProps"  : {
         "displayText" : "Field Properties",
         "renderType"  : "label",
       },
     };
     this.colWidths = {
-      action     : 45,
-      fieldName  : 130,
-      fieldType  : 120,
-      fieldProps : 450,
+      action      : 45,
+      displayText : 200,
+      fieldType   : 120,
+      fieldProps  : 400,
     };
   }
 
   componentWillMount() {
+    this.loadSchema();
+  }
+
+  loadSchema() {
     this.props.loadEditorTable(this.props.params);
   }
 
@@ -97,10 +101,10 @@ class Editor extends Component {
 
           {/* Sidebar Container */}
           <div className={styles.sidebar}>
-            <Button accent="green" className={styles.sidebarButton} onClick={this.saveUserSchema}>Save</Button>
+            <Button accent="green" className={styles.sidebarButton} onClick={this.saveUserSchema}>Update Schema</Button>
             <Button accent="green" disabled className={styles.sidebarButton}>Undo</Button>
             <Button accent="green" disabled className={styles.sidebarButton}>Redo</Button>
-            <Button accent="green" className={styles.sidebarButton}>Cancel</Button>
+            <Button accent="green" className={styles.sidebarButton} onClick={this.loadSchema}>Reset Schema</Button>
           </div>
         </div>
       </div>

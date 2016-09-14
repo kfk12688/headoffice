@@ -2,8 +2,8 @@
  * Created by sharavan on 05/09/16.
  */
 import { ComboSearchInput, TextInput, DateInput, NumericInput, ArrayInput, ComboInput } from "components";
-import styles from "./common.less";
 import { listFieldValues } from "../../dataflow/lister/api";
+import styles from "./common.less";
 
 export function getComponentFromType(type, props) {
   if (type === "Date") {

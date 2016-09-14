@@ -46,6 +46,14 @@ const reducer = handleActions({
 
   [ADD_FIELD] : (state, action) => {
     const { field } = action.payload;
+
+    // adds displayText placeholder Keys
+    // these will be replaced by actual data from the db later
+    field.displayText = field.fieldName;
+    if (Array.isArray(field.fieldSchema) && (field.fieldSchema.length !== 0)) {
+      field.fieldSchema.forEach(f => { f.displayText = f.fieldName });
+    }
+
     const { primaryKey } = state;
     const idx = state.userSchema.findIndex(f => f[primaryKey] === field[primaryKey]);
 

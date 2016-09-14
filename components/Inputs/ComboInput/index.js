@@ -7,10 +7,7 @@ class ComboInput extends React.Component {
   constructor(props) {
     super(props);
     this.popupMenuStyle = undefined;
-    this.state = {
-      hovered   : false,
-      showPopup : false,
-    };
+    this.state = { showPopup : false };
     this.ctrls = {};
     this.assignTarget = target => { this.ctrls.target = target; };
     this.handleClick = this.handleClick.bind(this);
@@ -48,8 +45,6 @@ class ComboInput extends React.Component {
           ref={this.assignTarget}
           className={styles.input}
           onClick={this.handleClick}
-          onMouseEnter={() => this.setState({ hovered : true })}
-          onMouseLeave={() => this.setState({ hovered : false })}
         >
           <i className={cx("fa fa-caret-down", styles.faIcon)} title="Click to open"/>
           {input.value}

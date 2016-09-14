@@ -2,7 +2,7 @@
  * Created by sharavan on 18/05/16.
  */
 import React, { Component, PropTypes } from "react";
-import { grey50 } from "../../styles/colors";
+import { grey50, grey300 } from "../../styles/colors";
 import styles from "./DGHeaderColumn.less";
 import cx from "classnames";
 
@@ -51,6 +51,7 @@ class DGHeaderColumn extends Component {
       backgroundColor : this.state.hovered && grey50,
       cursor          : this.state.hovered && "pointer",
       textDecoration  : this.state.hovered && "underline",
+      borderBottom  : this.state.hovered && `1px solid ${grey300}`,
       width           : colWidth,
     };
 

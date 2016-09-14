@@ -29,7 +29,6 @@ class SDBodyRow extends React.Component {
         display   : "inline-block",
         width     : colWidths[colKey],
       };
-      const dataKey = col.dataKey || colKey;
 
       bodyCells.push(
         <div
@@ -37,7 +36,7 @@ class SDBodyRow extends React.Component {
           className={styles.cell}
           style={{ ...hoverStyle, ...col.colStyle }}
         >
-          {renderEGCell(col.renderType, row, col, dataKey)}
+          {renderEGCell(col.renderType, row, col, colKey)}
         </div>
       );
     });

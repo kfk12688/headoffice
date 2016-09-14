@@ -29,6 +29,7 @@ class ModalCell extends Component {
         accent="indigo"
         title="Click to open"
         caption="Open"
+        modalTitle={caption}
         btnClassName={styles.btnClass}
         show={this.state.show}
         toggleModal={this.toggleModal}

@@ -80,16 +80,13 @@ class EGForm extends Component {
     const { className, fieldProps } = this.props;
     const fields = this.constructFields(fieldProps);
     const subFields = this.constructSubFields(fieldProps);
-    const fieldHeightCss = {
-      maxHeight : (subFields.length !== 0) ? 190 : "auto",
-    };
 
     return (
       <form className={className} onSubmit={this.submitForm}>
-        <div ref={this.assignFieldTarget} className={styles.fields} style={fieldHeightCss}>{fields}</div>
+        <div ref={this.assignFieldTarget} className={styles.fields}>{fields}</div>
         {(subFields.length !== 0) && <div className={styles.subFields}>{subFields}</div>}
         <div className={styles.formSubmitGroup}>
-          <Button className={styles.formSubmitGroupBtn} accent type="submit">Save</Button>
+          <Button className={styles.formSubmitGroupBtn} accent type="submit">Save Data</Button>
           <Button className={styles.formSubmitGroupBtn} bordered onClick={this.resetForm}>Cancel</Button>
         </div>
       </form>

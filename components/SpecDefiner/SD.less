@@ -11,7 +11,7 @@
   .absolute-position-mixin(@bottom: auto);
   padding: 3px 0;
   padding-right: 3px;
-  font-size: 12px;
+  font-size: 13px;
 
   .meta {
     float: left;
@@ -27,10 +27,9 @@
 }
 
 .table {
+  .absolute-position-mixin();
   border: 1px solid @grey300;
   border-radius: 2px;
-  min-height: 100%;
-  overflow: auto;
 }
 
 .spinner {

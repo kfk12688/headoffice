@@ -7,6 +7,12 @@ export const LabelCell = ({ value: array }) => {
     if (typeof val === "boolean") {
       return <span key={key} className={styles.labelCellTags}>{key}</span>;
     }
+    if (Array.isArray(val)) {
+      if (val.length !== 0) {
+        return <span key={key} className={styles.labelCellTags}>{key} : {val.toString()}</span>;
+      }
+      return null;
+    }
     return <span key={key} className={styles.labelCellTags}>{key} : <span>{val}</span></span>;
   });
 

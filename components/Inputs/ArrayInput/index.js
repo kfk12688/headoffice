@@ -63,7 +63,7 @@ class ArrayInput extends Component {
       <div>
         <div className={styles.arrayHeader}>
           <div style={{ float : "left" }}>{`Enter data into ${name} Array`}</div>
-          <Button style={{ float : "right" }} bordered
+          <Button style={{ float : "right" }} bordered accent="green"
                   faName="plus" onClick={onClickAddHandler}
           >
             {`Add ${name}`}

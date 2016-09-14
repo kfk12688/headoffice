@@ -30,8 +30,8 @@ function getCell(transform, type, row, col) {
       displayText : f.displayText,
       key         : f.fieldName,
     }));
-
-    return (<ModalCell rows={rows} cols={cols} caption={col.displayText}/>);
+    if (rows.length !== 0) return (<ModalCell rows={rows} cols={cols} caption={col.displayText}/>);
+    return null;
   }
   if (type === "schema") {
     return null;

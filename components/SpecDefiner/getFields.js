@@ -17,6 +17,7 @@ const getFields = (fieldName, fieldType, fieldProps) => {
     max      : { key : `${fieldName}.max`, displayText : "Maximum" },
     ref      : { key : `${fieldName}.ref`, displayText : "Reference to Table" },
     refField : { key : `${fieldName}.refField`, displayText : "Reference to Field" },
+    enum     : { key : `${fieldName}.enum`, displayText : "List of values" },
   };
 
   let formElements = [
@@ -39,6 +40,7 @@ const getFields = (fieldName, fieldType, fieldProps) => {
   if (fieldType === "String") {
     formElements = [
       ...formElements,
+      <Row key={`fieldProps.${config.enum.key}`} prop={config.enum} component={TextInput}/>,
       <Row key={`fieldProps.${config.default.key}`} prop={config.default} component={TextInput}/>,
     ];
   }

@@ -21,11 +21,11 @@ const Navigator = () =>
     </div>
     <div className={styles.nav}>
       <TabGroup childClassName={styles.link}>
-        <Tab><NavLink to="/template">Templates</NavLink></Tab>
-        <Tab><NavLink to="/data">Data</NavLink></Tab>
-        <Tab><NavLink to="/view">Views</NavLink></Tab>
-        <Tab><NavLink to="/user">Users</NavLink></Tab>
-        <Tab><NavLink to="/workbooks">Workbooks</NavLink></Tab>
+        <Tab><NavLink to="/app/template">Templates</NavLink></Tab>
+        <Tab><NavLink to="/app/data">Data</NavLink></Tab>
+        <Tab><NavLink to="/app/view">Views</NavLink></Tab>
+        <Tab><NavLink to="/app/user">Users</NavLink></Tab>
+        <Tab><NavLink to="/app/workbooks">Workbooks</NavLink></Tab>
       </TabGroup>
     </div>
   </div>;

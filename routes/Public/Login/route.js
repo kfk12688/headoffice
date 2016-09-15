@@ -4,7 +4,7 @@
 import Login from "./index";
 
 const route = {
-  path        : "/login",
+  path        : "login",
   component   : Login,
 };
 

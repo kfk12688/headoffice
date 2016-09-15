@@ -6,9 +6,13 @@ import styles from "./index.less";
 import cx from "classnames";
 
 class Login extends Component {
-  constructor() {
-    super();
+  constructor(props, context) {
+    super(props, context);
     this.loginUser = this.loginUser.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.isAuthenticated) this.context.router.push("/app/template");
   }
 
   loginUser(e) {
@@ -102,10 +106,15 @@ Login.propTypes = {
   errorMessage : PropTypes.string,
 };
 
+Login.contextTypes = {
+  router : React.PropTypes.func.isRequired,
+};
+
 const mapStateToProps = (state) => {
-  const { errorMessage } = state.auth;
+  const { errorMessage, isAuthenticated } = state.auth;
 
   return {
+    isAuthenticated,
     errorMessage,
   };
 };

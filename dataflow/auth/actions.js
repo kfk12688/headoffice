@@ -7,17 +7,16 @@ import { createAction } from "redux-actions";
 import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT_REQUEST, LOGOUT_SUCCESS } from "./types";
 const api = "http://localhost:3001/api";
 
-const requestLogin = createAction(LOGIN_REQUEST, creds => ({
+const requestLogin = createAction(LOGIN_REQUEST, () => ({
   type            : LOGIN_REQUEST,
   isFetching      : true,
   isAuthenticated : false,
-  creds,
 }));
 const receiveLogin = createAction(LOGIN_SUCCESS, user => ({
   type            : LOGIN_SUCCESS,
   isFetching      : false,
   isAuthenticated : true,
-  id_token        : user.id_token,
+  user,
 }));
 const loginError = createAction(LOGIN_FAILURE, message => ({
   type            : LOGIN_FAILURE,
@@ -25,11 +24,15 @@ const loginError = createAction(LOGIN_FAILURE, message => ({
   isAuthenticated : false,
   message,
 }));
-const requestLogout = createAction(LOGOUT_REQUEST, () => ({
-  type            : LOGOUT_REQUEST,
-  isFetching      : true,
-  isAuthenticated : true,
-}));
+const requestLogout = createAction(LOGOUT_REQUEST, () => {
+  localStorage.removeItem("id_token");
+
+  return {
+    type            : LOGOUT_REQUEST,
+    isFetching      : true,
+    isAuthenticated : true,
+  }
+});
 const receiveLogout = createAction(LOGOUT_REQUEST, () => ({
   type            : LOGOUT_SUCCESS,
   isFetching      : false,
@@ -37,7 +40,7 @@ const receiveLogout = createAction(LOGOUT_REQUEST, () => ({
 }));
 
 export const loginUser = (creds) => dispatch => {
-  dispatch(requestLogin(creds));
+  dispatch(requestLogin());
 
   fetch(`${api}/signIn`, {
     method  : "POST",
@@ -80,7 +83,6 @@ export const logoutUser = () => dispatch => {
     .then(json => {
       const { status } = json;
       if (status === "success") {
-        localStorage.removeItem("id_token");
         dispatch(receiveLogout());
       }
     })

@@ -3,15 +3,17 @@
  */
 import App from "./";
 import appRoute from "./App/route";
-import publicRoute from "./Public/route";
+import loginRoute from "./Public/Login/route";
+import signUpRoute from "./Public/SignUp/route";
 
 const route = {
   path        : "/",
   component   : App,
-  indexRoute  : { onEnter : (nextState, replace) => replace('/app/template') },
+  indexRoute  : { onEnter : (nextState, replace) => replace("/app/template") },
   childRoutes : [
     appRoute,
-    publicRoute,
+    loginRoute,
+    signUpRoute,
   ],
 };
 

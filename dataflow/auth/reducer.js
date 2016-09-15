@@ -17,12 +17,12 @@ const auth = handleActions({
     ...state,
     isFetching      : true,
     isAuthenticated : false,
-    user            : action.payload.creds,
   }),
-  [LOGIN_SUCCESS]  : (state) => ({
+  [LOGIN_SUCCESS]  : (state, action) => ({
     ...state,
     isFetching      : false,
     isAuthenticated : true,
+    user            : action.payload.user,
     errorMessage    : "",
   }),
   [LOGIN_FAILURE]  : (state, action) => ({
@@ -34,11 +34,11 @@ const auth = handleActions({
   [LOGOUT_REQUEST] : (state) => ({
     ...state,
     isFetching      : true,
-    isAuthenticated : true,
+    isAuthenticated : false,
   }),
   [LOGOUT_SUCCESS] : (state) => ({
     ...state,
-    isFetching      : true,
+    isFetching      : false,
     isAuthenticated : false,
   }),
 }, initialState);

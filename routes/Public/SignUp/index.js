@@ -1,49 +1,32 @@
 import React, { Component, PropTypes } from "react";
 import { connect } from "react-redux";
-import { loginUser } from "dataflow/auth/actions";
-import { Button, NavLink } from "components";
-import styles from "./index.less";
+import { Button } from "components";
 import Logo from "../../styles/logo";
+import styles from "./index.less";
 import cx from "classnames";
 
 class Login extends Component {
   constructor(props, context) {
     super(props, context);
-    this.loginUser = this.loginUser.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.isAuthenticated) this.context.router.push("/app/template");
-  }
-
-  loginUser(e) {
-    e.preventDefault();
-
-    const username = this.refs.username;
-    const password = this.refs.password;
-    const creds = { username : username.value.trim(), password : password.value.trim() };
-    this.props.loginUser(creds);
-  }
+  onSubmit() {}
 
   render() {
-    const { errorMessage } = this.props;
-
     return (
       <div className={styles.base}>
         <div className={styles.header}>
-          <a href="https://headoffice.com">
-            <Logo size="60"/>
-          </a>
+          <a href="https://headoffice.com"><Logo size="48"/></a>
         </div>
 
         <div className={styles.form}>
-          <form>
+          <form onSubmit={this.onSubmit}>
             <div className={styles.formHeader}>
-              <h1>Sign in to HeadOffice</h1>
+              <h1>Sign Up into HeadOffice</h1>
             </div>
 
             <div className={styles.formBody}>
-              <label htmlFor="login_field">Username or email address</label>
+              <label htmlFor="login_field">Username</label>
               <input
                 ref="username"
                 tabIndex="1"
@@ -54,36 +37,61 @@ class Login extends Component {
                 className={styles.inputBlock}
               />
 
-              <label htmlFor="password">
-                Password
-                <NavLink to="/password_reset">Forgot password?</NavLink>
-              </label>
+              <label>Email address</label>
+              <input
+                tabIndex="2"
+                type="email"
+                autoFocus="autofocus"
+                autoCorrect="off"
+                autoCapitalize="off"
+                className={styles.inputBlock}
+              />
+
+              <label>First Name</label>
+              <input
+                tabIndex="3"
+                type="text"
+                autoFocus="autofocus"
+                autoCorrect="off"
+                autoCapitalize="off"
+                className={styles.inputBlock}
+              />
+
+              <label>Last Name</label>
+              <input
+                tabIndex="4"
+                type="text"
+                autoFocus="autofocus"
+                autoCorrect="off"
+                autoCapitalize="off"
+                className={styles.inputBlock}
+              />
+
+              <label htmlFor="password">Password</label>
               <input
                 ref="password"
-                tabIndex="2"
+                tabIndex="5"
                 type="password"
                 className={styles.inputBlock}
               />
 
               <Button
-                tabIndex="3"
+                tabIndex="6"
                 type="submit"
                 className={cx(styles.btn, styles.btnBlock, styles.btnPrimary)}
-                onClick={this.loginUser}
               >
-                Sign In
+                Submit
               </Button>
 
-              {
-                errorMessage && <p className={styles.errorMsg}>{errorMessage}</p>
-              }
+              <Button
+                tabIndex="7"
+                bordered
+                className={cx(styles.btn, styles.btnBlock)}
+              >
+                Cancel
+              </Button>
             </div>
           </form>
-
-          <p className={styles.createAccountCallout}>
-            New to HeadOffice?
-            <NavLink to="/signup">Create an account</NavLink>.
-          </p>
         </div>
 
         <div className={styles.footer}>
@@ -99,27 +107,13 @@ class Login extends Component {
   }
 }
 
-Login.propTypes = {
-  loginUser    : PropTypes.func.isRequired,
-  errorMessage : PropTypes.string,
-};
-
+Login.propTypes = {};
 Login.contextTypes = {
   router : React.PropTypes.func.isRequired,
 };
 
-const mapStateToProps = (state) => {
-  const { errorMessage, isAuthenticated } = state.auth;
-
-  return {
-    isAuthenticated,
-    errorMessage,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  loginUser : creds => dispatch(loginUser(creds)),
-});
+const mapStateToProps = (state) => ({});
+const mapDispatchToProps = (dispatch) => ({});
 
 export default
 connect(mapStateToProps, mapDispatchToProps)(Login);

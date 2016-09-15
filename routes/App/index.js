@@ -1,5 +1,7 @@
 import React from "react";
-import { Navigator } from "components";
+import { connect } from "react-redux";
+import { Navigator } from "./components/Navigator";
+import { logoutUser } from "dataflow/auth/actions";
 import cx from "classnames";
 import styles from "./index.less";
 
@@ -11,11 +13,21 @@ class App extends React.Component {
     this.handleRollUpToggle = this.handleRollUpToggle.bind(this);
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { authStore } = nextProps;
+    const { isAuthenticated } = authStore;
+    if (!isAuthenticated) this.context.router.push("/login");
+  }
+
+
   handleRollUpToggle() {
     this.setState({ rollUp : !this.state.rollUp });
   }
 
   render() {
+    const { authStore } = this.props;
+    const { user } = authStore;
+
     return (
       <div>
         {/* Roll Up/Down Gimmick */}
@@ -30,7 +42,10 @@ class App extends React.Component {
         </div>
 
         {/* Fixed navigator header */}
-        {this.state.rollUp ? <Navigator/> : ""}
+        {
+          this.state.rollUp &&
+          <Navigator user={user} logoutUser={this.props.logoutUser}/>
+        }
 
         {/* Route Children */}
         {
@@ -43,4 +58,21 @@ class App extends React.Component {
   }
 }
 
-export default App;
+App.propTypes = {
+  authStore  : React.PropTypes.object,
+  logoutUser : React.PropTypes.func,
+  children   : React.PropTypes.node.isRequired,
+};
+App.contextTypes = {
+  router : React.PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({
+  authStore : state.auth,
+});
+
+const mapDispatchToProps = dispatch => ({
+  logoutUser : () => dispatch(logoutUser()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

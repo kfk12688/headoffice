@@ -6,7 +6,7 @@ const isLoggedIn = () => !!localStorage.getItem("id_token");
 export const requireAuth = (nextState, replace, next) => {
   if (!isLoggedIn()) {
     replace({
-      pathname : "/public/login",
+      pathname : "/login",
       state    : { nextPathname : nextState.location.pathname },
     });
   }

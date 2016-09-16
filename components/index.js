@@ -7,7 +7,6 @@ export { Modal } from "./Modal";
 export { EntryGrid } from "./EntryGrid";
 export { Entry } from "./Entry";
 export { SpecDefiner } from "./SpecDefiner";
-export { Navigator } from "./Navigator";
 export { Breadcrumb } from "./Breadcrumb";
 export { SearchBar } from "./SearchBar";
 export { Table } from "./Table";

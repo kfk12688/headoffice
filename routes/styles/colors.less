@@ -1,0 +1,100 @@
+.clearfix {
+  &:after {
+    content: " ";
+    display: block;
+    height: 0;
+    clear: both;
+  }
+}
+
+.absolute-position-mixin(@top: 0px, @right: 0px, @bottom: 0px, @left: 0px) {
+  position: absolute;
+  top: @top;
+  right: @right;
+  bottom: @bottom;
+  left: @left;
+}
+
+.outline-mixin {
+  //outline : 1px solid @redA200;
+  outline: none;
+  box-shadow: 0 0 1px 1px @redA200;
+}
+
+// Replica of the colors ts file
+@transparent: hsla(0, 0%, 0%, 0);
+@black: #000000;
+@white: #ffffff;
+
+// Grey color pallete
+@grey50: #fafafa;
+@grey100: #f5f5f5;
+@grey200: #eeeeee;
+@grey300: #e0e0e0;
+@grey400: #bdbdbd;
+@grey500: #9e9e9e;
+@grey600: #757575;
+@grey700: #616161;
+@grey800: #424242;
+@grey900: #212121;
+
+// Primary Accent Color
+@red50: #ffebee;
+@red100: #ffcdd2;
+@red200: #ef9a9a;
+@red300: #e57373;
+@red400: #ef5350;
+@red500: #f44336;
+@red600: #e53935;
+@red700: #d32f2f;
+@red800: #c62828;
+@red900: #b71c1c;
+@redA100: #ff8a80;
+@redA200: #ff5252;
+@redA400: #ff1744;
+@redA700: #d50000;
+
+// Secondary Accent Color
+@indigo50: #e8eaf6;
+@indigo100: #c5cae9;
+@indigo200: #9fa8da;
+@indigo300: #7986cb;
+@indigo400: #5c6bc0;
+@indigo500: #3f51b5;
+@indigo600: #3949ab;
+@indigo700: #303f9f;
+@indigo800: #283593;
+@indigo900: #1a237e;
+@indigoA100: #8c9eff;
+@indigoA200: #536dfe;
+@indigoA400: #3d5afe;
+@indigoA700: #304ffe;
+
+@blueGrey50: #eceff1;
+@blueGrey100: #cfd8dc;
+@blueGrey200: #b0bec5;
+@blueGrey300: #90a4ae;
+@blueGrey400: #78909c;
+@blueGrey500: #607d8b;
+@blueGrey600: #546e7a;
+@blueGrey700: #455a64;
+@blueGrey800: #37474f;
+@blueGrey900: #263238;
+
+@green50: #e8f5e9;
+@green100: #c8e6c9;
+@green200: #a5d6a7;
+@green300: #81c784;
+@green400: #66bb6a;
+@green500: #4caf50;
+@green600: #43a047;
+@green700: #388e3c;
+@green800: #2e7d32;
+@green900: #1b5e20;
+@greenA100: #b9f6ca;
+@greenA200: #69f0ae;
+@greenA400: #00e676;
+@greenA700: #00c853;
+
+@greenLight: #66CE78;
+@greenDark: #41B056;

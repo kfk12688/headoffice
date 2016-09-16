@@ -1,15 +1,18 @@
 import "isomorphic-fetch";
 
 export default function (method, api, params) {
+  const token = localStorage.getItem("id_token") || null;
+  if (!token) throw Error("No token present. Login again");
+
   const headers = new Headers({
-    authorization : "Bearer 0152d2e1-055a-4fd6-a846-ad1a8a07058c",
+    authorization : `Bearer ${token}`,
   });
 
   let settings = {
     headers,
     method,
     cache : "default",
-    mode: "same-origin",
+    mode  : "same-origin",
   };
 
   if ((method === "POST") || (method === "PUT")) {
@@ -17,13 +20,12 @@ export default function (method, api, params) {
 
     settings = {
       headers,
-      body : JSON.stringify(params),
+      body  : JSON.stringify(params),
       method,
       cache : "default",
     };
   }
 
   const req = new Request(api, settings);
-
   return fetch(req);
 }

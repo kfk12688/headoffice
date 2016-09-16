@@ -5,14 +5,14 @@ import { Provider } from "react-redux";
 import { Router, hashHistory } from "react-router";
 import { syncHistoryWithStore } from "react-router-redux";
 import configureStore from "./dataflow/configureStore";
-import RootRoute from "./routes/App";
+import rootRoute from "./routes/route";
 
 const store = configureStore();
 const history = syncHistoryWithStore(hashHistory, store);
 
 render(
   <Provider store={store}>
-    <Router history={history} routes={RootRoute}/>
+    <Router history={history} routes={rootRoute}/>
   </Provider>,
   document.getElementById("HOApp")
 );

@@ -23,11 +23,13 @@ class PopupButton extends React.Component {
       this.popupMenuStyle = childrenStyle;
     }
 
-    this.popupMenuItems = React.Children.map(children, child => React.cloneElement(child, {
-      className : cx(this.childrenStyle, {
-        [styles.menuItem] : !childrenStyle,
-      }),
-    }));
+    this.popupMenuItems = React.Children.map(children, child =>
+      React.cloneElement(child, {
+        className : cx(this.childrenStyle, {
+          [styles.menuItem] : !childrenStyle,
+        }),
+      })
+    );
   }
 
   handleClick() {
@@ -35,12 +37,13 @@ class PopupButton extends React.Component {
   }
 
   render() {
-    const { label, faName, className, bordered } = this.props;
+    const { label, faName, className, bordered, style } = this.props;
     let baseClass = styles.base;
     if (bordered) baseClass = cx(styles.base, styles.border, className);
 
     return (
       <span
+        style={style}
         className={baseClass}
         ref={this.assignTarget}
         onClick={this.handleClick}
@@ -67,6 +70,7 @@ export { PopupButton };
 
 PopupButton.propTypes = {
   className     : React.PropTypes.string,
+  style         : React.PropTypes.object,
   bordered      : React.PropTypes.bool,
   label         : React.PropTypes.string,
   faName        : React.PropTypes.string,

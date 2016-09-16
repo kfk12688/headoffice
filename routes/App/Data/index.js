@@ -40,13 +40,13 @@ class Data extends Component {
       {
         dataKey    : "templateName",
         linkRef    : {
-          path   : "/data/view",
+          path   : "app/data/view",
           urlKey : "id",
         },
         button     : {
           buttonText : "Enter Data",
           link       : {
-            path : "/data/entry",
+            path : "app/data/entry",
             key  : "id",
           },
         },
@@ -241,7 +241,7 @@ class Data extends Component {
     return (
       <div
         className={styles.base}
-        style={{ top : rollUp ? 53 : 0 }}
+        style={{ top : rollUp ? 35 : 0 }}
       >
 
         {/* Breadcrumb */}

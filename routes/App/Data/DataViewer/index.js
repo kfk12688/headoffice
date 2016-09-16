@@ -28,8 +28,8 @@ class Editor extends Component {
         <div>
           {/* Sidebar Container */}
           <div className={styles.sidebar}>
-            <NavLinkBtn to="/data" faName="times-circle-o">Close View</NavLinkBtn>
-            <NavLinkBtn to={`/data/entry/${id}`} faName="arrow-circle-o-right">Goto Entry View</NavLinkBtn>
+            <NavLinkBtn to="app/data" faName="times-circle-o">Close View</NavLinkBtn>
+            <NavLinkBtn to={`app/data/entry/${id}`} faName="arrow-circle-o-right">Goto Entry View</NavLinkBtn>
           </div>
 
           {/* DataGrid Container */}

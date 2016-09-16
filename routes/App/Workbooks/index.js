@@ -32,7 +32,7 @@ class Workbooks extends Component {
         actions    : this.actionsCollection,
         text       : "Display Name",
         linkRef    : {
-          path   : "/user/edit",
+          path   : "app/user/workbook",
           urlKey : "id",
         },
       },
@@ -161,7 +161,7 @@ class Workbooks extends Component {
     return (
       <div
         className={styles.base}
-        style={{ top : rollUp ? 53 : 0 }}
+        style={{ top : rollUp ? 35 : 0 }}
       >
 
         {/* Breadcrumb */}

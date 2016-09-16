@@ -42,7 +42,7 @@ class Template extends Component {
       {
         dataKey    : "templateName",
         linkRef    : {
-          path   : "template",
+          path   : "app/template",
           urlKey : "id",
         },
         name       : "name-col",
@@ -255,7 +255,7 @@ class Template extends Component {
     return (
       <div
         className={styles.base}
-        style={{ top : rollUp ? 53 : 0 }}
+        style={{ top : rollUp ? 35 : 0 }}
       >
 
         {/* Breadcrumb */}

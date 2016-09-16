@@ -34,7 +34,7 @@ class User extends Component {
         text       : "Display Name",
         actions    : this.actionsCollection,
         linkRef    : {
-          path   : "/user/edit",
+          path   : "app/user",
           urlKey : "id",
         },
       },
@@ -166,7 +166,7 @@ class User extends Component {
     return (
       <div
         className={styles.base}
-        style={{ top : rollUp ? 53 : 0 }}
+        style={{ top : rollUp ? 35 : 0 }}
       >
 
         {/* Breadcrumb */}

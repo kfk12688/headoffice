@@ -17,24 +17,8 @@ const Navigator = (props) => {
   };
 
   return (
-    <div
-      className={styles.root}
-    >
-      <div className={styles.header}>
-        <div className={styles.brand}><Logo size="18"/> Head Office App</div>
-        <div className={styles.assist}>
-          <TabGroup childClassName={styles.link}>
-            <Tab>Alerts</Tab>
-            <Tab>Help</Tab>
-            <Tab>
-              <PopupButton label={firstName} style={popupStyle}>
-                <div>Logged in as {username}</div>
-                <div onClick={() => logoutUser()}>Sign Out</div>
-              </PopupButton>
-            </Tab>
-          </TabGroup>
-        </div>
-      </div>
+    <div className={styles.root}>
+      <div className={styles.brand}><Logo size="18" light/> Head Office App</div>
 
       <div className={styles.nav}>
         <TabGroup childClassName={styles.link}>
@@ -43,6 +27,19 @@ const Navigator = (props) => {
           <Tab><NavLink to="/app/view">Reports</NavLink></Tab>
           <Tab><NavLink to="/app/user">Users</NavLink></Tab>
           <Tab><NavLink to="/app/workbooks">Workbooks</NavLink></Tab>
+        </TabGroup>
+      </div>
+
+      <div className={styles.assist}>
+        <TabGroup childClassName={styles.link}>
+          <Tab>Alerts</Tab>
+          <Tab>Help</Tab>
+          <Tab>
+            <PopupButton label={firstName} style={popupStyle}>
+              <div>Logged in as {username}</div>
+              <div onClick={() => logoutUser()}>Sign Out</div>
+            </PopupButton>
+          </Tab>
         </TabGroup>
       </div>
     </div>

@@ -1,35 +1,47 @@
 var path = require("path");
 var webpack = require("webpack");
+var HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   devtool : "eval",
   entry   : [
-    "webpack-dev-server/client?http://localhost:3001", // WebpackDevServer host and port
-    "webpack/hot/only-dev-server", // "only" prevents reload on syntax errors
-    "./index"
+    "webpack-hot-middleware/client?reload=true",
+    path.join(__dirname, "src/index.js")
   ],
   resolve : {
     root  : path.resolve(__dirname),
     alias : {
-      components : path.resolve(__dirname, "components"),
-      dataflow   : path.resolve(__dirname, "dataflow")
+      components : path.resolve(__dirname, "src", "components"),
+      dataflow   : path.resolve(__dirname, "src", "dataflow")
     }
   },
   output  : {
     path       : path.join(__dirname, "dist"),
-    filename   : "bundle.js",
-    publicPath : "http://localhost:3001/static/"
+    filename   : "[name].js",
+    publicPath : "/"
   },
   plugins : [
+    new HtmlWebpackPlugin({
+      template : "src/index.tpl.html",
+      inject   : "body",
+      filename : "index.html"
+    }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin(),
+    new webpack.DefinePlugin({
+      "process.env.NODE_ENV" : JSON.stringify("development")
+    })
   ],
   module  : {
     loaders : [{
       test    : /\.js$/,
       loader  : "babel",
       exclude : /node_modules/,
-      include : __dirname
+      query   : {
+        presets : ["react", "es2015", "stage-0", "react-hmre"],
+        plugins : ["transform-es2015-destructuring", "transform-object-rest-spread"]
+      }
     }, {
       test   : /\.(png|woff|woff2|eot|ttf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
       loader : "url-loader?limit=10000&mimetype=application/font-woff"

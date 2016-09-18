@@ -10,4 +10,8 @@ const Breadcrumb = (props) =>
     className={cx(styles.base, props.className)}
   />;
 
+Breadcrumb.propTypes = {
+  className : React.PropTypes.string,
+};
+
 export { Breadcrumb };

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { DGBodyCell } from "./DGBodyCell";
-import { grey50, transparent, blueGrey50 } from "../styles/colors";;
+import { grey50, transparent, blueGrey50 } from "../styles/colors";
 import styles from "./DGBodyRow.less";
 
 class DGBodyRow extends Component {
@@ -40,13 +40,15 @@ class DGBodyRow extends Component {
 
   render() {
     const { isRowSelected } = this.props;
-    let rowStyle = {
-      backgroundColor : isRowSelected ?
-                        blueGrey50 :
-                        this.state.hovered ?
-                        grey50 :
-                        transparent,
-    };
+
+    let rowColor = transparent;
+    if (isRowSelected) {
+      rowColor = blueGrey50;
+    } else if (this.state.hovered) {
+      rowColor = grey50;
+    }
+
+    let rowStyle = { backgroundColor : rowColor };
 
     return (
       <div

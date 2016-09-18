@@ -40,4 +40,10 @@ class ModalCell extends Component {
   }
 }
 
+ModalCell.propTypes = {
+  rows    : React.PropTypes.array,
+  cols    : React.PropTypes.array,
+  caption : React.PropTypes.string,
+};
+
 export { ModalCell };

@@ -10,12 +10,18 @@ const Tab = ({ style, children, className }) => {
 
   return (
     <span
-      style={{ border: 0, ...style }}
+      style={{ border : 0, ...style }}
       className={cx(styles.base, { [className] : classExists })}
     >
       {children}
     </span>
   );
+};
+
+Tab.propTypes = {
+  children  : React.PropTypes.node.isRequired,
+  style     : React.PropTypes.object,
+  className : React.PropTypes.string,
 };
 
 export { Tab };

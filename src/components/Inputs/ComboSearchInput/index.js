@@ -46,8 +46,12 @@ class ComboSearchInput extends React.Component {
     };
     this.ctrls = {};
     this.labels = {};
-    this.assignTarget = target => this.ctrls.target = target;
-    this.assignInput = input => this.ctrls.input = input;
+    this.assignTarget = target => {
+      this.ctrls.target = target;
+    };
+    this.assignInput = input => {
+      this.ctrls.input = input;
+    };
 
     this.togglePopup = this.togglePopup.bind(this);
     this.setSearchText = this.setSearchText.bind(this);

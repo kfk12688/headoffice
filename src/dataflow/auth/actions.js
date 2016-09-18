@@ -31,7 +31,7 @@ const requestLogout = createAction(LOGOUT_REQUEST, () => {
     type            : LOGOUT_REQUEST,
     isFetching      : true,
     isAuthenticated : true,
-  }
+  };
 });
 const receiveLogout = createAction(LOGOUT_REQUEST, () => ({
   type            : LOGOUT_SUCCESS,

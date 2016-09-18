@@ -7,7 +7,7 @@ class Formatter {
    * @param decimals - the number of significant decimals in the output
    * @returns {any} - the converted string
    */
-  static toBytes(bytes, decimals):string {
+  static toBytes(bytes, decimals): string {
     if (bytes === 0) {
       return "0 Byte";
     }
@@ -16,7 +16,9 @@ class Formatter {
     const dm = decimals + 1 || 1;
     const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
+
+    const formattedSizeString = parseFloat((bytes / Math.pow(k, i)).toFixed(dm));
+    return `${formattedSizeString} ${sizes[i]}`;
   }
 
   /**

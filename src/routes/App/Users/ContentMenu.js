@@ -44,7 +44,7 @@ class ContentMenu extends Component {
   }
 
   render() {
-    const { className, toggleMenuSidebar, menuStore, clearSelection, addNewUser } = this.props;
+    const { className, menuStore, addNewUser } = this.props;
 
     return (
       <div
@@ -54,7 +54,7 @@ class ContentMenu extends Component {
           <span>
             <Button
               faName="sliders"
-              onClick={toggleMenuSidebar}
+              onClick={this.props.toggleMenuSidebar}
               className={cx(styles.icon, { [styles.iconActive] : menuStore.showSidebar })}
             />
             <Modal
@@ -68,7 +68,7 @@ class ContentMenu extends Component {
             </Modal>
             <PopupButton label={`${menuStore.selectedKeys.length} selected`}>
               <div onClick={this.selectAllHandler}>Select All</div>
-              <div onClick={clearSelection}>Clear selection</div>
+              <div onClick={this.props.clearSelection}>Clear selection</div>
             </PopupButton>
           </span>
 

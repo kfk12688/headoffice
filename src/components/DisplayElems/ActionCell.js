@@ -4,7 +4,8 @@ import { PopupButton } from "../Button";
 export const ActionCell = ({ actions, className, data }) => {
   const actionsElement = actions.map(action => {
     const key = action.name.replace(/ /g, "").toLowerCase();
-    return <div key={key} onClick={action.handler.bind(this, data)}>{action.name}</div>;
+
+    return <div key={key} onClick={() => action.handler(data)}>{action.name}</div>;
   });
 
   return (

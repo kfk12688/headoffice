@@ -12,8 +12,6 @@ general:
       - master
       - develop
 
-  build_dir: dist
-
 test:
  pre:
   - npm run lint

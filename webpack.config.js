@@ -9,10 +9,10 @@ module.exports = {
     path.join(__dirname, "src/index.js")
   ],
   resolve : {
-    root  : path.resolve(__dirname),
+    root  : path.join(__dirname),
     alias : {
-      components : path.resolve(__dirname, "src", "components"),
-      dataflow   : path.resolve(__dirname, "src", "dataflow")
+      components : path.join(__dirname, "src", "components"),
+      dataflow   : path.join(__dirname, "src", "dataflow")
     }
   },
   output  : {

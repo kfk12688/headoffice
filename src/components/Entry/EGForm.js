@@ -9,7 +9,9 @@ class EGForm extends Component {
     super(props);
     this.subFields = [];
     this.ctrls = {};
-    this.assignFieldTarget = target => this.ctrls.fieldDOM = target;
+    this.assignFieldTarget = target => {
+      this.ctrls.fieldDOM = target;
+    };
 
     this.resetForm = this.resetForm.bind(this);
     this.submitForm = this.submitForm.bind(this);

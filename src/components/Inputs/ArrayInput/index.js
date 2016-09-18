@@ -53,7 +53,7 @@ class ArrayInput extends Component {
   }
 
   render() {
-    const { fields, name, title } = this.props;
+    const { fields, title } = this.props;
     const onClickAddHandler = e => {
       e.preventDefault();
       fields.push({});
@@ -75,5 +75,11 @@ class ArrayInput extends Component {
     );
   }
 }
+
+ArrayInput.propTypes = {
+  fields  : React.PropTypes.array,
+  title   : React.PropTypes.string,
+  subKeys : React.PropTypes.array,
+};
 
 export { ArrayInput };

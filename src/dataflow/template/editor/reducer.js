@@ -51,7 +51,9 @@ const reducer = handleActions({
     // these will be replaced by actual data from the db later
     field.displayText = field.fieldName;
     if (Array.isArray(field.fieldSchema) && (field.fieldSchema.length !== 0)) {
-      field.fieldSchema.forEach(f => { f.displayText = f.fieldName });
+      field.fieldSchema.forEach(f => {
+        f.displayText = f.fieldName;
+      });
     }
 
     const { primaryKey } = state;

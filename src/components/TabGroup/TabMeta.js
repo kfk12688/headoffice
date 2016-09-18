@@ -4,20 +4,23 @@
 import React from "react";
 import styles from "./TabMeta.less";
 
-const TabMeta = ({ children, meta, style }) => {
-  return (
-    <span className={styles.hoMetaTab}>
-      <span
-        className={styles.hoMetaTabButton}
-        style={style}
-      >
-        {children}
-      </span>
-      <span className={styles.hoMetaTabCount}>{meta.count}</span>
+const TabMeta = ({ children, meta, style }) =>
+  <span className={styles.hoMetaTab}>
+    <span
+      className={styles.hoMetaTabButton}
+      style={style}
+    >
+      {children}
     </span>
-  );
-};
+    <span className={styles.hoMetaTabCount}>{meta.count}</span>
+  </span>;
 
 TabMeta.displayName = "TabMeta";
+
+TabMeta.propTypes = {
+  children : React.PropTypes.node.isRequired,
+  style    : React.PropTypes.object,
+  meta     : React.PropTypes.object,
+};
 
 export { TabMeta };

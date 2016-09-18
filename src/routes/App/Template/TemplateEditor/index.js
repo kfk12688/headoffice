@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { SpecDefiner, Button } from "components";
 import {
-  loadEditor, editTemplate, editRow, deleteRow, clearEditFlag, addField, editTemplateSchema
+  loadEditor, editTemplate, editRow, deleteRow, clearEditFlag, addField, editTemplateSchema,
 } from "dataflow/template/editor/actions";
 import { TitleBar } from "./TitleBar";
 import styles from "./index.less";

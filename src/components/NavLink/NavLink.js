@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
-import { red400 } from "../styles/colors";;
+import { red400 } from "../styles/colors";
 import styles from "./NavLink.less";
 
 export const NavLink = (props) => {
@@ -20,6 +20,8 @@ export const NavLinkBtn = ({ children, faName, faClassName, ...rest }) =>
   </Link>;
 
 NavLinkBtn.propTypes = {
-  children : React.PropTypes.node.isRequired,
+  children    : React.PropTypes.node.isRequired,
+  faName      : React.PropTypes.string,
+  faClassName : React.PropTypes.string,
 };
 

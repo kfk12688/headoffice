@@ -8,17 +8,21 @@ const TabGroup = ({ children, style, className, childClassName }) => {
   const classes = {};
   classes[childClassName] = !!childClassName;
 
-  const tabs = React.Children.map(children, (child, index) => {
-    return React.cloneElement(child, {
-      className : cx(classes),
-      style,
-    });
-  });
+  const tabs = React.Children.map(children, (child, index) => React.cloneElement(child, {
+    className : cx(classes),
+    style,
+  }));
 
   return <div className={className}>{tabs}</div>;
 };
 
 TabGroup.displayName = "TabGroup";
+TabGroup.propTypes = {
+  children       : React.PropTypes.node.isRequired,
+  style          : React.PropTypes.object,
+  className      : React.PropTypes.string,
+  childClassName : React.PropTypes.string,
+};
 
 export { TabGroup };
 

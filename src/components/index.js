@@ -8,7 +8,6 @@ export { EntryGrid } from "./EntryGrid";
 export { Entry } from "./Entry";
 export { SpecDefiner } from "./SpecDefiner";
 export { Breadcrumb } from "./Breadcrumb";
-export { SearchBar } from "./SearchBar";
 export { Table } from "./Table";
 export * from "./NavLink";
 export * from "./Button";

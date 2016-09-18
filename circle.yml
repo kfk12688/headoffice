@@ -1,0 +1,20 @@
+machine:
+  node:
+    version: 4
+
+dependencies:
+  override:
+    - npm install --dev
+
+general:
+  branches:
+    only:
+      - master
+      - develop
+
+  build_dir: dist
+
+test:
+ pre:
+  - npm run lint
+

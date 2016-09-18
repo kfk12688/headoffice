@@ -1,28 +1,36 @@
 {
   "parser": "babel-eslint",
+  "extends": "airbnb",
+  "plugins": [ "react", "import" ],
+  "rules": {
+    "quotes": [ 2, "double"],
+    "arrow-body-style": [2, "as-needed", { "requireReturnForObjectLiteral": false} ],
+    "max-len": [1, 150, 2],
+    "key-spacing": [0],
+    "react/jsx-space-before-closing": [0],
+    "react/jsx-indent-props": [0],
+    "react/jsx-first-prop-new-line": [0],
+    "quote-props": [0],
+    "no-underscore-dangle": [1],
+    "comma-dangle": [2, "always-multiline"],
+    "no-unused-vars": [2, {"vars": "all", "args": "none"}],
+    "no-console": 1,
+    "no-var": 2,
+    "no-debugger": 1,
+    "indent": [2, 2, {"SwitchCase": 1}],
+    "prefer-const": 2
+  },
+  "settings": {
+    "import/resolver": {
+      "webpack" : "webpack.config.js"
+    },
+    "import/resolve": {
+      "extenstions": [ ".es6", ".js", ".jsx" ]
+    },
+    "import/parser": "babel-eslint"
+  },
   "env": {
     "browser": true,
-    "node": true
-  },
-  "extends": "airbnb",
-  "rules": {
-    "quotes": [
-      2,
-      "double"
-    ],
-    "arrow-body-style": [
-      2,
-      "as-needed",
-      {
-        "requireReturnForObjectLiteral": false
-      }
-    ],
-    "max-len" : [1, 150],
-    "key-spacing": [0],
-    "react/jsx-space-before-closing" : [0],
-    "react/jsx-indent-props" : [0],
-    "react/jsx-first-prop-new-line" : [0],
-    "quote-props" : [0],
-    "no-underscore-dangle" : [1]
+    "es6"  : true
   }
 }

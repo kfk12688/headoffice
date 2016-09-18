@@ -1,0 +1,9 @@
+@import "../styles/colors";
+@import "./common";
+
+// Entrygrid body
+.body {
+  max-height: 100%;
+  overflow: auto;
+  .absolute-position-mixin(@top: @rowHeight);
+}

@@ -1,0 +1,52 @@
+@import "../../../styles/colors";
+@import "../../../styles/spacing";
+
+// *********************************************************************************************************
+// Navigator
+// *********************************************************************************************************
+@navigatorHeight: 35px;
+
+.root {
+  .absolute-position-mixin();
+  background-color: @grey800;
+  color: @grey50;
+  height: @navigatorHeight;
+}
+
+.brand {
+  line-height: 34px;
+  margin-left: 15px;
+  margin-right: 25px;
+  font-size: 16px;
+  float: left;
+}
+
+.assist {
+  float: right;
+  line-height: 34px;
+  margin-right: 15px;
+  margin-left: 15px;
+}
+
+.nav {
+  float: left;
+  line-height: 34px;
+  margin-right: 15px;
+}
+
+.link {
+  border: none;
+  font-size: 14px;
+  color: @grey400;
+  margin-right: 16px;
+  a {
+    &:hover, &:focus {
+      border: none;
+      color: @white;
+      text-decoration: none;
+    }
+  }
+  &:last-child {
+    margin-right: 0;
+  }
+}

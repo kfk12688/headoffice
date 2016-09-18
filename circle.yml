@@ -1,0 +1,14 @@
+machine:
+  node:
+    version: 4
+
+general:
+  branches:
+    only:
+      - master
+      - develop
+
+test:
+ pre:
+  - npm run lint
+

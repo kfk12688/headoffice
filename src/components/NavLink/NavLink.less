@@ -1,0 +1,30 @@
+@import "../styles/colors";
+
+.btn {
+  position: relative;
+  display: inline-block;
+  font-size: inherit;
+  line-height: 16px;
+  cursor: pointer;
+  user-select: none;
+  appearance: none;
+  color: @grey900;
+  white-space: nowrap;
+  &:hover {
+    color: @grey500;
+    text-decoration: none;
+  }
+  &:active {
+    text-decoration: none;
+    color: @redA400;
+  }
+  &:focus {
+    text-decoration: none;
+    outline: none;
+    color: @red500;
+  }
+
+  i {
+    padding: 2px 4px;
+  }
+}

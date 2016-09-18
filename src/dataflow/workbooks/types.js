@@ -1,0 +1,7 @@
+export const WORKBOOK_REQUEST = "workbooks/LOAD_WORKBOOKS_REQUEST";
+export const WORKBOOK_SUCCESS = "workbooks/LOAD_WORKBOOKS_SUCCESS";
+export const WORKBOOK_FAILURE = "workbooks/LOAD_WORKBOOKS_FAILURE";
+
+export const NEW_WORKBOOK_REQUEST = "workbooks/NEW_WORKBOOK_REQUEST";
+export const NEW_WORKBOOK_SUCCESS = "workbooks/NEW_WORKBOOK_SUCCESS";
+export const NEW_WORKBOOK_FAILURE = "workbooks/NEW_WORKBOOK_FAILURE";

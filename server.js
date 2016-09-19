@@ -13,6 +13,7 @@ var httpProxy = require("http-proxy");
 var proxy = httpProxy.createProxyServer();
 const proxyTo = function (origin) {
   return function (req, res) {
+    delete req.headers.host;
     return proxy.web(req, res, { target : "http://" + origin });
   };
 };
@@ -40,6 +41,9 @@ if (isDeveloping) {
   app.use(webpackHotMiddleware(compiler));
 
   app.get("/api/*", proxyTo("localhost:3000"));
+  app.post("/api/*", proxyTo("localhost:3000"));
+  app.put("/api/*", proxyTo("localhost:3000"));
+  app.delete("/api/*", proxyTo("localhost:3000"));
   app.get("*", function response(req, res) {
     res.write(middleware.fileSystem.readFileSync(path.join(__dirname, "dist/index.html")));
     res.end();

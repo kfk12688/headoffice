@@ -9,6 +9,7 @@ export { Entry } from "./Entry";
 export { SpecDefiner } from "./SpecDefiner";
 export { Breadcrumb } from "./Breadcrumb";
 export { Table } from "./Table";
+export { SearchBar } from "./SearchBar";
 export * from "./NavLink";
 export * from "./Button";
 export * from "./DisplayElems";

@@ -1,6 +1,6 @@
 import fetch from "../fetchWrapper";
 
-const api = "http://localhost:3001/api/template";
+const api = "api/template";
 
 export const getTemplates = () =>
   fetch("GET", api)

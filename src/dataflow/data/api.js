@@ -1,6 +1,6 @@
 import fetch from "../fetchWrapper";
 
-const api = "http://localhost:3001/api/data";
+const api = "api/data";
 
 export const getSpec = params => {
   const { templateId } = params;

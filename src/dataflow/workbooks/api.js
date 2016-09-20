@@ -1,7 +1,7 @@
 import fetch from "../fetchWrapper";
 import _ from "underscore";
 
-const api = "http://localhost:3001/api";
+const api = "api";
 
 export const searchWorkbook = (query) =>
   fetch("GET", `${api}/workbook?query=${query}`)

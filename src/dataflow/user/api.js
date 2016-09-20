@@ -1,7 +1,7 @@
 import "isomorphic-fetch";
 import fetch from "../fetchWrapper";
 
-const api = "http://localhost:3001/api";
+const api = "api";
 
 export const getUserList = () =>
   fetch("GET", `${api}/user`)

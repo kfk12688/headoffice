@@ -5,7 +5,7 @@
 import "isomorphic-fetch";
 import { createAction } from "redux-actions";
 import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT_REQUEST, LOGOUT_SUCCESS } from "./types";
-const api = "http://localhost:3001/api";
+const api = "api";
 
 const requestLogin = createAction(LOGIN_REQUEST, () => ({
   type            : LOGIN_REQUEST,

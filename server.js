@@ -50,6 +50,12 @@ if (isDeveloping) {
   });
 } else {
   app.use(express.static(__dirname + "/dist"));
+
+  app.get("/api/*", proxyTo("localhost:3000"));
+  app.post("/api/*", proxyTo("localhost:3000"));
+  app.put("/api/*", proxyTo("localhost:3000"));
+  app.delete("/api/*", proxyTo("localhost:3000"));
+
   app.get("*", function response(req, res) {
     res.sendFile(path.join(__dirname, "dist/index.html"));
   });

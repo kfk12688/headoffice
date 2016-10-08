@@ -7,6 +7,7 @@ var HtmlWebpackPlugin = require("html-webpack-plugin");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var StatsPlugin = require("stats-webpack-plugin");
 var AutoPrefixer = require("autoprefixer");
+var Promise = require('es6-promise').Promise;
 
 module.exports = {
   entry   : [

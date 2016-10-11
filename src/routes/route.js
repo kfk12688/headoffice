@@ -1,20 +1,20 @@
-/**
- * Created by sharavan on 15/09/16.
- */
-import App from "./";
-import appRoute from "./App/route";
-import loginRoute from "./Public/Login/route";
-import signUpRoute from "./Public/SignUp/route";
+import App from "./index";
+import templateRoute from "./Template/route";
+import dataRoute from "./Data/route";
+import userRoute from "./Users/route";
+import workbooksRoute from "./Workbooks/route";
+import callbackRoute from "./Callback/route";
 
-const route = {
+const RootRoute = {
   path        : "/",
   component   : App,
-  indexRoute  : { onEnter : (nextState, replace) => replace("/app/template") },
   childRoutes : [
-    appRoute,
-    loginRoute,
-    signUpRoute,
+    templateRoute,
+    dataRoute,
+    userRoute,
+    workbooksRoute,
+    callbackRoute,
   ],
 };
 
-export default route;
+export default RootRoute;

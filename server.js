@@ -40,6 +40,8 @@ if (isDeveloping) {
   app.use(middleware);
   app.use(webpackHotMiddleware(compiler));
 
+  app.get("/auth/*", proxyTo("localhost:3002"));
+
   app.get("/api/*", proxyTo("localhost:3000"));
   app.post("/api/*", proxyTo("localhost:3000"));
   app.put("/api/*", proxyTo("localhost:3000"));
@@ -50,6 +52,8 @@ if (isDeveloping) {
   });
 } else {
   app.use(express.static(__dirname + "/dist"));
+
+  app.get("/authorize/*", proxyTo("localhost:3002"));
 
   app.get("/api/*", proxyTo("localhost:3000"));
   app.post("/api/*", proxyTo("localhost:3000"));

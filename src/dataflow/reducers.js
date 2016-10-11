@@ -7,7 +7,6 @@ import user from "./user/reducer";
 import workbooks from "./workbooks/reducer";
 import template from "./template";
 import data from "./data";
-import auth from "./auth/reducer";
 
 const rootReducer = combineReducers({
   menu,
@@ -15,7 +14,6 @@ const rootReducer = combineReducers({
   template,
   data,
   user,
-  auth,
   workbooks,
   form : formReducer,
   routing,

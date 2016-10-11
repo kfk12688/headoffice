@@ -1,0 +1,61 @@
+@import "../../_route_styles/colors";
+@import "../config";
+
+.base {
+  height: @titleBarHt;
+  padding: 0px 15px;
+  background-color: @grey50;
+  border-bottom: 1px solid @grey300;
+}
+
+.left {
+  float: left;
+  width: 70%;
+  .title {
+    padding: 3px 0;
+    color: @grey700;
+    font-size: 16px;
+    font-weight: 300;
+    b {
+      font-weight: 500;
+    }
+  }
+
+  .meta {
+    font-weight: 300;
+    font-size: 12px;
+    span {
+      color: @grey400;
+    }
+    &Info {
+      color: @grey600 !important;
+      padding: 2px 0;
+    }
+  }
+
+  .owner {
+    font-weight: 300;
+    font-size: 12px;
+    padding: 2px 0;
+    color: @grey700;
+    &Span {
+      color: @grey400;
+    }
+  }
+}
+
+.icons {
+  float: right;
+  right: 30%;
+  font-size: 20px;
+  margin-right: 15px;
+  margin-top: 15px;
+  span {
+    margin-right: 8px;
+  }
+  &Edit {
+    min-width: 30px;
+    padding: 0;
+  }
+}
+

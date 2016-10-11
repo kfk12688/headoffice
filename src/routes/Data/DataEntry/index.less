@@ -1,0 +1,45 @@
+@import "../../_route_styles/colors";
+@import "../config";
+
+// Sidebar Container Style
+.sidebar {
+  .absolute-position-mixin(@top: @breadcrumbHt, @left:auto);
+  width: 180px;
+  background-color: @grey50;
+  border-left: 1px solid @grey300;
+  padding-top: 8px;
+  padding-right: 8px;
+  padding-left: 4px;
+  a {
+    margin-bottom: 8px;
+    width: 100%;
+  }
+}
+
+.sbBtn {
+  font-size: 13px;
+  margin-left: 5px;
+  color: @grey700;
+  margin-top: 5px;
+  &:hover {
+    color: @grey500;
+  }
+}
+
+.sbIcon {
+  font-size: 16px;
+  color: @grey900;
+}
+
+// DataGrid Container Style
+.entrygrid {
+  .absolute-position-mixin(@top: @breadcrumbHt, @right: 180px);
+  font-family: "Lucida Sans Unicode";
+  font-size: 13px;
+  margin: 10px;
+  background-color: @white;
+}
+
+.container {
+  .absolute-position-mixin();
+}

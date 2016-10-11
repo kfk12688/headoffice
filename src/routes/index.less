@@ -1,0 +1,51 @@
+@import "styles/colors";
+
+.rollUpHandle {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  height: 8px;
+  width: 70px;
+  color: @grey600;
+  border-left: 1px solid @grey600;
+  border-right: 1px solid @grey600;
+  border-bottom: 1px solid @grey600;
+  border-radius: 0 0 2px 2px;
+  z-index: 1;
+  &:hover {
+    color: @grey300;
+    border-left: 1px solid @grey300;
+    border-right: 1px solid @grey300;
+    border-bottom: 1px solid @grey300;
+  }
+  span {
+    position: absolute;
+    top: -2px;
+    left: 46%;
+    font-size: 9px;
+    &:after {
+      content: "\F0D8";
+      font-family: FontAwesome;
+    }
+  }
+}
+
+.rollDownHandle {
+  .rollUpHandle();
+  color: @grey300;
+  border-left: 1px solid @grey300;
+  border-right: 1px solid @grey300;
+  border-bottom: 1px solid @grey300;
+  &:hover {
+    color: @grey600;
+    border-left: 1px solid @grey600;
+    border-right: 1px solid @grey600;
+    border-bottom: 1px solid @grey600;
+  }
+  span {
+    &:after {
+      content: "\F0D7";
+      font-family: FontAwesome;
+    }
+  }
+}

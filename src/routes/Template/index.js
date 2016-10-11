@@ -6,7 +6,7 @@ import { toggleSelection } from "dataflow/menu/actions";
 import { loadTemplate, deleteTemplate, addTemplate, makeFavorite } from "dataflow/template/list/actions";
 import { Breadcrumb, SearchBar, DataGrid } from "components";
 import { ContentMenu } from "./ContentMenu";
-import { Formatter as formatter } from "../utils";
+import { Formatter as formatter } from "../_route_utils";
 import styles from "./index.less";
 
 class Template extends Component {

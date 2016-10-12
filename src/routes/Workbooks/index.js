@@ -32,14 +32,14 @@ class Workbooks extends Component {
         actions    : this.actionsCollection,
         text       : "Display Name",
         linkRef    : {
-          path   : "app/user/workbook",
+          path   : "user/workbook",
           urlKey : "id",
         },
       },
       {
-        dataKey    : ["createdBy.firstName", "createdBy.lastName"],
+        dataKey    : "createdBy.username",
         name       : "full-name-col",
-        renderType : "join",
+        renderType : "text",
         text       : "Created By",
       },
       {

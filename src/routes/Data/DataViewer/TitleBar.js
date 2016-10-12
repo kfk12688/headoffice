@@ -33,7 +33,7 @@ export class TitleBar extends Component {
           <div className={styles.title}>{templateName}</div>
 
           <div className={styles.meta}>
-            <span>By <MetaInfo>{createdBy && `${createdBy.firstName} ${createdBy.lastName}`}</MetaInfo></span>
+            <span>By <MetaInfo>{createdBy && createdBy.name}</MetaInfo></span>
             <span>Created At : <MetaInfo>{createdAt && moment(createdAt).format("DD-MM-YYYY")}</MetaInfo></span>
             <span>Belongs to : <MetaInfo>{workBook && workBook.name}</MetaInfo></span>
           </div>

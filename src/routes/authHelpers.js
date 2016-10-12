@@ -1,4 +1,4 @@
-import encodeURIObject from "./_route_utils/encodeObjectToURI";
+import encodeURIObject from "./_utils/encodeObjectToURI";
 
 const validateToken = (token) => {
   if (token) return true;

@@ -33,8 +33,8 @@ class EntryForm extends Component {
       <div className={styles.container}>
         {/* Sidebar Container */}
         <div className={styles.sidebar}>
-          <NavLinkBtn to="app/data" faName="times-circle-o">Close View</NavLinkBtn>
-          <NavLinkBtn to={`app/data/view/${id}`} faName="arrow-circle-o-right">Goto Data View</NavLinkBtn>
+          <NavLinkBtn to="data" faName="times-circle-o">Close View</NavLinkBtn>
+          <NavLinkBtn to={`data/view/${id}`} faName="arrow-circle-o-right">Goto Data View</NavLinkBtn>
         </div>
 
         {/* DataGrid Container */}

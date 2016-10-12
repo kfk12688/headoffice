@@ -40,13 +40,13 @@ class Data extends Component {
       {
         dataKey    : "templateName",
         linkRef    : {
-          path   : "app/data/view",
+          path   : "data/view",
           urlKey : "id",
         },
         button     : {
           buttonText : "Enter Data",
           link       : {
-            path : "app/data/entry",
+            path : "data/entry",
             key  : "id",
           },
         },

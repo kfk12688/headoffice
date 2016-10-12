@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigator } from "./_route_components/Navigator";
+import { Navigator } from "./_components/Navigator";
 import cx from "classnames";
 import styles from "./index.less";
 

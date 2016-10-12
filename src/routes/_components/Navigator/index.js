@@ -4,7 +4,7 @@
 import React from "react";
 import { TabGroup, Tab, NavLink, PopupButton } from "components";
 import styles from "./Navigator.less";
-import Logo from "../../_route_styles/logo";
+import Logo from "../../_styles/logo";
 
 const Navigator = (props) => {
   const { user, logoutUser } = props;

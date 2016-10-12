@@ -42,7 +42,7 @@ class Template extends Component {
       {
         dataKey    : "templateName",
         linkRef    : {
-          path   : "app/template",
+          path   : "template",
           urlKey : "id",
         },
         name       : "name-col",

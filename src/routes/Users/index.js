@@ -34,7 +34,7 @@ class User extends Component {
         text       : "Display Name",
         actions    : this.actionsCollection,
         linkRef    : {
-          path   : "app/user",
+          path   : "user",
           urlKey : "id",
         },
       },

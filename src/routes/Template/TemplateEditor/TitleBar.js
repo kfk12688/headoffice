@@ -38,7 +38,7 @@ export class TitleBar extends Component {
 
           <div className={styles.owner}>
             <span className={styles.ownerSpan}>By </span>
-            <span>{createdBy && `${createdBy.firstName} ${createdBy.lastName}`}</span>
+            <span>{createdBy && createdBy.name}</span>
           </div>
 
           <div className={styles.meta}>

@@ -5,7 +5,7 @@ import { Breadcrumb, SearchBar, DataGrid } from "components";
 import { toggleSelection } from "dataflow/menu/actions";
 import { loadTemplate, makeFavorite } from "dataflow/data/list/actions";
 import { setDateModifiedEnd, setDateModifiedStart, setOwner, setIsRecent, setIsStarred } from "dataflow/filter/actions";
-import { Formatter as formatter } from "../_route_utils";
+import { Formatter as formatter } from "../_utils";
 import { ContentMenu } from "./ContentMenu";
 import styles from "./index.less";
 

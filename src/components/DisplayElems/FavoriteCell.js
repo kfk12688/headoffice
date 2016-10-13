@@ -1,5 +1,5 @@
 import React from "react";
-import { red500 } from "../styles/colors";
+import { red500 } from "../_styles/colors";
 
 export const FavoriteCell = ({ value: isStarred, inheritSize, style }) => {
   const faStyle = {

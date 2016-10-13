@@ -1,5 +1,5 @@
 import React from "react";
-import { grey50 } from "../styles/colors";
+import { grey50 } from "../_styles/colors";
 import styles from "./SDHeaderCol.less";
 
 class EGHeaderCol extends React.Component {

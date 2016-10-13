@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router";
-import { red400 } from "../styles/colors";
+import { red400 } from "../_styles/colors";
 import styles from "./NavLink.less";
 
 export const NavLink = (props) => {

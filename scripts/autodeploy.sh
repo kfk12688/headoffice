@@ -3,4 +3,4 @@
 cd ~/ho_app/headoffice
 git fetch origin
 git reset --hard origin/master
-scripts/build.sh
+npm run build

@@ -6,7 +6,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production PORT=3001 node ./dist/server.js",
     "dev": "node ./src/server.js",
-    "build": "rimraf dist && cross-env NODE_ENV=production webpack --config ./webpack.production.config.js --progress --profile --colors && cp ./src/server.production.js ./dist/server.js",
+    "build": "scripts/build.sh",
     "clean": "rimraf dist",
     "lint": "eslint src; exit 0",
     "stats": "webpack --json | webpack-bundle-size-analyzer",

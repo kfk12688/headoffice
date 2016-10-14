@@ -1,7 +1,6 @@
 var path = require("path");
 var webpack = require("webpack");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
-var Promise = require('es6-promise').Promise;
 
 module.exports = {
   devtool : "eval",

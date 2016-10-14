@@ -1,19 +1,16 @@
-/**
- * Created by sharavan on 05/09/16.
- */
 import fetch from "../fetchWrapper";
 import _ from "underscore";
 
-const api = "api";
+const api = "api/list";
 
-export const listTemplates = (query) => fetch("GET", `${api}/list/templates?query=${query}`)
+export const listTemplates = (query) => fetch("GET", `${api}/templates?query=${query}`)
   .then(res => res.json())
   .then(json => ({
     options : _.map(json.data, item => ({ label : item.templateName, id : item._id })),
   }));
 
 export const listTemplateFields = (id) => {
-  const fetchPromise = (query) => fetch("GET", `${api}/list/templateFields/${id}?query=${query}`)
+  const fetchPromise = (query) => fetch("GET", `${api}/templateFields/${id}?query=${query}`)
     .then(res => res.json())
     .then(json => ({
       options : _.map(json.data, (item, idx) => ({ label : item, id : idx })),
@@ -26,7 +23,7 @@ export const listTemplateFields = (id) => {
 export const listFieldValues = (query) => {
   const { refId, refFieldName } = query;
 
-  const fetchPromise = () => fetch("GET", `${api}/list/${refId}/${refFieldName}`)
+  const fetchPromise = () => fetch("GET", `${api}/${refId}/${refFieldName}`)
     .then(res => res.json())
     .then(json => ({
       options : _.map(json.data, item => ({ label : item[refFieldName], id : item._id })),

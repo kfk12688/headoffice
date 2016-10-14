@@ -1,5 +1,11 @@
 import encodeURIObject from "./_utils/encodeObjectToURI";
 
+// fixme
+const isDeveloping = process.env.NODE_ENV !== "production";
+const authServerURI = isDeveloping ?
+                      "http://localhost:3002/auth/authorize" :
+                      "http://auth.headofficeapp.in/auth/authorize";
+
 const validateToken = (token) => {
   if (token) return true;
   return false;
@@ -14,7 +20,6 @@ export const requireAuth = (nextState, replace, next) => {
   if (!isTokenValidated) {
     localStorage.removeItem("id_token");
 
-    const authServerURI = "auth/authorize";
     const encodedString = encodeURIObject({
       response_type : "token id_token",
       client_id     : "57f0e4c95afd1a1c27e0ad7d",
@@ -24,7 +29,7 @@ export const requireAuth = (nextState, replace, next) => {
       nonce         : "12345",
     });
 
-    location = `http://localhost:3002/${authServerURI}?${encodedString}`;
+    location = `${authServerURI}?${encodedString}`;
   }
 };
 

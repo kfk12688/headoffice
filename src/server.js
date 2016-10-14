@@ -3,7 +3,7 @@ const express = require("express");
 const webpack = require("webpack");
 const webpackMiddleware = require("webpack-dev-middleware");
 const webpackHotMiddleware = require("webpack-hot-middleware");
-const config = require("./webpack.config.js");
+const config = require("../webpack.config.js");
 
 const isDeveloping = process.env.NODE_ENV !== "production";
 const port = isDeveloping ? 3001 : process.env.PORT;
@@ -45,21 +45,8 @@ if (isDeveloping) {
   app.put("/api/*", proxyTo("localhost:3003"));
   app.delete("/api/*", proxyTo("localhost:3003"));
   app.get("*", (req, res) => {
-    res.write(middleware.fileSystem.readFileSync(path.join(__dirname, "dist/index.html")));
+    res.write(middleware.fileSystem.readFileSync(path.join(__dirname, "../dist/index.html")));
     res.end();
-  });
-} else {
-  app.use(express.static(`${__dirname}/dist`));
-
-  app.get("/auth/*", proxyTo("localhost:3002"));
-
-  app.get("/api/*", proxyTo("localhost:3003"));
-  app.post("/api/*", proxyTo("localhost:3003"));
-  app.put("/api/*", proxyTo("localhost:3003"));
-  app.delete("/api/*", proxyTo("localhost:3003"));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "dist/index.html"));
   });
 }
 
@@ -67,4 +54,3 @@ app.listen(port, "localhost", (err) => {
   if (err) console.log(err);
   console.info("==> 🌎 Listening on port %s. Open up http://localhost:%s/ in your browser.", port, port);
 });
-

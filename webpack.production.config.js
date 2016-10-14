@@ -1,13 +1,9 @@
-/**
- * Created by sharavan on 17/09/16.
- */
 var path = require("path");
 var webpack = require("webpack");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var StatsPlugin = require("stats-webpack-plugin");
 var AutoPrefixer = require("autoprefixer");
-var Promise = require('es6-promise').Promise;
 
 module.exports = {
   entry   : [
@@ -21,7 +17,7 @@ module.exports = {
     }
   },
   output  : {
-    path       : path.join(__dirname, "/dist/"),
+    path       : path.join(__dirname, "/dist/public"),
     filename   : "[name]-[hash].min.js",
     publicPath : "/"
   },

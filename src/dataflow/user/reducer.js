@@ -1,37 +1,39 @@
 import { handleActions } from "redux-actions";
-import * as t from "./types";
+import {
+  NEW_USER_REQUEST, NEW_USER_SUCCESS, NEW_USER_FAILURE, GET_USERS_FAILURE, GET_USERS_REQUEST, GET_USERS_SUCCESS
+} from "./types";
 
 const initialState = {
-  data         : {},
-  isLoading    : false,
-  error        : {},
+  data      : {},
+  isLoading : false,
+  error     : {},
 };
 
 const reducer = handleActions({
-  [t.USER_REQUEST]         : (state) => ({
+  [GET_USERS_REQUEST] : (state) => ({
     ...state,
     isLoading : true,
   }),
-  [t.USER_SUCCESS]         : (state, action) => ({
+  [GET_USERS_SUCCESS] : (state, action) => ({
     ...state,
     isLoading : false,
     data      : action.payload.data,
   }),
-  [t.USER_FAILURE]         : (state, action) => ({
+  [GET_USERS_FAILURE] : (state, action) => ({
     ...state,
     isLoading : false,
     error     : action.payload.data,
   }),
-  [t.NEW_USER_REQUEST]     : (state) => ({
+  [NEW_USER_REQUEST]  : (state) => ({
     ...state,
     isLoading : true,
   }),
-  [t.NEW_USER_SUCCESS]     : (state, action) => ({
+  [NEW_USER_SUCCESS]  : (state, action) => ({
     ...state,
     isLoading : false,
     data      : action.payload.data,
   }),
-  [t.NEW_USER_FAILURE]     : (state, action) => ({
+  [NEW_USER_FAILURE]  : (state, action) => ({
     ...state,
     isLoading : false,
     error     : action.payload.data,

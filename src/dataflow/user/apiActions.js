@@ -3,13 +3,13 @@
  */
 import { CALL_API } from "../middleware/callAPI";
 import {
-  NEW_USER_REQUEST, NEW_USER_SUCCESS, NEW_USER_FAILURE, USER_FAILURE, USER_REQUEST, USER_SUCCESS
+  NEW_USER_REQUEST, NEW_USER_SUCCESS, NEW_USER_FAILURE, GET_USERS_FAILURE, GET_USERS_REQUEST, GET_USERS_SUCCESS
 } from "./types";
 import * as api from "./api";
 
 export const getUsers = () => ({
   [CALL_API] : {
-    types    : [USER_REQUEST, USER_SUCCESS, USER_FAILURE],
+    types    : [GET_USERS_REQUEST, GET_USERS_SUCCESS, GET_USERS_FAILURE],
     callback : api.getUserList(),
   },
 });

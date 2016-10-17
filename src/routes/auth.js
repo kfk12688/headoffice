@@ -6,9 +6,9 @@ import getNonce from "./_utils/getRandomString";
 const isDeveloping = process.env.NODE_ENV !== "production";         // fixme
 const isTokenPresent = () => !!localStorage.getItem("id_token");
 const decodeToken = (token) => jwtDecode(token);
-const getToken = () => localStorage.getItem("id_token");
 
 // Public functions
+export const getToken = () => localStorage.getItem("id_token");
 export const clearToken = () => {
   localStorage.removeItem("id_token");
   localStorage.removeItem("token_type");

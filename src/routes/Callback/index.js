@@ -1,16 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getUserClaims, clearToken, setToken } from "../auth";
+import { getToken, clearToken, setToken } from "../auth";
 import { addCurrentUser } from "dataflow/user/actions";
 
 class Callback extends Component {
   componentDidMount() {
     clearToken();
     setToken(this.props.location.query);
-    const claims = getUserClaims();
-
-    if (!!claims) {
-      this.props.addCurrentUser(claims);
+    if (!!getToken()) {
       this.context.router.push("/template");
     } else {
       this.context.router.push("/");

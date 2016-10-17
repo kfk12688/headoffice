@@ -15,3 +15,6 @@ export const addNewUser = (params) =>
 export const deleteUser = params =>
   fetch("DELETE", `${api}/user/${params.id}`)
     .then(res => res.json());
+
+export const logOut = () =>
+  fetch("GET", "auth/logout");

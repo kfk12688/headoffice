@@ -1,5 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
 import { Navigator } from "./_components/Navigator";
+import { addCurrentUser, removeCurrentUser } from "dataflow/user/actions";
+import { clearToken, getUserClaims } from "./auth";
 import cx from "classnames";
 import styles from "./index.less";
 
@@ -9,45 +12,68 @@ class App extends React.Component {
 
     this.state = { rollUp : true };
     this.handleRollUpToggle = this.handleRollUpToggle.bind(this);
+    this.logOut = this.logOut.bind(this);
+  }
+
+  componentDidMount() {
+    let claims;
+    try {
+      claims = getUserClaims();
+    } catch (err) {
+      claims = null;
+    }
+
+    if (!!claims) {
+      this.props.addCurrentUser(claims);
+    }
   }
 
   handleRollUpToggle() {
     this.setState({ rollUp : !this.state.rollUp });
   }
 
+  logOut() {
+    clearToken();
+    this.props.removeCurrentUser();
+    window.location = "http://localhost:3002/logout";
+  }
+
   render() {
+    const { currentUser } = this.props;
+
     return (
       <div>
-        {/* Roll Up/Down Gimmick */}
-        <div
-          onClick={this.handleRollUpToggle}
-          className={cx({
-            [styles.rollDownHandle] : !this.state.rollUp,
-            [styles.rollUpHandle]   : this.state.rollUp,
-          })}
-        >
-          <span />
-        </div>
-
-        {/* Fixed navigator header */}
-        {
-          this.state.rollUp &&
-          <Navigator user="TO BE CHANGED" logoutUser={() => {}}/>
-        }
-
-        {/* Route Children */}
-        {
-          this.props.children && React.cloneElement(this.props.children, {
-            rollUp : this.state.rollUp,
-          })
-        }
+        <div onClick={this.handleRollUpToggle} className={cx({
+          [styles.rollDownHandle] : !this.state.rollUp,
+          [styles.rollUpHandle]   : this.state.rollUp,
+        })}><span/></div>
+        {this.state.rollUp && <Navigator user={currentUser} logoutUser={this.logOut}/>}
+        {this.props.children && React.cloneElement(this.props.children, {
+          rollUp : this.state.rollUp,
+        })}
       </div>
     );
   }
 }
 
 App.propTypes = {
-  children : React.PropTypes.node.isRequired,
+  children          : React.PropTypes.node.isRequired,
+  currentUser       : React.PropTypes.object.isRequired,
+  removeCurrentUser : React.PropTypes.func.isRequired,
+  addCurrentUser    : React.PropTypes.func.isRequired,
 };
 
-export default App;
+App.contextTypes = {
+  router : React.PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({
+  currentUser : state.user.currentUser,
+});
+
+const mapDispatchToProps = dispatch => ({
+  removeCurrentUser : () => dispatch(removeCurrentUser()),
+  addCurrentUser    : (claims) => dispatch(addCurrentUser(claims)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

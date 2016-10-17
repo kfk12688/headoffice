@@ -1,12 +1,15 @@
 import { handleActions } from "redux-actions";
 import {
-  NEW_USER_REQUEST, NEW_USER_SUCCESS, NEW_USER_FAILURE, GET_USERS_FAILURE, GET_USERS_REQUEST, GET_USERS_SUCCESS
+  NEW_USER_REQUEST, NEW_USER_SUCCESS, NEW_USER_FAILURE, GET_USERS_FAILURE, GET_USERS_REQUEST, GET_USERS_SUCCESS,
+  ADD_CURRENT_USER, REMOVE_CURRENT_USER
 } from "./types";
 
 const initialState = {
-  data      : {},
-  isLoading : false,
-  error     : {},
+  data            : {},
+  isLoading       : false,
+  error           : {},
+  currentUser     : {},
+  isAuthenticated : false,
 };
 
 const reducer = handleActions({
@@ -37,6 +40,17 @@ const reducer = handleActions({
     ...state,
     isLoading : false,
     error     : action.payload.data,
+  }),
+
+  [ADD_CURRENT_USER]    : (state, action) => ({
+    ...state,
+    currentUser     : action.payload.data,
+    isAuthenticated : true,
+  }),
+  [REMOVE_CURRENT_USER] : (state, action) => ({
+    ...state,
+    currentUser     : {},
+    isAuthenticated : false,
   }),
 }, initialState);
 

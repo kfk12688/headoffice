@@ -1,6 +1,6 @@
 import Template from "./";
 import TemplateEditor from "./TemplateEditor/route";
-import { requireAuth } from "../authHelpers";
+import { requireAuth } from "../auth";
 
 const Route = {
   path        : "template",

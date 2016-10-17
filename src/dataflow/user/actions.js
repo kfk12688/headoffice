@@ -1,6 +1,8 @@
 import { clearFilterState } from "../filter/actions";
 import { clearMenuState } from "../menu/actions";
 import { getUsers, createUser, removeUser } from "./apiActions";
+import { createAction } from "redux-actions";
+import { ADD_CURRENT_USER, REMOVE_CURRENT_USER } from "./types";
 
 /**
  * Get the list of users
@@ -34,3 +36,6 @@ export const deleteUser = params => dispatch => {
 
   promise.then(dispatch(loadUser()));
 };
+
+export const addCurrentUser = createAction(ADD_CURRENT_USER, data => ({ data }));
+export const removeCurrentUser = createAction(REMOVE_CURRENT_USER);

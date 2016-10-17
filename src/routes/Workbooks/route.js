@@ -1,5 +1,5 @@
 import Workbooks from "./";
-import { requireAuth } from "../authHelpers";
+import { requireAuth } from "../auth";
 
 const Route = {
   path      : "workbooks",

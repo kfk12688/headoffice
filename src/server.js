@@ -47,7 +47,6 @@ if (isDeveloping) {
     if (err) console.log(err);
     console.info("==> 🌎 Listening on port %s. Open up http://localhost:%s/ in your browser.", port, port);
   });
-
   proxy.on("error", (err, req, res) => {
     res.sendStatus(500);
   });

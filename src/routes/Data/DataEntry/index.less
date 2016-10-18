@@ -3,14 +3,15 @@
 
 // Sidebar Container Style
 .sidebar {
-  .absolute-position-mixin(@top: @breadcrumbHt, @left:auto);
-  width: 180px;
+  .fixed-position-mixin(@breadcrumbHt+35px, @left:auto);
+  width: 200px;
   background-color: @grey50;
   border-left: 1px solid @grey300;
   padding-top: 8px;
   padding-right: 8px;
   padding-left: 4px;
   a {
+    font-size: 15px;
     margin-bottom: 8px;
     width: 100%;
   }
@@ -33,7 +34,7 @@
 
 // DataGrid Container Style
 .entrygrid {
-  .absolute-position-mixin(@top: @breadcrumbHt, @right: 180px);
+  .absolute-position-mixin(@top: @breadcrumbHt, @right: 200px);
   font-family: "Lucida Sans Unicode";
   font-size: 13px;
   margin: 10px;

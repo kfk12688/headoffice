@@ -22,23 +22,22 @@
 // Sidebar Container Style
 .sidebar {
   .absolute-position-mixin(@breadcrumbHt+@titleBarHt, @left: auto);
-  width: 150px;
+  width: 200px;
   background-color: @grey50;
   border-left: 5px solid @grey300;
   padding-top: 15px;
+  padding: 15px;
   &Button {
-    width: 130px;
-    margin: 0px 8px;
-    height: 25px;
+    width: 100%;
+    margin: 0 0 6px 0;
+    height: 28px;
     text-align: left;
-    font-weight: 400;
-    margin-bottom: 5px;
   }
 }
 
 // DataGrid Container Style
 .entrygrid {
-  .absolute-position-mixin(@top: @breadcrumbHt+@titleBarHt, @right: 150px);
+  .absolute-position-mixin(@top: @breadcrumbHt+@titleBarHt, @right: 200px);
   margin: 10px;
   background-color: @white;
 }

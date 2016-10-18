@@ -82,10 +82,10 @@ class Template extends Component {
       "checkbox-col"   : 38,
       "favorite-col"   : 38,
       "name-col"       : 230,
-      "user-col"       : 100,
+      "user-col"       : 120,
       "workbook-col"   : 170,
-      "created-at-col" : 100,
-      "updated-at-col" : 140,
+      "created-at-col" : 150,
+      "updated-at-col" : 150,
     };
 
     this.colSortItems = this.getColumnSortList();

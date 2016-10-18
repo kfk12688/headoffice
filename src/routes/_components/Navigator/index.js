@@ -8,7 +8,7 @@ import Logo from "../../_styles/logo";
 
 const Navigator = (props) => {
   const { user, logoutUser } = props;
-  const { username, firstName } = !!user && user;
+  const { username, name, site } = !!user && user;
 
   const popupStyle = {
     color    : "inherit",
@@ -34,8 +34,9 @@ const Navigator = (props) => {
         <TabGroup childClassName={styles.link}>
           <Tab>Alerts</Tab>
           <Tab>Help</Tab>
+          <Tab><PopupButton label={site} style={popupStyle}/></Tab>
           <Tab>
-            <PopupButton label={firstName} style={popupStyle}>
+            <PopupButton label={name} style={popupStyle}>
               <div>Logged in as {username}</div>
               <div onClick={() => logoutUser()}>Sign Out</div>
             </PopupButton>

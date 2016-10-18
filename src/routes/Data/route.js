@@ -1,7 +1,7 @@
 import Data from "./";
 import DataEntry from "./DataEntry/route";
 import DataViewer from "./DataViewer/route";
-import { requireAuth } from "../authHelpers";
+import { requireAuth } from "../auth";
 
 const Route = {
   path        : "data",

@@ -27,6 +27,7 @@
     "font-awesome": "^4.6.1",
     "http-proxy": "^1.15.1",
     "isomorphic-fetch": "^2.2.1",
+    "jwt-decode": "^2.1.0",
     "less": "^2.6.1",
     "moment": "^2.13.0",
     "morgan": "^1.7.0",

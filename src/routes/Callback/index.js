@@ -1,21 +1,36 @@
 import React, { Component } from "react";
-import { acceptAuth } from "../authHelpers";
+import { connect } from "react-redux";
+import { getToken, clearToken, setToken } from "../auth";
+import { addCurrentUser } from "dataflow/user/actions";
 
 class Callback extends Component {
   componentDidMount() {
-    const isAuthSuccess = acceptAuth(this.props.location.query);
-    this.context.router.push("/template");
+    clearToken();
+    setToken(this.props.location.query);
+    if (!!getToken()) {
+      this.context.router.push("/template");
+    } else {
+      this.context.router.push("/");
+    }
   }
 
   render() {
     return (
-      <div>This is the Callback route</div>
+      <div>Please wait while you are re-directed.</div>
     );
   }
 }
+
+Callback.propTypes = {
+  addCurrentUser : React.PropTypes.func,
+};
 
 Callback.contextTypes = {
   router : React.PropTypes.func.isRequired,
 };
 
-export default Callback;
+const mapDispatchToProps = (dispatch) => ({
+  addCurrentUser : (claims) => dispatch(addCurrentUser(claims)),
+});
+
+export default connect(null, mapDispatchToProps)(Callback);

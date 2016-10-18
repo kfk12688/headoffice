@@ -6,6 +6,9 @@ import { clearToken, getUserClaims } from "./auth";
 import cx from "classnames";
 import styles from "./index.less";
 
+const isDeveloping = process.env.NODE_ENV !== "production";
+const url = isDeveloping ? "http://localhost:3002" : "http://auth.headofficeapp.in";
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -34,7 +37,7 @@ class App extends React.Component {
   logOut() {
     clearToken();
     this.props.removeCurrentUser();
-    window.location = "http://localhost:3002/logout";
+    window.location = `${url}/logout`;
   }
 
   render() {

@@ -80,10 +80,10 @@ class Data extends Component {
     this.colWidths = {
       "checkbox-col"   : 38,
       "favorite-col"   : 38,
-      "name-col"       : 230,
+      "name-col"       : 250,
       "workbook-col"   : 170,
-      "created-at-col" : 100,
-      "updated-at-col" : 140,
+      "created-at-col" : 120,
+      "updated-at-col" : 150,
     };
 
     this.colSortItems = this.getColumnSortList();

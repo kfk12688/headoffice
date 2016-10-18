@@ -1,7 +1,8 @@
 @import "../_styles/colors";
+@import "./config";
 
 .col {
-  height: 37px;
+  height: @rowHeight;
   display: inline-block;
   position: relative;
   vertical-align: middle;
@@ -9,14 +10,14 @@
 }
 
 .cell {
-  height: 37px;
-  line-height: 37px;
+  height: @rowHeight;
+  line-height: @rowHeight;
   padding-left: 12px;
   padding-right: 12px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -32,7 +33,7 @@
 
 .fa {
   position: absolute;
-  font-size: 10px;
+  font-size: 14px;
   right: 10px;
   top: 13px;
 }

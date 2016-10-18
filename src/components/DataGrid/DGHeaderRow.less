@@ -1,14 +1,15 @@
 @import "../_styles/colors";
+@import "./config";
 
 .row {
   .absolute-position-mixin();
-  height: 37px;
+  height: @rowHeight;
   background-color: @white;
   border-bottom: 1px solid @grey300;
 }
 
 .cols {
   display: inline-block;
-  height: 37px;
+  height: @rowHeight;
   white-space: nowrap;
 }

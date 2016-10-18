@@ -28,7 +28,7 @@ class EntryGrid extends Component {
     const colWidths = calcColWidths(spec, data);
     let EGBodyElement = null;
 
-    if (isLoading) {
+    if (isLoading) {w
       EGBodyElement = <i className={cx("fa fa-spinner fa-2x", styles.spinner)}/>;
     } else if (_.isEmpty(data)) {
       EGBodyElement = <div className={styles.egBody}>No Data Present</div>;

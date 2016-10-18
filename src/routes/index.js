@@ -6,7 +6,6 @@ import styles from "./index.less";
 class App extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = { rollUp : true };
     this.handleRollUpToggle = this.handleRollUpToggle.bind(this);
   }

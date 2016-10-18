@@ -43,7 +43,7 @@ class Editor extends Component {
     this.colWidths = {
       action      : 45,
       displayText : 200,
-      fieldType   : 120,
+      fieldType   : 140,
       fieldProps  : 400,
     };
   }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { PaginationGrid, NavLinkBtn } from "components";
+import { PaginationGrid, NavLinkBtn, Pagination } from "components";
 import { clearMenuState } from "dataflow/menu/actions";
 import { loadSpec, loadData } from "dataflow/data/view/actions";
 import { TitleBar } from "./TitleBar";
@@ -26,31 +26,28 @@ class Editor extends Component {
     this.loadSpec(templateID).then(this.loadData(page, limit));
   }
 
-  setPage(navigationMethod) {
-    const { page, limit } = this.state;
+  setPage(pageIdx) {
+    let newIdx = pageIdx;
+    const { limit, page } = this.state;
 
-    let pageIdx;
-    if (navigationMethod === "prev") pageIdx = page - 1;
-    if (navigationMethod === "next") pageIdx = page + 1;
-    if (navigationMethod === "first") pageIdx = 1;
-    if (navigationMethod === "last") pageIdx = 1;   // fixme
-
+    if (typeof pageIdx === "string") {
+      if (pageIdx === "prev") newIdx = page - 1;
+      if (pageIdx === "next") newIdx = page + 1;
+    }
     this.setState({
-      page : pageIdx,
+      page : newIdx,
       limit,
     });
-    this.loadData(pageIdx, limit);
+    this.loadData(newIdx, limit);
   }
 
-  setLimit(e) {
+  setLimit(limit) {
     const { page } = this.state;
-    const newLimit = e.target.value;
-
     this.setState({
       page,
-      limit : newLimit,
+      limit,
     });
-    this.loadData(page, newLimit);
+    this.loadData(page, limit);
   }
 
   loadSpec(templateID) {
@@ -76,28 +73,14 @@ class Editor extends Component {
           store={viewStore}
         />
 
-        <div className={styles.gridMetaContainer}>
-          <div className={styles.sidebar}>
-            <NavLinkBtn to="data" faName="times-circle-o">Close View</NavLinkBtn>
-            <NavLinkBtn to={`data/entry/${id}`} faName="arrow-circle-o-right">Goto Entry View</NavLinkBtn>
-          </div>
+        <div className={styles.sidebar}>
+          <NavLinkBtn to="data" faName="times-circle-o">Close View</NavLinkBtn>
+          <NavLinkBtn to={`data/entry/${id}`} faName="arrow-circle-o-right">Goto Entry View</NavLinkBtn>
+        </div>
 
-          <div className={styles.tableMetaContainer}>
-            <select value={this.state.limit} onChange={this.setLimit}>
-              <option value="15">15</option>
-              <option value="30">30</option>
-              <option value="50">50</option>
-            </select>
-
-            <div>
-              <i className="fa fa-angle-double-left" onClick={e => this.setPage("first")}></i>
-              <i className="fa fa-angle-left" onClick={e => this.setPage("prev")}></i>
-              <i className="fa fa-angle-right" onClick={e => this.setPage("next")}></i>
-              <i className="fa fa-angle-double-right" onClick={e => this.setPage("last")}></i>
-            </div>
-
-            <div className={styles.rightAlign}>{Object.keys(data).length} Entries</div>
-          </div>
+        <div className={styles.tableMetaContainer}>
+          <span className={styles.contentLength}>{Object.keys(data).length} Entries</span>
+          <Pagination className={styles.pagination} setLimit={this.setLimit} setPage={this.setPage} activePage={this.state.page} limit={this.state.limit}/>
         </div>
 
         <PaginationGrid

@@ -10,6 +10,7 @@ export { SpecDefiner } from "./SpecDefiner";
 export { Breadcrumb } from "./Breadcrumb";
 export { Table } from "./Table";
 export { SearchBar } from "./SearchBar";
+export { Pagination } from "./Pagination";
 export * from "./NavLink";
 export * from "./Button";
 export * from "./DisplayElems";

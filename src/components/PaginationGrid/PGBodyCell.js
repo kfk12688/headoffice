@@ -1,8 +1,8 @@
 import React from "react";
 import { renderEGCell } from "../DisplayElems";
-import styles from "./EGBodyCell.less";
+import styles from "./PGBodyCell.less";
 
-export const EGBodyCell = (props) => {
+export const PGBodyCell = (props) => {
   const { row, col, colWidth } = props;
   const type = col.fieldType.toLowerCase();
   const colKey = col.fieldName;
@@ -22,7 +22,7 @@ export const EGBodyCell = (props) => {
   );
 };
 
-EGBodyCell.propTypes = {
+PGBodyCell.propTypes = {
   row      : React.PropTypes.object.isRequired,
   col      : React.PropTypes.object.isRequired,
   colWidth : React.PropTypes.number.isRequired,

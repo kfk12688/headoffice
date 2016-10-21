@@ -3,10 +3,10 @@
  */
 import React from "react";
 import _ from "underscore";
-import { EGHeaderCol } from "./EGHeaderCol";
-import styles from "./EGHeaderRow.less";
+import { EGHeaderCol } from "./PGHeaderCol";
+import styles from "./PGHeaderRow.less";
 
-const EGHeaderRow = ({ cols, colWidths, scrollLeft }) => {
+const PGHeaderRow = ({ cols, colWidths, scrollLeft }) => {
   const headerRowCols = [];
 
   _.forEach(cols, (col, colKey) => {
@@ -29,10 +29,10 @@ const EGHeaderRow = ({ cols, colWidths, scrollLeft }) => {
   );
 };
 
-EGHeaderRow.propTypes = {
+PGHeaderRow.propTypes = {
   cols       : React.PropTypes.array.isRequired,
   colWidths  : React.PropTypes.object.isRequired,
   scrollLeft : React.PropTypes.number,
 };
 
-export { EGHeaderRow };
+export { PGHeaderRow };

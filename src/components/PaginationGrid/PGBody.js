@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import _ from "underscore";
-import { EGBodyRow } from "./EGBodyRow";
-import styles from "./EGBody.less";
+import { PGBodyRow } from "./PGBodyRow";
+import styles from "./PGBody.less";
 
-class EGBody extends Component {
+class PGBody extends Component {
   constructor(props) {
     super(props);
 
@@ -17,7 +17,7 @@ class EGBody extends Component {
 
     _.forEach(rows, (row, rowKey) => {
       bodyRows.push(
-        <EGBodyRow
+        <PGBodyRow
           key={rowKey}
           rowKey={rowKey}
           colWidths={colWidths}
@@ -51,11 +51,11 @@ class EGBody extends Component {
   }
 }
 
-EGBody.propTypes = {
+PGBody.propTypes = {
   cols               : React.PropTypes.array.isRequired,
   colWidths          : React.PropTypes.object.isRequired,
   rows               : React.PropTypes.object.isRequired,
   reportScrollLeftFn : React.PropTypes.func.isRequired,
 };
 
-export { EGBody };
+export { PGBody };

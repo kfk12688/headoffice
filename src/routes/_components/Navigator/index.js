@@ -7,7 +7,7 @@ import styles from "./Navigator.less";
 import Logo from "../../_styles/logo";
 
 const Navigator = (props) => {
-  const { user, logoutUser } = props;
+  const { user, logoutUser, className } = props;
   const { username, name, site } = !!user && user;
 
   const popupStyle = {
@@ -17,7 +17,7 @@ const Navigator = (props) => {
   };
 
   return (
-    <div className={styles.root}>
+    <div className={className}>
       <div className={styles.brand}><Logo size="18" light/> Head Office App</div>
 
       <div className={styles.nav}>
@@ -48,6 +48,7 @@ const Navigator = (props) => {
 };
 
 Navigator.propTypes = {
+  className  : React.PropTypes.string,
   user       : React.PropTypes.object,
   logoutUser : React.PropTypes.func,
 };

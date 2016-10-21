@@ -2,7 +2,7 @@
  * Created by sharavan on 01/06/16.
  */
 import React from "react";
-import styles from "./EGHeaderCol.less";
+import styles from "./PGHeaderCol.less";
 
 const EGHeaderCol = props => {
   const { headerStyle, displayText, colWidth } = props;

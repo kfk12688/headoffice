@@ -1,9 +1,9 @@
 import React from "react";
 import _ from "underscore";
-import { EGBodyCell } from "./EGBodyCell";
-import styles from "./EGBodyRow.less";
+import { PGBodyCell } from "./PGBodyCell";
+import styles from "./PGBodyRow.less";
 
-class EGBodyRow extends React.Component {
+class PGBodyRow extends React.Component {
   constructor() {
     super();
     this.state = { hovered : false };
@@ -26,7 +26,7 @@ class EGBodyRow extends React.Component {
 
     _.forEach(cols, (col, colKey) => {
       bodyCells.push(
-        <EGBodyCell
+        <PGBodyCell
           key={colKey}
           col={col}
           colWidth={colWidths[col.fieldName]}
@@ -48,11 +48,11 @@ class EGBodyRow extends React.Component {
   }
 }
 
-EGBodyRow.propTypes = {
+PGBodyRow.propTypes = {
   cols      : React.PropTypes.array.isRequired,
   colWidths : React.PropTypes.object.isRequired,
   row       : React.PropTypes.object.isRequired,
   rowKey    : React.PropTypes.string,
 };
 
-export { EGBodyRow };
+export { PGBodyRow };

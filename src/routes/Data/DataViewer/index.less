@@ -2,6 +2,7 @@
 @import "../config";
 
 @detailsBarHt: 48px;
+@tableMetaHt: 40px;
 
 .container {
   .absolute-position-mixin(@breadcrumbHt);
@@ -14,7 +15,7 @@
 
 // Sidebar Container Style
 .sidebar {
-  .fixed-position-mixin(@breadcrumbHt+@detailsBarHt+35px, @left:auto);
+  .absolute-position-mixin(@detailsBarHt, @left:auto);
   width: 200px;
   background-color: @grey50;
   border-left: 1px solid @grey300;
@@ -28,15 +29,23 @@
   }
 }
 
-.sbIcon {
-  font-size: 16px;
-  color: @grey900;
+// DataGrid Container Style
+.grid {
+  .absolute-position-mixin(@top: @detailsBarHt + @tableMetaHt, @right: 200px);
+  margin: 10px 15px;
+  background-color: @white;
 }
 
-// DataGrid Container Style
-.entrygrid {
+.tableMetaContainer {
   .absolute-position-mixin(@top: @detailsBarHt, @right: 200px);
-  margin-bottom: 10px;
-  margin-top: 5px;
-  background-color: @white;
+  height: @tableMetaHt;
+  margin: 0 15px;
+  .contentLength {
+    display: inline-block;
+    line-height: @tableMetaHt;
+  }
+  .pagination {
+    float: right;
+    display: inline-block;
+  }
 }

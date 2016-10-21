@@ -1,5 +1,8 @@
 import { handleActions } from "redux-actions";
-import { SPEC_REQUEST, SPEC_SUCCESS, SPEC_FAILURE, DATA_REQUEST, DATA_SUCCESS, DATA_FAILURE } from "./types";
+import {
+  SPEC_REQUEST, SPEC_SUCCESS, SPEC_FAILURE, DATA_REQUEST, DATA_SUCCESS, DATA_FAILURE, DELETE_ROW_REQUEST,
+  DELETE_ROW_SUCCESS, DELETE_ROW_FAILURE, UPDATE_ROW_REQUEST, UPDATE_ROW_SUCCESS, UPDATE_ROW_FAILURE
+} from "./types";
 
 const initialState = {
   // Object of objects with key as the template id
@@ -55,6 +58,48 @@ const reducer = handleActions({
     error     : action.payload.data,
   }),
 
+  /**
+   * Adds a row into the template collection
+   */
+  [DELETE_ROW_REQUEST] : state => ({
+    ...state,
+  }),
+  [DELETE_ROW_SUCCESS] : (state, action) => {
+    const { rowId } = action.payload;
+    const data = { ...state.data };
+    data.delete(rowId);
+
+    return {
+      ...state,
+      data,
+    };
+  },
+  [DELETE_ROW_FAILURE] : (state, action) => ({
+    ...state,
+    error : action.payload.data,
+  }),
+
+  /**
+   * Adds a row into the template collection
+   */
+  [UPDATE_ROW_REQUEST] : state => ({
+    ...state,
+  }),
+  [UPDATE_ROW_SUCCESS] : (state, action) => {
+    const { rowId, rowData } = action.payload;
+
+    return {
+      ...state,
+      data : {
+        ...state.data,
+        [rowId] : rowData,
+      },
+    };
+  },
+  [UPDATE_ROW_FAILURE] : (state, action) => ({
+    ...state,
+    error : action.payload.data,
+  }),
 }, initialState);
 
 export default reducer;

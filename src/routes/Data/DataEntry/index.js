@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Entry, NavLinkBtn } from "components";
 import { clearMenuState } from "dataflow/menu/actions";
-import { loadSpec, addRow, deleteRow } from "dataflow/data/entry/actions";
+import { loadSpec, addRow } from "dataflow/data/entry/actions";
 import styles from "./index.less";
 
 class EntryForm extends Component {
@@ -12,15 +12,14 @@ class EntryForm extends Component {
   }
 
   componentWillMount() {
-    const { id: templateId } = this.props.params;
-    this.props.loadSpec({ templateId });
+    const { id: templateID } = this.props.params;
+    this.props.loadSpec({ templateID });
   }
 
   addRow(rowData) {
-    const { entryStore : { id : templateId } } = this.props;
-
+    const { entryStore : { id : templateID } } = this.props;
     this.props.addRow({
-      templateId,
+      templateID,
       data : rowData,
     });
   }
@@ -62,7 +61,6 @@ EntryForm.propTypes = {
   clearMenuState : React.PropTypes.func.isRequired,
   loadSpec       : React.PropTypes.func,
   addRow         : React.PropTypes.func,
-  deleteRow      : React.PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -73,7 +71,6 @@ const mapDisptachToProps = dispatch => ({
   clearMenuState : () => dispatch(clearMenuState()),
   loadSpec       : (params) => dispatch(loadSpec(params)),
   addRow         : params => dispatch(addRow(params)),
-  deleteRow      : params => dispatch(deleteRow(params)),
 });
 
 export default connect(mapStateToProps, mapDisptachToProps)(EntryForm);

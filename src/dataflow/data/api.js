@@ -9,36 +9,36 @@ export const getSpec = params => {
 };
 
 export const getData = params => {
-  const { templateID, page = 1, limit = 15 } = params;
+  const { templateID, page, limit } = params;
   return fetch("GET", `${api}/${templateID}/${page}/${limit}`)
     .then(res => res.json());
 };
 
 export const updateRow = params => {
-  const { rowId, templateId, fields } = params;
+  const { rowID, templateID, fields } = params;
   return fetch("PUT", api, {
-    id : rowId,         // fixme :  for clarity, id needs to be changed to rowId
-    templateId,
+    id : rowID,         // fixme :  for clarity, id needs to be changed to rowID
+    templateID,
     fields,
   })
     .then(res => res.json());
 };
 
 export const addRow = params => {
-  const { templateId, data } = params;
+  const { templateID, data } = params;
   return fetch("POST", api, {
-    templateId,
+    templateID,
     data,
   })
     .then(res => res.json());
 };
 
 export const deleteRow = params => {
-  const { templateId, rowId } = params;
+  const { templateID, rowID } = params;
 
   return fetch("DELETE", api, {
-    templateId,
-    id : rowId,
+    templateID,
+    id : rowID,
   })
     .then(res => res.json());
 };

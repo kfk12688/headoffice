@@ -1,4 +1,4 @@
-import { getData, getSpec } from "./apiActions";
+import { getData, getSpec, editRow, removeRow } from "./apiActions";
 
 /**
  * Get the available data for the requested template
@@ -11,3 +11,17 @@ export const loadData = params => dispatch =>
  */
 export const loadSpec = params => (dispatch) =>
   dispatch(getSpec(params));
+
+/**
+ * Update an existing row in the collection
+ */
+export const updateRow = params => dispatch =>
+  dispatch(editRow(params))
+    .then(dispatch(loadData(params)));
+
+/**
+ * Delete an existing row from the collection
+ */
+export const deleteRow = params => dispatch =>
+  dispatch(removeRow(params))
+    .then(dispatch(loadData(params)));

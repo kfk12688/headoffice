@@ -5,16 +5,8 @@
   height: @rowHeight;
   display: inline-block;
   position: relative;
-  vertical-align: middle;
   border-right: 1px solid @grey300;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 600;
-  &:hover{
-    text-decoration: underline;
-    background-color: @grey50;
-    cursor: pointer;
-  }
+  vertical-align: middle;
 }
 
 .cell {
@@ -25,4 +17,12 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-weight: 900;
+  font-size: 15px;
+  text-align: center;
+  &:hover {
+    text-decoration: underline;
+    background-color: @grey50;
+    cursor: pointer;
+  }
 }

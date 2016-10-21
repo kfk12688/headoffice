@@ -49,7 +49,7 @@ class App extends React.Component {
           [styles.rollDownHandle] : !this.state.rollUp,
           [styles.rollUpHandle]   : this.state.rollUp,
         })}><span/></div>
-        {this.state.rollUp && <Navigator user={currentUser} logoutUser={this.logOut}/>}
+        {this.state.rollUp && <Navigator className={styles.navigatorCtn} user={currentUser} logoutUser={this.logOut}/>}
         {this.props.children && React.cloneElement(this.props.children, {
           rollUp : this.state.rollUp,
         })}

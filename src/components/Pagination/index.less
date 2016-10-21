@@ -1,3 +1,5 @@
+@import "../_styles/colors";
+
 .container {
   &:after {
     content: close-quote;
@@ -15,6 +17,10 @@
   float: right;
   height: 29px;
   margin-left: 20px;
+  background-color: @white;
+  color: @indigo500;
+  border-color: @grey300;
+  outline: none;
 }
 
 .pagination {
@@ -35,19 +41,19 @@
     padding: 5px 8px;
     margin-left: -1px;
     text-decoration: none;
-    background-color: #fff;
-    border: 1px solid #ddd;
+    background-color: @white;
+    border: 1px solid @grey300;
 
     &:hover {
-      background-color: #eceeef;
-      border-color: #ddd;
+      background-color: @grey100;
+      border-color: @grey300;
     }
     &Active {
       z-index: 2;
       color: #fff;
       cursor: default;
-      background-color: #0275d8;
-      border-color: #0275d8;
+      background-color: @indigo500;
+      border-color: @indigo800;
     }
   }
 }

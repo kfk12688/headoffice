@@ -42,9 +42,10 @@ const Pagination = ({ className, limit, activePage, setPage, setLimit }) => {
         pageLinks.push(
           <li className={styles.pageItem}>
             <a
-              className={cx(styles.pageLink, { [styles.pageLinkActive] : (activePage === idx) })}
               href="#"
+              tabIndex="-1"
               onClick={e => pageClickHandler(e, idx)}
+              className={cx(styles.pageLink, { [styles.pageLinkActive] : (activePage === idx) })}
             >
               {idx}
             </a>
@@ -69,7 +70,7 @@ const Pagination = ({ className, limit, activePage, setPage, setLimit }) => {
     );
 
     return (
-      <select className={styles.limiter} value={limit} onChange={limitChangeHandler}>
+      <select className={styles.limiter} value={limit} onChange={limitChangeHandler} tabIndex="-1">
         {options}
       </select>
     );

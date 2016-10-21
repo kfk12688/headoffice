@@ -6,7 +6,7 @@ import { loadSpec, loadData } from "dataflow/data/view/actions";
 import { TitleBar } from "./TitleBar";
 import styles from "./index.less";
 
-class Editor extends Component {
+class Viewer extends Component {
   constructor() {
     super();
     this.state = {
@@ -80,7 +80,9 @@ class Editor extends Component {
 
         <div className={styles.tableMetaContainer}>
           <span className={styles.contentLength}>{Object.keys(data).length} Entries</span>
-          <Pagination className={styles.pagination} setLimit={this.setLimit} setPage={this.setPage} activePage={this.state.page} limit={this.state.limit}/>
+          <Pagination className={styles.pagination} setLimit={this.setLimit} setPage={this.setPage}
+                      activePage={this.state.page} limit={this.state.limit}
+          />
         </div>
 
         <PaginationGrid
@@ -94,7 +96,7 @@ class Editor extends Component {
   }
 }
 
-Editor.propTypes = {
+Viewer.propTypes = {
   // route
   params : React.PropTypes.object,
 
@@ -117,4 +119,4 @@ const mapDisptachToProps = dispatch => ({
   loadData       : (params) => dispatch(loadData(params)),
 });
 
-export default connect(mapStateToProps, mapDisptachToProps)(Editor);
+export default connect(mapStateToProps, mapDisptachToProps)(Viewer);

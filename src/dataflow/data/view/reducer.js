@@ -43,7 +43,10 @@ const reducer = handleActions({
   }),
   [DATA_SUCCESS] : (state, action) => ({
     ...state,
-    data      : action.payload.data,
+    data      : {
+      ...state.data,
+      ...action.payload.data,
+    },
     isLoading : false,
   }),
   [DATA_FAILURE] : (state, action) => ({

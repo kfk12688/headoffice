@@ -10,5 +10,4 @@ export const loadData = params => dispatch =>
  * Get the template specification
  */
 export const loadSpec = params => (dispatch) =>
-  dispatch(getSpec(params))
-    .then(dispatch(loadData(params)));
+  dispatch(getSpec(params));

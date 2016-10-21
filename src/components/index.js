@@ -4,7 +4,7 @@ import "font-awesome/css/font-awesome.css";
 export { TabGroup, Tab, TabMeta } from "./TabGroup";
 export { DataGrid } from "./DataGrid";
 export { Modal } from "./Modal";
-export { EntryGrid } from "./EntryGrid";
+export { PaginationGrid } from "./PaginationGrid";
 export { Entry } from "./Entry";
 export { SpecDefiner } from "./SpecDefiner";
 export { Breadcrumb } from "./Breadcrumb";

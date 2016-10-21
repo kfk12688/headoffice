@@ -3,14 +3,14 @@ import fetch from "../fetchWrapper";
 const api = "api/data";
 
 export const getSpec = params => {
-  const { templateId } = params;
-  return fetch("GET", `${api}/spec/${templateId}`)
+  const { templateID } = params;
+  return fetch("GET", `${api}/spec/${templateID}`)
     .then(res => res.json());
 };
 
 export const getData = params => {
-  const { templateId, page = 1, limit = 15 } = params;
-  return fetch("GET", `${api}/${templateId}/${page}/${limit}`)
+  const { templateID, page = 1, limit = 15 } = params;
+  return fetch("GET", `${api}/${templateID}/${page}/${limit}`)
     .then(res => res.json());
 };
 

@@ -26,14 +26,14 @@ class PaginationGrid extends Component {
   renderContent() {
     const { isLoading, spec, data } = this.props;
     const colWidths = calcColWidths(spec, data);
-    let EGBodyElement = null;
+    let PGBodyElement = null;
 
     if (isLoading) {
-      EGBodyElement = <i className={cx("fa fa-spinner fa-2x", styles.spinner)}/>;
+      PGBodyElement = <i className={cx("fa fa-spinner fa-2x", styles.spinner)}/>;
     } else if (_.isEmpty(data)) {
-      EGBodyElement = <div className={styles.egBody}>No Data Present</div>;
+      PGBodyElement = <div className={styles.egBody}>No Data Present</div>;
     } else {
-      EGBodyElement = (
+      PGBodyElement = (
         <PGBody
           cols={spec}
           rows={data}
@@ -50,13 +50,13 @@ class PaginationGrid extends Component {
           colWidths={colWidths}
           scrollLeft={this.state.scrollLeft}
         />
-        {EGBodyElement}
+        {PGBodyElement}
       </div>
     );
   }
 
   render() {
-    const { style, className, data } = this.props;
+    const { style, className } = this.props;
 
     return (
       <div

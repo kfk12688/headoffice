@@ -1,7 +1,7 @@
 import _ from "underscore";
 import React, { Component } from "react";
 import { Field, FieldArray, reduxForm } from "redux-form";
-import { getComponentFromType } from "../Inputs/getComponentFromType";
+import { getComponentFromType } from "../getComponentFromType";
 import { Button } from "../Button";
 import styles from "./EGForm.less";
 

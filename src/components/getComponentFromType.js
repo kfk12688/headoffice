@@ -1,9 +1,10 @@
 /**
  * Created by sharavan on 05/09/16.
  */
-import { ComboSearchInput, TextInput, DateInput, NumericInput, ArrayInput, ComboInput } from "components";
-import { listFieldValues } from "../../dataflow/lister/api";
-import styles from "./common.less";
+import { TextInput, DateInput, NumericInput, ArrayInput, ComboInput } from "./index";
+import { SelectMenuModal } from "./Modal/SelectMenuModal";
+import { listFieldValues } from "../dataflow/lister/api";
+import styles from "./Inputs/common.less";
 
 export function getComponentFromType(type, props) {
   if (type === "Date") {
@@ -30,7 +31,7 @@ export function getComponentFromType(type, props) {
 
   if (type === "ObjectId") {
     return {
-      component   : ComboSearchInput,
+      component   : SelectMenuModal,
       loadOptions : listFieldValues({
         refId        : props.ref,
         refFieldName : props.refFieldName,

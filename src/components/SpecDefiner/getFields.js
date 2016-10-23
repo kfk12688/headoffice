@@ -3,7 +3,7 @@
  */
 import React from "react";
 import Row from "./FieldSchemaRow";
-import { TextInput, ComboSearchInput, DateInput, CheckBoxInput, NumericInput } from "components";
+import { TextInput, ComboSearchInput, DateInput, CheckBoxInput, NumericInput } from "../Inputs";
 import { listTemplates, listTemplateFields } from "dataflow/lister/api";
 
 const getFields = (fieldName, fieldType, fieldProps) => {

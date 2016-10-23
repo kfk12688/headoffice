@@ -7,7 +7,7 @@ import getFields from "./getFields";
 import { SubSchemaFields } from "./SubSchemaFields";
 import styles from "./SDForm.less";
 
-const FIELD_TYPES = ["Number", "Date", "String", "Boolean", "Reference", "Schema", "SchemaArray"];
+const FIELD_TYPES = ["Number", "Date", "String", "Boolean", "ObjectId", "Schema", "SchemaArray"];
 
 class EditorEntryForm extends Component {
   constructor(props) {

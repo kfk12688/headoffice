@@ -1,7 +1,7 @@
 import React from "react";
 import _ from "underscore";
 import EGForm from "./EGForm";
-import styles from "./EGPost.less";
+import styles from "./index.less";
 
 class Entry extends React.Component {
   constructor(props) {

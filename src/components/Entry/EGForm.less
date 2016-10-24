@@ -17,7 +17,10 @@
   overflow: auto;
   column-count: 2;
   &Row {
-    margin-bottom: 5px;
+    -webkit-column-break-inside: avoid; /* Chrome, Safari */
+    page-break-inside: avoid; /* Theoretically FF 20+ */
+    break-inside: avoid-column; /* IE 11 */
+    display: table;
   }
   &RowArray {
     margin: 5px 0;

@@ -11,8 +11,10 @@ export { Table } from "./Table";
 export { SearchBar } from "./SearchBar";
 export { Pagination } from "./Pagination";
 export { Modal, SelectMenuModal } from "./Modal";
+export {
+  TextInput, ArrayInput, ComboInput, ComboSearchInput, CheckBoxInput, DateInput, NumericInput, SearchInput
+} from "./Inputs";
+
 export * from "./NavLink";
 export * from "./Button";
 export * from "./DisplayElems";
-
-export * from "./Inputs";

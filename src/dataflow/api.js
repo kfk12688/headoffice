@@ -66,13 +66,15 @@ export const listTemplateFields = (id) => {
   });
 };
 
-export const listFieldValues = (query) => {
-  const { ref, refField } = query;
+export const listFieldValues = (options) => {
+  const { ref, refField } = options;
   const fetchPromise = (q) => cachedFetch("GET", `api/list/${ref}/${refField}?q=${q}`)
     .then(res => res.json())
     .then(json => json.data);
 
-  return Promise.resolve(fetchPromise(query));
+  return (query) => new Promise(resolve => {
+    resolve(fetchPromise(query));
+  });
 };
 
 /**

@@ -10,9 +10,11 @@ export { Breadcrumb } from "./Breadcrumb";
 export { Table } from "./Table";
 export { SearchBar } from "./SearchBar";
 export { Pagination } from "./Pagination";
-export { Modal, SelectMenuModal } from "./Modal";
+export { Modal } from "./Modal";
+
+// replaces ComboSearchInput with SelectInput
 export {
-  TextInput, ArrayInput, ComboInput, ComboSearchInput, CheckBoxInput, DateInput, NumericInput, SearchInput
+  TextInput, ArrayInput, ComboInput, CheckBoxInput, DateInput, NumericInput, SearchInput, SelectInput
 } from "./Inputs";
 
 export * from "./NavLink";

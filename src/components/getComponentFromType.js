@@ -1,8 +1,7 @@
 /**
  * Created by sharavan on 05/09/16.
  */
-import { TextInput, DateInput, NumericInput, ArrayInput, ComboInput } from "./index";
-import { SelectMenuModal } from "./Modal/SelectMenuModal";
+import { TextInput, DateInput, NumericInput, ArrayInput, ComboInput, SelectInput } from "./index";
 import { listFieldValues } from "../dataflow/api";
 import styles from "./Inputs/common.less";
 
@@ -31,7 +30,7 @@ export function getComponentFromType(type, props) {
 
   if (type === "ObjectId") {
     return {
-      component   : SelectMenuModal,
+      component   : SelectInput,
       loadOptions : listFieldValues({
         ref      : props.ref.id,
         refField : props.refField.id,

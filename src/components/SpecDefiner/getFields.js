@@ -3,8 +3,7 @@
  */
 import React from "react";
 import Row from "./FieldSchemaRow";
-import { TextInput, DateInput, CheckBoxInput, NumericInput } from "../Inputs";
-import { SelectMenuModal } from "../Modal";
+import { TextInput, DateInput, CheckBoxInput, NumericInput, SelectInput } from "../Inputs";
 import { listTemplates, listTemplateFields } from "dataflow/api";
 
 const getFields = (fieldName, fieldType, fieldProps) => {
@@ -56,7 +55,7 @@ const getFields = (fieldName, fieldType, fieldProps) => {
     formElements = [
       ...formElements,
       <Row key={`fieldProps.${config.ref.key}`} prop={config.ref}
-           component={SelectMenuModal} loadOptions={listTemplates}
+           component={SelectInput} loadOptions={listTemplates}
       />,
     ];
 
@@ -65,7 +64,7 @@ const getFields = (fieldName, fieldType, fieldProps) => {
       formElements = [
         ...formElements,
         <Row key={`fieldProps.${config.refField.key}`} prop={config.refField}
-             component={SelectMenuModal} loadOptions={listTemplateFields(templateName)}
+             component={SelectInput} loadOptions={listTemplateFields(templateName)}
         />,
       ];
     }

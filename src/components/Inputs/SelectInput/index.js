@@ -1,9 +1,9 @@
 import React from "react";
 import _ from "underscore";
-import Overlay from "../Overlay";
-import styles from "./SelectMenuModal.less";
+import Overlay from "../../Overlay";
+import styles from "./index.less";
 
-class SelectMenuModal extends React.Component {
+class SelectInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -95,7 +95,7 @@ class SelectMenuModal extends React.Component {
   }
 }
 
-SelectMenuModal.propTypes = {
+SelectInput.propTypes = {
   input       : React.PropTypes.shape({
     value    : React.PropTypes.any.isRequired,
     onChange : React.PropTypes.func.isRequired,
@@ -104,4 +104,4 @@ SelectMenuModal.propTypes = {
   loadOptions : React.PropTypes.func,
 };
 
-export { SelectMenuModal };
+export { SelectInput };

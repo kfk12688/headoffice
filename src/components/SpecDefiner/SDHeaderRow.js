@@ -21,8 +21,8 @@ const SDHeaderRow = ({ cols, colWidths }) => {
 };
 
 SDHeaderRow.propTypes = {
-  cols      : React.PropTypes.array.isRequired,
-  colWidths : React.PropTypes.array.isRequired,
+  cols      : React.PropTypes.object.isRequired,
+  colWidths : React.PropTypes.object.isRequired,
 };
 
 export { SDHeaderRow };

@@ -3,12 +3,11 @@
  */
 import React from "react";
 import Row from "./FieldSchemaRow";
-import { TextInput, ComboSearchInput, DateInput, CheckBoxInput, NumericInput } from "../Inputs";
-import { listTemplates, listTemplateFields } from "dataflow/lister/api";
+import { TextInput, DateInput, CheckBoxInput, NumericInput } from "../Inputs";
+import { SelectMenuModal } from "../Modal";
+import { listTemplates, listTemplateFields } from "dataflow/api";
 
 const getFields = (fieldName, fieldType, fieldProps) => {
-  const refId = fieldProps && fieldProps.ref;
-
   const config = {
     required : { key : `${fieldName}.required`, displayText : "Is Required" },
     unique   : { key : `${fieldName}.unique`, displayText : "Is Unique" },
@@ -52,16 +51,24 @@ const getFields = (fieldName, fieldType, fieldProps) => {
       <Row key={`fieldProps.${config.default.key}`} prop={config.default} component={NumericInput}/>,
     ];
   }
-  if (fieldType === "Reference") {
+  if (fieldType === "ObjectId") {
+
     formElements = [
       ...formElements,
       <Row key={`fieldProps.${config.ref.key}`} prop={config.ref}
-           component={ComboSearchInput} loadOptions={listTemplates}
-      />,
-      <Row key={`fieldProps.${config.refField.key}`} prop={config.refField}
-           component={ComboSearchInput} loadOptions={listTemplateFields(refId)}
+           component={SelectMenuModal} loadOptions={listTemplates}
       />,
     ];
+
+    const templateName = fieldProps && fieldProps.ref && fieldProps.ref.id;
+    if (templateName) {
+      formElements = [
+        ...formElements,
+        <Row key={`fieldProps.${config.refField.key}`} prop={config.refField}
+             component={SelectMenuModal} loadOptions={listTemplateFields(templateName)}
+        />,
+      ];
+    }
   }
 
   return formElements;

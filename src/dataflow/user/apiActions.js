@@ -6,7 +6,7 @@ import {
   NEW_USER_REQUEST, NEW_USER_SUCCESS, NEW_USER_FAILURE, GET_USERS_FAILURE, GET_USERS_REQUEST, GET_USERS_SUCCESS,
   LOG_OUT_REQUEST, LOG_OUT_SUCCESS, LOG_OUT_FAILURE
 } from "./types";
-import * as api from "./api";
+import * as api from "../api";
 
 export const getUsers = () => ({
   [CALL_API] : {

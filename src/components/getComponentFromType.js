@@ -3,7 +3,7 @@
  */
 import { TextInput, DateInput, NumericInput, ArrayInput, ComboInput } from "./index";
 import { SelectMenuModal } from "./Modal/SelectMenuModal";
-import { listFieldValues } from "../dataflow/lister/api";
+import { listFieldValues } from "../dataflow/api";
 import styles from "./Inputs/common.less";
 
 export function getComponentFromType(type, props) {
@@ -33,8 +33,8 @@ export function getComponentFromType(type, props) {
     return {
       component   : SelectMenuModal,
       loadOptions : listFieldValues({
-        refId        : props.ref,
-        refFieldName : props.refFieldName,
+        ref      : props.ref.id,
+        refField : props.refField.id,
       }),
       className   : styles.ctn,
     };

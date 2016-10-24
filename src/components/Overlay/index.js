@@ -15,10 +15,6 @@ export default class Overlay extends React.Component {
     this.overlayElement.style.zIndex = 1000;
     document.body.appendChild(this.overlayElement);
 
-    window.addEventListener("click", this._hideOverlay);
-    window.addEventListener("resize", this._renderLayer);
-    //this.overlayElement.addEventListener("click", this._stopSelfClose);
-
     this._renderLayer();
   }
 
@@ -34,10 +30,6 @@ export default class Overlay extends React.Component {
     console.log("OVERLAY COMPONENT IS GOING TO BE UN-MOUNTED");
     unmountComponentAtNode(this.overlayElement);
     document.body.removeChild(this.overlayElement);
-
-    window.removeEventListener("click", this._hideOverlay);
-    window.removeEventListener("resize", this._renderLayer);
-    //this.overlayElement.removeEventListener("click", this._stopSelfClose);
   }
 
   _getPos(node) {
@@ -71,8 +63,17 @@ export default class Overlay extends React.Component {
       this.overlayElement.style.left = `${pos.left}px`;
       this.overlayElement.style.top = `${pos.top}px`;
       this.overlayElement.style.width = `${pos.width}px`;
+
+      window.addEventListener("click", this._hideOverlay);
+      window.addEventListener("resize", this._renderLayer);
+      //this.overlayElement.addEventListener("click", this._stopSelfClose);
+
       render(this.props.children, this.overlayElement);
     } else {
+      window.removeEventListener("click", this._hideOverlay);
+      window.removeEventListener("resize", this._renderLayer);
+      //this.overlayElement.removeEventListener("click", this._stopSelfClose);
+
       render(<div></div>, this.overlayElement);
     }
   }

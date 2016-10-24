@@ -9,24 +9,31 @@ class SelectMenuModal extends React.Component {
     this.state = {
       show       : false,
       searchText : { id : "dummyID" },
+      options    : [],
     };
     this.ctrls = {};
     this.assignTarget = target => { this.ctrls.target = target; };
 
     this.parseInput = this.parseInput.bind(this);
     this.formatInput = this.formatInput.bind(this);
+    this.loadOptions = this.loadOptions.bind(this);
+  }
 
-    this.renderList = this.renderList.bind(this);
+  componentDidMount() {
+    this.loadOptions("");
   }
 
   parseInput(item) {
     const { input } = this.props;
+    const queryText = item.label;
     input.onChange(item);
 
     this.setState({
       show       : true,
       searchText : item,
     });
+
+    this.loadOptions(queryText);
 
     return JSON.stringify(item);
   }
@@ -35,62 +42,27 @@ class SelectMenuModal extends React.Component {
     return v && v.label;
   }
 
-  //renderFilters() {
-  //  return (
-  //    <div className={styles.filters}>
-  //      <TextInput className={styles.textFilter}/>
-  //    </div>
-  //  );
-  //}
-  //
-  //renderHeader() {
-  //  return (
-  //    <div className={styles.header}>
-  //      <span className={styles.title}>Filter by who’s assigned</span>
-  //      <i className="fa fa-times pull-right"/>
-  //    </div>
-  //  );
-  //}
-
-  renderList() {
+  loadOptions(text) {
     const { loadOptions } = this.props;
 
-    loadOptions()
-      .then(({ options }) => _.map(options, (item, idx) =>
-        <div
-          key={idx}
-          className={styles.item}
-          onClick={e => this.parseInput({ id : item.id, label : idx })}
-          data-id={item.id}
-          data-value={idx}
-        >
-          {idx}
-        </div>
-      ))
-      .then(content => {
-        this.list = <div className={styles.list}>{content}</div>;
+    loadOptions(text)
+      .then(options => {
+        const content = _.map(options, (item, idx) =>
+          <div
+            key={idx}
+            className={styles.item}
+            onClick={e => this.parseInput({ id : item.id, label : item.label })}
+            data-id={item.id}
+            data-value={item.label}
+          >
+            {item.label}
+          </div>
+        );
+
+        this.setState({
+          options : content,
+        });
       });
-  }
-
-  //renderLoader() {
-  //  return (
-  //    <div className={styles.loadingOverlay}>
-  //      <i className="fa fa-spinner"/>
-  //    </div>
-  //  );
-  //}
-
-  renderBox() {
-    this.renderList();
-    return (
-      <div className={styles.modal}>
-        <div className={styles.content}>
-          {/*{this.renderHeader()}*/}
-          {/*{this.renderFilters()}*/}
-          {this.list}
-        </div>
-      </div>
-    );
   }
 
   render() {
@@ -110,7 +82,13 @@ class SelectMenuModal extends React.Component {
           show={this.state.show}
           onHide={e => this.setState({ show : false })}
         >
-          {this.renderBox()}
+          {
+            <div className={styles.modal}>
+              <div className={styles.content}>
+                <div className={styles.list}>{this.state.options}</div>
+              </div>
+            </div>
+          }
         </Overlay>
       </div>
     );

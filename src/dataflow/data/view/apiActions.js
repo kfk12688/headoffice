@@ -6,7 +6,7 @@ import {
   SPEC_REQUEST, SPEC_SUCCESS, SPEC_FAILURE, DATA_REQUEST, DATA_SUCCESS, DATA_FAILURE, DELETE_ROW_REQUEST,
   DELETE_ROW_SUCCESS, DELETE_ROW_FAILURE, UPDATE_ROW_REQUEST, UPDATE_ROW_SUCCESS, UPDATE_ROW_FAILURE
 } from "./types";
-import * as api from "../api";
+import * as api from "../../api";
 
 export const getData = params => ({
   [CALL_API] : {

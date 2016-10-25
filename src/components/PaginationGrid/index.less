@@ -1,5 +1,6 @@
 @import "../_styles/colors";
-@rowHeight : 38px;
+
+@rowHeight: 38px;
 
 .base {
   overflow: hidden;
@@ -26,7 +27,7 @@
 }
 
 .egBody {
-  .absolute-position-mixin(@top: @rowHeight);
+  .absolute-position-mixin(@top: @rowHeight+1px);
   background-color: #ffffff;
   text-align: center;
   padding: 50px;

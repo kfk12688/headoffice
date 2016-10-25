@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
 import { Button, TextInput, ComboSearchInput } from "components";
-import { searchWorkbook as loadWorkbooks } from "dataflow/workbooks/api";
+import { searchWorkbook as loadWorkbooks } from "dataflow/api";
 import styles from "./NewTemplateForm.less";
 
 // FORM COMPONENT FOR Creating a new template

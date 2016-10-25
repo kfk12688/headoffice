@@ -6,7 +6,7 @@ import {
   GET_TEMPLATES_REQUEST, GET_TEMPLATES_SUCCESS, GET_TEMPLATES_FAILURE, ADD_TEMPLATE_REQUEST, ADD_TEMPLATE_SUCCESS,
   ADD_TEMPLATE_FAILURE, DELETE_TEMPLATE_REQUEST, DELETE_TEMPLATE_SUCCESS, DELETE_TEMPLATE_FAILURE
 } from "./types";
-import * as api from "../api";
+import * as api from "../../api";
 
 export const getTemplates = () => ({
   [CALL_API] : {

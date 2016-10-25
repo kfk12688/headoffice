@@ -3,7 +3,7 @@
  */
 import { CALL_API } from "../../middleware/callAPI";
 import { SPEC_REQUEST, SPEC_SUCCESS, SPEC_FAILURE, ADD_ROW_REQUEST, ADD_ROW_SUCCESS, ADD_ROW_FAILURE } from "./types";
-import * as api from "../api";
+import * as api from "../../api";
 
 export const getSpec = params => ({
   [CALL_API] : {

@@ -24,16 +24,13 @@ function getCell(transform, type, row, col) {
   if (type === "favorite") {
     return (<FavoriteCell value={transform()}/>);
   }
-  if (type === "schemaarray") {
+  if ((type === "schemaarray") || (type === "schema")) {
     const rows = transform();
     const cols = col.fieldSchema.map(f => ({
       displayText : f.displayText,
       key         : f.fieldName,
     }));
     if (rows.length !== 0) return (<ModalCell rows={rows} cols={cols} caption={col.displayText}/>);
-    return null;
-  }
-  if (type === "schema") {
     return null;
   }
   if (type === "buttonLink") {
@@ -86,6 +83,10 @@ function getCell(transform, type, row, col) {
       values.push(transform(k));
     });
     return (<TextCell value={values.reduce((ov, nv) => `${ov} ${nv}`)}/>);
+  }
+  if (type === "objectid") {
+    const { label } = transform();
+    return (<TextCell value={label}/>);
   }
   return (<TextCell value={transform()}/>);
 }

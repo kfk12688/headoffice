@@ -14,7 +14,7 @@ export { Modal } from "./Modal";
 
 // replaces ComboSearchInput with SelectInput
 export {
-  TextInput, ArrayInput, ComboInput, CheckBoxInput, DateInput, NumericInput, SearchInput, SelectInput
+  TextInput, ArrayInput, ComboInput, CheckBoxInput, DateInput, NumericInput, SearchInput, SelectInput, ComboSearchInput
 } from "./Inputs";
 
 export * from "./NavLink";

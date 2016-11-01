@@ -3,6 +3,8 @@ The page to display is selected by he user using the pagination panel.
 
 ![](https://github.com/Sharavanth/headoffice/blob/pagination-grid-docu/src/components/PaginationGrid/Review.png)
 
+**scrolling** : This is defined by default.
+
 #Usage
 
 The inputs to the PaginationGrid given by the user must be "spec", "data" and 
@@ -28,6 +30,8 @@ The **spec** input is an Array of Objects and must be defined like below
 Keys | Type | Description | Requred/Optional
 ------------ | -------------|------------- | -------------
 displayText | string | Describes the header column name in the rendered table | Yes
+fieldName | string | Describes the key for column name | Yes
+fieldType | string | Describes the type of column name | Yes
 
 
 ```javascript
@@ -53,6 +57,3 @@ var data = {
 }
 ```
 Id is created by default.
-
-**scrolling** : This is defined by default.
-

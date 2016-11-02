@@ -18,11 +18,16 @@ selectedKeys | array | It defines the row selection |Required
 
 ##cols
 
-This input has an array of objects.
+This input accepts an array of objects. Each object woud define a column in the table. The below table describes how to define this col object
 
-keys | Type | Description | Req/Optional
+Key | Type | Description | Req/Optional
 --------|------|-----------|--------
-cols | string | Describes the header column in the rendered table | Required
+dataKey | string | Describes the corressponding key name in `data` input. See data Snippet for more details | Required
+headerStyle | Object | Accepts a css object for styling the column cell | Optional
+name | string | This value will be mapped to corressponding key in `colWidths` input  | Optional
+renderType | string (One of defined renderTypes) | Renders the data cell accordingly | Required
+sortable | bool | Indicates whether the column is sortable | Optional
+text | string | Header Cell text | Required
 
  ```javascript
 var cols = [
@@ -34,21 +39,33 @@ var cols = [
   sortable : false,
   text : "",
 },
+{
+  dataKey : "templateName",
+  name : "name-col",
+  renderType : "buttonLink",
+  text : "Name",
+},
+{}
+];
+
+var data = [
+ {
+  isSelected : false,
+  templateName : "Register 01",
+},
+ {
+  isSelected : false,
+  templateName : "Register 02",
+},
+ {
+  isSelected : true,
+  templateName : "Register 03",
+},
 {}
 ];
 ```
 
-
-props | dataKey | name | renderType | sortable | text 
--------|-------|------|------------|----------|------
-cols | isSelected | checkbox-col | checkbox | false |""
-cols | isFavorite | favorite-col | - | false | ""
-cols | templateName | name-col | buttonLink | - | Name
-cols | workBook.name | workbook-col | text | - | Work Book
-cols | createdAt | Created-at-col | date | true | Created On
-cols | modifiedAt | updated-at-col | date | true | Updated At
-
-![](https://github.com/Sharavanth/headoffice/blob/pagination-grid-docu/src/components/DataGrid/datagrid.PNG)
+![](https://github.com/Sharavanth/headoffice/blob/data-grid-docu/src/components/DataGrid/datagrid.PNG)
 
 ##rows
 it is one of the input of datagrid component
@@ -120,7 +137,7 @@ keys |Type | Description | Req/Optional
  selectedKeys : array[1]
   id: "5811ec0dh2lo2318"
  ````
-![](https://github.com/Sharavanth/headoffice/blob/pagination-grid-docu/src/components/DataGrid/datagrid2.PNG)
+![](https://github.com/Sharavanth/headoffice/blob/data-grid-docu/src/components/DataGrid/datagrid2.PNG)
 ##onclick
 
 It is a type of function..onclick on the datakeys it turns to asec or desc

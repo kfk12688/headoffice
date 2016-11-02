@@ -75,6 +75,7 @@ var rows = {
 
 ##colWidths
 it gets the object as input
+
 keys | Type | Description |Req/Optional
 ---------|---------|---------|-------
 colWidths | object | column width is given to the partcular column object|Required

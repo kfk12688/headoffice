@@ -49,9 +49,10 @@ var spec = [
 
 ```javascript
 var data = {
-  
-    0:{displayText : "abc",
-    id : "",}
+    0:{
+      displayText : "abc",
+      id : "",
+    }
   ,
   ...
 }

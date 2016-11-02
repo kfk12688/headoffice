@@ -24,7 +24,7 @@ keys | Type | Description | Req/Optional
 --------|------|-----------|--------
 cols | string | Describes the header column in the rendered table | Required
 
-'''javascript
+ ```javascript
 var cols = [
  {
   dataKey : "isSelected",
@@ -33,9 +33,12 @@ var cols = [
   renderType : "checkbox",
   sortable : false,
   text : "",
- ...
+},
+{}
 ];
-'''
+```
+
+
 props | dataKey | name | renderType | sortable | text 
 -------|-------|------|------------|----------|------
 cols | isSelected | checkbox-col | checkbox | false |""
@@ -54,20 +57,20 @@ keys | Type | Description | Req/Optional
 --------|------|-----------|--------
 rows | string | this defines the row objects | Required
 
-'''javascript
+```javascript
 var rows = {
-  CreatedAT : "2016-10-2711:59"
-  CreatedBy : { id : null
-                name : "Jasmine.G"
-                username : "jasmine"
-               }
-   id : "5811ec0dh2lo2318"
-   isFavorite : false
-   isSelected : false
-   modifiedAt : "2016-10-2811:59"
-   templateName : "temp"
+  CreatedAT : "2016-10-2711:59",
+  CreatedBy : { id : null,
+                name : "Jasmine.G",
+                username : "jasmine",
+               },
+   id : "5811ec0dh2lo2318",
+   isFavorite : false,
+   isSelected : false,
+   modifiedAt : "2016-10-2811:59",
+   templateName : "temp",
 }
-'''
+````
 
 
 ##colWidths
@@ -76,7 +79,7 @@ keys | Type | Description |Req/Optional
 ---------|---------|---------|-------
 colWidths | object | column width is given to the partcular column object|Required
 
-'''javascript
+```javascript
  var colWidths = {
  checkbox-col : 38
  Created-at-col : 120
@@ -85,7 +88,7 @@ colWidths | object | column width is given to the partcular column object|Requir
  updated-at-col : 150
  workbook-col :170
  }
-
+```
 
 ##sortkey
 it takes string type as input
@@ -101,9 +104,9 @@ keys |Type | Description | Req/Optional
 -------|------|---------|--------
  sortAscending | bool |it displays either asec or desc values on datakeys|Required
 
-'''javascript
+```javascript
 sortAscending : false
-'''
+```
 ##selectedKeys
 
 keys |Type | Description | Req/Optional
@@ -112,10 +115,10 @@ keys |Type | Description | Req/Optional
  
  if the row is selected means,
  
- '''javascript
+ ```javascript
  selectedKeys : array[1]
-  0 : "5811ec0dh2lo2318"
- '''
+  id: "5811ec0dh2lo2318"
+ ````
 ![](https://github.com/Sharavanth/headoffice/blob/pagination-grid-docu/src/components/DataGrid/datagrid2.PNG)
 ##onclick
 

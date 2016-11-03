@@ -12,7 +12,7 @@ isLoading | bool | It returns the boolean  |Required
 rows | object | which defines the rows | Required
 cols | array | It is a required object  which defines the cols |Required
 colWidths | object | its a required object that defines the col's width |Required
-sortkey | string | It is required |Required
+sortkey | string | It sorts the header column's datak key |Required
 sortAscending | bool | It returns the boolean value|Optional
 selectedKeys | array | It defines the row selection |Required
 
@@ -29,6 +29,8 @@ name | string | This value will be mapped to corressponding key in `colWidths` i
 renderType | string (One of defined renderTypes) | Renders the data cell accordingly | Required
 sortable | bool | Indicates whether the column is sortable | Optional
 text | string | Header Cell text | Required
+
+Row selection and column resizing are inbuilt functions.
 
  ```javascript
 var cols = [
@@ -65,7 +67,7 @@ var rows = [
  {}
  ];
  
-![](https://github.com/Sharavanth/headoffice/blob/data-grid-docu/src/components/DataGrid/datagrid.PNG)
+![](https://github.com/Sharavanth/headoffice/blob/data-grid-docu/src/components/DataGrid/default.png)
 
 ##rows
 it is one of the input of datagrid component
@@ -76,11 +78,11 @@ rows | string | this defines the row objects | Required
 
 ```javascript
 var rows = {
-  CreatedAT : "2016-10-2711:59",
-  CreatedBy : { id : null,
-                name : "Jasmine.G",
-                username : "jasmine",
-               },
+  createdAt : "2016-10-2711:59",
+  createdBy : { 
+   name : "Jasmine.G",
+   username : "jasmine",
+ },
    id : "5811ec0dh2lo2318",
    isFavorite : false,
    isSelected : false,
@@ -99,13 +101,13 @@ colWidths | object | column width is given to the partcular column object|Requir
 
 ```javascript
  var colWidths = {
- checkbox-col : 38
- Created-at-col : 120
- favorite-col : 38
- name-col : 250
- updated-at-col : 150
- workbook-col :170
+   checkbox-col : 38
+   Created-at-col : 120
+   favorite-col : 38
+   name-col : 250
+   updated-at-col : 150
+   workbook-col :170
  }
 ```
-![](https://github.com/Sharavanth/headoffice/blob/data-grid-docu/src/components/DataGrid/datagrid2.PNG)
+![](https://github.com/Sharavanth/headoffice/blob/data-grid-docu/src/components/DataGrid/rowselection.png)
 

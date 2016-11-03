@@ -48,9 +48,12 @@ var cols = [
    renderType : "buttonLink",
    text : "Name",
  },
-{}
+...
 ];
 ```
+
+Data rows snippet
+```javascript
 var rows = [
  {
    isSelected : false,
@@ -66,7 +69,8 @@ var rows = [
  },
  {}
  ];
- 
+```
+
 ![](https://github.com/Sharavanth/headoffice/blob/data-grid-docu/src/components/DataGrid/default.png)
 
 ##rows
@@ -89,7 +93,7 @@ var rows = {
    modifiedAt : "2016-10-2811:59",
    templateName : "temp",
 }
-````
+```
 
 
 ##colWidths
@@ -109,5 +113,3 @@ colWidths | object | column width is given to the partcular column object|Requir
    workbook-col :170
  }
 ```
-![](https://github.com/Sharavanth/headoffice/blob/data-grid-docu/src/components/DataGrid/rowselection.png)
-

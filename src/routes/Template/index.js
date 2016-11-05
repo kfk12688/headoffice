@@ -262,7 +262,7 @@ class Template extends Component {
         </div>
 
         <div className="row">
-          <div className="col-md-10 offset-md-1">
+          <div>
             {this.renderChildren()}
           </div>
         </div>

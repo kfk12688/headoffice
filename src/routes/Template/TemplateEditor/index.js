@@ -91,7 +91,7 @@ class Editor extends Component {
         <div>
           {/* DataGrid Container */}
           <SpecDefiner
-            className={styles.entrygrid}
+
             colSpec={this.colSpec}
             colWidths={this.colWidths}
             data={editor.userSchema}

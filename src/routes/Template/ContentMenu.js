@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { selectAll, clearSelection, toggleMenuSidebar } from "dataflow/menu/actions";
-import { Button, Modal, PopupButton } from "components";
+import React, {Component} from "react";
+import {connect} from "react-redux";
+import {selectAll, clearSelection, toggleMenuSidebar} from "dataflow/menu/actions";
+import {Button, Modal, PopupButton} from "components";
 import CreateTemplateForm from "./NewTemplateForm";
 import styles from "./ContentMenu.less";
 import cx from "classnames";
@@ -9,13 +9,13 @@ import cx from "classnames";
 class ContentMenu extends Component {
   constructor(props) {
     super(props);
-    this.state = { showModal : false };
+    this.state = {showModal: false};
     this.toggleModal = this.toggleModal.bind(this);
     this.selectAllHandler = this.selectAllHandler.bind(this);
   }
 
   getActions() {
-    const { actions } = this.props;
+    const {actions} = this.props;
     const actionsMenuContent = actions.map(action => {
       const key = action.name.replace(/ /, "").toLowerCase();
       return <div key={key} onClick={action.handler}>{action.name}</div>;
@@ -31,9 +31,9 @@ class ContentMenu extends Component {
 
   toggleModal() {
     if (this.state.showModal) {
-      this.setState({ showModal : false });
+      this.setState({showModal: false});
     } else {
-      this.setState({ showModal : true });
+      this.setState({showModal: true});
     }
   }
 
@@ -42,18 +42,17 @@ class ContentMenu extends Component {
   }
 
   render() {
-    const { className, menuStore } = this.props;
+    const {className, menuStore} = this.props;
 
     return (
-      <span
-        className={cx(styles.root, className)}
+      <nav
+        className={cx("navbar navbar-default",styles.navbar)}
       >
         <span className={styles.left}>
-          <span>
             <Button
               faName="sliders"
               onClick={this.props.toggleMenuSidebar}
-              className={cx(styles.icon, { [styles.iconActive] : menuStore.showSidebar })}
+              className={cx(styles.icon, {[styles.iconActive]: menuStore.showSidebar})}
             />
 
             <Modal
@@ -70,42 +69,40 @@ class ContentMenu extends Component {
               <div onClick={this.selectAllHandler}>Select All</div>
               <div onClick={this.props.clearSelection}>Clear selection</div>
             </PopupButton>
-          </span>
 
           {(menuStore.selectedKeys.length >= 1) && this.getActions()}
         </span>
-
         <span className={styles.right}>
           <span className={styles.sortTitle}>Sort by : </span>
         </span>
-      </span>
+      </nav>
     );
   }
 }
 
 ContentMenu.propTypes = {
-  className : React.PropTypes.string,
-  menuStore : React.PropTypes.any,
+  className: React.PropTypes.string,
+  menuStore: React.PropTypes.any,
 
-  dataKeys : React.PropTypes.array,
-  actions  : React.PropTypes.array,
+  dataKeys: React.PropTypes.array,
+  actions: React.PropTypes.array,
 
   // Functions
-  selectAllRows     : React.PropTypes.func,
-  clearSelection    : React.PropTypes.func,
-  toggleMenuSidebar : React.PropTypes.func,
-  addTemplate       : React.PropTypes.func,
+  selectAllRows: React.PropTypes.func,
+  clearSelection: React.PropTypes.func,
+  toggleMenuSidebar: React.PropTypes.func,
+  addTemplate: React.PropTypes.func,
 };
 
 const menu = connect(
   state => ({
-    menuStore : state.menu,
+    menuStore: state.menu,
   }),
   dispatch => ({
-    selectAllRows     : (keys) => dispatch(selectAll(keys)),
-    clearSelection    : () => dispatch(clearSelection()),
-    toggleMenuSidebar : () => dispatch(toggleMenuSidebar()),
+    selectAllRows: (keys) => dispatch(selectAll(keys)),
+    clearSelection: () => dispatch(clearSelection()),
+    toggleMenuSidebar: () => dispatch(toggleMenuSidebar()),
   })
 )(ContentMenu);
 
-export { menu as ContentMenu };
+export {menu as ContentMenu};

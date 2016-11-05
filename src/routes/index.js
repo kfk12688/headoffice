@@ -49,7 +49,7 @@ class App extends React.Component {
 
         return (
             <div>
-                <div className="container-fluid">
+                <div className={cx("container-fluid",styles.nav)}>
                     <div
                         onClick={this.handleRollUpToggle}
                         className={cx({
@@ -68,7 +68,6 @@ class App extends React.Component {
                     }
                 </div>
 
-                
                 {
                     this.props.children && React.cloneElement(this.props.children, {
                         rollUp: this.state.rollUp,

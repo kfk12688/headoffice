@@ -8,6 +8,7 @@ import { setDateModifiedEnd, setDateModifiedStart, setOwner, setIsRecent, setIsS
 import { Formatter as formatter } from "../_utils";
 import { ContentMenu } from "./ContentMenu";
 import styles from "./index.less";
+import cx from "classnames";
 
 class Data extends Component {
   constructor(props) {
@@ -199,27 +200,30 @@ class Data extends Component {
     ];
 
     return (
-      <div>
+      <div className={styles.search}>
         {/* Contextual Menu */}
+        <div className="row">
         <ContentMenu
-          className={styles.contextMenu}
+          className="col-md-12"
           dataKeys={Object.keys(list.data)}
           actions={this.actionsCollection}
         />
+        </div>
 
-        <div>
+        <div className="row">
           {/* SearchBar Container */}
           {
             menuStore.showSidebar &&
+            <div className={cx("col-md-3",styles.pad)}>
             <SearchBar
               className={styles.search}
               config={searchConfig}
             />
+            </div>
           }
-
+          <div className={cx("col-md-9",styles.pad)}>
           {/* DataGrid Container */}
           <DataGrid
-            className={styles.datagrid}
             style={{ left : !menuStore.showSidebar && 0 }}
             isLoading={list.isLoading}
             cols={this.colSpec}
@@ -230,6 +234,7 @@ class Data extends Component {
             selectedKeys={menuStore.selectedKeys}
             onRowClick={this.props.toggleSelection}
           />
+          </div>
         </div>
       </div>
     );
@@ -239,17 +244,18 @@ class Data extends Component {
     const { rollUp } = this.props;
 
     return (
-      <div
-        className={styles.base}
+      <div className={cx("container-fluid",styles.container)}
         style={{ top : rollUp ? 35 : 0 }}
       >
-
+      <div className="row">
         {/* Breadcrumb */}
-        <Breadcrumb
-          className={styles.breadcrumb}
-        />
-
+        <Breadcrumb className="col-md-10 offset-md-1"/>
+        </div>
+        <div className="row">
+            <div className="col-md-10 offset-md-1">
         {this.renderChildren()}
+      </div>
+      </div>
       </div>
     );
   }

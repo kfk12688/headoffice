@@ -22,11 +22,16 @@
 
 // SearchBar Container Style
 .search {
-  .absolute-position-mixin(@breadcrumbHt + @actionContainerHt);
-  width: 240px;
   background-color: @grey50;
 }
 
+.container {
+  background-color: @grey50;
+}
+
+.pad{
+  padding: 0px;
+}
 // DataGrid Container Style
 .datagrid {
   .absolute-position-mixin(@top: @breadcrumbHt + @actionContainerHt,@left: 240px);

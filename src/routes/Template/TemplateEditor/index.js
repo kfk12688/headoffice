@@ -96,7 +96,6 @@ class Editor extends Component {
             onSubmit={this.addField}
           />
 
-          {/* Sidebar Container */}
           <div className={"col-md-2"}>
             <Button accent="green" className={styles.sidebarButton} onClick={this.saveUserSchema}>Update Schema</Button>
             <Button accent="green" disabled className={styles.sidebarButton}>Undo</Button>

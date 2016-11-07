@@ -1,54 +1,29 @@
 @import "../_styles/colors";
 @import "./config";
 
-.icon-mixin() {
-  .icon {
-    font-size: 14px;
-    padding: 0 5px;
-    border: solid 1px @grey500;
-    color: @grey800;
-    background-color: transparent;
-    &:hover {
-      border: solid 1px @grey900;
-    }
-  }
-  .iconActive {
-    background-color: @grey600;
-    color: @white;
+.icon {
+  border: solid 1px @grey500;
+  color: @grey800;
+  background-color: transparent;
+  &:hover {
+    border: solid 1px @grey900;
   }
 }
 
 // ActionContainer
-.root {
-  color: @grey600;
-  font-size: 14px;
-  height: @actionContainerHt;
-  background-color: @grey50;
-  padding: 8px 15px;
-  border-bottom: 1px solid @grey300;
-}
-
-.left {
-  float: left;
-  height: 25px;
-  .icon-mixin();
-}
-
-.right {
-  float: right;
-  height: 25px;
-  .icon-mixin();
-}
-
 .sortTitle {
-  display: inline-block;
-  float: left;
   line-height: 22px;
   padding-right: 10px;
+  padding-top: 3px;
 }
 
-.sortList {
-  display: inline-block;
-  width: 230px;
+.actionsSeperator {
+  width: 1px;
   height: 22px;
+  border-left: 1px solid @grey500;
+}
+
+.navbar {
+  border-bottom: 2px solid #e0e0e0;
+  border-radius: 0;
 }

@@ -125,25 +125,25 @@ class User extends Component {
     return (
       <div className="row">
         <div className="col-md-10 offset-md-1">
-          <ContentMenu
-            className="col-md-12"
-            actions={this.actionsCollection}
-            dataKeys={Object.keys(userStore.data)}
-            addNewUser={this.props.addNewUser}
-          />
+          <div className="row">
+            <ContentMenu
+              className="col-md-12"
+              actions={this.actionsCollection}
+              dataKeys={Object.keys(userStore.data)}
+              addNewUser={this.props.addNewUser}
+            />
+          </div>
 
           <div className="row">
             {
               menuStore.showSidebar &&
-              <SearchBar
-                className="col-md-3"
-                config={searchConfig}
-              />
+              <div className={cx("col-md-3", styles.bordered)}>
+                <SearchBar config={searchConfig}/>
+              </div>
             }
-            <div className="col-md-9">
-              {/* DataGrid Container */}
+
+            <div className={cx({"col-md-9": menuStore.showSidebar, "col-md-12": !menuStore.showSidebar})}>
               <DataGrid
-                style={{left: !menuStore.showSidebar && 0}}
                 isLoading={userStore.isLoading}
                 cols={this.colSpec}
                 colWidths={this.colWidths}

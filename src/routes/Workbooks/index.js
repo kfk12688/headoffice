@@ -125,7 +125,6 @@ class Workbooks extends Component {
         <div className="col-md-10 offset-md-1">
           <div className="row">
             <ContentMenu
-             className={styles.contextMenu}
              dataKeys={Object.keys(workbooks.data)}
              actions={this.actionsCollection}
              addNewWorkbook={this.props.addNewWorkbook}
@@ -142,7 +141,6 @@ class Workbooks extends Component {
 
         <div className={cx({"col-md-9" : menuStore.showSidebar , "col-md-12" : !menuStore.showSidebar})}>
            <DataGrid
-             className={styles.datagrid}
              style={{ left : !menuStore.showSidebar && 0 }}
              isLoading={workbooks.isLoading}
              rows={workbooks.data}

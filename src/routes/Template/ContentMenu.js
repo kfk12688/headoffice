@@ -46,13 +46,13 @@ class ContentMenu extends Component {
 
     return (
       <nav
-        className={cx("navbar navbar-default",styles.navbar)}
+        className={cx("navbar navbar-default clearfix", styles.navbar)}
       >
-        <span className={styles.left}>
+        <span className="pull-left">
             <Button
               faName="sliders"
               onClick={this.props.toggleMenuSidebar}
-              className={cx(styles.icon, {[styles.iconActive]: menuStore.showSidebar})}
+              className={"btn btn-outline-secondary"}
             />
 
             <Modal
@@ -72,9 +72,7 @@ class ContentMenu extends Component {
 
           {(menuStore.selectedKeys.length >= 1) && this.getActions()}
         </span>
-        <span className={styles.right}>
-          <span className={styles.sortTitle}>Sort by : </span>
-        </span>
+        <span className={cx("pull-right", styles.sortTitle)}>Sort by :</span>
       </nav>
     );
   }

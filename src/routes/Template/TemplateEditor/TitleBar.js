@@ -30,38 +30,36 @@ export class TitleBar extends Component {
     const {templateName, createdAt, createdBy, modifiedAt, workBook, isFavorite} = store;
 
     return (
-      <div className="row">
-        <div className="col-md-10 offset-md-1">
-          <div className={styles.base}>
-            <div className={styles.title}>
-              <b><u>Template Editor</u> : </b>{templateName}
-            </div>
-
-            <div className={styles.owner}>
-              <span className={styles.ownerSpan}>By </span>
-              <span>{createdBy && createdBy.name}</span>
-            </div>
-
-            <div className={styles.meta}>
-              <span>Created At : <MetaInfo>{moment(createdAt).format("DD-MM-YYYY")}</MetaInfo></span>
-              <span>Last Modified : <MetaInfo>{moment(modifiedAt).format("h:mm A, DD-MM-YYYY")}</MetaInfo></span>
-              <span>Belongs to : <MetaInfo>{workBook && workBook.name}</MetaInfo></span>
-            </div>
+      <div className={className}>
+        <div className={styles.left}>
+          <div className={styles.title}>
+            <b><u>Template Editor</u> : </b>{templateName}
           </div>
 
-          <div className={styles.icons}>
-            <Modal
-              modalTitle="Edit Template"
-              btnClassName={styles.iconsEdit}
-              faName="edit"
-              show={this.state.showModal}
-              toggleModal={this.toggleModal}
-            >
-              <EditTemplateForm state={store} submitForm={editTemplate} toggleModal={this.toggleModal}/>
-            </Modal>
-
-            <FavoriteCell style={{float: "right"}} value={isFavorite || false} inheritSize/>
+          <div className={styles.owner}>
+            <span className={styles.ownerSpan}>By </span>
+            <span>{createdBy && createdBy.name}</span>
           </div>
+
+          <div className={styles.meta}>
+            <span>Created At : <MetaInfo>{moment(createdAt).format("DD-MM-YYYY")}</MetaInfo></span>
+            <span>Last Modified : <MetaInfo>{moment(modifiedAt).format("h:mm A, DD-MM-YYYY")}</MetaInfo></span>
+            <span>Belongs to : <MetaInfo>{workBook && workBook.name}</MetaInfo></span>
+          </div>
+        </div>
+
+        <div className={styles.icons}>
+          <Modal
+            modalTitle="Edit Template"
+            btnClassName={styles.iconsEdit}
+            faName="edit"
+            show={this.state.showModal}
+            toggleModal={this.toggleModal}
+          >
+            <EditTemplateForm state={store} submitForm={editTemplate} toggleModal={this.toggleModal}/>
+          </Modal>
+
+          <FavoriteCell style={{float: "right"}} value={isFavorite || false} inheritSize/>
         </div>
       </div>
     );

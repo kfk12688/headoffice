@@ -213,7 +213,7 @@ class Template extends Component {
     ];
 
     return (
-      <div className={styles.search}>
+    <div className="col-md-10 offset-md-1">
         <div className="row">
           <ContentMenu
             className="col-md-12"
@@ -227,14 +227,13 @@ class Template extends Component {
           {/* SearchBar Container */}
           {
             menuStore.showSidebar &&
-            <div className={cx("col-md-3",styles.pad)}>
-              <SearchBar className={styles.search} config={searchConfig}/>
+            <div className={cx("col-md-3", styles.bordered)}>
+              <SearchBar config={searchConfig}/>
             </div>
           }
 
-          <div className={cx("col-md-9",styles.pad)}>
+          <div className={cx({"col-md-9" : menuStore.showSidebar , "col-md-12" : !menuStore.showSidebar})}>
             <DataGrid
-              style={{left: !menuStore.showSidebar && 0}}
               isLoading={list.isLoading}
               cols={this.colSpec}
               colWidths={this.colWidths}
@@ -262,9 +261,7 @@ class Template extends Component {
         </div>
 
         <div className="row">
-          <div>
             {this.renderChildren()}
-          </div>
         </div>
       </div>
     );

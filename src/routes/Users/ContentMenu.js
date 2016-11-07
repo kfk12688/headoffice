@@ -1,21 +1,21 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { selectAll, clearSelection, toggleMenuSidebar } from "dataflow/menu/actions";
-import { Button, Modal, PopupButton } from "components";
+import React, {Component} from "react";
+import {connect} from "react-redux";
+import {selectAll, clearSelection, toggleMenuSidebar} from "dataflow/menu/actions";
+import {Button, Modal, PopupButton} from "components";
 import UserForm from "./NewUserForm";
-import cx from "classnames";
 import styles from "./ContentMenu.less";
+import cx from "classnames";
 
 class ContentMenu extends Component {
   constructor(props) {
     super(props);
-    this.state = { showModal : false };
+    this.state = {showModal: false};
     this.toggleModal = this.toggleModal.bind(this);
     this.selectAllHandler = this.selectAllHandler.bind(this);
   }
 
   getActions() {
-    const { actions } = this.props;
+    const {actions} = this.props;
     const actionsMenuContent = actions.map(action => {
       const key = action.name.replace(/ /, "").toLowerCase();
       return <div key={key} onClick={action.handler}>{action.name}</div>;
@@ -24,18 +24,16 @@ class ContentMenu extends Component {
     return (
       <span>
         <span className={styles.actionsSeperator}/>
-        <PopupButton label="Actions">
-          {actionsMenuContent}
-        </PopupButton>
+        <PopupButton label="Actions">{actionsMenuContent}</PopupButton>
       </span>
     );
   }
 
   toggleModal() {
     if (this.state.showModal) {
-      this.setState({ showModal : false });
+      this.setState({showModal: false});
     } else {
-      this.setState({ showModal : true });
+      this.setState({showModal: true});
     }
   }
 
@@ -44,68 +42,65 @@ class ContentMenu extends Component {
   }
 
   render() {
-    const { className, menuStore, addNewUser } = this.props;
+    const {menuStore, addNewUser} = this.props;
 
     return (
-      <div
-        className={cx(styles.root, className)}
+      <nav
+        className={cx("row navbar navbar-default clearfix", styles.navbar)}
       >
-        <div className={styles.left}>
-          <span>
+        <span className="pull-left">
             <Button
               faName="sliders"
               onClick={this.props.toggleMenuSidebar}
-              className={cx(styles.icon, { [styles.iconActive] : menuStore.showSidebar })}
+              className={"btn btn-outline-secondary"}
             />
+
             <Modal
               show={this.state.showModal}
               toggleModal={this.toggleModal}
-              caption="Add New User"
+              caption="Add New Content"
               faName="plus"
               accent
             >
               <UserForm onSubmit={addNewUser} toggleModal={this.toggleModal}/>
             </Modal>
+
             <PopupButton label={`${menuStore.selectedKeys.length} selected`}>
               <div onClick={this.selectAllHandler}>Select All</div>
               <div onClick={this.props.clearSelection}>Clear selection</div>
             </PopupButton>
-          </span>
 
           {(menuStore.selectedKeys.length >= 1) && this.getActions()}
-        </div>
-
-        <div className={styles.right}>
-          <span className={styles.sortTitle}>Sort by : </span>
-        </div>
-      </div>
+        </span>
+        <span className={cx("pull-right", styles.sortTitle)}>Sort by :</span>
+      </nav>
     );
   }
 }
 
 ContentMenu.propTypes = {
-  className : React.PropTypes.string,
-  menuStore : React.PropTypes.any,
+  className: React.PropTypes.string,
+  menuStore: React.PropTypes.any,
 
-  dataKeys : React.PropTypes.array,
-  actions  : React.PropTypes.array,
+  dataKeys: React.PropTypes.array,
+  actions: React.PropTypes.array,
 
   // Functions
-  selectAllRows     : React.PropTypes.func,
-  clearSelection    : React.PropTypes.func,
-  toggleMenuSidebar : React.PropTypes.func,
-  addNewUser        : React.PropTypes.func,
+  selectAllRows: React.PropTypes.func,
+  clearSelection: React.PropTypes.func,
+  toggleMenuSidebar: React.PropTypes.func,
+  addTemplate: React.PropTypes.func,
 };
 
 const menu = connect(
   state => ({
-    menuStore : state.menu,
+    menuStore: state.menu,
   }),
   dispatch => ({
-    selectAllRows     : (keys) => dispatch(selectAll(keys)),
-    clearSelection    : () => dispatch(clearSelection()),
-    toggleMenuSidebar : () => dispatch(toggleMenuSidebar()),
+    selectAllRows: (keys) => dispatch(selectAll(keys)),
+    clearSelection: () => dispatch(clearSelection()),
+    toggleMenuSidebar: () => dispatch(toggleMenuSidebar()),
   })
 )(ContentMenu);
 
-export { menu as ContentMenu };
+export {menu as ContentMenu};

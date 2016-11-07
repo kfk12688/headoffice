@@ -201,36 +201,35 @@ class Data extends Component {
 
     return (
       <div className="row">
-      <div className="col-md-10 offset-md-1">
-        <div className="row">
-        <ContentMenu
-          className="col-md-12"
-          dataKeys={Object.keys(list.data)}
-          actions={this.actionsCollection}
-        />
-        </div>
-
-        <div className="row">
-          {/* SearchBar Container */}
-          {
-            menuStore.showSidebar &&
-            <div className={cx("col-md-3", styles.bordered)}>
-              <SearchBar config={searchConfig}/>
-              </div>
-          }
-          <div className={cx({"col-md-9" : menuStore.showSidebar , "col-md-12" : !menuStore.showSidebar})}>
-          {/* DataGrid Container */}
-          <DataGrid
-            isLoading={list.isLoading}
-            cols={this.colSpec}
-            colWidths={this.colWidths}
-            rows={list.data}
-            sortKey={filterStore.sortKey}
-            sortAscending={filterStore.sortAscending}
-            selectedKeys={menuStore.selectedKeys}
-            onRowClick={this.props.toggleSelection}
-          />
+        <div className="col-md-10 offset-md-1">
+          <div className="row">
+            <ContentMenu
+              className="col-md-12"
+              dataKeys={Object.keys(list.data)}
+              actions={this.actionsCollection}
+            />
           </div>
+
+          <div className="row">
+            {
+              menuStore.showSidebar &&
+              <div className={cx("col-md-3", styles.bordered)}>
+                <SearchBar config={searchConfig}/>
+                </div>
+            }
+
+            <div className={cx({"col-md-9" : menuStore.showSidebar , "col-md-12" : !menuStore.showSidebar})}>
+              <DataGrid
+                isLoading={list.isLoading}
+                cols={this.colSpec}
+                colWidths={this.colWidths}
+                rows={list.data}
+                sortKey={filterStore.sortKey}
+                sortAscending={filterStore.sortAscending}
+                selectedKeys={menuStore.selectedKeys}
+                onRowClick={this.props.toggleSelection}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -241,13 +240,11 @@ class Data extends Component {
     const { rollUp } = this.props;
 
     return (
-      <div className={cx("container-fluid",styles.container)}
-        style={{ top : rollUp ? 35 : 0 }}
-      >
-      <div className="row">
-        {/* Breadcrumb */}
-        <Breadcrumb className="col-md-10 offset-md-1"/>
+      <div className={cx("container-fluid",styles.container)} style={{ top : rollUp ? 35 : 0 }}>
+        <div className="row">
+          <Breadcrumb className="col-md-10 offset-md-1"/>
         </div>
+        
         {this.renderChildren()}
       </div>
     );

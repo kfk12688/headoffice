@@ -213,36 +213,38 @@ class Template extends Component {
     ];
 
     return (
-    <div className="col-md-10 offset-md-1">
-        <div className="row">
-          <ContentMenu
-            className="col-md-12"
-            dataKeys={Object.keys(list.data)}
-            actions={this.actionsCollection}
-            addTemplate={this.props.addTemplate}
-          />
-        </div>
-
-        <div className="row">
-          {/* SearchBar Container */}
-          {
-            menuStore.showSidebar &&
-            <div className={cx("col-md-3", styles.bordered)}>
-              <SearchBar config={searchConfig}/>
-            </div>
-          }
-
-          <div className={cx({"col-md-9" : menuStore.showSidebar , "col-md-12" : !menuStore.showSidebar})}>
-            <DataGrid
-              isLoading={list.isLoading}
-              cols={this.colSpec}
-              colWidths={this.colWidths}
-              rows={list.data}
-              sortKey={filterStore.sortKey}
-              sortAscending={filterStore.sortAscending}
-              onRowClick={this.props.toggleSelection}
-              selectedKeys={menuStore.selectedKeys}
+      <div className="row">
+        <div className="col-md-10 offset-md-1">
+          <div className="row">
+            <ContentMenu
+              className="col-md-12"
+              dataKeys={Object.keys(list.data)}
+              actions={this.actionsCollection}
+              addTemplate={this.props.addTemplate}
             />
+          </div>
+
+          <div className="row">
+            {/* SearchBar Container */}
+            {
+              menuStore.showSidebar &&
+              <div className={cx("col-md-3", styles.bordered)}>
+                <SearchBar config={searchConfig}/>
+              </div>
+            }
+
+            <div className={cx({"col-md-9": menuStore.showSidebar, "col-md-12": !menuStore.showSidebar})}>
+              <DataGrid
+                isLoading={list.isLoading}
+                cols={this.colSpec}
+                colWidths={this.colWidths}
+                rows={list.data}
+                sortKey={filterStore.sortKey}
+                sortAscending={filterStore.sortAscending}
+                onRowClick={this.props.toggleSelection}
+                selectedKeys={menuStore.selectedKeys}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -260,9 +262,7 @@ class Template extends Component {
           <Breadcrumb className="col-md-10 offset-md-1"/>
         </div>
 
-        <div className="row">
-            {this.renderChildren()}
-        </div>
+        {this.renderChildren()}
       </div>
     );
   }

@@ -79,28 +79,31 @@ class Editor extends Component {
     const {editor} = this.props;
 
     return (
-      <div className="col-md-10 offset-md-1">
-        <TitleBar
-          className={"row"}
-          store={editor}
-          editTemplate={this.saveTemplateMeta}
-        />
-
-        <div className="row">
-          <SpecDefiner
-            className={"col-md-10"}
-            colSpec={this.colSpec}
-            colWidths={this.colWidths}
-            data={editor.userSchema}
-            isLoading={editor.isLoading}
-            onSubmit={this.addField}
+      <div className="row">
+        <div className="col-md-10 offset-md-1">
+          <TitleBar
+            className={"row"}
+            store={editor}
+            editTemplate={this.saveTemplateMeta}
           />
 
-          <div className={"col-md-2"}>
-            <Button accent="green" className={styles.sidebarButton} onClick={this.saveUserSchema}>Update Schema</Button>
-            <Button accent="green" disabled className={styles.sidebarButton}>Undo</Button>
-            <Button accent="green" disabled className={styles.sidebarButton}>Redo</Button>
-            <Button accent="green" className={styles.sidebarButton} onClick={this.loadSchema}>Reset Schema</Button>
+          <div className="row">
+            <SpecDefiner
+              className={"col-md-10"}
+              colSpec={this.colSpec}
+              colWidths={this.colWidths}
+              data={editor.userSchema}
+              isLoading={editor.isLoading}
+              onSubmit={this.addField}
+            />
+
+            <div className={"col-md-2"}>
+              <Button accent="green" className={styles.sidebarButton} onClick={this.saveUserSchema}>Update
+                Schema</Button>
+              <Button accent="green" disabled className={styles.sidebarButton}>Undo</Button>
+              <Button accent="green" disabled className={styles.sidebarButton}>Redo</Button>
+              <Button accent="green" className={styles.sidebarButton} onClick={this.loadSchema}>Reset Schema</Button>
+            </div>
           </div>
         </div>
       </div>

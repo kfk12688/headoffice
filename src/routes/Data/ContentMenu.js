@@ -48,12 +48,12 @@ class ContentMenu extends Component {
       <div
         className={cx(styles.root, className)}
       >
-        <div className={styles.left}>
+        <div className="pull-left">
           <span>
             <Button
               faName="sliders"
               onClick={this.props.toggleMenuSidebar}
-              className={cx(styles.icon, { [styles.iconActive] : menuStore.showSidebar })}
+               className={"btn btn-outline-secondary"}
             />
 
             <PopupButton label={`${menuStore.selectedKeys.length} selected`}>
@@ -64,10 +64,7 @@ class ContentMenu extends Component {
 
           {(menuStore.selectedKeys.length >= 1) && this.getActions()}
         </div>
-
-        <div className={styles.right}>
-          <span className={styles.sortTitle}>Sort by :</span>
-        </div>
+         <span className={cx("pull-right", styles.sortTitle)}>Sort by :</span>
       </div>
     );
   }

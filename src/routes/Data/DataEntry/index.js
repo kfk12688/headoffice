@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { Entry, NavLinkBtn } from "components";
 import { clearMenuState } from "dataflow/menu/actions";
 import { loadSpec, addRow } from "dataflow/data/entry/actions";
-import styles from "./index.less";
 
 class EntryForm extends Component {
   constructor(props) {
@@ -29,22 +28,22 @@ class EntryForm extends Component {
     const { spec, data, loadingIndicators, id, templateName } = entryStore;
 
     return (
-      <div className={styles.container}>
-        {/* Sidebar Container */}
-        <div className={styles.sidebar}>
-          <NavLinkBtn to="data" faName="times-circle-o">Close View</NavLinkBtn>
-          <NavLinkBtn to={`data/view/${id}`} faName="arrow-circle-o-right">Goto Data View</NavLinkBtn>
-        </div>
-
-        {/* DataGrid Container */}
+      <div className="row">
+      {/* DataGrid Container */}
         <Entry
-          className={styles.entrygrid}
+          className="col-md-8 offset-md-1"
           templateName={templateName}
           spec={spec}
           data={data}
           isLoading={loadingIndicators}
           onSubmit={this.addRow}
         />
+
+        {/* Sidebar Container */}
+        <div className="col-md-2">
+          <NavLinkBtn to="data" faName="times-circle-o">Close View</NavLinkBtn>
+          <NavLinkBtn to={`data/view/${id}`} faName="arrow-circle-o-right">Goto Data View</NavLinkBtn>
+        </div>
       </div>
     );
   }

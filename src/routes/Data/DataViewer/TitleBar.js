@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import moment from "moment";
 import { FavoriteCell } from "components";
-import styles from "./TitleBar.less";
 import cx from "classnames";
 
-const MetaInfo = ({ children }) => <span className={styles.metaInfo}>{children}&nbsp;&#8226;&nbsp;</span>;
+const MetaInfo = ({ children }) => <span>{children}&nbsp;&#8226;&nbsp;</span>;
 MetaInfo.propTypes = {
   children : React.PropTypes.node,
 };
@@ -28,19 +27,19 @@ export class TitleBar extends Component {
     const { className, store : { createdAt, createdBy, templateName, workBook, isFavorite } } = this.props;
 
     return (
-      <div className={cx(styles.base, className)}>
-        <div className={styles.left}>
-          <div className={styles.title}>{templateName}</div>
+       <div className={className}>
+        <div className="col-md-10">
+          <div>{templateName}</div>
 
-          <div className={styles.meta}>
+          <div>
             <span>By <MetaInfo>{createdBy && createdBy.name}</MetaInfo></span>
             <span>Created At : <MetaInfo>{createdAt && moment(createdAt).format("DD-MM-YYYY")}</MetaInfo></span>
             <span>Belongs to : <MetaInfo>{workBook && workBook.name}</MetaInfo></span>
           </div>
         </div>
 
-        <div className={styles.icons}>
-          <FavoriteCell style={{ float : "right" }} value={isFavorite || false} inheritSize/>
+        <div className="col-md-2">
+          <FavoriteCell value={isFavorite || false} inheritSize/>
         </div>
       </div>
     );

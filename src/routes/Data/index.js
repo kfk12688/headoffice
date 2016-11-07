@@ -200,8 +200,7 @@ class Data extends Component {
     ];
 
     return (
-      <div className={styles.search}>
-        {/* Contextual Menu */}
+      <div className="col-md-10 offset-md-1">
         <div className="row">
         <ContentMenu
           className="col-md-12"
@@ -214,17 +213,13 @@ class Data extends Component {
           {/* SearchBar Container */}
           {
             menuStore.showSidebar &&
-            <div className={cx("col-md-3",styles.pad)}>
-            <SearchBar
-              className={styles.search}
-              config={searchConfig}
-            />
-            </div>
+            <div className={cx("col-md-3", styles.bordered)}>
+              <SearchBar config={searchConfig}/>
+              </div>
           }
-          <div className={cx("col-md-9",styles.pad)}>
+          <div className={cx({"col-md-9" : menuStore.showSidebar , "col-md-12" : !menuStore.showSidebar})}>
           {/* DataGrid Container */}
           <DataGrid
-            style={{ left : !menuStore.showSidebar && 0 }}
             isLoading={list.isLoading}
             cols={this.colSpec}
             colWidths={this.colWidths}
@@ -252,9 +247,7 @@ class Data extends Component {
         <Breadcrumb className="col-md-10 offset-md-1"/>
         </div>
         <div className="row">
-            <div className="col-md-10 offset-md-1">
         {this.renderChildren()}
-      </div>
       </div>
       </div>
     );

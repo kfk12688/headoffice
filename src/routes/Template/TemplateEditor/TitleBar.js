@@ -1,11 +1,9 @@
 import React, {Component} from "react";
 import moment from "moment";
-import cx from "classnames";
 import {Modal, FavoriteCell} from "components";
 import EditTemplateForm from "../NewTemplateForm";
-import styles from "./TitleBar.less";
 
-const MetaInfo = ({children}) => <span className={styles.metaInfo}>{children}&nbsp;&#8226;&nbsp;</span>;
+const MetaInfo = ({children}) => <span className="text-muted">{children}&nbsp;&#8226;&nbsp;</span>;
 MetaInfo.propTypes = {
   children: React.PropTypes.node,
 };
@@ -31,27 +29,26 @@ export class TitleBar extends Component {
 
     return (
       <div className={className}>
-        <div className={styles.left}>
-          <div className={styles.title}>
+        <div className="col-md-10">
+          <div>
             <b><u>Template Editor</u> : </b>{templateName}
           </div>
 
-          <div className={styles.owner}>
-            <span className={styles.ownerSpan}>By </span>
+          <div>
+            <span>By </span>
             <span>{createdBy && createdBy.name}</span>
           </div>
 
-          <div className={styles.meta}>
+          <div>
             <span>Created At : <MetaInfo>{moment(createdAt).format("DD-MM-YYYY")}</MetaInfo></span>
             <span>Last Modified : <MetaInfo>{moment(modifiedAt).format("h:mm A, DD-MM-YYYY")}</MetaInfo></span>
             <span>Belongs to : <MetaInfo>{workBook && workBook.name}</MetaInfo></span>
           </div>
         </div>
 
-        <div className={styles.icons}>
+        <div className="col-md-2">
           <Modal
             modalTitle="Edit Template"
-            btnClassName={styles.iconsEdit}
             faName="edit"
             show={this.state.showModal}
             toggleModal={this.toggleModal}
@@ -59,7 +56,7 @@ export class TitleBar extends Component {
             <EditTemplateForm state={store} submitForm={editTemplate} toggleModal={this.toggleModal}/>
           </Modal>
 
-          <FavoriteCell style={{float: "right"}} value={isFavorite || false} inheritSize/>
+          <FavoriteCell value={isFavorite || false} inheritSize/>
         </div>
       </div>
     );

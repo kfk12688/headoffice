@@ -6,6 +6,8 @@ import { toggleSelection } from "dataflow/menu/actions";
 import { setDateModifiedEnd, setDateModifiedStart, setWorkbookName } from "dataflow/filter/actions";
 import { loadWorkbooks, addNewWorkbook, deleteWorkbook } from "dataflow/workbooks/actions";
 import styles from "./index.less";
+import cx from "classnames";
+
 
 class Workbooks extends Component {
   constructor(props) {
@@ -119,59 +121,53 @@ class Workbooks extends Component {
     ];
 
     return (
-      <div>
-        {/* Contextual Menu */}
-        <ContentMenu
-          className={styles.contextMenu}
-          dataKeys={Object.keys(workbooks.data)}
-          actions={this.actionsCollection}
-          addNewWorkbook={this.props.addNewWorkbook}
-        />
+      <div className="row">
+        <div className="col-md-10 offset-md-1">
+          <div className="row">
+            <ContentMenu
+             className={styles.contextMenu}
+             dataKeys={Object.keys(workbooks.data)}
+             actions={this.actionsCollection}
+             addNewWorkbook={this.props.addNewWorkbook}
+            />
+        </div>
 
-        <div>
-          {/* SearchBar Container */}
+        <div className="row">
           {
             menuStore.showSidebar &&
-            <SearchBar
-              className={styles.search}
-              config={searchConfig}
-            />
+            <div className={cx("col-md-3", styles.bordered)}>
+               <SearchBar config={searchConfig}/>
+            </div>
           }
 
-          {/* DataGrid Container */}
-          <DataGrid
-            className={styles.datagrid}
-            style={{ left : !menuStore.showSidebar && 0 }}
-            isLoading={workbooks.isLoading}
-            rows={workbooks.data}
-            cols={this.colSpec}
-            colWidths={this.colWidths}
-            selectedKeys={menuStore.selectedKeys}
-            onRowClick={toggleRow}
-          />
+        <div className={cx({"col-md-9" : menuStore.showSidebar , "col-md-12" : !menuStore.showSidebar})}>
+           <DataGrid
+             className={styles.datagrid}
+             style={{ left : !menuStore.showSidebar && 0 }}
+             isLoading={workbooks.isLoading}
+             rows={workbooks.data}
+             cols={this.colSpec}
+             colWidths={this.colWidths}
+             selectedKeys={menuStore.selectedKeys}
+             onRowClick={toggleRow}
+            />
+          </div>
         </div>
       </div>
+   </div>
     );
   }
 
   render() {
     const { rollUp } = this.props;
 
-    // ListMenu Container
+    
     return (
-      <div
-        className={styles.base}
-        style={{ top : rollUp ? 35 : 0 }}
-      >
-
-        {/* Breadcrumb */}
-        <Breadcrumb
-          className={styles.breadcrumb}
-        />
-
-        {/* Children content of the route */}
-        {this.renderChildren()}
-
+      <div className={cx("container-fluid",styles.container)} style={{ top : rollUp ? 35 : 0 }}>
+            <div className="row">
+              <Breadcrumb className="col-md-10 offset-md-1"/>
+            </div>
+              {this.renderChildren()}
       </div>
     );
   }

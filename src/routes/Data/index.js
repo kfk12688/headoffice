@@ -200,6 +200,7 @@ class Data extends Component {
     ];
 
     return (
+      <div className="row">
       <div className="col-md-10 offset-md-1">
         <div className="row">
         <ContentMenu
@@ -230,6 +231,7 @@ class Data extends Component {
             onRowClick={this.props.toggleSelection}
           />
           </div>
+          </div>
         </div>
       </div>
     );
@@ -246,9 +248,7 @@ class Data extends Component {
         {/* Breadcrumb */}
         <Breadcrumb className="col-md-10 offset-md-1"/>
         </div>
-        <div className="row">
         {this.renderChildren()}
-      </div>
       </div>
     );
   }

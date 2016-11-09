@@ -52,15 +52,14 @@ class ContentMenu extends Component {
             <Button
               faName="sliders"
               onClick={this.props.toggleMenuSidebar}
-              className={"btn btn-outline-secondary"}
             />
 
             <Modal
               show={this.state.showModal}
               toggleModal={this.toggleModal}
               caption="Add New Content"
+              style="primary"
               faName="plus"
-              accent
             >
               <UserForm onSubmit={addNewUser} toggleModal={this.toggleModal}/>
             </Modal>

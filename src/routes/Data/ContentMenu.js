@@ -53,7 +53,6 @@ class ContentMenu extends Component {
             <Button
               faName="sliders"
               onClick={this.props.toggleMenuSidebar}
-               className={"btn btn-outline-secondary"}
             />
 
             <PopupButton label={`${menuStore.selectedKeys.length} selected`}>

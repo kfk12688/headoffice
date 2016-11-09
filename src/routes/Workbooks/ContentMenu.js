@@ -58,6 +58,7 @@ class ContentMenu extends Component {
               className={cx(styles.icon, { [styles.iconActive] : menuStore.showSidebar })}
             />
             <Modal
+              size="md"
               show={this.state.showModal}
               toggleModal={this.toggleModal}
               caption="Add New Workbook"

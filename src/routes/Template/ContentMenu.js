@@ -23,10 +23,10 @@ class ContentMenu extends Component {
 
     return (
       <span>
-        <span className={styles.actionsSeperator}/>
-        <PopupButton label="Actions">{actionsMenuContent}</PopupButton>
+      <span className={styles.actionsSeperator}/>
+      <PopupButton label="Actions">{actionsMenuContent}</PopupButton>
       </span>
-    );
+      );
   }
 
   toggleModal() {
@@ -45,22 +45,20 @@ class ContentMenu extends Component {
     const {className, menuStore} = this.props;
 
     return (
-      <nav
-        className={cx("navbar navbar-default clearfix", styles.navbar)}
-      >
-        <span className="pull-left">
+      <div className={cx("row", styles.navbar)}>
+        <div className="col-md-8">
+          <div className={styles.menuButtons}>
             <Button
               faName="sliders"
               onClick={this.props.toggleMenuSidebar}
-              className={"btn btn-outline-secondary"}
             />
 
             <Modal
               show={this.state.showModal}
               toggleModal={this.toggleModal}
               caption="Add New Content"
+              style="primary"
               faName="plus"
-              accent
             >
               <CreateTemplateForm onSubmit={this.props.addTemplate} toggleModal={this.toggleModal}/>
             </Modal>
@@ -70,11 +68,15 @@ class ContentMenu extends Component {
               <div onClick={this.props.clearSelection}>Clear selection</div>
             </PopupButton>
 
-          {(menuStore.selectedKeys.length >= 1) && this.getActions()}
-        </span>
-        <span className={cx("pull-right", styles.sortTitle)}>Sort by :</span>
-      </nav>
-    );
+            {(menuStore.selectedKeys.length >= 1) && this.getActions()}
+          </div>
+        </div>
+
+        <div className="col-md-4">
+          <div>Sort by :</div>
+        </div>
+      </div>
+      );
   }
 }
 
@@ -101,6 +103,6 @@ const menu = connect(
     clearSelection: () => dispatch(clearSelection()),
     toggleMenuSidebar: () => dispatch(toggleMenuSidebar()),
   })
-)(ContentMenu);
+  )(ContentMenu);
 
-export {menu as ContentMenu};
+  export {menu as ContentMenu};

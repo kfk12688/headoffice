@@ -98,11 +98,11 @@ class Editor extends Component {
             />
 
             <div className={"col-md-2"}>
-              <Button accent="green" className={styles.sidebarButton} onClick={this.saveUserSchema}>Update
+              <Button style="success" onClick={this.saveUserSchema}>Update
                 Schema</Button>
-              <Button accent="green" disabled className={styles.sidebarButton}>Undo</Button>
-              <Button accent="green" disabled className={styles.sidebarButton}>Redo</Button>
-              <Button accent="green" className={styles.sidebarButton} onClick={this.loadSchema}>Reset Schema</Button>
+              <Button>Undo</Button>
+              <Button>Redo</Button>
+              <Button style="primary" onClick={this.loadSchema}>Reset Schema</Button>
             </div>
           </div>
         </div>

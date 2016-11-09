@@ -42,8 +42,8 @@ class CreateForm extends Component {
         </div>
 
         <div className={styles.addContentBtnGroup}>
-          <Button accent="green" type="submit" disabled={pristine || submitting}>Save</Button>
-          <Button bordered onClick={this.resetForm}>Cancel</Button>
+          <Button style="success" disabled={pristine || submitting} type="submit">Save</Button>
+          <Button onClick={this.resetForm}>Cancel</Button>
         </div>
       </form>
     );

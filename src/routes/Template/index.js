@@ -215,14 +215,11 @@ class Template extends Component {
     return (
       <div className="row">
         <div className="col-md-10 offset-md-1">
-          <div className="row">
-            <ContentMenu
-              className="col-md-12"
-              dataKeys={Object.keys(list.data)}
-              actions={this.actionsCollection}
-              addTemplate={this.props.addTemplate}
-            />
-          </div>
+          <ContentMenu
+            dataKeys={Object.keys(list.data)}
+            actions={this.actionsCollection}
+            addTemplate={this.props.addTemplate}
+          />
 
           <div className="row">
             {/* SearchBar Container */}

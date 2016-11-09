@@ -45,10 +45,9 @@ class ContentMenu extends Component {
     const {menuStore, addNewUser} = this.props;
 
     return (
-      <nav
-        className={cx("row navbar navbar-default clearfix", styles.navbar)}
-      >
-        <span className="pull-left">
+      <div className={cx("row", styles.navbar)}>
+        <div className="col-md-8">
+          <div className={styles.menuButtons}>
             <Button
               faName="sliders"
               onClick={this.props.toggleMenuSidebar}
@@ -70,9 +69,12 @@ class ContentMenu extends Component {
             </PopupButton>
 
           {(menuStore.selectedKeys.length >= 1) && this.getActions()}
-        </span>
-        <span className={cx("pull-right", styles.sortTitle)}>Sort by :</span>
-      </nav>
+        </div>
+      </div>
+        <div className="col-md-4">
+          <div>Sort by :</div>
+        </div>
+    </div>
     );
   }
 }

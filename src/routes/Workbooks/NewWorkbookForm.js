@@ -47,8 +47,8 @@ class CreateUserForm extends Component {
         </div>
 
         <div className={styles.addContentBtnGroup}>
-          <Button accent="green" type="submit" disabled={pristine || submitting}>Save</Button>
-          <Button bordered onClick={this.resetForm}>Cancel</Button>
+          <Button style="success" type="submit" disabled={pristine || submitting}>Save</Button>
+          <Button outline onClick={this.resetForm}>Cancel</Button>
         </div>
       </form>
     );
@@ -68,3 +68,4 @@ CreateUserForm.propTypes = {
 export default reduxForm({
   form : "newWorkBook",
 })(CreateUserForm);
+

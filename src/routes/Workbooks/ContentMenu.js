@@ -55,14 +55,13 @@ class ContentMenu extends Component {
             <Button
               faName="sliders"
               onClick={this.props.toggleMenuSidebar}
-              className={cx(styles.icon, { [styles.iconActive] : menuStore.showSidebar })}
             />
             <Modal
               show={this.state.showModal}
               toggleModal={this.toggleModal}
               caption="Add New Workbook"
+              style="primary"
               faName="plus"
-              accent
             >
               <NewWorkbookForm onSubmit={this.props.addNewWorkbook} toggleModal={this.toggleModal}/>
             </Modal>

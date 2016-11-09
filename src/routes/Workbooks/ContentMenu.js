@@ -44,13 +44,12 @@ class ContentMenu extends Component {
   }
 
   render() {
-    const { className, menuStore } = this.props;
+    const { menuStore } = this.props;
 
     return (
-      <div
-        className={cx(styles.root, className)}
-      >
-        <div className={styles.left}>
+      <div className={cx("row", styles.navbar)}>
+        <div className="col-md-8">
+          <div className={styles.menuButtons}>
           <span>
             <Button
               faName="sliders"
@@ -73,9 +72,10 @@ class ContentMenu extends Component {
 
           {(menuStore.selectedKeys.length > 0) && this.getActions()}
         </div>
+      </div>
 
-        <div className={styles.right}>
-          <span className={styles.sortTitle}>Sort by : </span>
+        <div className="col-md-4">
+          <div>Sort by :</div>
         </div>
       </div>
     );

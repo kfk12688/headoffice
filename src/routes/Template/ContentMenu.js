@@ -42,7 +42,7 @@ class ContentMenu extends Component {
   }
 
   render() {
-    const {className, menuStore} = this.props;
+    const {menuStore} = this.props;
 
     return (
       <div className={cx("row", styles.navbar)}>
@@ -81,7 +81,6 @@ class ContentMenu extends Component {
 }
 
 ContentMenu.propTypes = {
-  className: React.PropTypes.string,
   menuStore: React.PropTypes.any,
 
   dataKeys: React.PropTypes.array,

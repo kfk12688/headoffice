@@ -1,7 +1,7 @@
 import React, { PropTypes } from "react";
 import cx from "classnames";
 
-const Button = ({ disabled, size, style, outline, block, faName, faClassName, children, ...rest }) => {
+const Button = ({ disabled, size, style, outline, block, faName, faClassName, children, isToggled, ...rest }) => {
   if (style === undefined) style = "secondary";
   const outlineFlag = outline ? "-outline" : "";
   const faIcon = faName && <i className={cx(`fa fa-${faName}`, faClassName)}/>;
@@ -11,6 +11,12 @@ const Button = ({ disabled, size, style, outline, block, faName, faClassName, ch
   if (size === "md") className = cx("btn", `btn${outlineFlag}-${style}`, "btn-md");
   if (block) className = cx(className, "btn-block");
   if (disabled) className = cx(className, "disabled");
+  if (isToggled) className = cx(className, "active");
+
+  const getChildren = () => {
+    if (children) return {children}&nbsp;{faIcon};
+    return faIcon;
+  }
 
   return (
     <button

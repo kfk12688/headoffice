@@ -50,6 +50,7 @@ class ContentMenu extends Component {
           <div className={styles.menuButtons}>
           <span>
             <Button
+              isToggled={menuStore.showSidebar}
               faName="sliders"
               onClick={this.props.toggleMenuSidebar}
             />

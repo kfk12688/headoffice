@@ -89,8 +89,8 @@ class EGForm extends Component {
         <div ref={this.assignFieldTarget} className={styles.fields}>{fields}</div>
         {(subFields.length !== 0) && <div className={styles.subFields}>{subFields}</div>}
         <div className={styles.formSubmitGroup}>
-          <Button className={styles.formSubmitGroupBtn} accent type="submit">Save Data</Button>
-          <Button className={styles.formSubmitGroupBtn} bordered onClick={this.resetForm}>Cancel</Button>
+          <Button style="success" type="submit">Save Data</Button>
+          <Button onClick={this.resetForm}>Cancel</Button>
         </div>
       </form>
     );

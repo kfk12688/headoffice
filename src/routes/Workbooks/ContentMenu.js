@@ -44,26 +44,25 @@ class ContentMenu extends Component {
   }
 
   render() {
-    const { className, menuStore } = this.props;
+    const { menuStore } = this.props;
 
     return (
-      <div
-        className={cx(styles.root, className)}
-      >
-        <div className={styles.left}>
+      <div className={cx("row", styles.navbar)}>
+        <div className="col-md-8">
+          <div className={styles.menuButtons}>
           <span>
             <Button
+              isToggled={menuStore.showSidebar}
               faName="sliders"
               onClick={this.props.toggleMenuSidebar}
-              className={cx(styles.icon, { [styles.iconActive] : menuStore.showSidebar })}
             />
             <Modal
               size="md"
               show={this.state.showModal}
               toggleModal={this.toggleModal}
               caption="Add New Workbook"
+              style="primary"
               faName="plus"
-              accent
             >
               <NewWorkbookForm onSubmit={this.props.addNewWorkbook} toggleModal={this.toggleModal}/>
             </Modal>
@@ -75,9 +74,10 @@ class ContentMenu extends Component {
 
           {(menuStore.selectedKeys.length > 0) && this.getActions()}
         </div>
+      </div>
 
-        <div className={styles.right}>
-          <span className={styles.sortTitle}>Sort by : </span>
+        <div className="col-md-4">
+          <div>Sort by :</div>
         </div>
       </div>
     );

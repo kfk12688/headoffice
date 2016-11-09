@@ -1,42 +1,31 @@
-/**
- * Created by sharavan on 12/05/16.
- */
 import React, { PropTypes } from "react";
-import styles from "./Button.less";
 import cx from "classnames";
 
-const Button = ({ className, faName, faClassName, after, accent, children, bordered, ...rest }) => {
+const Button = ({ disabled, size, style, outline, block, faName, faClassName, children, isToggled, ...rest }) => {
+  if (style === undefined) style = "secondary";
+  const outlineFlag = outline ? "-outline" : "";
   const faIcon = faName && <i className={cx(`fa fa-${faName}`, faClassName)}/>;
 
-  let style = styles.button;
-  if (bordered) style = cx(styles.button, styles.bordered);
-  if (accent) style = styles.buttonBrdRed;
-  if (accent === "green") style = styles.buttonBrdGreen;
-  if (accent === "indigo") style = styles.buttonBrdIndigo;
+  let className = cx("btn", `btn${outlineFlag}-${style}`, "btn-sm");
+  if (size === "lg") className = cx("btn", `btn${outlineFlag}-${style}`, "btn-lg");
+  if (size === "md") className = cx("btn", `btn${outlineFlag}-${style}`, "btn-md");
+  if (block) className = cx(className, "btn-block");
+  if (disabled) className = cx(className, "disabled");
+  if (isToggled) className = cx(className, "active");
 
-  if (after) {
-    return (
-      <button
-        className={cx(style, className)}
-        type="button"
-        {...rest}
-      >
-        {children}
-        {" "}
-        {faIcon}
-      </button>
-    );
+  const getChildren = () => {
+    if (children) return {children}&nbsp;{faIcon};
+    return faIcon;
   }
 
   return (
     <button
-      className={cx(style, className)}
       type="button"
+      className={className}
+      disabled={disabled}
       {...rest}
     >
-      {faIcon}
-      {" "}
-      {children}
+      {children}&nbsp;{faIcon}
     </button>
   );
 };
@@ -46,12 +35,10 @@ Button.propTypes = {
   faName      : PropTypes.string,
   faClassName : PropTypes.string,
   children    : PropTypes.any,
-  after       : PropTypes.bool,
-  accent      : PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.boolean,
-  ]),
-  bordered    : PropTypes.bool,
+  style       : PropTypes.string,
+  outline     : PropTypes.bool,
+  block       : PropTypes.bool,
+  disabled    : PropTypes.bool,
 };
 
 export { Button };

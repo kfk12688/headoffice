@@ -125,14 +125,11 @@ class User extends Component {
     return (
       <div className="row">
         <div className="col-md-10 offset-md-1">
-          <div className="row">
             <ContentMenu
-              className="col-md-12"
               actions={this.actionsCollection}
               dataKeys={Object.keys(userStore.data)}
               addNewUser={this.props.addNewUser}
             />
-          </div>
 
           <div className="row">
             {

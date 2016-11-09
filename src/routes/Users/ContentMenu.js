@@ -45,14 +45,13 @@ class ContentMenu extends Component {
     const {menuStore, addNewUser} = this.props;
 
     return (
-      <nav
-        className={cx("row navbar navbar-default clearfix", styles.navbar)}
-      >
-        <span className="pull-left">
+      <div className={cx("row", styles.navbar)}>
+        <div className="col-md-8">
+          <div className={styles.menuButtons}>
             <Button
+              isToggled={menuStore.showSidebar}
               faName="sliders"
               onClick={this.props.toggleMenuSidebar}
-              className={"btn btn-outline-secondary"}
             />
 
             <Modal
@@ -60,8 +59,8 @@ class ContentMenu extends Component {
               show={this.state.showModal}
               toggleModal={this.toggleModal}
               caption="Add New Content"
+              style="primary"
               faName="plus"
-              accent
             >
               <UserForm onSubmit={addNewUser} toggleModal={this.toggleModal}/>
             </Modal>
@@ -72,9 +71,12 @@ class ContentMenu extends Component {
             </PopupButton>
 
           {(menuStore.selectedKeys.length >= 1) && this.getActions()}
-        </span>
-        <span className={cx("pull-right", styles.sortTitle)}>Sort by :</span>
-      </nav>
+        </div>
+      </div>
+        <div className="col-md-4">
+          <div>Sort by :</div>
+        </div>
+    </div>
     );
   }
 }

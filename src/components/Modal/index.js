@@ -1,35 +1,33 @@
 import React from "react";
-import {Button} from "../Button/index";
+import { Button } from "../Button/index";
 import cx from "classnames";
 import BSModal from "react-overlays/lib/Modal";
-import {grey900} from "../_styles/colors";
+import { grey900 } from "../_styles/colors";
 
-const Modal = ({size, btnClassName, faName, caption, children, accent, show, toggleModal, modalTitle, title, bordered}) => {
+const Modal = ({ size, style, faName, caption, children, show, toggleModal, modalTitle, title }) => {
   const modalStyle = {
-    bottom: 0,
-    left: 0,
-    position: "fixed",
-    right: 0,
-    top: 0,
-    zIndex: 1040,
+    bottom   : 0,
+    left     : 0,
+    position : "fixed",
+    right    : 0,
+    top      : 0,
+    zIndex   : 1040,
   };
 
   const backdropStyle = {
     ...modalStyle,
-    zIndex: 0,
-    backgroundColor: grey900,
-    opacity: 0.5,
+    zIndex          : 0,
+    backgroundColor : grey900,
+    opacity         : 0.5,
   };
 
   return (
-    <div style={{display: "inline-block"}}>
+    <div style={{ display : "inline-block" }}>
       <Button
-        className={btnClassName}
         faName={faName}
-        accent={accent}
         onClick={toggleModal}
         title={title}
-        bordered={bordered}
+        style={style}
       >
         {caption}
       </Button>
@@ -58,20 +56,15 @@ const Modal = ({size, btnClassName, faName, caption, children, accent, show, tog
 };
 
 Modal.propTypes = {
-  accent: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.bool,
-  ]),
-  show: React.PropTypes.bool.isRequired,
-  size: React.PropTypes.string,
-  btnClassName: React.PropTypes.string,
-  faName: React.PropTypes.string,
-  caption: React.PropTypes.string,
-  toggleModal: React.PropTypes.func.isRequired,
-  children: React.PropTypes.node.isRequired,
-  modalTitle: React.PropTypes.string,
-  title: React.PropTypes.string,
-  bordered: React.PropTypes.bool,
+  show         : React.PropTypes.bool.isRequired,
+  size         : React.PropTypes.string,
+  style         : React.PropTypes.string,
+  faName       : React.PropTypes.string,
+  caption      : React.PropTypes.string,
+  toggleModal  : React.PropTypes.func.isRequired,
+  children     : React.PropTypes.node.isRequired,
+  modalTitle   : React.PropTypes.string,
+  title        : React.PropTypes.string,
 };
 
-export {Modal};
+export { Modal };

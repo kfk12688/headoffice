@@ -42,18 +42,17 @@ class ContentMenu extends Component {
   }
 
   render() {
-    const { className, menuStore } = this.props;
+    const { menuStore } = this.props;
 
     return (
-      <div
-        className={cx(styles.root, className)}
-      >
-        <div className="pull-left">
+      <div className={cx("row", styles.navbar)}>
+        <div className="col-md-8">
+          <div className={styles.menuButtons}>
           <span>
             <Button
+              isToggled={menuStore.showSidebar}
               faName="sliders"
               onClick={this.props.toggleMenuSidebar}
-               className={"btn btn-outline-secondary"}
             />
 
             <PopupButton label={`${menuStore.selectedKeys.length} selected`}>
@@ -64,7 +63,10 @@ class ContentMenu extends Component {
 
           {(menuStore.selectedKeys.length >= 1) && this.getActions()}
         </div>
-         <span className={cx("pull-right", styles.sortTitle)}>Sort by :</span>
+      </div>
+         <div className="col-md-4">
+            <div>Sort by :</div>
+         </div>
       </div>
     );
   }

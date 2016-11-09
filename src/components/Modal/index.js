@@ -2,9 +2,9 @@ import React from "react";
 import {Button} from "../Button/index";
 import cx from "classnames";
 import BSModal from "react-overlays/lib/Modal";
-import styles from "./index.less";
+import {grey900} from "../_styles/colors";
 
-const Modal = ({modalClassName, btnClassName, faName, caption, children, className, accent, show, toggleModal, modalTitle, title, bordered}) => {
+const Modal = ({size, btnClassName, faName, caption, children, accent, show, toggleModal, modalTitle, title, bordered}) => {
   const modalStyle = {
     bottom: 0,
     left: 0,
@@ -12,6 +12,13 @@ const Modal = ({modalClassName, btnClassName, faName, caption, children, classNa
     right: 0,
     top: 0,
     zIndex: 1040,
+  };
+
+  const backdropStyle = {
+    ...modalStyle,
+    zIndex: 0,
+    backgroundColor: grey900,
+    opacity: 0.5,
   };
 
   return (
@@ -30,15 +37,15 @@ const Modal = ({modalClassName, btnClassName, faName, caption, children, classNa
       <BSModal
         aria-labelledby="modal-label"
         style={modalStyle}
-        backdropClassName={styles.backdrop}
+        backdropStyle={backdropStyle}
         show={show}
         onHide={toggleModal}
       >
-        <div className={cx("modal-dialog", modalClassName)}>
+        <div className={cx("modal-dialog", `modal-${size}`)}>
           <div className="modal-content">
             <div className="modal-header">
-              <span className={styles.caption}>{modalTitle || caption}</span>
-              <i className={cx("fa fa-times", styles.closeButton)} onClick={toggleModal}/>
+              <button type="button" className="close" onClick={toggleModal}><span>&times;</span></button>
+              <h5 className="modal-title">{modalTitle || caption}</h5>
             </div>
             <div className="modal-body">
               {children}
@@ -56,7 +63,7 @@ Modal.propTypes = {
     React.PropTypes.bool,
   ]),
   show: React.PropTypes.bool.isRequired,
-  className: React.PropTypes.string,
+  size: React.PropTypes.string,
   btnClassName: React.PropTypes.string,
   faName: React.PropTypes.string,
   caption: React.PropTypes.string,

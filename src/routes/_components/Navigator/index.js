@@ -1,8 +1,5 @@
-/**
- * Created by sharavan on 15/05/16.
- */
 import React from "react";
-import {TabGroup, Tab, NavLink, PopupButton} from "components";
+import {NavLink, PopupButton} from "components";
 import Logo from "../../_styles/logo";
 
 const Navigator = (props) => {

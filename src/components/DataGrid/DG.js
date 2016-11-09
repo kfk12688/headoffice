@@ -1,11 +1,8 @@
-/**
- * Created by sharavan on 18/05/16.
- */
 import _ from "underscore";
 import React, { Component, PropTypes } from "react";
 import { DGHeaderRow } from "./DGHeaderRow";
 import { DGBody } from "./DGBody";
-import styles from "./DG.less";
+import {grey500,white} from "../_styles/colors";
 import cx from "classnames";
 
 class DataGrid extends Component {
@@ -40,12 +37,27 @@ class DataGrid extends Component {
   renderContent() {
     const { isLoading, rows, cols, onRowClick, selectedKeys } = this.props;
 
+  const Spinner = {
+      position: "absolute",
+      top: "15%",
+      left: "50%",
+      color: grey500,
+    }
+
+   const dgBody = {
+      backgroundColor: white,
+      textAlign: "center",
+      padding: "50px",
+      fontSize: "16px",
+      fontWeight: "500",
+    }
+
     if (_.isEmpty(rows)) {
-      return <div className={styles.dgBody}>No Data Present</div>;
+      return <div style={dgBody}>No Data Present</div>;
     }
 
     if (isLoading) {
-      return <i className={cx("fa fa-spinner fa-2x", styles.spinner)}/>;
+      return <i style={cx("fa fa-spinner fa-2x", Spinner)}/>;
     }
 
     return (
@@ -61,12 +73,11 @@ class DataGrid extends Component {
   }
 
   render() {
-    const { style, className, cols, colSortFunction, sortKey, sortAscending } = this.props;
+    const { cols, colSortFunction, sortKey, sortAscending } = this.props;
 
     return (
       <div
-        className={cx(styles.dgBase, className)}
-        style={style}
+        style={{overflow : "hidden"} }
       >
         <DGHeaderRow
           cols={cols}
@@ -85,8 +96,6 @@ class DataGrid extends Component {
 }
 
 DataGrid.propTypes = {
-  style         : PropTypes.object,
-  className     : PropTypes.string,
   isLoading     : PropTypes.bool,
   rows          : PropTypes.object.isRequired,
   cols          : PropTypes.arrayOf(PropTypes.object),

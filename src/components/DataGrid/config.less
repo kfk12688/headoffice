@@ -1,1 +1,29 @@
 @rowHeight : 40px;
+@import "../_styles/colors";
+
+.row {
+  border-bottom: 1px solid @grey300;
+  height: @rowHeight;
+  white-space: nowrap;
+  background-color: @white;
+
+}
+
+.cell {
+  height: @rowHeight;
+  line-height: @rowHeight;
+  padding-left: 12px;
+  padding-right: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  box-sizing: border-box;
+  display: inline-block;
+}
+
+.cols {
+  display: inline-block;
+  height: @rowHeight;
+  white-space: nowrap;
+}

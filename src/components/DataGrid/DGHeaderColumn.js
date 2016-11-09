@@ -1,6 +1,3 @@
-/**
- * Created by sharavan on 18/05/16.
- */
 import React, { Component, PropTypes } from "react";
 import { grey50, grey300 } from "../_styles/colors";
 import styles from "./DGHeaderColumn.less";

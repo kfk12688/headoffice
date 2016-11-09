@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import _ from "underscore";
-import styles from "./DGBody.less";
-import { DGBodyRow } from "./DGBodyRow";
+import {white} from "../_styles/colors";
+import {DGBodyRow} from "./DGBodyRow";
 
 class DGBody extends Component {
   constructor(props) {
@@ -11,7 +11,7 @@ class DGBody extends Component {
   }
 
   getRows() {
-    const { rows, cols, colWidths, selectedKeys, onRowClick } = this.props;
+    const {rows, cols, colWidths, selectedKeys, onRowClick} = this.props;
     const datagridBodyRows = [];
 
     _.forEach(rows, row => {
@@ -40,13 +40,18 @@ class DGBody extends Component {
   }
 
   render() {
+    const bodyStyle = {
+      backgroundColor: white,
+      overflow: "auto",
+    };
+
     return (
       <div
         ref="dgBody"
-        className={styles.body}
+        style={bodyStyle}
         onScroll={this.reportScrollLeftFn}
       >
-        <div className={styles.slice}>{this.getRows()}</div>
+        <div>{this.getRows()}</div>
       </div>
     );
   }
@@ -54,12 +59,12 @@ class DGBody extends Component {
 }
 
 DGBody.propTypes = {
-  rows               : React.PropTypes.object.isRequired,
-  cols               : React.PropTypes.arrayOf(React.PropTypes.object),
-  colWidths          : React.PropTypes.object.isRequired,
-  selectedKeys       : React.PropTypes.array.isRequired,
-  onRowClick         : React.PropTypes.func.isRequired,
-  reportScrollLeftFn : React.PropTypes.func.isRequired,
+  rows: React.PropTypes.object.isRequired,
+  cols: React.PropTypes.arrayOf(React.PropTypes.object),
+  colWidths: React.PropTypes.object.isRequired,
+  selectedKeys: React.PropTypes.array.isRequired,
+  onRowClick: React.PropTypes.func.isRequired,
+  reportScrollLeftFn: React.PropTypes.func.isRequired,
 };
 
-export { DGBody };
+export {DGBody};

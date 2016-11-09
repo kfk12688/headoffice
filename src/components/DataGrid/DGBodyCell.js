@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./DGBodyCell.less";
+import styles from "./config.less";
 import { renderDGCell } from "../DisplayElems";
 
 const DGBodyCell = ({ col, row, colWidth }) =>

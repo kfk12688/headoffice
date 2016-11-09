@@ -1,9 +1,6 @@
-/**
- * Created by sharavan on 18/05/16.
- */
 import React, { PropTypes } from "react";
 import { DGHeaderColumn } from "./DGHeaderColumn";
-import styles from "./DGHeaderRow.less";
+import styles from "./config.less";
 
 const DGHeaderRow = ({ cols, colWidths, onClick, onDrag, sortKey, sortAscending, scrollLeft }) => {
   const dataGridHeaderColumns = cols.map((headerColumn, index) => {

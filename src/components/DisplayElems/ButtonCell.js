@@ -4,7 +4,7 @@ import { NavLink } from "../NavLink";
 
 export const ButtonCell = ({ className, btnClassName, buttonText, link }) =>
   <NavLink className={className} to={link}>
-    <Button accent="indigo" className={btnClassName}>{buttonText}</Button>
+    <Button style="primary">{buttonText}</Button>
   </NavLink>;
 
 ButtonCell.propTypes = {

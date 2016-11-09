@@ -7,7 +7,7 @@ import cx from "classnames";
 import BSModal from "react-overlays/lib/Modal";
 import styles from "./index.less";
 
-const Modal = ({ btnClassName, faName, caption, children, className, accent, show, toggleModal, modalTitle, title, bordered }) => {
+const Modal = ({ btnClassName, style, faName, caption, children, className, accent, show, toggleModal, modalTitle, title, bordered }) => {
   const modalStyle = {
     bottom   : 0,
     left     : 0,
@@ -25,12 +25,10 @@ const Modal = ({ btnClassName, faName, caption, children, className, accent, sho
   return (
     <div style={{ display : "inline-block" }}>
       <Button
-        className={btnClassName}
         faName={faName}
-        accent={accent}
         onClick={toggleModal}
         title={title}
-        bordered={bordered}
+        style={style}
       >
         {caption}
       </Button>

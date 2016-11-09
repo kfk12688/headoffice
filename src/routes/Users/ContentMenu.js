@@ -56,6 +56,7 @@ class ContentMenu extends Component {
             />
 
             <Modal
+              modalClassName="modal-md"
               show={this.state.showModal}
               toggleModal={this.toggleModal}
               caption="Add New Content"

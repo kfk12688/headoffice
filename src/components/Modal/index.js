@@ -4,7 +4,7 @@ import cx from "classnames";
 import BSModal from "react-overlays/lib/Modal";
 import styles from "./index.less";
 
-const Modal = ({btnClassName, faName, caption, children, className, accent, show, toggleModal, modalTitle, title, bordered}) => {
+const Modal = ({modalClassName, btnClassName, faName, caption, children, className, accent, show, toggleModal, modalTitle, title, bordered}) => {
   const modalStyle = {
     bottom: 0,
     left: 0,
@@ -34,7 +34,7 @@ const Modal = ({btnClassName, faName, caption, children, className, accent, show
         show={show}
         onHide={toggleModal}
       >
-        <div className="modal-dialog modal-md">
+        <div className={cx("modal-dialog", modalClassName)}>
           <div className="modal-content">
             <div className="modal-header">
               <span className={styles.caption}>{modalTitle || caption}</span>

@@ -1,27 +1,14 @@
 import React from "react";
-import { Link } from "react-router";
-import { red400 } from "../_styles/colors";
-import styles from "./NavLink.less";
+import {Link} from "react-router";
 
 export const NavLink = (props) => {
-  const { children, ...rest } = props;
+  const {children, className, ...rest} = props;
+
   return (
-    <Link {...rest} activeStyle={{ color : red400 }}>{children}</Link>
+    <Link className={className} activeClassName="active" {...rest} >{children}</Link>
   );
 };
+
 NavLink.propTypes = {
-  children : React.PropTypes.node.isRequired,
+  children: React.PropTypes.node.isRequired,
 };
-
-export const NavLinkBtn = ({ children, faName, faClassName, ...rest }) =>
-  <Link className={styles.btn} {...rest}>
-    <i className={`fa fa-${faName} ${faClassName}`}/>
-    {children}
-  </Link>;
-
-NavLinkBtn.propTypes = {
-  children    : React.PropTypes.node.isRequired,
-  faName      : React.PropTypes.string,
-  faClassName : React.PropTypes.string,
-};
-

@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "./Table.less";
 
 const Table = ({ cols, rows, hover, size}) => {
   const getRowValue = (row) =>

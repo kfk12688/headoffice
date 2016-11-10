@@ -44,6 +44,17 @@
 .row {
   background-color: @white;
   border-bottom: 1px solid @grey300;
+  height: @rowHeight;
+  white-space: nowrap;
+  &:hover {
+    background: @grey200;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+.rowIsSelected {
+  background-color: @blueGrey50;
 }
 
 .col {

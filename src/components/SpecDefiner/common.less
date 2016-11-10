@@ -41,3 +41,27 @@
   }
 }
 
+.col {
+  height: @rowHeight;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  border-right: 1px solid @grey300;
+  &:hover {
+    background: @grey50;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+.cell {
+  height: @rowHeight;
+  line-height: @rowHeight;
+  padding-left: 12px;
+  padding-right: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  font-weight: 600;
+}

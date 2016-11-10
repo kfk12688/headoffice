@@ -1,37 +1,21 @@
 import React from "react";
-import { grey50 } from "../_styles/colors";
-import styles from "./SDHeaderCol.less";
+import styles from "./common.less";
 
-class EGHeaderCol extends React.Component {
-  constructor() {
-    super();
-    this.state = { hovered : false };
-  }
+const EGHeaderCol = ({ headerStyle, displayText, colWidth }) => {
+  const hoverStyle = {
+    width : colWidth,
+  };
 
-  render() {
-    // Props
-    const { headerStyle, displayText, colWidth } = this.props;
-
-    const hoverStyle = {
-      backgroundColor : this.state.hovered && grey50,
-      cursor          : this.state.hovered && "pointer",
-      textDecoration  : this.state.hovered && "underline",
-      width           : colWidth,
-    };
-
-    return (
-      <span
-        className={styles.col}
-        style={{ ...hoverStyle, ...headerStyle }}
-        onMouseOver={() => this.setState({ hovered : true })}
-        onMouseOut={() => this.setState({ hovered : false })}
-      >
-        <div className={styles.cell}>
-          <span>{displayText}</span>
-        </div>
-      </span>
-    );
-  }
+  return (
+    <span
+      className={styles.col}
+      style={{ ...hoverStyle, ...headerStyle }}
+    >
+      <div className={styles.cell}>
+        <span>{displayText}</span>
+      </div>
+    </span>
+  );
 }
 
 EGHeaderCol.propTypes = {

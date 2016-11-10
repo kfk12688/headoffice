@@ -1,7 +1,6 @@
 // Loads the font awesome css file
 import "font-awesome/css/font-awesome.css";
 
-export { TabGroup, Tab, TabMeta } from "./TabGroup";
 export { DataGrid } from "./DataGrid";
 export { PaginationGrid } from "./PaginationGrid";
 export { Entry } from "./Entry";

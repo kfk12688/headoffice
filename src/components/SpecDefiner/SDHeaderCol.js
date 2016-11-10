@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./common.less";
 
-const EGHeaderCol = ({ headerStyle, displayText, colWidth }) => {
+const SDHeaderCol = ({ headerStyle, displayText, colWidth }) => {
   const hoverStyle = {
     width : colWidth,
   };
@@ -18,10 +18,10 @@ const EGHeaderCol = ({ headerStyle, displayText, colWidth }) => {
   );
 }
 
-EGHeaderCol.propTypes = {
+SDHeaderCol.propTypes = {
   headerStyle : React.PropTypes.object,
   displayText : React.PropTypes.string,
   colWidth    : React.PropTypes.number,
 };
 
-export { EGHeaderCol };
+export { SDHeaderCol };

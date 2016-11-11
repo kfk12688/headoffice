@@ -1,7 +1,6 @@
 import React from "react";
 import _ from "underscore";
 import { SDBodyRow } from "./SDBodyRow";
-import styles from "./SDBody.less";
 
 const SDBody = ({ rows, cols, colWidths }) => {
   let bodyRows = [];
@@ -17,7 +16,7 @@ const SDBody = ({ rows, cols, colWidths }) => {
     );
   });
 
-  return <div className={styles.body}>{bodyRows}</div>;
+  return <div>{bodyRows}</div>;
 };
 
 SDBody.propTypes = {

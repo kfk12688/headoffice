@@ -71,11 +71,15 @@ class SpecDefiner extends React.Component {
           <div className={cx("row", styles.metaContainer)}>
             <div className="col-md-6">{data && data.length} Fields</div>
             <div className="col-md-6 text-md-right">
-              <Button faName="long-arrow-left" onClick={this.toggleViewMode}>Go Back</Button>
+              <Button style="primary" faName="long-arrow-left" onClick={this.toggleViewMode}>Go Back</Button>
             </div>
           </div>
-              
-          <SDForm onSubmit={onSubmit}/>
+
+          <div className="row">
+            <div className="col-md-12">
+              <SDForm onSubmit={onSubmit}/>
+            </div>
+          </div>
         </div>
       );
     }

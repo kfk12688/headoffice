@@ -7,7 +7,7 @@ export const NumericInput = ({ className, input }) => {
 
   return (
     <input
-      className={className || styles.numericInput}
+      className={className || "form-control"}
       type="number"
       onChange={e => onChange(parse(e.target.value))}
       {...rest}

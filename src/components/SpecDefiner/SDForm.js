@@ -39,24 +39,20 @@ class EditorEntryForm extends Component {
       <form onSubmit={this.submitForm}>
         <div className="row">
           <div className="col-md-6">
-            <h6 className={styles.h6}>Field</h6>
+            <h5>Field</h5>
             <Row prop={fieldDefn.fieldName} component={TextInput}/>
             <Row prop={fieldDefn.fieldType} component={ComboInput} list={FIELD_TYPES}/>
           </div>
 
           <div className="col-md-6">
-            <h6 className={styles.h6}>Field Definition</h6>
+            <h5>Field Definition</h5>
             <div>{getFields("fieldProps", fieldType, fieldProps)}</div>
           </div>
         </div>
 
         {
           ((fieldType === "SchemaArray") || (fieldType === "Schema")) &&
-          <div className="row">
-            <div className="col-md-12">
-              <FieldArray name="fieldSchema" component={SubSchemaFields} fieldSchema={fieldSchema}/>
-            </div>
-          </div>
+          <FieldArray name="fieldSchema" className={styles.subSchemaFields} component={SubSchemaFields} fieldSchema={fieldSchema}/>
         }
 
         <div className={cx("row", styles.submitRow)}>

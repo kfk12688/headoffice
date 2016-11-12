@@ -75,7 +75,7 @@ class SpecDefiner extends React.Component {
             </div>
           </div>
 
-          <div className="row">
+          <div className={cx("row", styles.metaContainer)}>
             <div className="col-md-12">
               <SDForm onSubmit={onSubmit}/>
             </div>

@@ -2,10 +2,24 @@
 @rowHeight: 36px;
 
 // ##################################################################
+// SubSchemaFields.js
+.subSchemaFieldRow {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid @grey300;
+  &:last-child{
+    margin-bottom: 0px;
+    border-bottom: none;
+  }
+}
+// ##################################################################
+
+
+// ##################################################################
 // SDForm.js
-.h6{
+h5, h6 {
   padding-bottom: 6px;
-  border-bottom: 1px solid;
+  border-bottom: 1px solid @grey800;
 }
 
 .submitRow{
@@ -13,6 +27,11 @@
   button {
     margin-left: 8px;
   }
+}
+
+.subSchemaFields{
+  padding: 10px 15px;
+  border: 1px solid @grey300;
 }
 // ##################################################################
 

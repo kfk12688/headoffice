@@ -9,16 +9,14 @@ export const DateInput = ({ input, className, meta, ...rest }) => {
   const format = val => val && moment(val).format("YYYY-MM-DD");
 
   return (
-    <div className={cx(className, styles.datebox)}>
       <input
         type="date"
-        className={styles.input}
+        className={className || "form-control"}
         onChange={e => onChange(parse(e.target.value))}
         value={format(value)}
         {...restInput}
         {...rest}
       />
-    </div>
   );
 };
 

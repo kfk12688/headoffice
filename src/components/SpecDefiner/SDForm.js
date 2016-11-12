@@ -5,7 +5,8 @@ import { reduxForm, FieldArray, formValueSelector } from "redux-form";
 import { Button, TextInput, ComboInput } from "components";
 import getFields from "./getFields";
 import { SubSchemaFields } from "./SubSchemaFields";
-import styles from "./SDForm.less";
+import styles from "./common.less";
+import cx from "classnames";
 
 const FIELD_TYPES = ["Number", "Date", "String", "Boolean", "ObjectId", "Schema", "SchemaArray"];
 
@@ -35,34 +36,30 @@ class EditorEntryForm extends Component {
     };
 
     return (
-      <form onSubmit={this.submitForm} className={styles.formCtn}>
-
-        <div className={styles.firstLevelSchemaCtn}>
-          <div className={styles.fields}>
-            <div className={styles.fieldsTitle}>Field</div>
+      <form onSubmit={this.submitForm}>
+        <div className="row">
+          <div className="col-md-6">
+            <h5>Field</h5>
             <Row prop={fieldDefn.fieldName} component={TextInput}/>
-            <Row prop={fieldDefn.fieldType} component={ComboInput}
-                 list={FIELD_TYPES}
-            />
+            <Row prop={fieldDefn.fieldType} component={ComboInput} list={FIELD_TYPES}/>
           </div>
 
-          <div className={styles.defn}>
-            <div className={styles.defnTitle}>Field Definition</div>
+          <div className="col-md-6">
+            <h5>Field Definition</h5>
             <div>{getFields("fieldProps", fieldType, fieldProps)}</div>
           </div>
         </div>
 
         {
           ((fieldType === "SchemaArray") || (fieldType === "Schema")) &&
-          <FieldArray
-            name="fieldSchema" className={styles.field}
-            component={SubSchemaFields} fieldSchema={fieldSchema}
-          />
+          <FieldArray name="fieldSchema" className={styles.subSchemaFields} component={SubSchemaFields} fieldSchema={fieldSchema}/>
         }
 
-        <div className={styles.formSubmitGroup}>
-          <Button accent type="submit" disabled={pristine || submitting}>Save Schema Field</Button>
-          <Button bordered onClick={this.resetForm}>Cancel</Button>
+        <div className={cx("row", styles.submitRow)}>
+          <div className="col-md-12 text-md-right">
+            <Button style="primary" type="submit" disabled={pristine || submitting}>Save Schema Field</Button>
+            <Button onClick={this.resetForm}>Cancel</Button>
+          </div>
         </div>
       </form>
     );

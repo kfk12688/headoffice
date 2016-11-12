@@ -2,8 +2,8 @@ import React from "react";
 import { Button } from "components";
 import { SDHeaderRow } from "./SDHeaderRow";
 import { SDBody } from "./SDBody";
-import { SDPost } from "./SDPost";
-import styles from "./index.less";
+import SDForm from "./SDForm";
+import styles from "./common.less";
 import cx from "classnames";
 
 const VIEW_MODE = 0;
@@ -36,27 +36,31 @@ class SpecDefiner extends React.Component {
     if (mode === VIEW_MODE) {
       return (
         <div>
-          <div className={styles.info}>
-            <div className={styles.meta}>{data && data.length} Fields</div>
-            <Button faName="plus" className={styles.btn} accent onClick={this.toggleAddMode}>Add new Field</Button>
+          <div className={cx("row", styles.metaContainer)}>
+            <div className="col-md-6">{data && data.length} Fields</div>
+            <div className="col-md-6 text-md-right">
+              <Button faName="plus" style="primary" onClick={this.toggleAddMode}>Add new Field</Button> 
+            </div>
           </div>
 
-          <div className={styles.content}>
-            <div className={styles.table}>
-              <SDHeaderRow
-                cols={colSpec}
-                colWidths={this.state.colWidths}
-              />
-
-              {
-                isLoading ?
-                <i className={cx("fa fa-spinner fa-2x", styles.spinner)}/> :
-                <SDBody
+          <div className="row">
+            <div className="col-md-12">
+              <div className={styles.tableContainer}>
+                <SDHeaderRow
                   cols={colSpec}
                   colWidths={this.state.colWidths}
-                  rows={data}
                 />
-              }
+
+                {
+                  isLoading ?
+                  <i className={cx("fa fa-spinner fa-2x", styles.spinner)}/> :
+                  <SDBody
+                    cols={colSpec}
+                    colWidths={this.state.colWidths}
+                    rows={data}
+                  />
+                }
+              </div>
             </div>
           </div>
         </div>
@@ -64,16 +68,18 @@ class SpecDefiner extends React.Component {
     } else if (mode === ADD_MODE) {
       return (
         <div>
-          <div className={styles.info}>
-            <div className={styles.meta}>{data && data.length} Fields</div>
-            <Button faName="long-arrow-left" className={styles.btn} bordered onClick={this.toggleViewMode}>Go Back</Button>
+          <div className={cx("row", styles.metaContainer)}>
+            <div className="col-md-6">{data && data.length} Fields</div>
+            <div className="col-md-6 text-md-right">
+              <Button style="primary" faName="long-arrow-left" onClick={this.toggleViewMode}>Go Back</Button>
+            </div>
           </div>
 
-          <SDPost
-            className={styles.content}
-            cols={colSpec}
-            onSubmit={onSubmit}
-          />
+          <div className={cx("row", styles.metaContainer)}>
+            <div className="col-md-12">
+              <SDForm onSubmit={onSubmit}/>
+            </div>
+          </div>
         </div>
       );
     }
@@ -85,7 +91,7 @@ class SpecDefiner extends React.Component {
     const { className } = this.props;
 
     return (
-      <div className={cx(styles.base, className)}>
+      <div className={className}>
         {this.renderContent(this.state.mode)}
       </div>
     );

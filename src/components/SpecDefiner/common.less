@@ -1,6 +1,59 @@
 @import "../_styles/colors";
 @rowHeight: 36px;
 
+// ##################################################################
+// SubSchemaFields.js
+.subSchemaFieldRow {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid @grey300;
+  &:last-child{
+    margin-bottom: 0px;
+    border-bottom: none;
+  }
+}
+// ##################################################################
+
+
+// ##################################################################
+// SDForm.js
+h5, h6 {
+  padding-bottom: 6px;
+  border-bottom: 1px solid @grey800;
+}
+
+.submitRow{
+  margin-top: 10px;
+  button {
+    margin-left: 8px;
+  }
+}
+
+.subSchemaFields{
+  padding: 10px 15px;
+  border: 1px solid @grey300;
+}
+// ##################################################################
+
+// ##################################################################
+// index.js
+.metaContainer {
+  margin-bottom: 10px;
+}
+
+.tableContainer{
+  border: 1px solid @grey300;
+  min-height: 300px;
+}
+
+.spinner {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  color: @grey500;
+}
+// ##################################################################
+
 .key {
   min-width: 150px;
   overflow: hidden;
@@ -41,3 +94,42 @@
   }
 }
 
+.row {
+  background-color: @white;
+  border-bottom: 1px solid @grey300;
+  height: @rowHeight;
+  white-space: nowrap;
+  &:hover {
+    background: @grey200;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+.rowIsSelected {
+  background-color: @blueGrey50;
+}
+
+.col {
+  height: @rowHeight;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  border-right: 1px solid @grey300;
+  &:hover {
+    background: @grey200;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
+
+.cell {
+  height: @rowHeight;
+  line-height: @rowHeight;
+  padding-left: 12px;
+  padding-right: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+}

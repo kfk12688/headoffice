@@ -1,13 +1,11 @@
-/**
- * Created by sharavan on 13/09/16.
- */
 import React from "react";
 import { Button, TextInput, ComboInput } from "components";
 import Row from "./FieldSchemaRow";
 import getFields from "./getFields";
-import styles from "./SubSchemaFields.less";
+import styles from "./common.less";
+import cx from "classnames";
 
-export const SubSchemaFields = ({ fields, fieldSchema }) => {
+export const SubSchemaFields = ({ fields, fieldSchema, className }) => {
   const addSchema = (e) => {
     e.preventDefault();
     fields.push({});
@@ -24,9 +22,13 @@ export const SubSchemaFields = ({ fields, fieldSchema }) => {
     };
 
     return (
-      <div className={styles.fieldSchemaCtn} key={idx}>
-        <div className={styles.schemaFields}>
-          <div className={styles.schemaFieldsTitle}>{`Sub-Field-${idx + 1}`}</div>
+      <div className={cx("row", styles.subSchemaFieldRow)} key={idx}>
+        <div className="col-md-1">
+          <Button faName="times" onClick={e => removeSchema(e, idx)}/>
+        </div>
+
+        <div className="col-md-4">
+          <h6>{`Sub-Field-${idx + 1}`}</h6>
           <Row prop={fieldDefn.fieldName} component={TextInput}/>
           <Row prop={fieldDefn.fieldType} component={ComboInput}
                list={["Number", "Date", "String", "Boolean", "Reference"]}
@@ -35,29 +37,32 @@ export const SubSchemaFields = ({ fields, fieldSchema }) => {
 
         {
           fieldSchema && fieldSchema[idx] && fieldSchema[idx].fieldType &&
-          <div className={styles.schemaDefn}>
-            <div className={styles.schemaDefnTitle}>{`Field Definition-${idx + 1}`}</div>
+          <div className="col-md-4 offset-md-1">
+            <h6>{`Sub-Field Definition-${idx + 1}`}</h6>
             <div>{getFields(`${field}.fieldProps`, fieldSchema[idx].fieldType, fieldSchema[idx].fieldProps)}</div>
           </div>
         }
-
-        <Button accent className={styles.schemaRemoveBtn} faName="times" onClick={e => removeSchema(e, idx)}/>
       </div>
     );
   });
 
   return (
-    <div className={styles.schemaCtn}>
-      <div className={styles.add}>
-        <span>Add a new schema</span>
-        <Button className={styles.addBtn} title="Click to add a new embedded field"
-                accent="indigo" onClick={addSchema} faName="plus"
+    <div className={className}>
+      <h5 className="pull-left">Add a new schema</h5>
+
+      <div className="text-md-right">
+        <Button 
+          style="primary"
+          title="Click to add a new embedded field"
+          onClick={addSchema}
+          faName="plus"
         >
-          Add
+           Add
         </Button>
       </div>
-      <div className={styles.schemas}>
-        {subSchemaFields}
+
+      <div className="row">
+        <div className="col-md-12">{subSchemaFields}</div>
       </div>
     </div>
   );

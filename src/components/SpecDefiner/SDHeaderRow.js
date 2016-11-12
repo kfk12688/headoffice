@@ -1,14 +1,14 @@
 import _ from "underscore";
 import React from "react";
-import { EGHeaderCol } from "./SDHeaderCol";
-import styles from "./SDHeaderRow.less";
+import { SDHeaderCol } from "./SDHeaderCol";
+import styles from "./common.less";
 
 const SDHeaderRow = ({ cols, colWidths }) => {
   let headerRowCols = [];
 
   _.forEach(cols, (col, colKey) => {
     headerRowCols.push(
-      <EGHeaderCol
+      <SDHeaderCol
         key={colKey}
         colWidth={colWidths[colKey]}
         headerStyle={col.headerStyle}

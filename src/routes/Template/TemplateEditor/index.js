@@ -5,6 +5,7 @@ import {
   loadEditor, editTemplate, editRow, deleteRow, clearEditFlag, addField, editTemplateSchema,
 } from "dataflow/template/editor/actions";
 import {TitleBar} from "./TitleBar";
+import cx from "classnames";
 import styles from "./index.less";
 
 class Editor extends Component {
@@ -88,8 +89,12 @@ class Editor extends Component {
           />
 
           <div className="row">
+            <div className={cx("col-md-12", styles.divider)}></div>
+          </div>
+
+          <div className="row">
             <SpecDefiner
-              className={"col-md-10"}
+              className={"col-md-9"}
               colSpec={this.colSpec}
               colWidths={this.colWidths}
               data={editor.userSchema}
@@ -97,12 +102,11 @@ class Editor extends Component {
               onSubmit={this.addField}
             />
 
-            <div className={"col-md-2"}>
-              <Button style="success" onClick={this.saveUserSchema}>Update
-                Schema</Button>
+            <div className={"col-md-3 btn-group-vertical"}>
+              <Button onClick={this.saveUserSchema}>Update Schema</Button>
               <Button>Undo</Button>
               <Button>Redo</Button>
-              <Button style="primary" onClick={this.loadSchema}>Reset Schema</Button>
+              <Button onClick={this.loadSchema}>Reset Schema</Button>
             </div>
           </div>
         </div>

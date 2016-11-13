@@ -8,7 +8,6 @@ import { Breadcrumb, SearchBar, DataGrid, StickySidebar } from "components";
 import { ContentMenu } from "./ContentMenu";
 import { Formatter as formatter } from "../_utils";
 import cx from "classnames";
-import { grey50 } from "../_styles/colors";
 
 class Template extends Component {
   constructor(props) {
@@ -263,7 +262,7 @@ class Template extends Component {
 }
 
 Template.propTypes = {
-  children: React.PropTypes.node,
+  children : React.PropTypes.node,
 
   // Store
   list        : React.PropTypes.object.isRequired,

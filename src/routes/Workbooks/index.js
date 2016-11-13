@@ -121,13 +121,11 @@ class Workbooks extends Component {
     return (
       <div className="row">
         <div className="col-md-10 offset-md-1">
-          <div className="row">
-            <ContentMenu
-              dataKeys={Object.keys(workbooks.data)}
-              actions={this.actionsCollection}
-              addNewWorkbook={this.props.addNewWorkbook}
-            />
-          </div>
+          <ContentMenu
+            dataKeys={Object.keys(workbooks.data)}
+            actions={this.actionsCollection}
+            addNewWorkbook={this.props.addNewWorkbook}
+          />
 
           <div className="row">
             {

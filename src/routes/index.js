@@ -1,10 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Navigator } from "./_components/Navigator";
+import { NavLink, PopupButton } from "components";
+import Logo from "./_styles/logo";
 import { addCurrentUser, removeCurrentUser } from "dataflow/user/actions";
 import { clearToken, getUserClaims } from "./auth";
-import cx from "classnames";
-import styles from "./index.less";
 
 const isDeveloping = process.env.NODE_ENV !== "production";
 const url = isDeveloping ? "http://localhost:3002" : "http://auth.headofficeapp.in";
@@ -12,10 +11,6 @@ const url = isDeveloping ? "http://localhost:3002" : "http://auth.headofficeapp.
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      rollUp : true
-    };
-    this.handleRollUpToggle = this.handleRollUpToggle.bind(this);
     this.logOut = this.logOut.bind(this);
   }
 
@@ -32,13 +27,8 @@ class App extends React.Component {
     }
   }
 
-  handleRollUpToggle() {
-    this.setState({
-      rollUp : !this.state.rollUp
-    });
-  }
-
-  logOut() {
+  logOut(e) {
+    e.preventDefault();
     clearToken();
     this.props.removeCurrentUser();
     window.location = `${url}/logout`;
@@ -46,32 +36,35 @@ class App extends React.Component {
 
   render() {
     const { currentUser } = this.props;
+    const { username, name, site } = !!currentUser && currentUser;
 
     return (
       <div>
-        <div className={cx("container-fluid", styles.nav)}>
-          <div
-            onClick={this.handleRollUpToggle}
-            className={cx({
-              [styles.rollDownHandle] : !this.state.rollUp,
-              [styles.rollUpHandle]   : this.state.rollUp,
-            })}
-          >
-            <span/>
-          </div>
+        <nav className="navbar navbar-full navbar-dark bg-inverse">
+          <div className="row">
+            <div className="col-md-10 offset-md-1">
+              <a className="navbar-brand" href="#"><Logo size="20" light/>&nbsp;HeadOfficeApp</a>
+              <div className="nav navbar-nav">
+                <NavLink className="nav-item nav-link" to="/template">Templates</NavLink>
+                <NavLink className="nav-item nav-link" to="/data">Data</NavLink>
+                <NavLink className="nav-item nav-link" to="/view">Reports</NavLink>
+                <NavLink className="nav-item nav-link" to="/user">Users</NavLink>
+                <NavLink className="nav-item nav-link" to="/workbooks">Workbooks</NavLink>
 
-          {
-            this.state.rollUp &&
-            <div className="row">
-              <Navigator className="col-md-10 offset-md-1" user={currentUser} logoutUser={this.logOut}/>
+                <div className="pull-right">
+                  <PopupButton label={site}/>
+                  <PopupButton label={name}>
+                    <div>Logged in as {username}</div>
+                    <div onClick={this.logOut}>Sign Out</div>
+                  </PopupButton>
+                </div>
+              </div>
             </div>
-          }
-        </div>
+          </div>
+        </nav>
 
         {
-          this.props.children && React.cloneElement(this.props.children, {
-            rollUp : this.state.rollUp,
-          })
+          this.props.children && React.cloneElement(this.props.children)
         }
       </div>
     );
@@ -90,7 +83,6 @@ App.contextTypes = {
 };
 
 const mapStateToProps = state => ({
-  currentUser : state.user.currentUser,
   currentUser : state.user.currentUser,
 });
 

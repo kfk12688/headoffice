@@ -213,9 +213,9 @@ class Data extends Component {
           <div className="row">
             {
               menuStore.showSidebar &&
-              <div className="col-md-3">
+              <div className={cx("col-md-3", styles.bordered)}>
                 <StickySidebar top={113} width={236}>
-                  <SearchBar config={searchConfig}/>
+                <SearchBar config={searchConfig}/>
                 </StickySidebar>
               </div>
             }
@@ -239,16 +239,8 @@ class Data extends Component {
   }
 
   render() {
-    const { rollUp } = this.props;
-
-    const container = {
-      backgroundColor : grey50,
-    };
-
     return (
-      <div className="container-fluid"
-           style={{ top : rollUp ? 35 : 0, ...container }}
-      >
+      <div className={cx("container-fluid", styles.container)}>
         <div className="row">
           <Breadcrumb className="col-md-10 offset-md-1"/>
         </div>
@@ -260,7 +252,6 @@ class Data extends Component {
 }
 
 Data.propTypes = {
-  rollUp   : React.PropTypes.bool,
   children : React.PropTypes.node,
 
   // Store

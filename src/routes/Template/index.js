@@ -250,16 +250,8 @@ class Template extends Component {
   }
 
   render() {
-    const { rollUp } = this.props;
-
-    const container = {
-      backgroundColor : grey50,
-    };
-
     return (
-      <div className={cx("container-fluid")}
-           style={{ top : rollUp ? 35 : 0, ...container }}
-      >
+      <div className={cx("container-fluid", styles.container)}>
         <div className="row">
           <Breadcrumb className="col-md-10 offset-md-1"/>
         </div>
@@ -271,8 +263,7 @@ class Template extends Component {
 }
 
 Template.propTypes = {
-  rollUp   : React.PropTypes.bool,
-  children : React.PropTypes.node,
+  children: React.PropTypes.node,
 
   // Store
   list        : React.PropTypes.object.isRequired,

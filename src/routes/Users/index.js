@@ -6,7 +6,6 @@ import { toggleSelection } from "dataflow/menu/actions";
 import { setUserName, setUserHasRole, setLastSignIn } from "dataflow/filter/actions";
 import { ContentMenu } from "./ContentMenu";
 import cx from "classnames";
-import { grey50 } from "../_styles/colors";
 
 class User extends Component {
   constructor(props) {
@@ -160,16 +159,9 @@ class User extends Component {
   }
 
   render() {
-    const { rollUp } = this.props;
-
-    const container = {
-      backgroundColor : grey50,
-    };
-
     return (
-      <div className={cx("container-fluid")}
-           style={{ top : rollUp ? 35 : 0, ...container }}
-      >
+      <div className={cx("container-fluid", styles.container)}>
+
         <div className="row">
           <Breadcrumb className="col-md-10 offset-md-1"/>
         </div>
@@ -182,7 +174,6 @@ class User extends Component {
 }
 
 User.propTypes = {
-  rollUp   : React.PropTypes.bool,
   children : React.PropTypes.node,
 
   // Store

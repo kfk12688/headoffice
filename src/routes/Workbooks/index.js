@@ -6,7 +6,6 @@ import { toggleSelection } from "dataflow/menu/actions";
 import { setDateModifiedEnd, setDateModifiedStart, setWorkbookName } from "dataflow/filter/actions";
 import { loadWorkbooks, addNewWorkbook, deleteWorkbook } from "dataflow/workbooks/actions";
 import cx from "classnames";
-import { grey50 } from "../_styles/colors";
 
 class Workbooks extends Component {
   constructor(props) {
@@ -133,7 +132,7 @@ class Workbooks extends Component {
           <div className="row">
             {
               menuStore.showSidebar &&
-              <div className="col-md-3">
+              <div className={cx("col-md-3", styles.bordered)}>
                 <StickySidebar top={113} width={236}>
                   <SearchBar config={searchConfig}/>
                 </StickySidebar>
@@ -158,16 +157,8 @@ class Workbooks extends Component {
   }
 
   render() {
-    const { rollUp } = this.props;
-
-    const container = {
-      backgroundColor : grey50,
-    };
-
     return (
-      <div className={cx("container-fluid")}
-           style={{ top : rollUp ? 35 : 0, ...container }}
-      >
+      <div className={cx("container-fluid", styles.container)}>
         <div className="row">
           <Breadcrumb className="col-md-10 offset-md-1"/>
         </div>
@@ -178,7 +169,6 @@ class Workbooks extends Component {
 }
 
 Workbooks.propTypes = {
-  rollUp   : React.PropTypes.bool.isRequired,
   children : React.PropTypes.node,
 
   // Store

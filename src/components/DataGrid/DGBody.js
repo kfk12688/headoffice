@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import _ from "underscore";
-import {white} from "../_styles/colors";
 import {DGBodyRow} from "./DGBodyRow";
 
 class DGBody extends Component {
@@ -41,8 +40,8 @@ class DGBody extends Component {
 
   render() {
     const bodyStyle = {
-      backgroundColor: white,
       overflow: "auto",
+      minHeight: "300px"
     };
 
     return (

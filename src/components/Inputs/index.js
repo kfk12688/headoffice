@@ -1,6 +1,6 @@
 export { CheckBoxInput } from "./CheckboxInput";
 export { NumericInput } from "./NumericInput";
-export { DateInput } from "./DateInput";
+export { DateInput, DateTimeInput, MonthInput, TimeInput, WeekInput } from "./DateInput";
 export { ComboSearchInput } from "./ComboSearchInput";
 export { ComboInput } from "./ComboInput";
 export { TextInput } from "./TextInput";

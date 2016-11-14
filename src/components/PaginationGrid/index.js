@@ -4,7 +4,7 @@ import { PGHeaderRow } from "./PGHeaderRow";
 import { PGBody } from "./PGBody";
 import calcColWidths from "../calculateColWidths";
 import cx from "classnames";
-import styles from "./index.less";
+import styles from "./common.less";
 
 class PaginationGrid extends Component {
   constructor(props) {
@@ -56,11 +56,11 @@ class PaginationGrid extends Component {
   }
 
   render() {
-    const { style, className } = this.props;
+    const { style } = this.props;
 
     return (
       <div
-        className={cx(styles.base, className)}
+        className={cx(styles.base)}
         style={style}
       >
         {this.renderContent()}

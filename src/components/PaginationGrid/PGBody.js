@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import _ from "underscore";
 import { PGBodyRow } from "./PGBodyRow";
-import styles from "./PGBody.less";
 
 class PGBody extends Component {
   constructor(props) {
@@ -40,10 +39,9 @@ class PGBody extends Component {
     return (
       <div
         ref="egBody"
-        className={styles.body}
         onScroll={this.reportScrollLeftFn}
       >
-        <div className={styles.slice}>
+        <div>
           {this.getRows()}
         </div>
       </div>

@@ -74,7 +74,7 @@ class DGHeaderColumn extends Component {
         onMouseOut={isColSortable && this.handleMouseOut}
       >
         <div
-          className={styles.cell}
+          className={styles.head}
           onClick={isColSortable && this.onClick}
           ref={target => this.assignCol(col.name, target)}
         >

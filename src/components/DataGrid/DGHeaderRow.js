@@ -19,7 +19,7 @@ const DGHeaderRow = ({cols, colWidths, onClick, onDrag, sortKey, sortAscending, 
   });
   return (
     <div className={styles.row}>
-      <span className={styles.cols} style={{marginLeft: -scrollLeft}}>
+      <span style={{marginLeft: -scrollLeft}}>
         {dataGridHeaderColumns}
       </span>
     </div>

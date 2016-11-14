@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from "react";
 import { grey50, grey300 } from "../_styles/colors";
-import styles from "./DGHeaderColumn.less";
+import styles from "./config.less";
 import cx from "classnames";
 
 class DGHeaderColumn extends Component {
@@ -61,7 +61,7 @@ class DGHeaderColumn extends Component {
     if (isColSortable && sorted) {
       if (this.props.sortAscending) {
         arrow = <i className={cx("fa fa-long-arrow-down", styles.fa)}/>;
-      } else {
+      } else {``
         arrow = <i className={cx("fa fa-long-arrow-up", styles.fa)}/>;
       }
     }
@@ -81,7 +81,7 @@ class DGHeaderColumn extends Component {
           <span>{col.text}</span>
         </div>
         {arrow}
-        <div className={styles.divider} onDragEnd={e => this.onDrag(e, col.name)}/>
+        <div onDragEnd={e => this.onDrag(e, col.name)}/>
       </span>
     );
   }

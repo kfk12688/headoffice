@@ -43,7 +43,7 @@ class DataGrid extends Component {
     }
 
     if (isLoading) {
-      return <i style={cx("fa fa-spinner fa-2x", styles.Spinner)}/>;
+      return <i className={cx("fa fa-spinner fa-2x", styles.Spinner)}/>;
     }
 
     return (

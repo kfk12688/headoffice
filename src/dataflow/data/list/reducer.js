@@ -20,7 +20,7 @@ const local = handleActions({
   [GET_TEMPLATES_FAILURE] : (state, action) => ({
     ...state,
     isLoading : false,
-    error     : action.payload.data,
+    error     : action.payload.err,
   }),
 }, initialState);
 

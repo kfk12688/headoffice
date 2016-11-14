@@ -4,19 +4,9 @@ import {
   DELETE_ROW_SUCCESS, DELETE_ROW_FAILURE, UPDATE_ROW_REQUEST, UPDATE_ROW_SUCCESS, UPDATE_ROW_FAILURE
 } from "./types";
 
-const initialState = {
-  // Object of objects with key as the template id
-  spec      : [],
-  data      : {},
-  error     : {
-    code : "",
-    msg  : "",
-  },
-  isLoading : false,
-};
+const initialState = {};
 
 const reducer = handleActions({
-
   /**
    * Specification for data entry in the table
    */
@@ -24,39 +14,71 @@ const reducer = handleActions({
     ...state,
   }),
   [SPEC_SUCCESS] : (state, action) => {
-    const { userSchema, ...rest } = action.payload.data;
+    const { spec, collectionName } = action.payload;
+    const { userSchema, id } = spec;
 
     return {
       ...state,
-      ...rest,
-      spec : userSchema,
+      [collectionName] : {
+        ...state[collectionName],
+        id,
+        spec : userSchema,
+      },
     };
   },
-  [SPEC_FAILURE] : (state, action) => ({
-    ...state,
-    error : action.payload.data,
-  }),
+  [SPEC_FAILURE] : (state, action) => {
+    const { collectionName, error } = action.payload;
+    return {
+      ...state,
+      [collectionName] : {
+        ...state[collectionName],
+        error,
+      },
+    };
+  },
 
   /**
    * Updates server data in the store for the particular template
    */
-  [DATA_REQUEST] : state => ({
-    ...state,
-    isLoading : true,
-  }),
-  [DATA_SUCCESS] : (state, action) => ({
-    ...state,
-    data      : {
-      ...state.data,
-      ...action.payload.data,
-    },
-    isLoading : false,
-  }),
-  [DATA_FAILURE] : (state, action) => ({
-    ...state,
-    isLoading : false,
-    error     : action.payload.data,
-  }),
+  [DATA_REQUEST] : (state, action) => {
+    const { collectionName } = action.payload;
+    return {
+      ...state,
+      [collectionName] : {
+        ...state[collectionName],
+        isLoading : true,
+      },
+    };
+  },
+  [DATA_SUCCESS] : (state, action) => {
+    const { data, collectionName } = action.payload;
+    const { entries, count, pagination } = data;
+
+    return {
+      ...state,
+      [collectionName] : {
+        ...state[collectionName],
+        count,
+        pagination,
+        isLoading : false,
+        data      : {
+          ...state[collectionName].data,
+          ...entries,
+        },
+      },
+    };
+  },
+  [DATA_FAILURE] : (state, action) => {
+    const { collectionName, error } = action.payload;
+    return {
+      ...state,
+      [collectionName] : {
+        ...state[collectionName],
+        isLoading : false,
+        error,
+      },
+    };
+  },
 
   /**
    * Adds a row into the template collection
@@ -76,7 +98,7 @@ const reducer = handleActions({
   },
   [DELETE_ROW_FAILURE] : (state, action) => ({
     ...state,
-    error : action.payload.data,
+    error : action.payload,
   }),
 
   /**
@@ -98,7 +120,7 @@ const reducer = handleActions({
   },
   [UPDATE_ROW_FAILURE] : (state, action) => ({
     ...state,
-    error : action.payload.data,
+    error : action.payload,
   }),
 }, initialState);
 

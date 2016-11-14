@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Breadcrumb, SearchBar, DataGrid, StickySidebar } from "components";
 import { toggleSelection } from "dataflow/menu/actions";
-import { loadTemplate, makeFavorite } from "dataflow/data/list/actions";
+import { getTemplates } from "dataflow/data/list/actions";
 import { setDateModifiedEnd, setDateModifiedStart, setOwner, setIsRecent, setIsStarred } from "dataflow/filter/actions";
 import { Formatter as formatter } from "../_utils";
 import { ContentMenu } from "./ContentMenu";
@@ -14,11 +14,7 @@ class Data extends Component {
   constructor(props) {
     super(props);
     this.getActions = this.getActions.bind(this);
-    const actions = this.getActions();
-    this.actionsCollection = [
-      { name : "Mark as favorite", handler : actions.makeFavorite }, // fixme
-      { name : "Un Favorite", handler : actions.unFavorite },
-    ];
+    this.actionsCollection = [];
 
     // Defines the static colum specification for the Template Area
     this.colSpec = [
@@ -42,13 +38,13 @@ class Data extends Component {
         dataKey    : "templateName",
         linkRef    : {
           path   : "data/view",
-          urlKey : "id",
+          urlKey : "collectionName",
         },
         button     : {
           buttonText : "Enter Data",
           link       : {
             path : "data/entry",
-            key  : "id",
+            key  : "collectionName",
           },
         },
         name       : "name-col",
@@ -91,35 +87,11 @@ class Data extends Component {
   }
 
   componentWillMount() {
-    this.props.loadTemplate();
+    this.props.getTemplates();
   }
 
   getActions() {
-    const _makeFavorite = () => {
-      const { menuStore: { selectedKeys } } = this.props;
-
-      if (selectedKeys.length > 1) {
-        const objs = selectedKeys.map(key => ({ id : key, isFavorite : true }));
-        this.props.makeFavorite(objs);
-      } else {
-        this.props.makeFavorite({ id : selectedKeys[0], isFavorite : true });
-      }
-    };
-    const _unFavorite = () => {
-      const { menuStore: { selectedKeys } } = this.props;
-
-      if (selectedKeys.length > 1) {
-        const objs = selectedKeys.map(key => ({ id : key, isFavorite : false }));
-        this.props.makeFavorite(objs);
-      } else {
-        this.props.makeFavorite({ id : selectedKeys[0], isFavorite : false });
-      }
-    };
-
-    return {
-      makeFavorite : _makeFavorite,
-      unFavorite   : _unFavorite,
-    };
+    return {};
   }
 
   getColumnSortList() {
@@ -261,8 +233,7 @@ Data.propTypes = {
   toggleSelection : React.PropTypes.func.isRequired,
 
   // Action types for Data Store
-  loadTemplate : React.PropTypes.func.isRequired,
-  makeFavorite : React.PropTypes.func.isRequired,
+  getTemplates : React.PropTypes.func.isRequired,
 
   // Action types for Filter Store
   filterChangeHandlers : React.PropTypes.shape({
@@ -282,8 +253,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   toggleSelection      : (index) => dispatch(toggleSelection(index)),
-  loadTemplate         : (params) => dispatch(loadTemplate(params)),
-  makeFavorite         : (params) => dispatch(makeFavorite(params)),
+  getTemplates         : (params) => dispatch(getTemplates(params)),
   filterChangeHandlers : {
     setDateModifiedStart : (e) => dispatch(setDateModifiedStart(e)),
     setDateModifiedEnd   : (e) => dispatch(setDateModifiedEnd(e)),

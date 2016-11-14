@@ -3,30 +3,27 @@ import { connect } from "react-redux";
 import { PaginationGrid, NavLink, Pagination, StickySidebar, FavoriteCell, Button, Modal } from "components";
 import { clearMenuState } from "dataflow/menu/actions";
 import { loadSpec, loadData } from "dataflow/data/view/actions";
-import { editTemplate } from "dataflow/template/editor/actions";
 import EditTemplateForm from "../../Forms/NewTemplateForm";
-import { TitleBar } from "./TitleBar";
-import styles from "./index.less";
-import cx from "classnames";
 
 class Viewer extends Component {
   constructor() {
     super();
     this.state = {
       page  : 1,
-      limit : 15,
+      limit : 30,
     };
 
-    this.loadSpec = this.loadSpec.bind(this);
     this.loadData = this.loadData.bind(this);
     this.setPage = this.setPage.bind(this);
     this.setLimit = this.setLimit.bind(this);
   }
 
   componentWillMount() {
-    const { id:templateID } = this.props.params;
+    const { collectionName } = this.props.params;
     const { page, limit } = this.state;
-    this.loadSpec(templateID).then(this.loadData(page, limit));
+
+    this.props.loadSpec(collectionName)
+      .then(this.loadData(page, limit));
   }
 
   setPage(pageIdx) {
@@ -57,42 +54,25 @@ class Viewer extends Component {
     this.loadData(page, limit);
   }
 
-  loadSpec(templateID) {
-    return new Promise(() => {
-      this.props.loadSpec({
-        templateID,
-      });
-    });
-  }
-
   loadData(page, limit) {
-    const { id:templateID } = this.props.params;
-    this.props.loadData({
-      templateID,
-      page,
-      limit,
-    });
+    const { collectionName } = this.props.params;
+    this.props.loadData(collectionName, { page, limit });
   }
 
   render() {
-    const { store, viewStore } = this.props;
-    const { spec, isLoading, id } = viewStore;
-    let data = !!viewStore.data[this.state.page] ? viewStore.data[this.state.page] : {};
+    const { viewStore, params : { collectionName } } = this.props;
+    const { data, spec, isLoading, count, templateName } = !!viewStore[collectionName] && viewStore[collectionName];
+    let dataObj = (!!data && !!data[this.state.page]) ? data[this.state.page] : {};
+    let specObj = !!spec ? spec : [];
 
     return (
       <div className="row">
         <div className="col-md-10 offset-md-1">
-          <TitleBar
-            store={viewStore}
-          />
-
           <div className="row">
-            <div className={cx("col-md-12", styles.divider)}></div>
-          </div>
-
-          <div className="row">
-            <div className="col-md-9">
-              <span>{Object.keys(data).length} Entries</span>
+            <div className="col-md-10">
+              <h4>{templateName || collectionName}&nbsp;
+                <small className="text-muted">({count || 0} Entries)</small>
+              </h4>
               <Pagination
                 setLimit={this.setLimit}
                 setPage={this.setPage}
@@ -101,8 +81,8 @@ class Viewer extends Component {
               />
 
               <PaginationGrid
-                spec={spec}
-                data={data}
+                spec={specObj}
+                data={dataObj}
                 isLoading={isLoading}
               />
             </div>
@@ -152,8 +132,7 @@ class Viewer extends Component {
           </div>
         </div>
       </div>
-    )
-      ;
+    );
   }
 }
 
@@ -176,8 +155,8 @@ const mapStateToProps = state => ({
 
 const mapDisptachToProps = dispatch => ({
   clearMenuState : () => dispatch(clearMenuState()),
-  loadSpec       : (params) => dispatch(loadSpec(params)),
-  loadData       : (params) => dispatch(loadData(params)),
+  loadSpec       : (collectionName) => dispatch(loadSpec(collectionName)),
+  loadData       : (collectionName, query) => dispatch(loadData(collectionName, query)),
 });
 
 export default connect(mapStateToProps, mapDisptachToProps)(Viewer);

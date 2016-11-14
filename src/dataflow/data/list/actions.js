@@ -1,29 +1,22 @@
 import { clearFilterState } from "../../filter/actions";
 import { clearMenuState } from "../../menu/actions";
-import { getTemplates, editTemplate } from "./apiActions";
+import { createAction } from "redux-actions";
+import { GET_TEMPLATES_REQUEST, GET_TEMPLATES_SUCCESS, GET_TEMPLATES_FAILURE } from "./types";
+import * as api from "../../api";
 
-export function loadTemplate() {
-  return (dispatch) => {
+const templatesRequest = createAction(GET_TEMPLATES_REQUEST);
+const templatesSuccess = createAction(GET_TEMPLATES_SUCCESS, data => ({ data }));
+const templatesFailure = createAction(GET_TEMPLATES_FAILURE, err => ({ err }));
+
+export function getTemplates() {
+  return dispatch => {
     dispatch(clearFilterState());
     dispatch(clearMenuState());
-    dispatch(getTemplates());
-  };
-}
+    dispatch(templatesRequest());
 
-/**
- * Mark templates as favorites
- */
-export function makeFavorite(params) {
-  return dispatch => {
-    let promise = null;
-
-    if (Array.isArray(params)) {
-      promise = params.map(obj => dispatch(editTemplate(obj)));
-      promise = Promise.all(promise);
-    } else {
-      promise = dispatch(editTemplate(params));
-    }
-
-    promise.then(dispatch(loadTemplate()));
+    return api
+      .getTemplates()
+      .then(templates => dispatch(templatesSuccess(templates)))
+      .catch(err => dispatch(templatesFailure(err)));
   };
 }

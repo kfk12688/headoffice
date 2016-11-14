@@ -10,8 +10,8 @@ class DataGrid extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      colWidths: props.colWidths,
-      scrollLeft: 0,
+      colWidths  : props.colWidths,
+      scrollLeft : 0,
     };
 
     this.resize = this.resize.bind(this);
@@ -20,7 +20,7 @@ class DataGrid extends Component {
   }
 
   reportScrollLeftFn(spacing) {
-    this.setState({ scrollLeft: spacing });
+    this.setState({ scrollLeft : spacing });
   }
 
   resize(colKey, domElement, newPos) {
@@ -29,7 +29,7 @@ class DataGrid extends Component {
     const newWidth = colWidths[colKey] + (newPos - oldPos.right);
     colWidths = {
       ...colWidths,
-      [colKey]: newWidth,
+      [colKey] : newWidth,
     };
 
     this.setState({ colWidths });
@@ -62,7 +62,7 @@ class DataGrid extends Component {
     const { cols, colSortFunction, sortKey, sortAscending } = this.props;
 
     return (
-      <div style={{ overflow: "hidden", backgroundColor: white }}>
+      <div style={{ overflow : "hidden", backgroundColor : white }}>
         <DGHeaderRow
           cols={cols}
           colWidths={this.state.colWidths}
@@ -80,17 +80,17 @@ class DataGrid extends Component {
 }
 
 DataGrid.propTypes = {
-  isLoading: PropTypes.bool,
-  rows: PropTypes.object.isRequired,
-  cols: PropTypes.arrayOf(PropTypes.object),
-  colWidths: PropTypes.object.isRequired,
-  sortKey: PropTypes.string,
-  sortAscending: PropTypes.bool,
-  selectedKeys: PropTypes.array,
+  isLoading     : PropTypes.bool,
+  rows          : PropTypes.object.isRequired,
+  cols          : PropTypes.arrayOf(PropTypes.object),
+  colWidths     : PropTypes.object.isRequired,
+  sortKey       : PropTypes.string,
+  sortAscending : PropTypes.bool,
+  selectedKeys  : PropTypes.array,
 
   // functions
-  colSortFunction: PropTypes.func,
-  onRowClick: PropTypes.func,
+  colSortFunction : PropTypes.func,
+  onRowClick      : PropTypes.func,
 };
 
 export { DataGrid };

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import _ from "underscore";
-import styles from "./DGBody.less";
 import { DGBodyRow } from "./DGBodyRow";
+import styles from "./common.less";
 
 class DGBody extends Component {
   constructor(props) {
@@ -40,13 +40,18 @@ class DGBody extends Component {
   }
 
   render() {
+    const bodyStyle = {
+      overflow  : "auto",
+      minHeight : "300px",
+    };
+
     return (
       <div
         ref="dgBody"
-        className={styles.body}
+        style={bodyStyle}
         onScroll={this.reportScrollLeftFn}
       >
-        <div className={styles.slice}>{this.getRows()}</div>
+        <span className={styles.cols}>{this.getRows()}</span>
       </div>
     );
   }

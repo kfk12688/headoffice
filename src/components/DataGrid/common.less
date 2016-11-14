@@ -1,0 +1,66 @@
+@rowHeight: 40px;
+@import "../_styles/colors";
+
+.row {
+  border-bottom: 1px solid @grey300;
+  height: @rowHeight;
+  white-space: nowrap;
+  background-color: @white;
+
+}
+
+.col {
+  height: @rowHeight;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  border-right: 1px solid @grey300;
+}
+
+.cell {
+  height: @rowHeight;
+  line-height: @rowHeight;
+  padding-left: 12px;
+  padding-right: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+  box-sizing: border-box;
+  display: inline-block;
+}
+
+.head {
+  height: @rowHeight;
+  line-height: @rowHeight;
+  padding-left: 12px;
+  font-size: 18px;
+}
+
+.cols {
+  display: inline-block;
+  height: @rowHeight;
+  white-space: nowrap;
+}
+
+.spinner {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  color: @grey500;
+}
+
+.dgBody {
+  background-color: @white;
+  text-align: center;
+  padding: 50px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.fa {
+  position: absolute;
+  font-size: 14px;
+  right: 10px;
+  top: 13px;
+}

@@ -1,9 +1,6 @@
-/**
- * Created by sharavan on 18/05/16.
- */
 import React, { Component, PropTypes } from "react";
 import { grey50, grey300 } from "../_styles/colors";
-import styles from "./DGHeaderColumn.less";
+import styles from "./common.less";
 import cx from "classnames";
 
 class DGHeaderColumn extends Component {
@@ -77,14 +74,14 @@ class DGHeaderColumn extends Component {
         onMouseOut={isColSortable && this.handleMouseOut}
       >
         <div
-          className={styles.cell}
+          className={styles.head}
           onClick={isColSortable && this.onClick}
           ref={target => this.assignCol(col.name, target)}
         >
           <span>{col.text}</span>
         </div>
         {arrow}
-        <div className={styles.divider} onDragEnd={e => this.onDrag(e, col.name)}/>
+        <div onDragEnd={e => this.onDrag(e, col.name)}/>
       </span>
     );
   }

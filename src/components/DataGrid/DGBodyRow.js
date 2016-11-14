@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { DGBodyCell } from "./DGBodyCell";
 import { grey50, transparent, blueGrey50 } from "../_styles/colors";
-import styles from "./DGBodyRow.less";
+import styles from "./common.less";
 
 class DGBodyRow extends Component {
   constructor() {

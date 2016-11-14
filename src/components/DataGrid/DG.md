@@ -71,7 +71,7 @@ var rows = [
  ];
 ```
 
-![](https://github.com/Sharavanth/headoffice/blob/data-grid-docu/src/components/DataGrid/default.png)
+![](https://github.com/Sharavanth/headoffice/blob/data-grid-docu/src/components/DataGrid/DG.png)
 
 ##rows
 it is one of the input of datagrid component

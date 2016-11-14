@@ -1,9 +1,8 @@
 import React from "react";
-import styles from "./TextInput.less";
 
-export const TextInput = ({ className, input, meta, ...rest }) =>
+export const TextInput = ({ input, meta, ...rest }) =>
   <input
-    className={className || styles.input}
+    className="form-control"
     type="text"
     {...input}
     {...rest}
@@ -12,5 +11,4 @@ export const TextInput = ({ className, input, meta, ...rest }) =>
 TextInput.propTypes = {
   input     : React.PropTypes.object.isRequired,
   meta      : React.PropTypes.object,
-  className : React.PropTypes.string,
 };

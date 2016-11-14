@@ -56,13 +56,8 @@ class PaginationGrid extends Component {
   }
 
   render() {
-    const { style } = this.props;
-
     return (
-      <div
-        className={cx(styles.base)}
-        style={style}
-      >
+      <div>
         {this.renderContent()}
       </div>
     );

@@ -1,6 +1,3 @@
-/**
- * Created by sharavan on 01/06/16.
- */
 import React from "react";
 import _ from "underscore";
 import { EGHeaderCol } from "./PGHeaderCol";

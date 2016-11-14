@@ -1,19 +1,20 @@
 import React from "react";
-import styles from "./SearchInput.less";
 import cx from "classnames";
+import styles from "./SearchInput.less";
 
 const SearchInput = ({ className, placeHolder, field }) => {
-  let computedPlaceHolder = placeHolder || "";
+  let computedPlaceHolder = placeHolder || "Search";
   if (typeof placeHolder === "boolean") computedPlaceHolder = "Search";
 
   return (
-    <div className={className || styles.box}>
+    <div className={styles.searchBox}>
+      <i className={cx("fa fa-search", styles.icon)}/>
       <input
-        className={styles.input}
+        type="search"
+        className="form-control"
         placeholder={computedPlaceHolder}
         {...field}
       />
-      <i className={cx("fa fa-search", styles.icon)}/>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React from "react";
 import _ from "underscore";
 import { PGBodyCell } from "./PGBodyCell";
-import styles from "./PGBodyRow.less";
+import { grey300 } from "../_styles/colors";
 
 class PGBodyRow extends React.Component {
   constructor() {
@@ -23,7 +23,6 @@ class PGBodyRow extends React.Component {
     const { row, cols, colWidths, rowKey } = this.props;
     let bodyCells = [];
 
-
     _.forEach(cols, (col, colKey) => {
       bodyCells.push(
         <PGBodyCell
@@ -35,10 +34,18 @@ class PGBodyRow extends React.Component {
       );
     });
 
+    const rowBorder = {
+      borderBottomWidth : "1px",
+      borderBottomStyle : "solid",
+      borderBottomColor : grey300,
+      height            : "38px",
+      whiteSpace        : "nowrap",
+    };
+
     return (
       <div
         data-id={rowKey}
-        className={styles.row}
+        style={rowBorder}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
       >

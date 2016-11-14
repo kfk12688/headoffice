@@ -1,8 +1,5 @@
-/**
- * Created by sharavan on 01/06/16.
- */
 import React from "react";
-import styles from "./PGHeaderCol.less";
+import styles from "./common.less";
 
 const EGHeaderCol = props => {
   const { headerStyle, displayText, colWidth } = props;
@@ -13,7 +10,7 @@ const EGHeaderCol = props => {
       className={styles.col}
       style={{ ...hoverStyle, ...headerStyle }}
     >
-      <div className={styles.cell} title={displayText}>{displayText}</div>
+      <div className={styles.headercell} title={displayText}>{displayText}</div>
     </div>
   );
 };

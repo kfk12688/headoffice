@@ -1,6 +1,6 @@
 import React from "react";
 import { renderEGCell } from "../DisplayElems";
-import styles from "./PGBodyCell.less";
+import styles from "./common.less";
 
 export const PGBodyCell = (props) => {
   const { row, col, colWidth } = props;
@@ -14,7 +14,7 @@ export const PGBodyCell = (props) => {
 
   return (
     <div
-      className={styles.cell}
+      className={styles.bodycell}
       style={{ ...hoverStyle, ...col.colStyle }}
     >
       {renderEGCell(type, row, col, colKey)}

@@ -1,10 +1,7 @@
-/**
- * Created by sharavan on 01/06/16.
- */
 import React from "react";
 import _ from "underscore";
 import { EGHeaderCol } from "./PGHeaderCol";
-import styles from "./PGHeaderRow.less";
+import styles from "./common.less";
 
 const PGHeaderRow = ({ cols, colWidths, scrollLeft }) => {
   const headerRowCols = [];

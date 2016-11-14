@@ -41,8 +41,9 @@ const CheckBoxInput = ({ input, children, inline, disabled }) => {
 
 CheckBoxInput.propTypes = {
   input     : React.PropTypes.object.isRequired,
-  className : React.PropTypes.string,
   children  : React.PropTypes.node,
+  inline    : React.PropTypes.bool,
+  disabled  : React.PropTypes.bool,
 };
 
 export { CheckBoxInput };

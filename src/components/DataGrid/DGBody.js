@@ -41,8 +41,8 @@ class DGBody extends Component {
 
   render() {
     const bodyStyle = {
-      overflow: "auto",
-      minHeight: "300px",
+      overflow  : "auto",
+      minHeight : "300px",
     };
 
     return (
@@ -59,12 +59,12 @@ class DGBody extends Component {
 }
 
 DGBody.propTypes = {
-  rows: React.PropTypes.object.isRequired,
-  cols: React.PropTypes.arrayOf(React.PropTypes.object),
-  colWidths: React.PropTypes.object.isRequired,
-  selectedKeys: React.PropTypes.array.isRequired,
-  onRowClick: React.PropTypes.func.isRequired,
-  reportScrollLeftFn: React.PropTypes.func.isRequired,
+  rows               : React.PropTypes.object.isRequired,
+  cols               : React.PropTypes.arrayOf(React.PropTypes.object),
+  colWidths          : React.PropTypes.object.isRequired,
+  selectedKeys       : React.PropTypes.array.isRequired,
+  onRowClick         : React.PropTypes.func.isRequired,
+  reportScrollLeftFn : React.PropTypes.func.isRequired,
 };
 
 export { DGBody };

@@ -1,8 +1,8 @@
-import React, {PropTypes} from "react";
-import {DGHeaderColumn} from "./DGHeaderColumn";
+import React, { PropTypes } from "react";
+import { DGHeaderColumn } from "./DGHeaderColumn";
 import styles from "./common.less";
 
-const DGHeaderRow = ({cols, colWidths, onClick, onDrag, sortKey, sortAscending, scrollLeft}) => {
+const DGHeaderRow = ({ cols, colWidths, onClick, onDrag, sortKey, sortAscending, scrollLeft }) => {
   const dataGridHeaderColumns = cols.map((headerColumn, index) => {
     const colName = headerColumn.name;
     return (
@@ -20,7 +20,7 @@ const DGHeaderRow = ({cols, colWidths, onClick, onDrag, sortKey, sortAscending, 
 
   return (
     <div className={styles.row}>
-      <span style={{marginLeft: -scrollLeft}}>
+      <span style={{ marginLeft : -scrollLeft }}>
         {dataGridHeaderColumns}
       </span>
     </div>
@@ -28,13 +28,13 @@ const DGHeaderRow = ({cols, colWidths, onClick, onDrag, sortKey, sortAscending, 
 };
 
 DGHeaderRow.propTypes = {
-  cols: PropTypes.arrayOf(PropTypes.object),
-  colWidths: PropTypes.object.isRequired,
-  sortKey: PropTypes.string.isRequired,
-  onClick: PropTypes.func,
-  sortAscending: PropTypes.bool,
-  onDrag: React.PropTypes.func,
-  scrollLeft: React.PropTypes.number,
+  cols          : PropTypes.arrayOf(PropTypes.object),
+  colWidths     : PropTypes.object.isRequired,
+  sortKey       : PropTypes.string.isRequired,
+  onClick       : PropTypes.func,
+  sortAscending : PropTypes.bool,
+  onDrag        : React.PropTypes.func,
+  scrollLeft    : React.PropTypes.number,
 };
 
-export {DGHeaderRow};
+export { DGHeaderRow };

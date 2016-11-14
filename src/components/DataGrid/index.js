@@ -1,10 +1,10 @@
 import _ from "underscore";
-import React, {Component, PropTypes} from "react";
-import {DGHeaderRow} from "./DGHeaderRow";
-import {DGBody} from "./DGBody";
-import {grey500, white} from "../_styles/colors";
+import React, { Component, PropTypes } from "react";
+import { DGHeaderRow } from "./DGHeaderRow";
+import { DGBody } from "./DGBody";
+import { white } from "../_styles/colors";
 import cx from "classnames";
-import styles from "./config.less"
+import styles from "./common.less";
 
 class DataGrid extends Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class DataGrid extends Component {
   }
 
   reportScrollLeftFn(spacing) {
-    this.setState({scrollLeft: spacing});
+    this.setState({ scrollLeft: spacing });
   }
 
   resize(colKey, domElement, newPos) {
@@ -32,18 +32,18 @@ class DataGrid extends Component {
       [colKey]: newWidth,
     };
 
-    this.setState({colWidths});
+    this.setState({ colWidths });
   }
 
   renderContent() {
-    const {isLoading, rows, cols, onRowClick, selectedKeys} = this.props;
+    const { isLoading, rows, cols, onRowClick, selectedKeys } = this.props;
 
     if (_.isEmpty(rows)) {
       return <div className={styles.dgBody}>No Data Present</div>;
     }
 
     if (isLoading) {
-      return <i className={cx("fa fa-spinner fa-2x", styles.Spinner)}/>;
+      return <i className={cx("fa fa-spinner fa-2x", styles.spinner)}/>;
     }
 
     return (
@@ -59,12 +59,10 @@ class DataGrid extends Component {
   }
 
   render() {
-    const {cols, colSortFunction, sortKey, sortAscending} = this.props;
+    const { cols, colSortFunction, sortKey, sortAscending } = this.props;
 
     return (
-      <div
-        style={{overflow: "hidden", backgroundColor: white} }
-      >
+      <div style={{ overflow: "hidden", backgroundColor: white }}>
         <DGHeaderRow
           cols={cols}
           colWidths={this.state.colWidths}
@@ -95,4 +93,4 @@ DataGrid.propTypes = {
   onRowClick: PropTypes.func,
 };
 
-export {DataGrid};
+export { DataGrid };

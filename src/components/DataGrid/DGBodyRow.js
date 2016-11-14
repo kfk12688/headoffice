@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { DGBodyCell } from "./DGBodyCell";
 import { grey50, transparent, blueGrey50 } from "../_styles/colors";
-import styles from "./config.less";
+import styles from "./common.less";
 
 class DGBodyRow extends Component {
   constructor() {
     super();
-    this.state = { hovered : false };
+    this.state = { hovered: false };
     this.clickHandler = this.clickHandler.bind(this);
   }
 
@@ -48,14 +48,14 @@ class DGBodyRow extends Component {
       rowColor = grey50;
     }
 
-    let rowStyle = { backgroundColor : rowColor };
+    let rowStyle = { backgroundColor: rowColor };
 
     return (
       <div
         style={rowStyle}
         className={styles.row}
-        onMouseEnter={() => this.setState({ hovered : true })}
-        onMouseLeave={() => this.setState({ hovered : false })}
+        onMouseEnter={() => this.setState({ hovered: true })}
+        onMouseLeave={() => this.setState({ hovered: false })}
         onClick={this.clickHandler}
       >
         {this.getBodyCells()}
@@ -65,12 +65,12 @@ class DGBodyRow extends Component {
 }
 
 DGBodyRow.propTypes = {
-  onRowClick    : React.PropTypes.func,
-  rowKey        : React.PropTypes.string.isRequired,
-  isRowSelected : React.PropTypes.bool,
-  row           : React.PropTypes.object,
-  cols          : React.PropTypes.arrayOf(React.PropTypes.object),
-  colWidths     : React.PropTypes.object,
+  onRowClick: React.PropTypes.func,
+  rowKey: React.PropTypes.string.isRequired,
+  isRowSelected: React.PropTypes.bool,
+  row: React.PropTypes.object,
+  cols: React.PropTypes.arrayOf(React.PropTypes.object),
+  colWidths: React.PropTypes.object,
 };
 
 export { DGBodyRow };

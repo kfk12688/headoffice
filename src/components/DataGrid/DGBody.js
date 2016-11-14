@@ -1,7 +1,7 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import _ from "underscore";
-import {DGBodyRow} from "./DGBodyRow";
-import styles from "./config.less"
+import { DGBodyRow } from "./DGBodyRow";
+import styles from "./common.less";
 
 class DGBody extends Component {
   constructor(props) {
@@ -11,7 +11,7 @@ class DGBody extends Component {
   }
 
   getRows() {
-    const {rows, cols, colWidths, selectedKeys, onRowClick} = this.props;
+    const { rows, cols, colWidths, selectedKeys, onRowClick } = this.props;
     const datagridBodyRows = [];
 
     _.forEach(rows, row => {
@@ -42,7 +42,7 @@ class DGBody extends Component {
   render() {
     const bodyStyle = {
       overflow: "auto",
-      minHeight: "300px"
+      minHeight: "300px",
     };
 
     return (
@@ -67,4 +67,4 @@ DGBody.propTypes = {
   reportScrollLeftFn: React.PropTypes.func.isRequired,
 };
 
-export {DGBody};
+export { DGBody };

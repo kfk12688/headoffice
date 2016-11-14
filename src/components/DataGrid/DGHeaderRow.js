@@ -1,6 +1,6 @@
 import React, {PropTypes} from "react";
 import {DGHeaderColumn} from "./DGHeaderColumn";
-import styles from "./config.less";
+import styles from "./common.less";
 
 const DGHeaderRow = ({cols, colWidths, onClick, onDrag, sortKey, sortAscending, scrollLeft}) => {
   const dataGridHeaderColumns = cols.map((headerColumn, index) => {
@@ -17,6 +17,7 @@ const DGHeaderRow = ({cols, colWidths, onClick, onDrag, sortKey, sortAscending, 
       />
     );
   });
+
   return (
     <div className={styles.row}>
       <span style={{marginLeft: -scrollLeft}}>

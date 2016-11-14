@@ -1,13 +1,12 @@
 import React from "react";
-import styles from "./NumericInput.less";
 
-export const NumericInput = ({ className, input }) => {
+export const NumericInput = ({ input }) => {
   const { onChange, ...rest } = input;
   const parse = val => Number(val);
 
   return (
     <input
-      className={className || styles.numericInput}
+      className="form-control"
       type="number"
       onChange={e => onChange(parse(e.target.value))}
       {...rest}
@@ -16,6 +15,5 @@ export const NumericInput = ({ className, input }) => {
 };
 
 NumericInput.propTypes = {
-  className : React.PropTypes.string,
   input     : React.PropTypes.object.isRequired,
 };

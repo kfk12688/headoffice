@@ -40,13 +40,12 @@ class PGBodyRow extends React.Component {
       borderBottomColor : grey300,
       height            : "38px",
       whiteSpace        : "nowrap",
-
     };
 
     return (
       <div
         data-id={rowKey}
-        className={rowBorder}
+        style={rowBorder}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
       >

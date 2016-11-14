@@ -3,7 +3,7 @@ import styles from "./TextInput.less";
 
 export const TextInput = ({ className, input, meta, ...rest }) =>
   <input
-    className={className || "form-control"}
+    className={className || styles.input}
     type="text"
     {...input}
     {...rest}

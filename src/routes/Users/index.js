@@ -1,12 +1,12 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
-import {Breadcrumb, SearchBar, DataGrid} from "components";
-import {loadUser, addNewUser, deleteUser} from "dataflow/user/actions";
-import {toggleSelection} from "dataflow/menu/actions";
-import {setUserName, setUserHasRole, setLastSignIn} from "dataflow/filter/actions";
-import {ContentMenu} from "./ContentMenu";
-import styles from "./index.less";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Breadcrumb, SearchBar, DataGrid, StickySidebar } from "components";
+import { loadUser, addNewUser, deleteUser } from "dataflow/user/actions";
+import { toggleSelection } from "dataflow/menu/actions";
+import { setUserName, setUserHasRole, setLastSignIn } from "dataflow/filter/actions";
+import { ContentMenu } from "./ContentMenu";
 import cx from "classnames";
+import { grey50 } from "../_styles/colors";
 
 class User extends Component {
   constructor(props) {
@@ -14,57 +14,57 @@ class User extends Component {
     this.getActions = this.getActions.bind(this);
     const actions = this.getActions();
     this.actionsCollection = [
-      {name: "Delete User", handler: actions.deleteUser},
-      {name: "XXXify User", handler: actions.deleteUser},
+      { name : "Delete User", handler : actions.deleteUser },
+      { name : "XXXify User", handler : actions.deleteUser },
     ];
 
     // Defines the static colum specification for the Template Area
     this.colSpec = [
       {
-        dataKey: "isSelected",
-        headerStyle: {borderRight: 0},
-        name: "has-alert-col",
-        renderType: "checkbox",
-        sortable: false,
-        text: "",
+        dataKey     : "isSelected",
+        headerStyle : { borderRight : 0 },
+        name        : "has-alert-col",
+        renderType  : "checkbox",
+        sortable    : false,
+        text        : "",
       },
       {
-        dataKey: "username",
-        name: "username-col",
-        renderType: "link",
-        text: "Display Name",
-        actions: this.actionsCollection,
-        linkRef: {
-          path: "user",
-          urlKey: "id",
+        dataKey    : "username",
+        name       : "username-col",
+        renderType : "link",
+        text       : "Display Name",
+        actions    : this.actionsCollection,
+        linkRef    : {
+          path   : "user",
+          urlKey : "id",
         },
       },
       {
-        dataKey: ["firstName", "lastName"],
-        name: "full-name-col",
-        renderType: "join",
-        text: "Full Name",
+        dataKey    : ["firstName", "lastName"],
+        name       : "full-name-col",
+        renderType : "join",
+        text       : "Full Name",
       },
       {
-        dataKey: "createdAt",
-        name: "created-at-col",
-        renderType: "date",
-        sortable: true,
-        text: "Created On",
+        dataKey    : "createdAt",
+        name       : "created-at-col",
+        renderType : "date",
+        sortable   : true,
+        text       : "Created On",
       },
       {
-        dataKey: "phoneNumber",
-        name: "phone-number-col",
-        text: "Phone Number",
-        renderType: "text",
+        dataKey    : "phoneNumber",
+        name       : "phone-number-col",
+        text       : "Phone Number",
+        renderType : "text",
       },
     ];
     this.colWidths = {
-      "has-alert-col": 38,
-      "username-col": 160,
-      "full-name-col": 200,
-      "created-at-col": 120,
-      "phone-number-col": 160,
+      "has-alert-col"    : 38,
+      "username-col"     : 160,
+      "full-name-col"    : 200,
+      "created-at-col"   : 120,
+      "phone-number-col" : 160,
     };
   }
 
@@ -83,63 +83,65 @@ class User extends Component {
 
   getActions() {
     const _deleteUser = () => {
-      const {menuStore: {selectedKeys}} = this.props;
+      const { menuStore: { selectedKeys } } = this.props;
 
       if (selectedKeys.length > 1) {
-        this.props.deleteUser({id: selectedKeys});
+        this.props.deleteUser({ id : selectedKeys });
       } else {
-        this.props.deleteUser({id: selectedKeys[0]});
+        this.props.deleteUser({ id : selectedKeys[0] });
       }
     };
 
     return {
-      deleteUser: _deleteUser,
+      deleteUser : _deleteUser,
     };
   }
 
   renderChildren() {
     if (this.props.children) return this.props.children;
 
-    const {userStore, filterStore, menuStore, filterChangeHandlers, toggleRow} = this.props;
+    const { userStore, filterStore, menuStore, filterChangeHandlers, toggleRow } = this.props;
     const searchConfig = [
       {
-        label: "User",
-        data: filterStore.username,
-        changeHandler: filterChangeHandlers.setFilterUsername,
-        type: "searchbox",
+        label         : "User",
+        data          : filterStore.username,
+        changeHandler : filterChangeHandlers.setFilterUsername,
+        type          : "searchbox",
       },
       {
-        label: "Has role",
-        data: filterStore.hasRole,
-        changeHandler: filterChangeHandlers.setFilterHasRole,
-        type: "searchbox",
+        label         : "Has role",
+        data          : filterStore.hasRole,
+        changeHandler : filterChangeHandlers.setFilterHasRole,
+        type          : "searchbox",
       },
       {
-        label: "Last login on or after",
-        data: filterStore.lastSignIn,
-        changeHandler: filterChangeHandlers.setFilterLastSignIn,
-        type: "datebox",
+        label         : "Last login on or after",
+        data          : filterStore.lastSignIn,
+        changeHandler : filterChangeHandlers.setFilterLastSignIn,
+        type          : "datebox",
       },
     ];
 
     return (
       <div className="row">
         <div className="col-md-10 offset-md-1">
-            <ContentMenu
-              actions={this.actionsCollection}
-              dataKeys={Object.keys(userStore.data)}
-              addNewUser={this.props.addNewUser}
-            />
+          <ContentMenu
+            actions={this.actionsCollection}
+            dataKeys={Object.keys(userStore.data)}
+            addNewUser={this.props.addNewUser}
+          />
 
           <div className="row">
             {
               menuStore.showSidebar &&
-              <div className={cx("col-md-3", styles.bordered)}>
-                <SearchBar config={searchConfig}/>
+              <div className="col-md-3">
+                <StickySidebar top={113} width={236}>
+                  <SearchBar config={searchConfig}/>
+                </StickySidebar>
               </div>
             }
 
-            <div className={cx({"col-md-9": menuStore.showSidebar, "col-md-12": !menuStore.showSidebar})}>
+            <div className={cx({ "col-md-9" : menuStore.showSidebar, "col-md-12" : !menuStore.showSidebar })}>
               <DataGrid
                 isLoading={userStore.isLoading}
                 cols={this.colSpec}
@@ -158,15 +160,16 @@ class User extends Component {
   }
 
   render() {
-    const {rollUp} = this.props;
+    const { rollUp } = this.props;
 
-    // ListMenu Container
+    const container = {
+      backgroundColor : grey50,
+    };
+
     return (
-      <div
-        className={cx("container-fluid", styles.container)}
-        style={{top: rollUp ? 35 : 0}}
+      <div className={cx("container-fluid")}
+           style={{ top : rollUp ? 35 : 0, ...container }}
       >
-
         <div className="row">
           <Breadcrumb className="col-md-10 offset-md-1"/>
         </div>
@@ -179,41 +182,41 @@ class User extends Component {
 }
 
 User.propTypes = {
-  rollUp: React.PropTypes.bool,
-  children: React.PropTypes.node,
+  rollUp   : React.PropTypes.bool,
+  children : React.PropTypes.node,
 
   // Store
-  menuStore: React.PropTypes.object.isRequired,
-  userStore: React.PropTypes.object.isRequired,
-  filterStore: React.PropTypes.object.isRequired,
+  menuStore   : React.PropTypes.object.isRequired,
+  userStore   : React.PropTypes.object.isRequired,
+  filterStore : React.PropTypes.object.isRequired,
 
   // Actions
-  toggleRow: React.PropTypes.func.isRequired,
-  loadUser: React.PropTypes.func.isRequired,
-  addNewUser: React.PropTypes.func.isRequired,
-  deleteUser: React.PropTypes.func.isRequired,
-  filterChangeHandlers: React.PropTypes.shape({
-    setFilterUsername: React.PropTypes.func.isRequired,
-    setFilterHasRole: React.PropTypes.func.isRequired,
-    setFilterLastSignIn: React.PropTypes.func.isRequired,
+  toggleRow            : React.PropTypes.func.isRequired,
+  loadUser             : React.PropTypes.func.isRequired,
+  addNewUser           : React.PropTypes.func.isRequired,
+  deleteUser           : React.PropTypes.func.isRequired,
+  filterChangeHandlers : React.PropTypes.shape({
+    setFilterUsername   : React.PropTypes.func.isRequired,
+    setFilterHasRole    : React.PropTypes.func.isRequired,
+    setFilterLastSignIn : React.PropTypes.func.isRequired,
   }),
 };
 
 const mapStateToProps = (state) => ({
-  menuStore: state.menu,
-  userStore: state.user,
-  filterStore: state.filter,
+  menuStore   : state.menu,
+  userStore   : state.user,
+  filterStore : state.filter,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  toggleRow: (index) => dispatch(toggleSelection(index)),
-  loadUser: (params) => dispatch(loadUser(params)),
-  addNewUser: (params) => dispatch(addNewUser(params)),
-  deleteUser: (params) => dispatch(deleteUser(params)),
-  filterChangeHandlers: {
-    setFilterUsername: (e) => dispatch(setUserName(e)),
-    setFilterHasRole: (e) => dispatch(setUserHasRole(e)),
-    setFilterLastSignIn: (e) => dispatch(setLastSignIn(e)),
+  toggleRow            : (index) => dispatch(toggleSelection(index)),
+  loadUser             : (params) => dispatch(loadUser(params)),
+  addNewUser           : (params) => dispatch(addNewUser(params)),
+  deleteUser           : (params) => dispatch(deleteUser(params)),
+  filterChangeHandlers : {
+    setFilterUsername   : (e) => dispatch(setUserName(e)),
+    setFilterHasRole    : (e) => dispatch(setUserHasRole(e)),
+    setFilterLastSignIn : (e) => dispatch(setLastSignIn(e)),
   },
 });
 

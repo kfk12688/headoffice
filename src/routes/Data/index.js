@@ -1,13 +1,13 @@
 import _ from "underscore";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Breadcrumb, SearchBar, DataGrid } from "components";
+import { Breadcrumb, SearchBar, DataGrid, StickySidebar } from "components";
 import { toggleSelection } from "dataflow/menu/actions";
 import { loadTemplate, makeFavorite } from "dataflow/data/list/actions";
 import { setDateModifiedEnd, setDateModifiedStart, setOwner, setIsRecent, setIsStarred } from "dataflow/filter/actions";
 import { Formatter as formatter } from "../_utils";
 import { ContentMenu } from "./ContentMenu";
-import styles from "./index.less";
+import { grey50 } from "../_styles/colors";
 import cx from "classnames";
 
 class Data extends Component {
@@ -213,12 +213,14 @@ class Data extends Component {
           <div className="row">
             {
               menuStore.showSidebar &&
-              <div className={cx("col-md-3", styles.bordered)}>
-                <SearchBar config={searchConfig}/>
-                </div>
+              <div className="col-md-3">
+                <StickySidebar top={113} width={236}>
+                  <SearchBar config={searchConfig}/>
+                </StickySidebar>
+              </div>
             }
 
-            <div className={cx({"col-md-9" : menuStore.showSidebar , "col-md-12" : !menuStore.showSidebar})}>
+            <div className={cx({ "col-md-9" : menuStore.showSidebar, "col-md-12" : !menuStore.showSidebar })}>
               <DataGrid
                 isLoading={list.isLoading}
                 cols={this.colSpec}
@@ -239,12 +241,18 @@ class Data extends Component {
   render() {
     const { rollUp } = this.props;
 
+    const container = {
+      backgroundColor : grey50,
+    };
+
     return (
-      <div className={cx("container-fluid",styles.container)} style={{ top : rollUp ? 35 : 0 }}>
+      <div className="container-fluid"
+           style={{ top : rollUp ? 35 : 0, ...container }}
+      >
         <div className="row">
           <Breadcrumb className="col-md-10 offset-md-1"/>
         </div>
-        
+
         {this.renderChildren()}
       </div>
     );

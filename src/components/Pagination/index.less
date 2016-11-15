@@ -1,59 +1,8 @@
 @import "../_styles/colors";
 
-.container {
-  &:after {
-    content: close-quote;
-    clear: both;
-    font-size: 14px;
-  }
-}
-
-.limiter {
-  display: inline-block;
-  padding-left: 0;
-  margin: 6px 0;
-  font-size: 14px;
-  border-radius: 2px;
-  float: right;
-  height: 29px;
-  margin-left: 20px;
-  background-color: @white;
-  color: @indigo500;
-  border-color: @grey300;
-  outline: none;
-}
-
-.pagination {
-  display: inline-block;
-  padding-left: 0;
-  margin: 6px 0;
-  font-size: 14px;
-  border-radius: 2px;
-}
-
-.page {
-  &Item {
-    display: inline;
-  }
-  &Link {
-    position: relative;
-    float: left;
-    padding: 5px 8px;
-    margin-left: -1px;
-    text-decoration: none;
-    background-color: @white;
-    border: 1px solid @grey300;
-
-    &:hover {
-      background-color: @grey100;
-      border-color: @grey300;
-    }
-    &Active {
-      z-index: 2;
-      color: #fff;
-      cursor: default;
-      background-color: @indigo500;
-      border-color: @indigo800;
-    }
-  }
+.limitContainer {
+  margin: 1rem 0rem;
+  height: 39px;
+  width: 60px;
+  border: 1px solid @grey300;
 }

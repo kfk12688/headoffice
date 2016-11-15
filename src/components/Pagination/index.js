@@ -1,6 +1,6 @@
 import React from "react";
-import styles from "./index.less";
 import cx from "classnames";
+import styles from "./index.less";
 
 const Pagination = ({ className, limit, activePage, setPage, setLimit }) => {
   const pageClickHandler = (e, pageIdx) => {
@@ -15,8 +15,8 @@ const Pagination = ({ className, limit, activePage, setPage, setLimit }) => {
 
   const generatePageLinks = (pages) => {
     const prevLink = (
-      <li className={styles.pageItem}>
-        <a className={styles.pageLink} href="#" onClick={e => pageClickHandler(e, "prev")} tabIndex="-1"
+      <li className="page-item">
+        <a className="page-link" href="#" onClick={e => pageClickHandler(e, "prev")} tabIndex="-1"
            aria-label="Previous"
         >
           <span aria-hidden="true">«</span>
@@ -26,8 +26,8 @@ const Pagination = ({ className, limit, activePage, setPage, setLimit }) => {
     );
 
     const nextLink = (
-      <li className={styles.pageItem}>
-        <a className={styles.pageLink} href="#" onClick={e => pageClickHandler(e, "next")} tabIndex="-1"
+      <li className="page-item">
+        <a className="page-link" href="#" onClick={e => pageClickHandler(e, "next")} tabIndex="-1"
            aria-label="Next"
         >
           <span aria-hidden="true">»</span>
@@ -40,12 +40,12 @@ const Pagination = ({ className, limit, activePage, setPage, setLimit }) => {
       const pageLinks = [];
       for (let idx = 1; idx <= noPages; idx++) {
         pageLinks.push(
-          <li className={styles.pageItem}>
+          <li className={cx("page-item", { "active" : (activePage === idx) })}>
             <a
               href="#"
               tabIndex="-1"
               onClick={e => pageClickHandler(e, idx)}
-              className={cx(styles.pageLink, { [styles.pageLinkActive] : (activePage === idx) })}
+              className="page-link"
             >
               {idx}
             </a>
@@ -56,7 +56,7 @@ const Pagination = ({ className, limit, activePage, setPage, setLimit }) => {
     };
 
     return (
-      <ul className={styles.pagination}>
+      <ul className="pagination">
         {prevLink}
         {links(pages)}
         {nextLink}
@@ -70,16 +70,20 @@ const Pagination = ({ className, limit, activePage, setPage, setLimit }) => {
     );
 
     return (
-      <select className={styles.limiter} value={limit} onChange={limitChangeHandler} tabIndex="-1">
+      <select
+        className={cx("pull-right", styles.limitContainer)}
+        value={limit}
+        onChange={limitChangeHandler}
+        tabIndex="-1"
+      >
         {options}
       </select>
     );
   };
 
   const limits = [15, 30, 50];
-  const appliedClassName = cx(className, styles.container);
   return (
-    <div className={appliedClassName}>
+    <div className={className}>
       {generatePageLinks(5)}
       {generateLimits(limits)}
     </div>

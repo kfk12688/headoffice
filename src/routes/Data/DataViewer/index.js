@@ -73,18 +73,26 @@ class Viewer extends Component {
               <h4>{templateName || collectionName}&nbsp;
                 <small className="text-muted">({count || 0} Entries)</small>
               </h4>
-              <Pagination
-                setLimit={this.setLimit}
-                setPage={this.setPage}
-                activePage={this.state.page}
-                limit={this.state.limit}
-              />
 
-              <PaginationGrid
-                spec={specObj}
-                data={dataObj}
-                isLoading={isLoading}
-              />
+              <div className="row">
+                <Pagination
+                  className="col-md-12"
+                  setLimit={this.setLimit}
+                  setPage={this.setPage}
+                  activePage={this.state.page}
+                  limit={this.state.limit}
+                />
+              </div>
+
+              <div className="row">
+                <div className="col-md-12">
+                  <PaginationGrid
+                    spec={specObj}
+                    data={dataObj}
+                    isLoading={isLoading}
+                  />
+                </div>
+              </div>
             </div>
 
             <div className="col-md-3">

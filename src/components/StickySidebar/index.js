@@ -20,12 +20,12 @@ class StickySidebar extends React.Component {
   }
 
   render() {
-    const { top, children } = this.props;
+    const { top, children, width } = this.props;
 
     const parentStyle = {
       position : (top >= this.state.scrollTop) ? "static" : "fixed",
       top      : (top <= this.state.scrollTop) && 0,
-      width    : "240px",
+      width,
     };
 
     return (<div style={parentStyle}>{children}</div>);
@@ -33,10 +33,10 @@ class StickySidebar extends React.Component {
 }
 
 StickySidebar.propTypes = {
-  width    : React.PropTypes.number,
+  width    : React.PropTypes.number.isRequired,
   top      : React.PropTypes.number.isRequired,
   right    : React.PropTypes.number,
-  left     : React.PropTypes.number.isRequired,
+  left     : React.PropTypes.number,
   bottom   : React.PropTypes.number,
   children : React.PropTypes.object,
 };

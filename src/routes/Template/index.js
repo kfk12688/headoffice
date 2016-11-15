@@ -225,7 +225,7 @@ class Template extends Component {
             {
               menuStore.showSidebar &&
               <div className="col-md-3">
-                <StickySidebar top={113}>
+                <StickySidebar top={113} width={236}>
                   <SearchBar config={searchConfig}/>
                 </StickySidebar>
               </div>

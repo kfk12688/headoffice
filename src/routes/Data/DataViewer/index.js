@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { PaginationGrid, NavLink, Pagination, StickySidebar, FavoriteCell, Button, Modal } from "components";
 import { clearMenuState } from "dataflow/menu/actions";
-import { loadSpec, loadData } from "dataflow/data/view/actions";
+import { loadSpec, loadData } from "dataflow/collections/actions";
 import EditTemplateForm from "../../Forms/NewTemplateForm";
 
 class Viewer extends Component {
@@ -158,7 +158,7 @@ Viewer.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  viewStore : state.data.view,
+  viewStore : state.collections,
 });
 
 const mapDisptachToProps = dispatch => ({

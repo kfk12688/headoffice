@@ -1,12 +1,34 @@
 import { handleActions } from "redux-actions";
 import {
   SPEC_REQUEST, SPEC_SUCCESS, SPEC_FAILURE, DATA_REQUEST, DATA_SUCCESS, DATA_FAILURE, DELETE_ROW_REQUEST,
-  DELETE_ROW_SUCCESS, DELETE_ROW_FAILURE, UPDATE_ROW_REQUEST, UPDATE_ROW_SUCCESS, UPDATE_ROW_FAILURE
+  DELETE_ROW_SUCCESS, DELETE_ROW_FAILURE, UPDATE_ROW_REQUEST, UPDATE_ROW_SUCCESS, UPDATE_ROW_FAILURE, ADD_ROW_FAILURE,
+  ADD_ROW_REQUEST, ADD_ROW_SUCCESS, GET_TEMPLATES_REQUEST, GET_TEMPLATES_SUCCESS, GET_TEMPLATES_FAILURE
 } from "./types";
 
 const initialState = {};
 
-const reducer = handleActions({
+export default handleActions({
+  [GET_TEMPLATES_REQUEST] : (state) => ({
+    ...state,
+    templates : {
+      isLoading : true,
+    },
+  }),
+  [GET_TEMPLATES_SUCCESS] : (state, action) => ({
+    ...state,
+    templates : {
+      isLoading : false,
+      data      : action.payload.data,
+    },
+  }),
+  [GET_TEMPLATES_FAILURE] : (state, action) => ({
+    ...state,
+    templates : {
+      isLoading : false,
+      error     : action.payload.err,
+    },
+  }),
+
   /**
    * Specification for data entry in the table
    */
@@ -81,7 +103,7 @@ const reducer = handleActions({
   },
 
   /**
-   * Adds a row into the template collection
+   * Deletes a row from the template collection
    */
   [DELETE_ROW_REQUEST] : state => ({
     ...state,
@@ -102,7 +124,7 @@ const reducer = handleActions({
   }),
 
   /**
-   * Adds a row into the template collection
+   * Edits an existing row in the template collection
    */
   [UPDATE_ROW_REQUEST] : state => ({
     ...state,
@@ -122,6 +144,35 @@ const reducer = handleActions({
     ...state,
     error : action.payload,
   }),
-}, initialState);
 
-export default reducer;
+  /**
+   * Adds a new row into the template collection
+   */
+  [ADD_ROW_REQUEST] : state => {
+    return {
+      ...state,
+    };
+  },
+  [ADD_ROW_SUCCESS] : (state, action) => {
+    const { collectionName, data } = action.payload;
+
+    return {
+      ...state,
+      [collectionName] : {
+        ...state[collectionName],
+        ...data,
+      },
+    };
+  },
+  [ADD_ROW_FAILURE] : (state, action) => {
+    const { collectionName, error } = action.payload;
+
+    return {
+      ...state,
+      [collectionName] : {
+        ...state[collectionName],
+        error,
+      },
+    };
+  },
+}, initialState);

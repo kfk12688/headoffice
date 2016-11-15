@@ -6,13 +6,13 @@ import filter from "./filter/reducer";
 import user from "./user/reducer";
 import workbooks from "./workbooks/reducer";
 import template from "./template";
-import data from "./data";
+import collections from "./collections/reducer";
 
 const rootReducer = combineReducers({
   menu,
   filter,
   template,
-  data,
+  collections,
   user,
   workbooks,
   form : formReducer,

@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Entry, NavLinkBtn } from "components";
-import { clearMenuState } from "dataflow/menu/actions";
-import { loadSpec, addRow } from "dataflow/data/entry/actions";
+import { Entry, NavLink } from "components";
+import { loadSpec, addRow } from "dataflow/collections/actions";
 
 class EntryForm extends Component {
   constructor(props) {
@@ -11,25 +10,23 @@ class EntryForm extends Component {
   }
 
   componentWillMount() {
-    const { id: templateID } = this.props.params;
-    this.props.loadSpec({ templateID });
+    const { collectionName } = this.props.params;
+    this.props.loadSpec(collectionName);
   }
 
   addRow(rowData) {
-    const { entryStore : { id : templateID } } = this.props;
-    this.props.addRow({
-      templateID,
-      data : rowData,
-    });
+    const { collectionName } = this.props.params;
+    this.props.addRow(collectionName, rowData);
   }
 
   render() {
-    const { entryStore } = this.props;
-    const { spec, data, loadingIndicators, id, templateName } = entryStore;
+    const { entryStore, params } = this.props;
+    const { collectionName } = params;
+    const { spec, data, loadingIndicators, templateName } = entryStore;
 
     return (
       <div className="row">
-      {/* DataGrid Container */}
+        {/* DataGrid Container */}
         <Entry
           className="col-md-8 offset-md-1"
           templateName={templateName}
@@ -41,8 +38,8 @@ class EntryForm extends Component {
 
         {/* Sidebar Container */}
         <div className="col-md-2">
-          <NavLinkBtn to="data" faName="times-circle-o">Close View</NavLinkBtn>
-          <NavLinkBtn to={`data/view/${id}`} faName="arrow-circle-o-right">Goto Data View</NavLinkBtn>
+          <NavLink to="data" faName="times-circle-o">Close View</NavLink>
+          <NavLink to={`data/view/${collectionName}`} faName="arrow-circle-o-right">Goto Data View</NavLink>
         </div>
       </div>
     );
@@ -57,19 +54,17 @@ EntryForm.propTypes = {
   entryStore : React.PropTypes.object.isRequired,
 
   // actions
-  clearMenuState : React.PropTypes.func.isRequired,
-  loadSpec       : React.PropTypes.func,
-  addRow         : React.PropTypes.func,
+  loadSpec : React.PropTypes.func,
+  addRow   : React.PropTypes.func,
 };
 
 const mapStateToProps = state => ({
-  entryStore : state.data.entry,
+  entryStore : state.collections,
 });
 
 const mapDisptachToProps = dispatch => ({
-  clearMenuState : () => dispatch(clearMenuState()),
-  loadSpec       : (params) => dispatch(loadSpec(params)),
-  addRow         : params => dispatch(addRow(params)),
+  loadSpec : (collectionName) => dispatch(loadSpec(collectionName)),
+  addRow   : (collectionName, data) => dispatch(addRow(collectionName, data)),
 });
 
 export default connect(mapStateToProps, mapDisptachToProps)(EntryForm);

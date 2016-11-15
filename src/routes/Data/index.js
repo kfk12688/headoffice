@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Breadcrumb, SearchBar, DataGrid, StickySidebar } from "components";
 import { toggleSelection } from "dataflow/menu/actions";
-import { getTemplates } from "dataflow/data/list/actions";
+import { getTemplates } from "dataflow/collections/actions";
 import { setDateModifiedEnd, setDateModifiedStart, setOwner, setIsRecent, setIsStarred } from "dataflow/filter/actions";
 import { Formatter as formatter } from "../_utils";
 import { ContentMenu } from "./ContentMenu";
@@ -137,7 +137,9 @@ class Data extends Component {
   renderChildren() {
     if (this.props.children) return this.props.children;
 
-    const { filterChangeHandlers, filterStore, list, menuStore } = this.props;
+    const { filterChangeHandlers, filterStore, menuStore } = this.props;
+    const templates = !!this.props.templates ? this.props.templates : {};
+    const { data = {}, isLoading } = templates;
     const searchConfig = [
       {
         label         : "Owner",
@@ -175,7 +177,7 @@ class Data extends Component {
       <div className="row">
         <div className="col-md-10 offset-md-1">
           <ContentMenu
-            dataKeys={Object.keys(list.data)}
+            dataKeys={Object.keys(data)}
             actions={this.actionsCollection}
           />
 
@@ -191,10 +193,10 @@ class Data extends Component {
 
             <div className={cx({ "col-md-9" : menuStore.showSidebar, "col-md-12" : !menuStore.showSidebar })}>
               <DataGrid
-                isLoading={list.isLoading}
+                isLoading={isLoading}
                 cols={this.colSpec}
                 colWidths={this.colWidths}
-                rows={list.data}
+                rows={data}
                 sortKey={filterStore.sortKey}
                 sortAscending={filterStore.sortAscending}
                 selectedKeys={menuStore.selectedKeys}
@@ -224,7 +226,7 @@ Data.propTypes = {
   children : React.PropTypes.node,
 
   // Store
-  list        : React.PropTypes.object.isRequired,
+  templates   : React.PropTypes.object.isRequired,
   menuStore   : React.PropTypes.object.isRequired,
   filterStore : React.PropTypes.object.isRequired,
   rows        : React.PropTypes.object.isRequired,
@@ -246,7 +248,7 @@ Data.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  list        : state.data.list,
+  templates   : state.collections.templates,
   menuStore   : state.menu,
   filterStore : state.filter,
 });
@@ -263,5 +265,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default
-connect(mapStateToProps, mapDispatchToProps)(Data);
+export default connect(mapStateToProps, mapDispatchToProps)(Data);

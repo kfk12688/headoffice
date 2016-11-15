@@ -1,10 +1,10 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
-import {SpecDefiner, Button} from "components";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { SpecDefiner, Button, StickySidebar } from "components";
 import {
   loadEditor, editTemplate, editRow, deleteRow, clearEditFlag, addField, editTemplateSchema,
 } from "dataflow/template/editor/actions";
-import {TitleBar} from "./TitleBar";
+import { TitleBar } from "./TitleBar";
 import cx from "classnames";
 import styles from "./index.less";
 
@@ -17,35 +17,35 @@ class Editor extends Component {
     this.saveTemplateMeta = this.saveTemplateMeta.bind(this);
 
     this.colSpec = {
-      "action": {
-        "headerStyle": {borderLeft: 0},
-        "displayText": "",
-        "renderType": "action",
-        "actions": [
-          {name: "Edit Row", handler: props.editRow},
-          {name: "Delete Row", handler: props.deleteRow}, // fixme
+      "action"      : {
+        "headerStyle" : { borderLeft : 0 },
+        "displayText" : "",
+        "renderType"  : "action",
+        "actions"     : [
+          { name : "Edit Row", handler : props.editRow },
+          { name : "Delete Row", handler : props.deleteRow }, // fixme
         ],
-        "sortable": false,
-        "insertable": false,
+        "sortable"    : false,
+        "insertable"  : false,
       },
-      "displayText": {
-        "displayText": "Field Name",
-        "renderType": "text",
+      "displayText" : {
+        "displayText" : "Field Name",
+        "renderType"  : "text",
       },
-      "fieldType": {
-        "displayText": "Field Type",
-        "renderType": "text",
+      "fieldType"   : {
+        "displayText" : "Field Type",
+        "renderType"  : "text",
       },
-      "fieldProps": {
-        "displayText": "Field Properties",
-        "renderType": "label",
+      "fieldProps"  : {
+        "displayText" : "Field Properties",
+        "renderType"  : "label",
       },
     };
     this.colWidths = {
-      action: 45,
-      displayText: 200,
-      fieldType: 140,
-      fieldProps: 400,
+      action      : 45,
+      displayText : 200,
+      fieldType   : 140,
+      fieldProps  : 400,
     };
   }
 
@@ -64,7 +64,7 @@ class Editor extends Component {
 
   // Persists data to the server
   saveUserSchema() {
-    const {userSchema, id, templateName} = this.props.editor;
+    const { userSchema, id, templateName } = this.props.editor;
     this.props.editTemplateSchema({
       userSchema,
       id,
@@ -77,7 +77,7 @@ class Editor extends Component {
   }
 
   render() {
-    const {editor} = this.props;
+    const { editor } = this.props;
 
     return (
       <div className="row">
@@ -101,12 +101,15 @@ class Editor extends Component {
               isLoading={editor.isLoading}
               onSubmit={this.addField}
             />
-
-            <div className={"col-md-3 btn-group-vertical"}>
-              <Button onClick={this.saveUserSchema}>Update Schema</Button>
-              <Button>Undo</Button>
-              <Button>Redo</Button>
-              <Button onClick={this.loadSchema}>Reset Schema</Button>
+            <div className={"col-md-3"}>
+              <StickySidebar top={151}>
+                <div className={"col-md-12 btn-group-vertical"}>
+                  <Button onClick={this.saveUserSchema}>Update Schema</Button>
+                  <Button>Undo</Button>
+                  <Button>Redo</Button>
+                  <Button onClick={this.loadSchema}>Reset Schema</Button>
+                </div>
+              </StickySidebar>
             </div>
           </div>
         </div>
@@ -117,32 +120,32 @@ class Editor extends Component {
 
 Editor.propTypes = {
   // route
-  params: React.PropTypes.object,
+  params : React.PropTypes.object,
 
   // state
-  editor: React.PropTypes.object.isRequired,
+  editor : React.PropTypes.object.isRequired,
 
   // actions
-  loadEditorTable: React.PropTypes.func.isRequired,
-  editTemplate: React.PropTypes.func.isRequired,
-  editTemplateSchema: React.PropTypes.func.isRequired,
-  editRow: React.PropTypes.func.isRequired,
-  deleteRow: React.PropTypes.func.isRequired,
-  addField: React.PropTypes.func.isRequired,
+  loadEditorTable    : React.PropTypes.func.isRequired,
+  editTemplate       : React.PropTypes.func.isRequired,
+  editTemplateSchema : React.PropTypes.func.isRequired,
+  editRow            : React.PropTypes.func.isRequired,
+  deleteRow          : React.PropTypes.func.isRequired,
+  addField           : React.PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  editor: state.template.editor,
+  editor : state.template.editor,
 });
 
 const mapDisptachToProps = dispatch => ({
-  loadEditorTable: params => dispatch(loadEditor(params)),
-  editTemplate: params => dispatch(editTemplate(params)),
-  editTemplateSchema: params => dispatch(editTemplateSchema(params)),
-  editRow: row => dispatch(editRow(row)),
-  deleteRow: row => dispatch(deleteRow(row)),
-  clearEditFlag: () => dispatch(clearEditFlag()),
-  addField: field => dispatch(addField(field)),
+  loadEditorTable    : params => dispatch(loadEditor(params)),
+  editTemplate       : params => dispatch(editTemplate(params)),
+  editTemplateSchema : params => dispatch(editTemplateSchema(params)),
+  editRow            : row => dispatch(editRow(row)),
+  deleteRow          : row => dispatch(deleteRow(row)),
+  clearEditFlag      : () => dispatch(clearEditFlag()),
+  addField           : field => dispatch(addField(field)),
 });
 
 export default connect(mapStateToProps, mapDisptachToProps)(Editor);

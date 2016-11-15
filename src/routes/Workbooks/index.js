@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { DataGrid, Breadcrumb, SearchBar } from "components";
+import { DataGrid, Breadcrumb, SearchBar, StickySidebar } from "components";
 import { ContentMenu } from "./ContentMenu";
 import { toggleSelection } from "dataflow/menu/actions";
 import { setDateModifiedEnd, setDateModifiedStart, setWorkbookName } from "dataflow/filter/actions";
 import { loadWorkbooks, addNewWorkbook, deleteWorkbook } from "dataflow/workbooks/actions";
-import styles from "./index.less";
 import cx from "classnames";
-
+import { grey50 } from "../_styles/colors";
 
 class Workbooks extends Component {
   constructor(props) {
@@ -125,47 +124,54 @@ class Workbooks extends Component {
         <div className="col-md-10 offset-md-1">
           <div className="row">
             <ContentMenu
-             dataKeys={Object.keys(workbooks.data)}
-             actions={this.actionsCollection}
-             addNewWorkbook={this.props.addNewWorkbook}
+              dataKeys={Object.keys(workbooks.data)}
+              actions={this.actionsCollection}
+              addNewWorkbook={this.props.addNewWorkbook}
             />
-        </div>
+          </div>
 
-        <div className="row">
-          {
-            menuStore.showSidebar &&
-            <div className={cx("col-md-3", styles.bordered)}>
-               <SearchBar config={searchConfig}/>
+          <div className="row">
+            {
+              menuStore.showSidebar &&
+              <div className="col-md-3">
+                <StickySidebar top={113} width={236}>
+                  <SearchBar config={searchConfig}/>
+                </StickySidebar>
+              </div>
+            }
+
+            <div className={cx({ "col-md-9" : menuStore.showSidebar, "col-md-12" : !menuStore.showSidebar })}>
+              <DataGrid
+                style={{ left : !menuStore.showSidebar && 0 }}
+                isLoading={workbooks.isLoading}
+                rows={workbooks.data}
+                cols={this.colSpec}
+                colWidths={this.colWidths}
+                selectedKeys={menuStore.selectedKeys}
+                onRowClick={toggleRow}
+              />
             </div>
-          }
-
-        <div className={cx({"col-md-9" : menuStore.showSidebar , "col-md-12" : !menuStore.showSidebar})}>
-           <DataGrid
-             style={{ left : !menuStore.showSidebar && 0 }}
-             isLoading={workbooks.isLoading}
-             rows={workbooks.data}
-             cols={this.colSpec}
-             colWidths={this.colWidths}
-             selectedKeys={menuStore.selectedKeys}
-             onRowClick={toggleRow}
-            />
           </div>
         </div>
       </div>
-   </div>
     );
   }
 
   render() {
     const { rollUp } = this.props;
 
-    
+    const container = {
+      backgroundColor : grey50,
+    };
+
     return (
-      <div className={cx("container-fluid",styles.container)} style={{ top : rollUp ? 35 : 0 }}>
-            <div className="row">
-              <Breadcrumb className="col-md-10 offset-md-1"/>
-            </div>
-              {this.renderChildren()}
+      <div className={cx("container-fluid")}
+           style={{ top : rollUp ? 35 : 0, ...container }}
+      >
+        <div className="row">
+          <Breadcrumb className="col-md-10 offset-md-1"/>
+        </div>
+        {this.renderChildren()}
       </div>
     );
   }

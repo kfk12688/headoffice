@@ -1,48 +1,44 @@
 import React from "react";
-import cx from "classnames";
-import styles from "./index.less";
 
 class StickySidebar extends React.Component {
+  constructor() {
+    super();
+    this.state = { scrollTop : 0 };
+    this.setScrollTop = this.setScrollTop.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener("scroll", this.setScrollTop);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.setScrollTop);
+  }
+
+  setScrollTop() {
+    this.setState({ scrollTop : window.scrollY });
+  }
+
   render() {
-    let { width, top, bottom, right, left, children, className } = this.props;
-
-    let topSetting = top && !bottom ? top : "auto";
-    const bottomSetting = !top && bottom ? bottom : "auto";
-
-    if (topSetting === "auto" && bottomSetting === "auto") {
-      topSetting = top;
-    }
-
-    let rightSetting = right && !left ? right : "auto";
-    const leftSetting = !right && left ? left : "auto";
-
-    if (rightSetting === "auto" && leftSetting === "auto") {
-      rightSetting = right;
-    }
+    const { top, children } = this.props;
 
     const parentStyle = {
-      width,
-      top    : topSetting,
-      bottom : bottomSetting,
-      right  : rightSetting,
-      left   : leftSetting,
+      position : (top >= this.state.scrollTop) ? "static" : "fixed",
+      top      : (top <= this.state.scrollTop) && 0,
+      width    : "240px",
     };
 
-    return (
-      <div style={parentStyle} className={cx(className, { [styles.placeHolder] : false })}>
-        <div ref="sticky">
-          {children}
-        </div>
-      </div>
-    );
+    return (<div style={parentStyle}>{children}</div>);
   }
 }
 
 StickySidebar.propTypes = {
-  className : React.PropTypes.object,
-  width     : React.PropTypes.number.isRequired,
-  top       : React.PropTypes.number.isRequired,
-  right     : React.PropTypes.number.isRequired,
+  width    : React.PropTypes.number,
+  top      : React.PropTypes.number.isRequired,
+  right    : React.PropTypes.number,
+  left     : React.PropTypes.number.isRequired,
+  bottom   : React.PropTypes.number,
+  children : React.PropTypes.object,
 };
 
 export { StickySidebar };

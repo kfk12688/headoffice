@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { setDateModifiedStart, setDateModifiedEnd, setIsRecent, setIsStarred, setOwner } from "dataflow/filter/actions";
 import { toggleSelection } from "dataflow/menu/actions";
-import { loadTemplate, deleteTemplate, addTemplate, makeFavorite } from "dataflow/template/list/actions";
+import { getTemplates, deleteTemplate, createTemplate } from "dataflow/templates/actions";
 import { Breadcrumb, SearchBar, DataGrid, StickySidebar } from "components";
 import { ContentMenu } from "./ContentMenu";
 import { Formatter as formatter } from "../_utils";
@@ -17,8 +17,6 @@ class Template extends Component {
     // fixme
     this.actionsCollection = [
       { name : "Delete Template", handler : actions.deleteTemplate },
-      { name : "Mark favorite", handler : actions.makeFavorite },
-      { name : "Un Favorite", handler : actions.unFavorite },
     ];
 
     // Defines the static colum specification for the Template Area
@@ -43,7 +41,7 @@ class Template extends Component {
         dataKey    : "templateName",
         linkRef    : {
           path   : "template",
-          urlKey : "id",
+          urlKey : "collectionName",
         },
         name       : "name-col",
         renderType : "link",
@@ -92,7 +90,7 @@ class Template extends Component {
   }
 
   componentWillMount() {
-    this.props.loadTemplate();
+    this.props.getTemplates();
   }
 
   getActions() {
@@ -106,31 +104,9 @@ class Template extends Component {
         this.props.deleteTemplate({ id : selectedKeys[0] });
       }
     };
-    const _makeFavorite = () => {
-      const { menuStore: { selectedKeys } } = this.props;
-
-      if (selectedKeys.length > 1) {
-        const objs = selectedKeys.map(key => ({ id : key, isFavorite : true }));
-        this.props.makeFavorite(objs);
-      } else {
-        this.props.makeFavorite({ id : selectedKeys[0], isFavorite : true });
-      }
-    };
-    const _unFavorite = () => {
-      const { menuStore: { selectedKeys } } = this.props;
-
-      if (selectedKeys.length > 1) {
-        const objs = selectedKeys.map(key => ({ id : key, isFavorite : false }));
-        this.props.makeFavorite(objs);
-      } else {
-        this.props.makeFavorite({ id : selectedKeys[0], isFavorite : false });
-      }
-    };
 
     return {
       deleteTemplate : _deleteTemplate,
-      makeFavorite   : _makeFavorite,
-      unFavorite     : _unFavorite,
     };
   }
 
@@ -177,7 +153,8 @@ class Template extends Component {
   renderChildren() {
     if (this.props.children) return this.props.children;
 
-    const { list, filterChangeHandlers, filterStore, menuStore } = this.props;
+    const { filterChangeHandlers, filterStore, menuStore } = this.props;
+    const { data = {}, isLoading } = this.props.list || {};
     const searchConfig = [
       {
         label         : "Owner",
@@ -215,9 +192,9 @@ class Template extends Component {
       <div className="row">
         <div className="col-md-10 offset-md-1">
           <ContentMenu
-            dataKeys={Object.keys(list.data)}
+            dataKeys={Object.keys(data)}
             actions={this.actionsCollection}
-            addTemplate={this.props.addTemplate}
+            addTemplate={this.props.createTemplate}
           />
 
           <div className="row">
@@ -232,10 +209,10 @@ class Template extends Component {
 
             <div className={cx({ "col-md-9" : menuStore.showSidebar, "col-md-12" : !menuStore.showSidebar })}>
               <DataGrid
-                isLoading={list.isLoading}
+                isLoading={isLoading}
                 cols={this.colSpec}
                 colWidths={this.colWidths}
-                rows={list.data}
+                rows={data}
                 sortKey={filterStore.sortKey}
                 sortAscending={filterStore.sortAscending}
                 onRowClick={this.props.toggleSelection}
@@ -250,7 +227,7 @@ class Template extends Component {
 
   render() {
     return (
-      <div className={cx("container-fluid", styles.container)}>
+      <div className="container-fluid">
         <div className="row">
           <Breadcrumb className="col-md-10 offset-md-1"/>
         </div>
@@ -273,10 +250,9 @@ Template.propTypes = {
   toggleSelection : React.PropTypes.func.isRequired,
 
   // Action types for Data Store
-  loadTemplate   : React.PropTypes.func.isRequired,
+  getTemplates   : React.PropTypes.func.isRequired,
   deleteTemplate : React.PropTypes.func.isRequired,
-  addTemplate    : React.PropTypes.func.isRequired,
-  makeFavorite   : React.PropTypes.func.isRequired,
+  createTemplate : React.PropTypes.func.isRequired,
 
   // Action types for Filter Store
   filterChangeHandlers : React.PropTypes.shape({
@@ -289,17 +265,16 @@ Template.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  list        : state.template.list,
+  list        : state.templates.list,
   menuStore   : state.menu,
   filterStore : state.filter,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   toggleSelection      : (index) => dispatch(toggleSelection(index)),
-  loadTemplate         : (params) => dispatch(loadTemplate(params)),
+  getTemplates         : (params) => dispatch(getTemplates(params)),
   deleteTemplate       : (params) => dispatch(deleteTemplate(params)),
-  addTemplate          : (params) => dispatch(addTemplate(params)),
-  makeFavorite         : (params) => dispatch(makeFavorite(params)),
+  createTemplate       : (params) => dispatch(createTemplate(params)),
   filterChangeHandlers : {
     setDateModifiedStart : (e) => dispatch(setDateModifiedStart(e)),
     setDateModifiedEnd   : (e) => dispatch(setDateModifiedEnd(e)),
@@ -309,5 +284,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default
-connect(mapStateToProps, mapDispatchToProps)(Template);
+export default connect(mapStateToProps, mapDispatchToProps)(Template);

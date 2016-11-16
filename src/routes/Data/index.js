@@ -7,7 +7,6 @@ import { getTemplates } from "dataflow/collections/actions";
 import { setDateModifiedEnd, setDateModifiedStart, setOwner, setIsRecent, setIsStarred } from "dataflow/filter/actions";
 import { Formatter as formatter } from "../_utils";
 import { ContentMenu } from "./ContentMenu";
-import { grey50 } from "../_styles/colors";
 import cx from "classnames";
 
 class Data extends Component {
@@ -184,7 +183,7 @@ class Data extends Component {
           <div className="row">
             {
               menuStore.showSidebar &&
-              <div className={cx("col-md-3", styles.bordered)}>
+              <div className="col-md-3">
                 <StickySidebar top={113} width={236}>
                 <SearchBar config={searchConfig}/>
                 </StickySidebar>
@@ -211,7 +210,7 @@ class Data extends Component {
 
   render() {
     return (
-      <div className={cx("container-fluid", styles.container)}>
+      <div className="container-fluid">
         <div className="row">
           <Breadcrumb className="col-md-10 offset-md-1"/>
         </div>

@@ -5,13 +5,13 @@ import menu from "./menu/reducer";
 import filter from "./filter/reducer";
 import user from "./user/reducer";
 import workbooks from "./workbooks/reducer";
-import template from "./template";
+import templates from "./templates/reducer";
 import collections from "./collections/reducer";
 
 const rootReducer = combineReducers({
   menu,
   filter,
-  template,
+  templates,
   collections,
   user,
   workbooks,

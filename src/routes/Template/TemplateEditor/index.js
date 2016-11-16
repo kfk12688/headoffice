@@ -1,23 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { SpecDefiner, Button, StickySidebar, Modal, FavoriteCell } from "components";
-import {
-  loadEditor, editTemplate, editRow, deleteRow, clearEditFlag, addField, editTemplateSchema,
-} from "dataflow/template/editor/actions";
+import { getTemplate, updateSchema, addField } from "dataflow/templates/actions";
 import EditTemplateForm from "../../Forms/NewTemplateForm";
-import { TitleBar } from "./TitleBar";
-import cx from "classnames";
-import styles from "./index.less";
 
 class Editor extends Component {
   constructor(props) {
     super(props);
-    this.addField = this.addField.bind(this);
-    this.loadSchema = this.loadSchema.bind(this);
-    this.saveUserSchema = this.saveUserSchema.bind(this);
-    this.saveTemplateMeta = this.saveTemplateMeta.bind(this);
-    this.state = { showModal : false };
-    this.toggleModal = this.toggleModal.bind(this);
+    this.updateSchema = this.updateSchema.bind(this);
 
     this.colSpec = {
       "action"      : {
@@ -53,30 +43,14 @@ class Editor extends Component {
   }
 
   componentWillMount() {
-    this.loadSchema();
+    const { collectionName } = this.props.params;
+    this.props.getTemplate(collectionName);
   }
 
-  loadSchema() {
-    this.props.loadEditorTable(this.props.params);
-  }
-
-  // Adds data to the redux data model
-  addField(field) {
-    this.props.addField(field);
-  }
-
-  // Persists data to the server
-  saveUserSchema() {
-    const { userSchema, id, templateName } = this.props.editor;
-    this.props.editTemplateSchema({
-      userSchema,
-      id,
-      templateName,
-    });
-  }
-
-  saveTemplateMeta(data) {
-    console.log(data);
+  updateSchema() {
+    const { collectionName } = this.props.params;
+    const { userSchema } = this.props.editor[collectionName];
+    this.props.updateSchema(collectionName, userSchema);
   }
 
   toggleModal() {
@@ -88,28 +62,20 @@ class Editor extends Component {
   }
 
   render() {
-    const { editor, store } = this.props;
+    const { collectionName } = this.props.params;
+    const { userSchema, isLoading } = this.props.editor[collectionName] || {};
 
     return (
       <div className="row">
         <div className="col-md-10 offset-md-1">
-          <TitleBar
-            store={editor}
-            editTemplate={this.saveTemplateMeta}
-          />
-
-          <div className="row">
-            <div className={cx("col-md-12", styles.divider)}></div>
-          </div>
-
-          <div className="row">
+          <div style={{ marginTop : "1rem" }} className="row">
             <SpecDefiner
               className={"col-md-9"}
               colSpec={this.colSpec}
               colWidths={this.colWidths}
-              data={editor.userSchema}
-              isLoading={editor.isLoading}
-              onSubmit={this.addField}
+              data={userSchema}
+              isLoading={isLoading}
+              onSubmit={field => this.props.addField(collectionName, field)}
             />
             <div className={"col-md-3"}>
               <StickySidebar top={171}>
@@ -163,30 +129,23 @@ class Editor extends Component {
 
 Editor.propTypes = {
   // route
-  params             : React.PropTypes.object,
+  params       : React.PropTypes.object,
   // state
-  editor             : React.PropTypes.object.isRequired,
+  editor       : React.PropTypes.object.isRequired,
   // actions
-  loadEditorTable    : React.PropTypes.func.isRequired,
-  editTemplate       : React.PropTypes.func,
-  editTemplateSchema : React.PropTypes.func.isRequired,
-  editRow            : React.PropTypes.func.isRequired,
-  deleteRow          : React.PropTypes.func.isRequired,
-  addField           : React.PropTypes.func.isRequired,
-  store              : React.PropTypes.object.isRequired,
+  getTemplate  : React.PropTypes.func.isRequired,
+  addField     : React.PropTypes.func.isRequired,
+  updateSchema : React.PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-  editor : state.template.editor,
+  editor : state.templates,
 });
 
 const mapDisptachToProps = dispatch => ({
-  loadEditorTable    : params => dispatch(loadEditor(params)),
-  editTemplateSchema : params => dispatch(editTemplateSchema(params)),
-  editRow            : row => dispatch(editRow(row)),
-  deleteRow          : row => dispatch(deleteRow(row)),
-  clearEditFlag      : () => dispatch(clearEditFlag()),
-  addField           : field => dispatch(addField(field)),
+  getTemplate  : collectionName => dispatch(getTemplate(collectionName)),
+  addField     : (collectionName, field) => dispatch(addField(collectionName, field)),
+  updateSchema : (collectionName, schema) => dispatch(updateSchema(collectionName, schema)),
 });
 
 export default connect(mapStateToProps, mapDisptachToProps)(Editor);

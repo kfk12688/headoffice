@@ -160,14 +160,12 @@ class User extends Component {
 
   render() {
     return (
-      <div className={cx("container-fluid", styles.container)}>
-
+      <div className="container-fluid">
         <div className="row">
           <Breadcrumb className="col-md-10 offset-md-1"/>
         </div>
 
         {this.renderChildren()}
-
       </div>
     );
   }

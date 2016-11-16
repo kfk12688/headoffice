@@ -1,10 +1,10 @@
-/**
- * Created by sharavan on 13/09/16.
- */
 import React from "react";
-import Row from "./FieldSchemaRow";
+import Row from "./Row";
+import { Field } from "redux-form";
 import { TextInput, DateInput, CheckBoxInput, NumericInput, SelectInput } from "../Inputs";
 import { listTemplates, listTemplateFields } from "dataflow/api";
+import styles from "./common.less";
+
 
 const getFields = (fieldName, fieldType, fieldProps) => {
   const config = {
@@ -18,42 +18,33 @@ const getFields = (fieldName, fieldType, fieldProps) => {
     enum     : { key : `${fieldName}.enum`, displayText : "List of values" },
   };
 
-  let formElements = [
-    <Row key={`fieldProps.${config.required.key}`} prop={config.required} component={CheckBoxInput}/>,
-    <Row key={`fieldProps.${config.unique.key}`} prop={config.unique} component={CheckBoxInput}/>,
-  ];
+  let formElements = [];
 
   if (fieldType === "Boolean") {
     formElements = [
-      ...formElements,
-      <Row key={`fieldProps.${config.default.key}`} prop={config.default} component={CheckBoxInput}/>,
+      <Field name={config.default.key} component={CheckBoxInput}>{config.default.displayText}</Field>
     ];
   }
   if (fieldType === "Date") {
     formElements = [
-      ...formElements,
       <Row key={`fieldProps.${config.default.key}`} prop={config.default} component={DateInput}/>,
     ];
   }
   if (fieldType === "String") {
     formElements = [
-      ...formElements,
       <Row key={`fieldProps.${config.enum.key}`} prop={config.enum} component={TextInput}/>,
       <Row key={`fieldProps.${config.default.key}`} prop={config.default} component={TextInput}/>,
     ];
   }
   if (fieldType === "Number") {
     formElements = [
-      ...formElements,
       <Row key={`fieldProps.${config.min.key}`} prop={config.min} component={NumericInput}/>,
       <Row key={`fieldProps.${config.max.key}`} prop={config.max} component={NumericInput}/>,
       <Row key={`fieldProps.${config.default.key}`} prop={config.default} component={NumericInput}/>,
     ];
   }
   if (fieldType === "ObjectId") {
-
     formElements = [
-      ...formElements,
       <Row key={`fieldProps.${config.ref.key}`} prop={config.ref}
            component={SelectInput} loadOptions={listTemplates}
       />,
@@ -69,6 +60,12 @@ const getFields = (fieldName, fieldType, fieldProps) => {
       ];
     }
   }
+
+  formElements = [
+    ...formElements,
+    <Field name={config.required.key} component={CheckBoxInput}>{config.required.displayText}</Field>,
+    <Field name={config.unique.key} component={CheckBoxInput}>{config.unique.displayText}</Field>
+  ];
 
   return formElements;
 };

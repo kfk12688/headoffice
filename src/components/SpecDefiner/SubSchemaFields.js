@@ -22,7 +22,7 @@ export const SubSchemaFields = ({ fields, fieldSchema, className }) => {
     };
 
     return (
-      <div className={cx("row")} key={idx}>
+      <div className="row" key={idx}>
         <div className="col-md-1">
           <Button faName="times" onClick={e => removeSchema(e, idx)}/>
         </div>

@@ -39,7 +39,6 @@ class EditorEntryForm extends Component {
       <form onSubmit={this.submitForm}>
         <div className="row">
           <div className="col-md-12">
-            <h5>Field</h5>
             <Row prop={fieldDefn.fieldName} component={TextInput}/>
             <Row prop={fieldDefn.fieldType} component={ComboInput} list={FIELD_TYPES}/>
             {getFields("fieldProps", fieldType, fieldProps)}

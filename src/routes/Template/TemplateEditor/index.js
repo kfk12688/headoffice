@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { SpecDefiner, Button, StickySidebar } from "components";
+import { SpecDefiner, Button, StickySidebar, Modal } from "components";
 import {
   loadEditor, editTemplate, editRow, deleteRow, clearEditFlag, addField, editTemplateSchema,
 } from "dataflow/template/editor/actions";
+import EditTemplateForm from "../NewTemplateForm";
 import { TitleBar } from "./TitleBar";
 import cx from "classnames";
 import styles from "./index.less";
@@ -15,6 +16,8 @@ class Editor extends Component {
     this.loadSchema = this.loadSchema.bind(this);
     this.saveUserSchema = this.saveUserSchema.bind(this);
     this.saveTemplateMeta = this.saveTemplateMeta.bind(this);
+    this.state = { showModal : false };
+    this.toggleModal = this.toggleModal.bind(this);
 
     this.colSpec = {
       "action"      : {
@@ -76,14 +79,21 @@ class Editor extends Component {
     console.log(data);
   }
 
+  toggleModal() {
+    if (this.state.showModal) {
+      this.setState({ showModal : false });
+    } else {
+      this.setState({ showModal : true });
+    }
+  }
+
   render() {
-    const { editor } = this.props;
+    const { editor, store, editTemplate } = this.props;
 
     return (
       <div className="row">
         <div className="col-md-10 offset-md-1">
           <TitleBar
-            className={"row"}
             store={editor}
             editTemplate={this.saveTemplateMeta}
           />
@@ -102,12 +112,41 @@ class Editor extends Component {
               onSubmit={this.addField}
             />
             <div className={"col-md-3"}>
-              <StickySidebar top={151}>
-                <div className={"col-md-12 btn-group-vertical"}>
-                  <Button onClick={this.saveUserSchema}>Update Schema</Button>
-                  <Button>Undo</Button>
-                  <Button>Redo</Button>
-                  <Button onClick={this.loadSchema}>Reset Schema</Button>
+              <StickySidebar top={171}>
+                <div className="row">
+                  <div className={"col-md-12 btn-group-vertical"}>
+                    <Button onClick={this.saveUserSchema}>Update Schema</Button>
+                    <Button>Undo</Button>
+                    <Button>Redo</Button>
+                    <Button onClick={this.loadSchema}>Reset Schema</Button>
+                  </div>
+                </div>
+
+                <div className={styles.divider}/>
+
+                <div className="row">
+                  <div className="col-md-10 offset-md-3">
+                    <b>Edit</b>
+                    <Modal
+                      modalTitle="Edit Template"
+                      faName="edit"
+                      show={this.state.showModal}
+                      toggleModal={this.toggleModal}
+                    >
+                      <EditTemplateForm state={store} submitForm={editTemplate} toggleModal={this.toggleModal}/>
+                    </Modal>
+                  </div>
+                </div>
+
+                <div className={styles.divider}/>
+
+                <div className="row">
+                  <div className="col-md-12">
+                    <div>Created By :</div>
+                    <div>Created At :</div>
+                    <div>Last Modified :</div>
+                    <div>Belongs to :</div>
+                  </div>
                 </div>
               </StickySidebar>
             </div>
@@ -127,11 +166,12 @@ Editor.propTypes = {
 
   // actions
   loadEditorTable    : React.PropTypes.func.isRequired,
-  editTemplate       : React.PropTypes.func.isRequired,
+  editTemplate       : React.PropTypes.func,
   editTemplateSchema : React.PropTypes.func.isRequired,
   editRow            : React.PropTypes.func.isRequired,
   deleteRow          : React.PropTypes.func.isRequired,
   addField           : React.PropTypes.func.isRequired,
+  store              : React.PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -140,7 +180,6 @@ const mapStateToProps = state => ({
 
 const mapDisptachToProps = dispatch => ({
   loadEditorTable    : params => dispatch(loadEditor(params)),
-  editTemplate       : params => dispatch(editTemplate(params)),
   editTemplateSchema : params => dispatch(editTemplateSchema(params)),
   editRow            : row => dispatch(editRow(row)),
   deleteRow          : row => dispatch(deleteRow(row)),

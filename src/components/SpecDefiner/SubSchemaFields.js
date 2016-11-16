@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, TextInput, ComboInput } from "components";
-import Row from "./FieldSchemaRow";
+import Row from "./Row";
 import getFields from "./getFields";
 import styles from "./common.less";
 import cx from "classnames";
@@ -22,33 +22,30 @@ export const SubSchemaFields = ({ fields, fieldSchema, className }) => {
     };
 
     return (
-      <div className={cx("row", styles.subSchemaFieldRow)} key={idx}>
+      <div className={cx("row")} key={idx}>
         <div className="col-md-1">
           <Button faName="times" onClick={e => removeSchema(e, idx)}/>
         </div>
 
-        <div className="col-md-4">
-          <h6>{`Sub-Field-${idx + 1}`}</h6>
+        <div className="col-md-11">
+          <h6 className={styles.headers}>{`Sub-Field-${idx + 1}`}</h6>
           <Row prop={fieldDefn.fieldName} component={TextInput}/>
           <Row prop={fieldDefn.fieldType} component={ComboInput}
                list={["Number", "Date", "String", "Boolean", "Reference"]}
           />
+          {
+            fieldSchema && fieldSchema[idx] && fieldSchema[idx].fieldType &&
+              getFields(`${field}.fieldProps`, fieldSchema[idx].fieldType, fieldSchema[idx].fieldProps)
+          }
+          
         </div>
-
-        {
-          fieldSchema && fieldSchema[idx] && fieldSchema[idx].fieldType &&
-          <div className="col-md-4 offset-md-1">
-            <h6>{`Sub-Field Definition-${idx + 1}`}</h6>
-            <div>{getFields(`${field}.fieldProps`, fieldSchema[idx].fieldType, fieldSchema[idx].fieldProps)}</div>
-          </div>
-        }
       </div>
     );
   });
 
   return (
     <div className={className}>
-      <h5 className="pull-left">Add a new schema</h5>
+      <h5 className={cx("pull-left",styles.headers)}>Add a new schema</h5>
 
       <div className="text-md-right">
         <Button 

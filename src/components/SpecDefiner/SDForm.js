@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Row from "./FieldSchemaRow";
+import Row from "./Row";
 import { connect } from "react-redux";
 import { reduxForm, FieldArray, formValueSelector } from "redux-form";
 import { Button, TextInput, ComboInput } from "components";
@@ -38,15 +38,11 @@ class EditorEntryForm extends Component {
     return (
       <form onSubmit={this.submitForm}>
         <div className="row">
-          <div className="col-md-6">
+          <div className="col-md-12">
             <h5>Field</h5>
             <Row prop={fieldDefn.fieldName} component={TextInput}/>
             <Row prop={fieldDefn.fieldType} component={ComboInput} list={FIELD_TYPES}/>
-          </div>
-
-          <div className="col-md-6">
-            <h5>Field Definition</h5>
-            <div>{getFields("fieldProps", fieldType, fieldProps)}</div>
+            {getFields("fieldProps", fieldType, fieldProps)}
           </div>
         </div>
 

@@ -10,30 +10,32 @@ const CheckBoxInput = ({ input, children, inline, disabled }) => {
   }
 
   const renderInlineElements = () =>
-    <label className={cx("form-check-inline",{"disabled" : disabled})}>
+    <div className={cx("form-check-inline",{"disabled" : disabled})}>
+    <label className="custom-control custom-checkbox">
       <input
-        className="form-check-input"
+        className="custom-control-input"
         type="checkbox"
         checked={value || false}
         disabled={disabled}
         {...restInput}
       />
-      {renderChildren(children)}
-    </label>;
+      <span className="custom-control-indicator"/>
+      <span className="custom-control-description">{renderChildren(children)}</span>
+    </label>
+    </div>;
   
   const renderStackedElements = () =>
-    <div className={cx("form-check",{"disabled" : disabled})}>
-      <label className="form-check-label">
-        <input
-          className="form-check-input"
-          type="checkbox"
-          checked={value || false}
-          disabled={disabled}
-          {...restInput}
-        />
-        {renderChildren(children)}
-      </label>
-    </div>;
+    <label className="custom-control custom-checkbox">
+      <input
+        className="custom-control-input"
+        type="checkbox"
+        checked={value || false}
+        disabled={disabled}
+        {...restInput}
+      />
+      <span className="custom-control-indicator"/>
+      <span className="custom-control-description">{renderChildren(children)}</span>
+    </label>
 
   if (inline) return renderInlineElements();
   return renderStackedElements();

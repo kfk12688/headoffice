@@ -125,19 +125,19 @@ class Editor extends Component {
                 <div className={styles.divider}/>
 
                 <div className="row">
-                  <div className="col-md-10">
+                  <div className="col-md-12">
                     <Modal
                       modalTitle="Edit Template"
                       faName="edit"
                       caption="Edit Template"
                       show={this.state.showModal}
-                      toggleModal={this.toggleModal}
+                      showModal={e => this.setState({ showModal : true })}
+                      hideModal={e => this.setState({ showModal : false })}
+                      block
                     >
-                      <EditTemplateForm state={store} submitForm={editTemplate} toggleModal={this.toggleModal}/>
                     </Modal>
-                  </div>
-                  <div className="col-md-2">
-                    <FavoriteCell value={false} inheritSize/>
+                    <Button faName="times" block>Delete Template</Button>
+                    <Button block>Make Favorite <FavoriteCell value inheritSize/></Button>
                   </div>
                 </div>
 
@@ -162,11 +162,9 @@ class Editor extends Component {
 
 Editor.propTypes = {
   // route
-  params : React.PropTypes.object,
-
+  params             : React.PropTypes.object,
   // state
-  editor : React.PropTypes.object.isRequired,
-
+  editor             : React.PropTypes.object.isRequired,
   // actions
   loadEditorTable    : React.PropTypes.func.isRequired,
   editTemplate       : React.PropTypes.func,

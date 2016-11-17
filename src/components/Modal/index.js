@@ -1,7 +1,10 @@
 import React from "react";
 import { Button } from "../Button/index";
 import { render as renderToDOM } from "react-dom";
+import { Provider } from "react-redux";
+import configureStore from "../../dataflow/configureStore";
 import cx from "classnames";
+const store = configureStore();
 
 export class Modal extends React.Component {
   constructor(props) {
@@ -63,19 +66,21 @@ export class Modal extends React.Component {
       window.addEventListener("keyup", this.hideModalOnEsc);
 
       renderToDOM(
-        <div className="modal" style={modalPositionCSS} role="dialog">
-          <div className={cx("modal-dialog", `modal-${size}`)}>
-            <div className="modal-content">
-              <div className="modal-header">
-                <button type="button" className="close" onClick={hideModal}><span>&times;</span></button>
-                <h5 className="modal-title">{modalTitle || caption}</h5>
-              </div>
-              <div className="modal-body">
-                {children}
+        <Provider store={store}>
+          <div className="modal" style={modalPositionCSS} role="dialog">
+            <div className={cx("modal-dialog", `modal-${size}`)}>
+              <div className="modal-content">
+                <div className="modal-header">
+                  <button type="button" className="close" onClick={hideModal}><span>&times;</span></button>
+                  <h5 className="modal-title">{modalTitle || caption}</h5>
+                </div>
+                <div className="modal-body">
+                  {children}
+                </div>
               </div>
             </div>
           </div>
-        </div>,
+        </Provider>,
         document.getElementById("Modal")
       );
     } else {
@@ -112,6 +117,5 @@ Modal.propTypes = {
   children   : React.PropTypes.node,
   modalTitle : React.PropTypes.string,
   title      : React.PropTypes.string,
-  block      : React.PropTypes.className,
-
+  block      : React.PropTypes.bool,
 };

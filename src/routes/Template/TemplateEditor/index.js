@@ -135,6 +135,7 @@ class Editor extends Component {
                       hideModal={e => this.setState({ showModal : false })}
                       block
                     >
+                      <EditTemplateForm state={store} submitForm={editTemplate} toggleModal={this.toggleModal}/>
                     </Modal>
                     <Button faName="times" block>Delete Template</Button>
                     <Button block>Make Favorite <FavoriteCell value inheritSize/></Button>

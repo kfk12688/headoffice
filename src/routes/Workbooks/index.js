@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { DataGrid, Breadcrumb, SearchBar, StickySidebar } from "components";
+import { DataGrid, SearchBar, StickySidebar } from "components";
 import { ContentMenu } from "./ContentMenu";
 import { toggleSelection } from "dataflow/menu/actions";
 import { setDateModifiedEnd, setDateModifiedStart, setWorkbookName } from "dataflow/filter/actions";
@@ -149,9 +149,6 @@ class Workbooks extends Component {
   render() {
     return (
       <div className="container-fluid">
-        <div className="row">
-          <Breadcrumb className="col-md-10 offset-md-1"/>
-        </div>
         {this.renderChildren()}
       </div>
     );

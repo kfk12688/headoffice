@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { setDateModifiedStart, setDateModifiedEnd, setIsRecent, setIsStarred, setOwner } from "dataflow/filter/actions";
 import { toggleSelection } from "dataflow/menu/actions";
 import { getTemplates, deleteTemplate, createTemplate } from "dataflow/templates/actions";
-import { Breadcrumb, SearchBar, DataGrid, StickySidebar } from "components";
+import { SearchBar, DataGrid, StickySidebar } from "components";
 import { ContentMenu } from "./ContentMenu";
 import { Formatter as formatter } from "../_utils";
 import cx from "classnames";
@@ -227,10 +227,6 @@ class Template extends Component {
   render() {
     return (
       <div className="container-fluid">
-        <div className="row">
-          <Breadcrumb className="col-md-10 offset-md-1"/>
-        </div>
-
         {this.renderChildren()}
       </div>
     );

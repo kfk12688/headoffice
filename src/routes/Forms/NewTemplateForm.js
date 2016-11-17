@@ -25,7 +25,7 @@ class CreateForm extends Component {
   }
 
   render() {
-    const {pristine, submitting } = this.props;
+    const { pristine, submitting } = this.props;
 
     return (
       <form onSubmit={this.onSubmit}>

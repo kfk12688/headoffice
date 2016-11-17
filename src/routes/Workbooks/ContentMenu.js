@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { selectAll, clearSelection, toggleMenuSidebar } from "dataflow/menu/actions";
 import { Button, Modal, PopupButton } from "components";
-import NewWorkbookForm from "./NewWorkbookForm";
+import NewWorkbookForm from "../Forms/NewWorkbookForm";
 import cx from "classnames";
 import styles from "./ContentMenu.less";
 
@@ -57,12 +57,13 @@ class ContentMenu extends Component {
               onClick={this.props.toggleMenuSidebar}
             />
             <Modal
-              size="md"
-              show={this.state.showModal}
-              toggleModal={this.toggleModal}
-              caption="Add New Workbook"
-              style="primary"
+              modalTitle="Edit Template"
               faName="plus"
+              caption="Add New Workbook"
+              show={this.state.showModal}
+              showModal={e => this.setState({ showModal : true })}
+              hideModal={e => this.setState({ showModal : false })}
+              style="primary"
             >
               <NewWorkbookForm onSubmit={this.props.addNewWorkbook} toggleModal={this.toggleModal}/>
             </Modal>

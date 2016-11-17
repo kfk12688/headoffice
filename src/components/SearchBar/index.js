@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import moment from "moment";
-import { SearchInput, CheckBoxInput, ComboInput, DateInput } from "components";
+import { SearchInput, CheckBoxInput, DropdownInput, DateInput } from "components";
 import styles from "./index.less";
 
 const ClearSpan = ({ h }) => <span className={styles.clear} onClick={h.bind(this, "")}>Clear</span>;
@@ -35,10 +35,10 @@ class SearchBar extends Component {
               <span>{label}</span>
               {value && <ClearSpan h={handler}/>}
             </div>
-            <ComboInput
+            <DropdownInput
               matchParentWidth
               input={{ value, onChange : handler }}
-              list={[]}
+              options={[]}
             />
           </div>
         );

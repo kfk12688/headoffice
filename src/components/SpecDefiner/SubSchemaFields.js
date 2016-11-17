@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, TextInput, ComboInput } from "components";
+import { Button, TextInput, DropdownInput } from "components";
 import Row from "./Row";
 import getFields from "./getFields";
 import styles from "./common.less";
@@ -30,8 +30,8 @@ export const SubSchemaFields = ({ fields, fieldSchema, className }) => {
         <div className="col-md-11">
           <h6 className={styles.headers}>{`Sub-Field-${idx + 1}`}</h6>
           <Row prop={fieldDefn.fieldName} component={TextInput}/>
-          <Row prop={fieldDefn.fieldType} component={ComboInput}
-               list={["Number", "Date", "String", "Boolean", "Reference"]}
+          <Row prop={fieldDefn.fieldType} component={DropdownInput}
+               options={["Number", "Date", "String", "Boolean", "Reference"]}
           />
           {
             fieldSchema && fieldSchema[idx] && fieldSchema[idx].fieldType &&

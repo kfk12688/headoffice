@@ -2,9 +2,6 @@ import React from "react";
 import Row from "./Row";
 import { Field } from "redux-form";
 import { TextInput, DateInput, CheckBoxInput, NumericInput, SelectInput } from "../Inputs";
-import { listTemplates, listTemplateFields } from "dataflow/api";
-import styles from "./common.less";
-
 
 const getFields = (fieldName, fieldType, fieldProps) => {
   const config = {
@@ -46,16 +43,16 @@ const getFields = (fieldName, fieldType, fieldProps) => {
   if (fieldType === "ObjectId") {
     formElements = [
       <Row key={`fieldProps.${config.ref.key}`} prop={config.ref}
-           component={SelectInput} loadOptions={listTemplates}
+           component={SelectInput} api="api/list/templates"
       />,
     ];
 
-    const templateName = fieldProps && fieldProps.ref && fieldProps.ref.id;
-    if (templateName) {
+    const id = fieldProps && fieldProps.ref && fieldProps.ref.id;
+    if (id) {
       formElements = [
         ...formElements,
         <Row key={`fieldProps.${config.refField.key}`} prop={config.refField}
-             component={SelectInput} loadOptions={listTemplateFields(templateName)}
+             component={SelectInput} api={`api/list/templates/${id}`}
         />,
       ];
     }

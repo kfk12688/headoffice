@@ -1,9 +1,9 @@
 import Template from "./";
-import TemplateEditor from "./TemplateEditor/route";
+import TemplateEditor from "./Editor/route";
 import { requireAuth } from "../auth";
 
 const Route = {
-  path        : "template",
+  path        : "templates",
   component   : Template,
   onEnter     : requireAuth,
   childRoutes : [

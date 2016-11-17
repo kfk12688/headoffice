@@ -26,7 +26,6 @@ class EntryForm extends Component {
 
     return (
       <div className="row">
-        {/* DataGrid Container */}
         <Entry
           className="col-md-8 offset-md-1"
           templateName={templateName}
@@ -36,10 +35,9 @@ class EntryForm extends Component {
           onSubmit={this.addRow}
         />
 
-        {/* Sidebar Container */}
         <div className="col-md-2">
-          <NavLink to="data" faName="times-circle-o">Close View</NavLink>
-          <NavLink to={`data/view/${collectionName}`} faName="arrow-circle-o-right">Goto Data View</NavLink>
+          <NavLink to="collections" faName="times-circle-o">Close View</NavLink>
+          <NavLink to={`collections/view/${collectionName}`} faName="arrow-circle-o-right">Goto Data View</NavLink>
         </div>
       </div>
     );

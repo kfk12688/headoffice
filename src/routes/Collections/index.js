@@ -15,7 +15,6 @@ class Data extends Component {
     this.getActions = this.getActions.bind(this);
     this.actionsCollection = [];
 
-    // Defines the static colum specification for the Template Area
     this.colSpec = [
       {
         dataKey     : "isSelected",
@@ -36,13 +35,13 @@ class Data extends Component {
       {
         dataKey    : "templateName",
         linkRef    : {
-          path   : "data/view",
+          path   : "collections/view",
           urlKey : "collectionName",
         },
         button     : {
           buttonText : "Enter Data",
           link       : {
-            path : "data/entry",
+            path : "collections/entry",
             key  : "collectionName",
           },
         },

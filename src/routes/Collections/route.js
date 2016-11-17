@@ -1,10 +1,10 @@
 import Data from "./";
-import DataEntry from "./DataEntry/route";
-import DataViewer from "./DataViewer/route";
+import DataEntry from "./Entry/route";
+import DataViewer from "./Viewer/route";
 import { requireAuth } from "../auth";
 
 const Route = {
-  path        : "data",
+  path        : "collections",
   component   : Data,
   onEnter     : requireAuth,
   childRoutes : [

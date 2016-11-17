@@ -1,6 +1,6 @@
 import App from "./index";
-import templateRoute from "./Template/route";
-import dataRoute from "./Data/route";
+import templateRoute from "./Templates/route";
+import dataRoute from "./Collections/route";
 import workbooksRoute from "./Workbooks/route";
 import callbackRoute from "./Callback/route";
 

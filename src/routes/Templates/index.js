@@ -19,7 +19,6 @@ class Template extends Component {
       { name : "Delete Template", handler : actions.deleteTemplate },
     ];
 
-    // Defines the static colum specification for the Template Area
     this.colSpec = [
       {
         dataKey     : "isSelected",
@@ -40,7 +39,7 @@ class Template extends Component {
       {
         dataKey    : "templateName",
         linkRef    : {
-          path   : "template",
+          path   : "templates",
           urlKey : "collectionName",
         },
         name       : "name-col",

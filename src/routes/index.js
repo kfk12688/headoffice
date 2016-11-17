@@ -45,8 +45,8 @@ class App extends React.Component {
             <div className="col-md-10 offset-md-1">
               <a className="navbar-brand" href="#"><Logo size="20" light/>&nbsp;HeadOfficeApp</a>
               <div className="nav navbar-nav">
-                <NavLink className="nav-item nav-link" to="/template">Templates</NavLink>
-                <NavLink className="nav-item nav-link" to="/data">Data</NavLink>
+                <NavLink className="nav-item nav-link" to="/templates">Templates</NavLink>
+                <NavLink className="nav-item nav-link" to="/collections">Data</NavLink>
                 <NavLink className="nav-item nav-link" to="/workbooks">Workbooks</NavLink>
 
                 <div className="pull-right">

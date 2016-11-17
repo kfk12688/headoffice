@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { selectAll, clearSelection, toggleMenuSidebar } from "dataflow/menu/actions";
 import { Button, Modal, PopupButton } from "components";
-import NewWorkbookForm from "./NewWorkbookForm";
+import NewWorkbookForm from "../Forms/NewWorkbookForm";
 import cx from "classnames";
 import styles from "./ContentMenu.less";
 

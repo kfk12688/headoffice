@@ -47,8 +47,6 @@ class App extends React.Component {
               <div className="nav navbar-nav">
                 <NavLink className="nav-item nav-link" to="/template">Templates</NavLink>
                 <NavLink className="nav-item nav-link" to="/data">Data</NavLink>
-                <NavLink className="nav-item nav-link" to="/view">Reports</NavLink>
-                <NavLink className="nav-item nav-link" to="/user">Users</NavLink>
                 <NavLink className="nav-item nav-link" to="/workbooks">Workbooks</NavLink>
 
                 <div className="pull-right">

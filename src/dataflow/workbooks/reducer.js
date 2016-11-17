@@ -4,41 +4,68 @@ import {
   NEW_WORKBOOK_FAILURE
 } from "./types";
 
-const initialState = {
-  data      : {},
-  isLoading : false,
-  error     : {},
-};
+const initialState = {};
 
 const reducer = handleActions({
-  [WORKBOOK_REQUEST]     : (state) => ({
-    ...state,
-    isLoading : true,
-  }),
-  [WORKBOOK_SUCCESS]     : (state, action) => ({
-    ...state,
-    isLoading : false,
-    data      : action.payload.data,
-  }),
-  [WORKBOOK_FAILURE]     : (state, action) => ({
-    ...state,
-    isLoading : false,
-    error     : action.payload.data,
-  }),
-  [NEW_WORKBOOK_REQUEST] : (state) => ({
-    ...state,
-    isLoading : true,
-  }),
-  [NEW_WORKBOOK_SUCCESS] : (state, action) => ({
-    ...state,
-    isLoading : false,
-    data      : action.payload.data,
-  }),
-  [NEW_WORKBOOK_FAILURE] : (state, action) => ({
-    ...state,
-    isLoading : false,
-    error     : action.payload.data,
-  }),
+  [WORKBOOK_REQUEST] : (state) => {
+    return {
+      ...state,
+      list : {
+        isLoading : true,
+      },
+    };
+  },
+  [WORKBOOK_SUCCESS] : (state, action) => {
+    const { workbooks } = action.payload;
+    return {
+      ...state,
+      list : {
+        data      : workbooks,
+        isLoading : false,
+      },
+    };
+  },
+  [WORKBOOK_FAILURE] : (state, action) => {
+    const { err } = action.payload;
+    return {
+      ...state,
+      list : {
+        isLoading : false,
+        error     : err,
+      },
+    };
+  },
+
+  [NEW_WORKBOOK_REQUEST] : (state) => {
+    return {
+      ...state,
+      list : {
+        ...state.list,
+        isLoading : true,
+      },
+    };
+  },
+  [NEW_WORKBOOK_SUCCESS] : (state, action) => {
+    const { workbook } = action.payload;
+    return {
+      ...state,
+      list : {
+        data      : { ...state.list.data, [workbook.id] : workbook },
+        isLoading : false,
+      },
+    };
+  },
+  [NEW_WORKBOOK_FAILURE] : (state, action) => {
+    const { err } = action.payload;
+    return {
+      ...state,
+      list : {
+        ...state.list,
+        isLoading : false,
+        error     : err,
+      },
+    };
+  },
 }, initialState);
 
 export default reducer;

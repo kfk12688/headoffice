@@ -65,7 +65,7 @@ class ContentMenu extends Component {
               hideModal={e => this.setState({ showModal : false })}
               style="primary"
             >
-              <NewWorkbookForm onSubmit={this.props.addNewWorkbook} toggleModal={this.toggleModal}/>
+              <NewWorkbookForm onSubmit={this.props.createWorkbook} toggleModal={this.toggleModal}/>
             </Modal>
             <PopupButton label={`${menuStore.selectedKeys.length} selected`}>
               <div onClick={this.selectAllHandler}>Select All</div>
@@ -95,7 +95,7 @@ ContentMenu.propTypes = {
   selectAllRows     : React.PropTypes.func,
   clearSelection    : React.PropTypes.func,
   toggleMenuSidebar : React.PropTypes.func,
-  addNewWorkbook    : React.PropTypes.func,
+  createWorkbook    : React.PropTypes.func,
 };
 
 const menu = connect(

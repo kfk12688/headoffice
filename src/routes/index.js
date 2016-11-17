@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { NavLink, PopupButton } from "components";
 import Logo from "./_styles/logo";
-import { addCurrentUser, removeCurrentUser } from "dataflow/user/actions";
+import { addCurrentUser, removeCurrentUser } from "dataflow/users/actions";
 import { clearToken, getUserClaims } from "./auth";
 
 const isDeveloping = process.env.NODE_ENV !== "production";

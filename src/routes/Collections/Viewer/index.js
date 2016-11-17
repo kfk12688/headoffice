@@ -4,6 +4,7 @@ import { PaginationGrid, NavLink, Pagination, StickySidebar, FavoriteCell, Butto
 import { clearMenuState } from "dataflow/menu/actions";
 import { loadSpec, loadData } from "dataflow/collections/actions";
 import EditTemplateForm from "../../Forms/NewTemplateForm";
+import styles from "./index.less";
 
 class Viewer extends Component {
   constructor() {
@@ -69,7 +70,7 @@ class Viewer extends Component {
       <div className="row">
         <div className="col-md-10 offset-md-1">
           <div className="row">
-            <div className="col-md-10">
+            <div className="col-md-9">
               <h4>{templateName || collectionName}&nbsp;
                 <small className="text-muted">({count || 0} Entries)</small>
               </h4>
@@ -99,9 +100,12 @@ class Viewer extends Component {
               <StickySidebar top={150}>
                 <div className="row">
                   <div className="col-md-12 btn-group-vertical">
-                    <Button><NavLink to="data" faName="times-circle-o">Close View</NavLink></Button>
-                    <Button><NavLink to={`data/entry/${id}`} faName="arrow-circle-o-right"> Entry
-                      View</NavLink></Button>
+                    <Button><NavLink to="collections" faName="times-circle-o">Close View</NavLink></Button>
+                    <Button>
+                      <NavLink to={`collections/entry/${collectionName}`} faName="arrow-circle-o-right">
+                        Entry View
+                      </NavLink>
+                    </Button>
                   </div>
                 </div>
 
@@ -118,7 +122,10 @@ class Viewer extends Component {
                       hideModal={e => this.setState({ showModal : false })}
                       block
                     >
-                      <EditTemplateForm state={store} submitForm={editTemplate} toggleModal={this.toggleModal}/>
+                      <EditTemplateForm
+                        state={{}} submitForm={() => {}}
+                        toggleModal={e => this.setState({ showModal : false })}
+                      />
                     </Modal>
                     <Button faName="times" block>Delete Template</Button>
                     <Button block>Make Favorite <FavoriteCell value inheritSize/></Button>

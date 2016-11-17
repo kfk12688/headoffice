@@ -3,10 +3,14 @@ import { connect } from "react-redux";
 import { SpecDefiner, Button, StickySidebar, Modal, FavoriteCell } from "components";
 import { getTemplate, updateSchema, addField } from "dataflow/templates/actions";
 import EditTemplateForm from "../../Forms/NewTemplateForm";
+import styles from "./index.less";
 
 class Editor extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      showModal : false,
+    };
     this.updateSchema = this.updateSchema.bind(this);
 
     this.colSpec = {
@@ -53,14 +57,6 @@ class Editor extends Component {
     this.props.updateSchema(collectionName, userSchema);
   }
 
-  toggleModal() {
-    if (this.state.showModal) {
-      this.setState({ showModal : false });
-    } else {
-      this.setState({ showModal : true });
-    }
-  }
-
   render() {
     const { collectionName } = this.props.params;
     const { userSchema, isLoading } = this.props.editor[collectionName] || {};
@@ -101,7 +97,10 @@ class Editor extends Component {
                       hideModal={e => this.setState({ showModal : false })}
                       block
                     >
-                      <EditTemplateForm state={store} submitForm={editTemplate} toggleModal={this.toggleModal}/>
+                      <EditTemplateForm
+                        state={{}} submitForm={() => {}}
+                        toggleModal={e => this.setState({ showModal : false })}
+                      />
                     </Modal>
                     <Button faName="times" block>Delete Template</Button>
                     <Button block>Make Favorite <FavoriteCell value inheritSize/></Button>

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getToken, clearToken, setToken } from "../auth";
-import { addCurrentUser } from "dataflow/user/actions";
+import { addCurrentUser } from "dataflow/users/actions";
 
 class Callback extends Component {
   componentDidMount() {

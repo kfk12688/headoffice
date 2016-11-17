@@ -13,11 +13,6 @@ const Button = ({ disabled, size, style, outline, block, faName, faClassName, ch
   if (disabled) className = cx(className, "disabled");
   if (isToggled) className = cx(className, "active");
 
-  const getChildren = () => {
-    if (children) return {children}&nbsp;{faIcon};
-    return faIcon;
-  }
-
   return (
     <button
       type="button"
@@ -36,9 +31,11 @@ Button.propTypes = {
   faClassName : PropTypes.string,
   children    : PropTypes.any,
   style       : PropTypes.string,
+  size        : PropTypes.string,
   outline     : PropTypes.bool,
   block       : PropTypes.bool,
   disabled    : PropTypes.bool,
+  isToggled   : PropTypes.bool,
 };
 
 export { Button };

@@ -5,8 +5,8 @@ import fetch, { cachedFetch } from "./fetchWrapper";
  * Data API's
  */
 export const getSpec = params => {
-  const { templateID } = params;
-  return fetch("GET", `api/data/spec/${templateID}`)
+  const { templateName } = params;
+  return fetch("GET", `api/templates/${templateName}/schema`)
     .then(res => res.json());
 };
 
@@ -81,27 +81,27 @@ export const listFieldValues = (options) => {
  * Template Api's
  */
 export const getTemplates = () =>
-  fetch("GET", "api/template")
+  fetch("GET", "api/templates")
     .then(res => res.json());
 
 export const createTemplate = (params) =>
-  fetch("POST", "api/template", params)
+  fetch("POST", "api/templates", params)
     .then(res => res.json());
 
 export const deleteTemplate = (params) =>
-  fetch("DELETE", `api/template/${params.id}`)
+  fetch("DELETE", `api/templates/${params.id}`)
     .then(res => res.json());
 
 export const getTemplate = params =>
-  fetch("GET", `api/template/${params.id}`)
+  fetch("GET", `api/templates/${params.id}`)
     .then(res => res.json());
 
 export const updateTemplate = params =>
-  fetch("PUT", "api/template", params)
+  fetch("PUT", "api/templates", params)
     .then(res => res.json());
 
 export const updateTemplateSchema = params =>
-  fetch("PUT", "api/template/schema", params)
+  fetch("PUT", "api/templates/schema", params)
     .then(res => res.json());
 
 /**

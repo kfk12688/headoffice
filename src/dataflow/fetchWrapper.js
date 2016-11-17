@@ -42,16 +42,22 @@ export function cachedFetch(method, api, params) {
 
   return fetch(req)
     .then(response => {
-      if (response.status === 200) {
+      if (response.ok) {
         const ct = response.headers.get("Content-Type");
         if (ct && (ct.match(/application\/json/i) || ct.match(/text\//i))) {
-          response.clone().text().then(content => {
-            localStorage.setItem(cacheKey, content);
-            localStorage.setItem(`${cacheKey}:ts`, Date.now());
-          });
+          response
+            .clone()
+            .text()
+            .then(content => {
+              localStorage.setItem(cacheKey, content);
+              localStorage.setItem(`${cacheKey}:ts`, Date.now());
+            });
         }
+        return Promise.resolve(response);
       }
-      return response;
+      const error = new Error(response.statusText || response.status);
+      error.response = response;
+      return Promise.reject(error);
     });
 }
 
@@ -81,5 +87,11 @@ export default function (method, api, params) {
   }
 
   const req = new Request(api, settings);
-  return fetch(req);
+  return fetch(req)
+    .then(response => {
+      if (response.ok) {
+        return Promise.resolve(response);
+      }
+      return response.json().then(err => Promise.reject(err));
+    });
 }

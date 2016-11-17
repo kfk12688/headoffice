@@ -1,10 +1,6 @@
-/**
- * Created by sharavan on 19/09/16.
- */
 import React, { Component } from "react";
 import moment from "moment";
 import { SearchInput, CheckBoxInput, ComboInput, DateInput } from "components";
-import cx from "classnames";
 import styles from "./index.less";
 
 const ClearSpan = ({ h }) => <span className={styles.clear} onClick={h.bind(this, "")}>Clear</span>;
@@ -22,28 +18,24 @@ class SearchBar extends Component {
     function getReactElement(type, value, handler, label) {
       if (type === "datebox") {
         return (
-          <div className={styles.filterHeaderBlock} key={label}>
+          <div key={label}>
             <div>
-              <span className={styles.label}>{label}</span>
+              <span>{label}</span>
               {value && moment(value).isValid() && <ClearSpan h={handler}/>}
             </div>
-            <DateInput
-              className={styles.inputContainer}
-              input={{ value, onChange : handler }}
-            />
+            <DateInput input={{ value, onChange : handler }}/>
           </div>
         );
       }
 
       if (type === "searchbox") {
         return (
-          <div className={styles.filterHeaderBlock} key={label}>
+          <div key={label}>
             <div>
-              <span className={styles.label}>{label}</span>
+              <span>{label}</span>
               {value && <ClearSpan h={handler}/>}
             </div>
             <ComboInput
-              className={styles.inputContainer}
               matchParentWidth
               input={{ value, onChange : handler }}
               list={[]}
@@ -54,11 +46,8 @@ class SearchBar extends Component {
 
       if (type === "checkbox") {
         return (
-          <div className={styles.filterHeaderBlock} key={label}>
-            <CheckBoxInput
-              className={styles.label}
-              input={{ value, onChange : handler }}
-            >
+          <div key={label}>
+            <CheckBoxInput input={{ value, onChange : handler }}>
               {label}
             </CheckBoxInput>
           </div>
@@ -77,16 +66,10 @@ class SearchBar extends Component {
     const { className, config } = this.props;
 
     return (
-      <div className={cx(styles.base, className)}>
-        <div className={styles.searchbox}>
-          <SearchInput />
-        </div>
-        <div>
-          <div className={styles.filterHeader}>General Filters</div>
-          <div className={styles.filterHeaderBlock}>
-            {this.getSearchElements(config)}
-          </div>
-        </div>
+      <div className={className} style={{ margin : "15px 0" }}>
+        <SearchInput/>
+        <div className={styles.filterHeader}>General Filters</div>
+        <div className={styles.filterHeaderBlock}>{this.getSearchElements(config)}</div>
       </div>
     );
   }

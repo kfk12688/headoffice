@@ -4,9 +4,8 @@ import { DataGrid, Breadcrumb, SearchBar, StickySidebar } from "components";
 import { ContentMenu } from "./ContentMenu";
 import { toggleSelection } from "dataflow/menu/actions";
 import { setDateModifiedEnd, setDateModifiedStart, setWorkbookName } from "dataflow/filter/actions";
-import { loadWorkbooks, addNewWorkbook, deleteWorkbook } from "dataflow/workbooks/actions";
+import { getWorkbooks, createWorkbook, deleteWorkbook } from "dataflow/workbooks/actions";
 import cx from "classnames";
-import { grey50 } from "../_styles/colors";
 
 class Workbooks extends Component {
   constructor(props) {
@@ -60,16 +59,7 @@ class Workbooks extends Component {
   }
 
   componentWillMount() {
-    this.props.loadWorkbooks();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    const userData = Object.keys(this.props.workbooks.data);
-    const nextUserData = Object.keys(nextProps.workbooks.data);
-
-    if (nextUserData.length !== userData.length) {
-      this.props.loadWorkbooks();
-    }
+    this.props.getWorkbooks();
   }
 
   getActions() {
@@ -91,7 +81,8 @@ class Workbooks extends Component {
   renderChildren() {
     if (this.props.children) return this.props.children;
 
-    const { workbooks, filterStore, menuStore, filterChangeHandlers, toggleRow } = this.props;
+    const { filterStore, menuStore, filterChangeHandlers, toggleRow } = this.props;
+    const { data = {}, isLoading } = this.props.workbooks;
     const searchConfig = [
       {
         label         : "WorkBook",
@@ -122,13 +113,11 @@ class Workbooks extends Component {
     return (
       <div className="row">
         <div className="col-md-10 offset-md-1">
-          <div className="row">
-            <ContentMenu
-              dataKeys={Object.keys(workbooks.data)}
-              actions={this.actionsCollection}
-              addNewWorkbook={this.props.addNewWorkbook}
-            />
-          </div>
+          <ContentMenu
+            dataKeys={Object.keys(data)}
+            actions={this.actionsCollection}
+            addNewWorkbook={this.props.createWorkbook}
+          />
 
           <div className="row">
             {
@@ -143,8 +132,8 @@ class Workbooks extends Component {
             <div className={cx({ "col-md-9" : menuStore.showSidebar, "col-md-12" : !menuStore.showSidebar })}>
               <DataGrid
                 style={{ left : !menuStore.showSidebar && 0 }}
-                isLoading={workbooks.isLoading}
-                rows={workbooks.data}
+                isLoading={isLoading}
+                rows={data}
                 cols={this.colSpec}
                 colWidths={this.colWidths}
                 selectedKeys={menuStore.selectedKeys}
@@ -158,16 +147,8 @@ class Workbooks extends Component {
   }
 
   render() {
-    const { rollUp } = this.props;
-
-    const container = {
-      backgroundColor : grey50,
-    };
-
     return (
-      <div className={cx("container-fluid")}
-           style={{ top : rollUp ? 35 : 0, ...container }}
-      >
+      <div className="container-fluid">
         <div className="row">
           <Breadcrumb className="col-md-10 offset-md-1"/>
         </div>
@@ -178,7 +159,6 @@ class Workbooks extends Component {
 }
 
 Workbooks.propTypes = {
-  rollUp   : React.PropTypes.bool.isRequired,
   children : React.PropTypes.node,
 
   // Store
@@ -188,8 +168,8 @@ Workbooks.propTypes = {
 
   // Actions
   toggleRow            : React.PropTypes.func,
-  loadWorkbooks        : React.PropTypes.func,
-  addNewWorkbook       : React.PropTypes.func,
+  getWorkbooks         : React.PropTypes.func,
+  createWorkbook       : React.PropTypes.func,
   deleteWorkbook       : React.PropTypes.func,
   filterChangeHandlers : React.PropTypes.shape({
     setWorkbookName      : React.PropTypes.func,
@@ -200,15 +180,15 @@ Workbooks.propTypes = {
 
 const mapStateToProps = (state) => ({
   menuStore   : state.menu,
-  workbooks   : state.workbooks,
+  workbooks   : state.workbooks.list,
   filterStore : state.filter,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   toggleRow            : (index) => dispatch(toggleSelection(index)),
-  loadWorkbooks        : () => dispatch(loadWorkbooks()),
-  addNewWorkbook       : params => dispatch(addNewWorkbook(params)),
-  deleteWorkbook       : params => dispatch(deleteWorkbook(params)),
+  getWorkbooks         : () => dispatch(getWorkbooks()),
+  createWorkbook       : data => dispatch(createWorkbook(data)),
+  deleteWorkbook       : name => dispatch(deleteWorkbook(name)),
   filterChangeHandlers : {
     setWorkbookName      : (e) => dispatch(setWorkbookName(e)),
     setDateModifiedStart : (e) => dispatch(setDateModifiedStart(e)),

@@ -4,7 +4,7 @@ import { SpecDefiner, Button, StickySidebar, Modal, FavoriteCell } from "compone
 import {
   loadEditor, editTemplate, editRow, deleteRow, clearEditFlag, addField, editTemplateSchema,
 } from "dataflow/template/editor/actions";
-import EditTemplateForm from "../NewTemplateForm";
+import EditTemplateForm from "../../Forms/NewTemplateForm";
 import { TitleBar } from "./TitleBar";
 import cx from "classnames";
 import styles from "./index.less";

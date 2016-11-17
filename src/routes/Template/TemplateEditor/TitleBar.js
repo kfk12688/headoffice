@@ -1,31 +1,31 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import moment from "moment";
-import {Modal, FavoriteCell} from "components";
-import EditTemplateForm from "../NewTemplateForm";
+import { Modal, FavoriteCell } from "components";
+import EditTemplateForm from "../../Forms/NewTemplateForm";
 
-const MetaInfo = ({children}) => <span className="text-muted">{children}&nbsp;&#8226;&nbsp;</span>;
+const MetaInfo = ({ children }) => <span className="text-muted">{children}&nbsp;&#8226;&nbsp;</span>;
 MetaInfo.propTypes = {
-  children: React.PropTypes.node,
+  children : React.PropTypes.node,
 };
 
 export class TitleBar extends Component {
   constructor(props) {
     super(props);
-    this.state = {showModal: false};
+    this.state = { showModal : false };
     this.toggleModal = this.toggleModal.bind(this);
   }
 
   toggleModal() {
     if (this.state.showModal) {
-      this.setState({showModal: false});
+      this.setState({ showModal : false });
     } else {
-      this.setState({showModal: true});
+      this.setState({ showModal : true });
     }
   }
 
   render() {
-    const {className, editTemplate, store} = this.props;
-    const {templateName, createdAt, createdBy, modifiedAt, workBook, isFavorite} = store;
+    const { className, editTemplate, store } = this.props;
+    const { templateName, createdAt, createdBy, modifiedAt, workBook, isFavorite } = store;
 
     return (
       <div className={className}>
@@ -64,7 +64,7 @@ export class TitleBar extends Component {
 }
 
 TitleBar.propTypes = {
-  className: React.PropTypes.string,
-  editTemplate: React.PropTypes.func,
-  store: React.PropTypes.object.isRequired,
+  className    : React.PropTypes.string,
+  editTemplate : React.PropTypes.func,
+  store        : React.PropTypes.object.isRequired,
 };

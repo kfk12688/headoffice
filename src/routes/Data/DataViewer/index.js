@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { PaginationGrid, NavLink, Pagination, StickySidebar, FavoriteCell, Button } from "components";
+import { PaginationGrid, NavLink, Pagination, StickySidebar, FavoriteCell, Button, Modal } from "components";
 import { clearMenuState } from "dataflow/menu/actions";
 import { loadSpec, loadData } from "dataflow/data/view/actions";
+import { editTemplate } from "dataflow/template/editor/actions";
+import EditTemplateForm from "../../Forms/NewTemplateForm";
 import { TitleBar } from "./TitleBar";
 import styles from "./index.less";
 import cx from "classnames";
@@ -73,7 +75,7 @@ class Viewer extends Component {
   }
 
   render() {
-    const { viewStore } = this.props;
+    const { store, viewStore } = this.props;
     const { spec, isLoading, id } = viewStore;
     let data = !!viewStore.data[this.state.page] ? viewStore.data[this.state.page] : {};
 
@@ -119,7 +121,17 @@ class Viewer extends Component {
 
                 <div className="row">
                   <div className="col-md-12">
-                    <Button faName="edit" block>Edit Template</Button>
+                    <Modal
+                      modalTitle="Edit Template"
+                      faName="edit"
+                      caption="Edit Template"
+                      show={this.state.showModal}
+                      showModal={e => this.setState({ showModal : true })}
+                      hideModal={e => this.setState({ showModal : false })}
+                      block
+                    >
+                      <EditTemplateForm state={store} submitForm={editTemplate} toggleModal={this.toggleModal}/>
+                    </Modal>
                     <Button faName="times" block>Delete Template</Button>
                     <Button block>Make Favorite <FavoriteCell value inheritSize/></Button>
                   </div>

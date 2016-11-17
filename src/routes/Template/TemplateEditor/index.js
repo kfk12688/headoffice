@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { SpecDefiner, Button, StickySidebar, Modal } from "components";
+import { SpecDefiner, Button, StickySidebar, Modal, FavoriteCell } from "components";
 import {
   loadEditor, editTemplate, editRow, deleteRow, clearEditFlag, addField, editTemplateSchema,
 } from "dataflow/template/editor/actions";
@@ -88,7 +88,7 @@ class Editor extends Component {
   }
 
   render() {
-    const { editor, store, editTemplate } = this.props;
+    const { editor, store } = this.props;
 
     return (
       <div className="row">
@@ -125,16 +125,19 @@ class Editor extends Component {
                 <div className={styles.divider}/>
 
                 <div className="row">
-                  <div className="col-md-10 offset-md-3">
-                    <b>Edit</b>
+                  <div className="col-md-10">
                     <Modal
                       modalTitle="Edit Template"
                       faName="edit"
+                      caption="Edit Template"
                       show={this.state.showModal}
                       toggleModal={this.toggleModal}
                     >
                       <EditTemplateForm state={store} submitForm={editTemplate} toggleModal={this.toggleModal}/>
                     </Modal>
+                  </div>
+                  <div className="col-md-2">
+                    <FavoriteCell value={false} inheritSize/>
                   </div>
                 </div>
 

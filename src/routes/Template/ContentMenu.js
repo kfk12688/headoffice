@@ -55,12 +55,13 @@ class ContentMenu extends Component {
             />
 
             <Modal
-              modalClassName="modal-sm"
-              show={this.state.showModal}
-              toggleModal={this.toggleModal}
-              caption="Add New Content"
-              style="primary"
+              modalTitle="Edit Template"
               faName="plus"
+              caption="Add New Content"
+              show={this.state.showModal}
+              showModal={e => this.setState({ showModal : true })}
+              hideModal={e => this.setState({ showModal : false })}
+              style="primary"
             >
               <CreateTemplateForm onSubmit={this.props.addTemplate} toggleModal={this.toggleModal}/>
             </Modal>

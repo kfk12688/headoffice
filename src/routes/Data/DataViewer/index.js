@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { PaginationGrid, NavLink, Pagination, StickySidebar, FavoriteCell } from "components";
+import { PaginationGrid, NavLink, Pagination, StickySidebar, FavoriteCell, Button } from "components";
 import { clearMenuState } from "dataflow/menu/actions";
 import { loadSpec, loadData } from "dataflow/data/view/actions";
 import { TitleBar } from "./TitleBar";
 import styles from "./index.less";
+import cx from "classnames";
 
 class Viewer extends Component {
   constructor() {
@@ -80,12 +81,15 @@ class Viewer extends Component {
       <div className="row">
         <div className="col-md-10 offset-md-1">
           <TitleBar
-            className="row"
             store={viewStore}
           />
 
           <div className="row">
-            <div className="col-md-10">
+            <div className={cx("col-md-12", styles.divider)}></div>
+          </div>
+
+          <div className="row">
+            <div className="col-md-9">
               <span>{Object.keys(data).length} Entries</span>
               <Pagination
                 setLimit={this.setLimit}
@@ -101,30 +105,35 @@ class Viewer extends Component {
               />
             </div>
 
-            <div className="col-md-2">
-              <StickySidebar top={110}>
-                <div className="col-md-12">
-                  <div><NavLink to="data" faName="times-circle-o">Close View</NavLink></div>
-                  <div><NavLink to={`data/entry/${id}`} faName="arrow-circle-o-right"> Entry View</NavLink></div>
+            <div className="col-md-3">
+              <StickySidebar top={150}>
+                <div className="row">
+                  <div className="col-md-12 btn-group-vertical">
+                    <Button><NavLink to="data" faName="times-circle-o">Close View</NavLink></Button>
+                    <Button><NavLink to={`data/entry/${id}`} faName="arrow-circle-o-right"> Entry
+                      View</NavLink></Button>
+                  </div>
                 </div>
 
-                <div className="col-md-9">
-                  <div className={styles.divider}/>
+                <div className={styles.divider}/>
+
+                <div className="row">
+                  <div className="col-md-12">
+                    <Button faName="edit" block>Edit Template</Button>
+                    <Button faName="times" block>Delete Template</Button>
+                    <Button block>Make Favorite <FavoriteCell value inheritSize/></Button>
+                  </div>
                 </div>
 
-                <div className="col-md-12">
-                  <FavoriteCell value={false} inheritSize/>
-                </div>
+                <div className={styles.divider}/>
 
-                <div className="col-md-9">
-                  <div className={styles.divider}/>
-                </div>
-
-                <div className="col-md-12">
-                  <div>Created By :</div>
-                  <div>Created At :</div>
-                  <div>Last Modified :</div>
-                  <div>Belongs to :</div>
+                <div className="row">
+                  <div className="col-md-12">
+                    <div>Created By :</div>
+                    <div>Created At :</div>
+                    <div>Last Modified :</div>
+                    <div>Belongs to :</div>
+                  </div>
                 </div>
               </StickySidebar>
             </div>

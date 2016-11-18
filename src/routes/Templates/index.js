@@ -202,7 +202,7 @@ class Template extends Component {
               {
                 menuStore.showSidebar &&
                 <div className="col-md-3">
-                  <Sticky>
+                  <Sticky topOffset={-15}>
                     <SearchBar config={searchConfig}/>
                   </Sticky>
                 </div>

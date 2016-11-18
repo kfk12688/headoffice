@@ -9,7 +9,6 @@ export { Table } from "./Table";
 export { SearchBar } from "./SearchBar";
 export { Pagination } from "./Pagination";
 export { Modal } from "./Modal";
-export { StickySidebar } from "./StickySidebar";
 
 // replaces ComboSearchInput with SelectInput
 export {

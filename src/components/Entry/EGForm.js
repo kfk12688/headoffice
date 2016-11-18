@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { Field, FieldArray, reduxForm } from "redux-form";
 import { getComponentFromType } from "../getComponentFromType";
 import { Button } from "../Button";
-import styles from "./EGForm.less";
 
 class EGForm extends Component {
   constructor(props) {
@@ -29,13 +28,17 @@ class EGForm extends Component {
 
       if (sub) return;
       fields.push(
-        <div key={name} className={styles.fieldsRow}>
-          <div className={styles.title}>
-            {title}
-            {props.required && <bold><sup>*</sup></bold>}
-            {props.unique && <bold><sup>u</sup></bold>}
+        <div key={name}>
+          <div className="form-group row">
+            <label className="col-xs-3 col-form-label">
+              {title}
+              {props.required && <bold><sup>*</sup></bold>}
+              {props.unique && <bold><sup>u</sup></bold>}
+            </label>
+            <div className="col-xs-9">
+              <Field name={name} {...renderComponent}/>
+            </div>
           </div>
-          <Field className={styles.box} name={name} {...renderComponent}/>
         </div>
       );
     });
@@ -52,7 +55,7 @@ class EGForm extends Component {
 
       if (sub) {
         fields.push(
-          <div key={name} className={styles.fieldsRowArray}>
+          <div key={name}>
             <FieldArray name={name} subKeys={sub}
                         title={title} {...renderComponent}
                         fieldsDOM={this.ctrls.fieldDOM}
@@ -86,9 +89,10 @@ class EGForm extends Component {
 
     return (
       <form className={className} onSubmit={this.submitForm}>
-        <div ref={this.assignFieldTarget} className={styles.fields}>{fields}</div>
-        {(subFields.length !== 0) && <div className={styles.subFields}>{subFields}</div>}
-        <div className={styles.formSubmitGroup}>
+        <div ref={this.assignFieldTarget}>{fields}</div>
+        {(subFields.length !== 0) && <div>{subFields}</div>}
+
+        <div className="pull-right">
           <Button style="success" type="submit">Save Data</Button>
           <Button onClick={this.resetForm}>Cancel</Button>
         </div>

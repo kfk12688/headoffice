@@ -1,7 +1,6 @@
 import React from "react";
 import _ from "underscore";
 import EGForm from "./EGForm";
-import styles from "./index.less";
 
 class Entry extends React.Component {
   constructor(props) {
@@ -30,29 +29,23 @@ class Entry extends React.Component {
   }
 
   render() {
-    const { spec, onSubmit, className, templateName } = this.props;
+    const { spec, onSubmit, className } = this.props;
 
     return (
-      <div className={className}>
-        <div className={styles.title}>{`Add a new row to ${templateName} table`}</div>
-
-        <EGForm
-          className={styles.form}
-          cols={spec}
-          fieldProps={this.getFormFields(spec)}
-          onSubmit={onSubmit}
-        />
-
-      </div>
+      <EGForm
+        className={className}
+        cols={spec}
+        fieldProps={this.getFormFields(spec)}
+        onSubmit={onSubmit}
+      />
     );
   }
 }
 
 Entry.propTypes = {
-  className    : React.PropTypes.string,
-  templateName : React.PropTypes.string,
-  spec         : React.PropTypes.array.isRequired,
-  onSubmit     : React.PropTypes.func.isRequired,
+  className : React.PropTypes.string,
+  spec      : React.PropTypes.array.isRequired,
+  onSubmit  : React.PropTypes.func.isRequired,
 };
 
 export { Entry };

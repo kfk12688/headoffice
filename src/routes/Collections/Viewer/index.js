@@ -10,8 +10,9 @@ class Viewer extends Component {
   constructor() {
     super();
     this.state = {
-      page  : 1,
-      limit : 30,
+      page      : 1,
+      limit     : 30,
+      showModal : false,
     };
 
     this.loadData = this.loadData.bind(this);

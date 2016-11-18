@@ -1,11 +1,19 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Entry, NavLink } from "components";
+import { Entry, NavLink, StickySidebar, Button, Modal, FavoriteCell } from "components";
 import { loadSpec, addRow } from "dataflow/collections/actions";
+import styles from "./index.less";
+import EditTemplateForm from "../../Forms/NewTemplateForm";
 
 class EntryForm extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      page      : 1,
+      limit     : 30,
+      showModal : false,
+    };
+
     this.addRow = this.addRow.bind(this);
   }
 
@@ -20,24 +28,63 @@ class EntryForm extends Component {
   }
 
   render() {
-    const { entryStore, params } = this.props;
-    const { collectionName } = params;
-    const { spec, data, loadingIndicators, templateName } = entryStore;
+    const { collectionName } = this.props.params;
+    const { spec = [], isLoading } = this.props.entryStore[collectionName] || {};
 
     return (
       <div className="row">
-        <Entry
-          className="col-md-8 offset-md-1"
-          templateName={templateName}
-          spec={spec}
-          data={data}
-          isLoading={loadingIndicators}
-          onSubmit={this.addRow}
-        />
+        <div className="col-md-10 offset-md-1">
+          <div className="row">
+            <Entry
+              className="col-md-9"
+              spec={spec}
+              isLoading={isLoading}
+              onSubmit={this.addRow}
+            />
 
-        <div className="col-md-2">
-          <NavLink to="collections" faName="times-circle-o">Close View</NavLink>
-          <NavLink to={`collections/view/${collectionName}`} faName="arrow-circle-o-right">Goto Data View</NavLink>
+            <div className="col-md-3">
+              <StickySidebar top={150}>
+                <div className="row">
+                  <div className="col-md-12 btn-group-vertical">
+                    <Button><NavLink to="collections">Close View</NavLink></Button>
+                    <Button>
+                      <NavLink to={`collections/view/${collectionName}`}>Data View</NavLink>
+                    </Button>
+                  </div>
+                </div>
+                <div className={styles.divider}/>
+                <div className="row">
+                  <div className="col-md-12">
+                    <Modal
+                      modalTitle="Edit Template"
+                      faName="edit"
+                      caption="Edit Template"
+                      show={this.state.showModal}
+                      showModal={e => this.setState({ showModal : true })}
+                      hideModal={e => this.setState({ showModal : false })}
+                      block
+                    >
+                      <EditTemplateForm
+                        state={{}} submitForm={() => {}}
+                        toggleModal={e => this.setState({ showModal : false })}
+                      />
+                    </Modal>
+                    <Button faName="times" block>Delete Template</Button>
+                    <Button block>Make Favorite <FavoriteCell value inheritSize/></Button>
+                  </div>
+                </div>
+                <div className={styles.divider}/>
+                <div className="row">
+                  <div className="col-md-12">
+                    <div>Created By :</div>
+                    <div>Created At :</div>
+                    <div>Last Modified :</div>
+                    <div>Belongs to :</div>
+                  </div>
+                </div>
+              </StickySidebar>
+            </div>
+          </div>
         </div>
       </div>
     );

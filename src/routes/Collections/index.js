@@ -1,7 +1,7 @@
 import _ from "underscore";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Breadcrumb, SearchBar, DataGrid, StickySidebar } from "components";
+import { SearchBar, DataGrid, StickySidebar } from "components";
 import { toggleSelection } from "dataflow/menu/actions";
 import { getTemplates } from "dataflow/collections/actions";
 import { setDateModifiedEnd, setDateModifiedStart, setOwner, setIsRecent, setIsStarred } from "dataflow/filter/actions";
@@ -184,7 +184,7 @@ class Data extends Component {
               menuStore.showSidebar &&
               <div className="col-md-3">
                 <StickySidebar top={113} width={236}>
-                <SearchBar config={searchConfig}/>
+                  <SearchBar config={searchConfig}/>
                 </StickySidebar>
               </div>
             }
@@ -210,10 +210,6 @@ class Data extends Component {
   render() {
     return (
       <div className="container-fluid">
-        <div className="row">
-          <Breadcrumb className="col-md-10 offset-md-1"/>
-        </div>
-
         {this.renderChildren()}
       </div>
     );

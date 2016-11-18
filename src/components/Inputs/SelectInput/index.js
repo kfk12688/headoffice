@@ -1,7 +1,7 @@
 import React from "react";
 import _ from "underscore";
 import Overlay from "../../Overlay";
-import styles from "./index.less";
+import { cachedFetch } from "dataflow/fetchWrapper";
 
 class SelectInput extends React.Component {
   constructor(props) {
@@ -43,14 +43,15 @@ class SelectInput extends React.Component {
   }
 
   loadOptions(text) {
-    const { loadOptions } = this.props;
+    const { api } = this.props;
 
-    loadOptions(text)
+    cachedFetch("GET", api)
+      .then(res => res.json())
       .then(options => {
         const content = _.map(options, (item, idx) =>
           <div
             key={idx}
-            className={styles.item}
+            className="dropdown-item"
             onClick={e => this.parseInput({ id : item.id, label : item.label })}
             data-id={item.id}
             data-value={item.label}
@@ -59,9 +60,7 @@ class SelectInput extends React.Component {
           </div>
         );
 
-        this.setState({
-          options : content,
-        });
+        this.setState({ options : content });
       });
   }
 
@@ -72,7 +71,7 @@ class SelectInput extends React.Component {
     return (
       <div className={className} ref={this.assignTarget}>
         <input
-          className={styles.textInputBox}
+          className="form-control"
           value={this.formatInput(value)}
           onChange={e => this.parseInput({ label : e.target.value })}
         />
@@ -83,10 +82,8 @@ class SelectInput extends React.Component {
           onHide={e => this.setState({ show : false })}
         >
           {
-            <div className={styles.modal}>
-              <div className={styles.content}>
-                <div className={styles.list}>{this.state.options}</div>
-              </div>
+            <div style={{ display : "block" }} className="dropdown-menu">
+              {this.state.options}
             </div>
           }
         </Overlay>
@@ -96,12 +93,12 @@ class SelectInput extends React.Component {
 }
 
 SelectInput.propTypes = {
-  input       : React.PropTypes.shape({
+  input     : React.PropTypes.shape({
     value    : React.PropTypes.any.isRequired,
     onChange : React.PropTypes.func.isRequired,
   }),
-  className   : React.PropTypes.string,
-  loadOptions : React.PropTypes.func,
+  className : React.PropTypes.string,
+  api       : React.PropTypes.string,
 };
 
 export { SelectInput };

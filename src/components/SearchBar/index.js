@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import moment from "moment";
-import { SearchInput, CheckBoxInput, ComboInput, DateInput } from "components";
+import { SearchInput, CheckBoxInput, SelectInput, DateInput } from "components";
 import styles from "./index.less";
+import cx from "classnames";
 
-const ClearSpan = ({ h }) => <span className={styles.clear} onClick={h.bind(this, "")}>Clear</span>;
+const ClearSpan = ({ h }) => <span className={cx("pull-right", styles.clear)} onClick={h.bind(this, "")}>Clear</span>;
 ClearSpan.propTypes = {
   h : React.PropTypes.func.isRequired,    // The handler function for clearing the data
 };
@@ -35,10 +36,10 @@ class SearchBar extends Component {
               <span>{label}</span>
               {value && <ClearSpan h={handler}/>}
             </div>
-            <ComboInput
+            <SelectInput
               matchParentWidth
               input={{ value, onChange : handler }}
-              list={[]}
+              api="/api/"
             />
           </div>
         );

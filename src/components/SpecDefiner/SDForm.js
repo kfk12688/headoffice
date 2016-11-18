@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Row from "./Row";
 import { connect } from "react-redux";
 import { reduxForm, FieldArray, formValueSelector } from "redux-form";
-import { Button, TextInput, ComboInput } from "components";
+import { Button, TextInput, DropdownInput } from "components";
 import getFields from "./getFields";
 import { SubSchemaFields } from "./SubSchemaFields";
 import styles from "./common.less";
@@ -40,14 +40,19 @@ class EditorEntryForm extends Component {
         <div className="row">
           <div className="col-md-12">
             <Row prop={fieldDefn.fieldName} component={TextInput}/>
-            <Row prop={fieldDefn.fieldType} component={ComboInput} list={FIELD_TYPES}/>
+            <Row prop={fieldDefn.fieldType} component={DropdownInput} options={FIELD_TYPES}/>
             {getFields("fieldProps", fieldType, fieldProps)}
           </div>
         </div>
 
         {
           ((fieldType === "SchemaArray") || (fieldType === "Schema")) &&
-          <FieldArray name="fieldSchema" className={styles.subSchemaFields} component={SubSchemaFields} fieldSchema={fieldSchema}/>
+          <FieldArray
+            name="fieldSchema"
+            className={styles.subSchemaFields}
+            component={SubSchemaFields}
+            fieldSchema={fieldSchema}
+          />
         }
 
         <div className={cx("row", styles.submitRow)}>

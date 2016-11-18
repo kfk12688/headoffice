@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
-import { Button, TextInput, ComboInput } from "components";
+import { Button, TextInput, DropdownInput } from "components";
 import styles from "./NewWorkbookForm.less";
 
 class CreateUserForm extends Component {
@@ -41,8 +41,8 @@ class CreateUserForm extends Component {
           <Field
             name="users"
             className={styles.formElementInput}
-            component={ComboInput}
-            list={["", "SuperAdmin", "Admin", "Manager", "Technician"]}
+            component={DropdownInput}
+            options={["", "SuperAdmin", "Admin", "Manager", "Technician"]}
           />
         </div>
 

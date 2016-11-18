@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
-import { Button, TextInput, ComboSearchInput } from "components";
-import { searchWorkbook as loadWorkbooks } from "dataflow/api";
+import { Button, TextInput, SelectInput } from "components";
 import styles from "./NewTemplateForm.less";
 
 // FORM COMPONENT FOR Creating a new template
@@ -36,8 +35,8 @@ class CreateForm extends Component {
 
         <div className={styles.formElement}>
           <div className={styles.formElementTitle}>Workbook</div>
-          <Field className={styles.formElementInput} name="workBookId" component={ComboSearchInput}
-                 loadOptions={loadWorkbooks}
+          <Field className={styles.formElementInput} name="workBookId" component={SelectInput}
+                 api={"api/list/workbooks"}
           />
         </div>
 

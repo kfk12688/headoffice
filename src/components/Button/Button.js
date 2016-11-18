@@ -20,7 +20,7 @@ const Button = ({ disabled, size, style, outline, block, faName, faClassName, ch
       disabled={disabled}
       {...rest}
     >
-      {children}&nbsp;{faIcon}
+      {children ? <span>{children}{"  "}{faIcon}</span> : faIcon}
     </button>
   );
 };

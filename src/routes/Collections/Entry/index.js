@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Entry, NavLink, StickySidebar, Button, Modal, FavoriteCell } from "components";
+import { StickyContainer, Sticky } from "react-sticky";
+import { Entry, NavLink, Button, Modal, FavoriteCell } from "components";
 import { loadSpec, addRow } from "dataflow/collections/actions";
 import styles from "./index.less";
 import EditTemplateForm from "../../Forms/NewTemplateForm";
@@ -34,57 +35,51 @@ class EntryForm extends Component {
     return (
       <div className="row">
         <div className="col-md-10 offset-md-1">
-          <div className="row">
-            <Entry
-              className="col-md-9"
-              spec={spec}
-              isLoading={isLoading}
-              onSubmit={this.addRow}
-            />
+          <StickyContainer>
+            <div className="row">
+              <Entry
+                className="col-md-9"
+                spec={spec}
+                isLoading={isLoading}
+                onSubmit={this.addRow}
+              />
 
-            <div className="col-md-3">
-              <StickySidebar top={150}>
+              <div className="col-md-3">
                 <div className="row">
-                  <div className="col-md-12 btn-group-vertical">
-                    <Button><NavLink to="collections">Close View</NavLink></Button>
-                    <Button>
-                      <NavLink to={`collections/view/${collectionName}`}>Data View</NavLink>
-                    </Button>
-                  </div>
+                  <Sticky>
+                    <div className="col-md-12 btn-group-vertical">
+                      <Button><NavLink to="collections">Close View</NavLink></Button>
+                      <Button>
+                        <NavLink to={`collections/view/${collectionName}`}>Data View</NavLink>
+                      </Button>
+                      <div className={styles.divider}/>
+                      <Modal
+                        modalTitle="Edit Template"
+                        faName="edit"
+                        caption="Edit Template"
+                        show={this.state.showModal}
+                        showModal={e => this.setState({ showModal : true })}
+                        hideModal={e => this.setState({ showModal : false })}
+                        block
+                      >
+                        <EditTemplateForm
+                          state={{}} submitForm={() => {}}
+                          toggleModal={e => this.setState({ showModal : false })}
+                        />
+                      </Modal>
+                      <Button faName="times" block>Delete Template</Button>
+                      <Button block>Make Favorite <FavoriteCell value inheritSize/></Button>
+                      <div className={styles.divider}/>
+                      <div>Created By :</div>
+                      <div>Created At :</div>
+                      <div>Last Modified :</div>
+                      <div>Belongs to :</div>
+                    </div>
+                  </Sticky>
                 </div>
-                <div className={styles.divider}/>
-                <div className="row">
-                  <div className="col-md-12">
-                    <Modal
-                      modalTitle="Edit Template"
-                      faName="edit"
-                      caption="Edit Template"
-                      show={this.state.showModal}
-                      showModal={e => this.setState({ showModal : true })}
-                      hideModal={e => this.setState({ showModal : false })}
-                      block
-                    >
-                      <EditTemplateForm
-                        state={{}} submitForm={() => {}}
-                        toggleModal={e => this.setState({ showModal : false })}
-                      />
-                    </Modal>
-                    <Button faName="times" block>Delete Template</Button>
-                    <Button block>Make Favorite <FavoriteCell value inheritSize/></Button>
-                  </div>
-                </div>
-                <div className={styles.divider}/>
-                <div className="row">
-                  <div className="col-md-12">
-                    <div>Created By :</div>
-                    <div>Created At :</div>
-                    <div>Last Modified :</div>
-                    <div>Belongs to :</div>
-                  </div>
-                </div>
-              </StickySidebar>
+              </div>
             </div>
-          </div>
+          </StickyContainer>
         </div>
       </div>
     );

@@ -43,7 +43,7 @@ class Editor extends Component {
       action      : 45,
       displayText : 200,
       fieldType   : 140,
-      fieldProps  : 400,
+      fieldProps  : 300,
     };
   }
 
@@ -79,40 +79,38 @@ class Editor extends Component {
               />
 
               <div className={"col-md-3"}>
-                <div className="row">
-                  <Sticky>
-                    <div className={"col-md-12 btn-group-vertical"} style={{ marginTop : "1rem" }}>
-                      <Button onClick={this.saveUserSchema}>Update Schema</Button>
-                      <Button>Undo</Button>
-                      <Button>Redo</Button>
-                      <Button onClick={this.loadSchema}>Reset Schema</Button>
-                    </div>
+                <Sticky stickyStyle={{ paddingTop : 8 }}>
+                  <div className="btn-group-vertical btn-block">
+                    <Button onClick={this.saveUserSchema}>Update Schema</Button>
+                    <Button>Undo</Button>
+                    <Button>Redo</Button>
+                    <Button onClick={this.loadSchema}>Reset Schema</Button>
+                  </div>
 
-                    <div className={styles.divider}/>
-                    <Modal
-                      modalTitle="Edit Template"
-                      faName="edit"
-                      caption="Edit Template"
-                      show={this.state.showModal}
-                      showModal={e => this.setState({ showModal : true })}
-                      hideModal={e => this.setState({ showModal : false })}
-                      block
-                    >
-                      <EditTemplateForm
-                        state={{}} submitForm={() => {}}
-                        toggleModal={e => this.setState({ showModal : false })}
-                      />
-                    </Modal>
-                    <Button faName="times" block>Delete Template</Button>
-                    <Button block>Make Favorite <FavoriteCell value inheritSize/></Button>
+                  <div className={styles.divider}/>
+                  <Modal
+                    modalTitle="Edit Template"
+                    faName="edit"
+                    caption="Edit Template"
+                    show={this.state.showModal}
+                    showModal={e => this.setState({ showModal : true })}
+                    hideModal={e => this.setState({ showModal : false })}
+                    block
+                  >
+                    <EditTemplateForm
+                      state={{}} submitForm={() => {}}
+                      toggleModal={e => this.setState({ showModal : false })}
+                    />
+                  </Modal>
+                  <Button faName="times" block>Delete Template</Button>
+                  <Button block>Make Favorite <FavoriteCell value inheritSize/></Button>
 
-                    <div className={styles.divider}/>
-                    <div>Created By :</div>
-                    <div>Created At :</div>
-                    <div>Last Modified :</div>
-                    <div>Belongs to :</div>
-                  </Sticky>
-                </div>
+                  <div className={styles.divider}/>
+                  <div>Created By :</div>
+                  <div>Created At :</div>
+                  <div>Last Modified :</div>
+                  <div>Belongs to :</div>
+                </Sticky>
               </div>
             </div>
           </StickyContainer>

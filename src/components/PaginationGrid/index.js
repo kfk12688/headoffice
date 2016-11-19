@@ -1,6 +1,6 @@
 import _ from "underscore";
 import React, { Component } from "react";
-import  { Sticky } from "react-sticky";
+import { Sticky } from "react-sticky";
 import { PGHeaderRow } from "./PGHeaderRow";
 import { PGBody } from "./PGBody";
 import calcColWidths from "../calculateColWidths";
@@ -25,7 +25,7 @@ class PaginationGrid extends Component {
   }
 
   renderContent() {
-    const { isLoading, spec, data } = this.props;
+    const { isLoading, spec, data, topOffset } = this.props;
     const colWidths = calcColWidths(spec, data);
     let PGBodyElement = null;
 
@@ -46,7 +46,7 @@ class PaginationGrid extends Component {
 
     return (
       <div className={styles.tableContainer}>
-        <Sticky stickyStyle={{ overflow : "hidden", zIndex : 100 }}>
+        <Sticky topOffset={-topOffset} stickyStyle={{ zIndex : 100, marginTop : topOffset }}>
           <PGHeaderRow
             cols={spec}
             colWidths={colWidths}
@@ -68,6 +68,7 @@ class PaginationGrid extends Component {
 }
 
 PaginationGrid.propTypes = {
+  topOffset : React.PropTypes.number,
   style     : React.PropTypes.object,
   className : React.PropTypes.string,
   isLoading : React.PropTypes.bool,

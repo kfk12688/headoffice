@@ -38,30 +38,28 @@ class SpecDefiner extends React.Component {
       return (
         <div className="row">
           <div className="col-md-12">
-            <div className={styles.tableContainer}>
-              <Sticky>
-                <SDHeaderRow
-                  cols={colSpec}
-                  colWidths={this.state.colWidths}
-                />
-              </Sticky>
+            <Sticky topOffset={-50} stickyStyle={{ marginTop : 50 }}>
+              <SDHeaderRow
+                cols={colSpec}
+                colWidths={this.state.colWidths}
+              />
+            </Sticky>
 
-              {
-                isLoading ?
-                <i className={cx("fa fa-spinner fa-2x", styles.spinner)}/> :
-                <SDBody
-                  cols={colSpec}
-                  colWidths={this.state.colWidths}
-                  rows={data}
-                />
-              }
-            </div>
+            {
+              isLoading ?
+              <i className={cx("fa fa-spinner fa-2x", styles.spinner)}/> :
+              <SDBody
+                cols={colSpec}
+                colWidths={this.state.colWidths}
+                rows={data}
+              />
+            }
           </div>
         </div>
       );
     } else if (mode === ADD_MODE) {
       return (
-        <div className={cx("row", styles.metaContainer)}>
+        <div className="row">
           <div className="col-md-12">
             <SDForm onSubmit={onSubmit}/>
           </div>
@@ -77,7 +75,7 @@ class SpecDefiner extends React.Component {
 
     return (
       <div className={className}>
-        <Sticky>
+        <Sticky stickyStyle={{ zIndex : 1040, backgroundColor : "white" }}>
           <div className={cx("row", styles.metaContainer)}>
             <div className="col-md-12">
               <h4>{name}&nbsp;

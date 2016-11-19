@@ -74,33 +74,30 @@ class Viewer extends Component {
           <StickyContainer>
             <div className="row" style={{ marginTop : "1rem" }}>
               <div className="col-md-9">
-                <h4>{templateName || collectionName}&nbsp;
-                  <small className="text-muted">({count || 0} Entries)</small>
-                </h4>
+                <Sticky stickyStyle={{ backgroundColor : "white", zIndex : 100 }}>
+                  <div className="row">
+                    <div className="col-md-12">
+                      <h4>{templateName || collectionName}&nbsp;
+                        <small className="text-muted">({count || 0} Entries)</small>
+                      </h4>
+                    </div>
+                  </div>
 
-                <div className="row">
-                  <Pagination
-                    className="col-md-12"
-                    setLimit={this.setLimit}
-                    setPage={this.setPage}
-                    activePage={this.state.page}
-                    limit={this.state.limit}
-                  />
-                </div>
-
-                <div className="row">
-                  <Pagination
-                    className="col-md-12"
-                    setLimit={this.setLimit}
-                    setPage={this.setPage}
-                    activePage={this.state.page}
-                    limit={this.state.limit}
-                  />
-                </div>
+                  <div className="row">
+                    <Pagination
+                      className="col-md-12"
+                      setLimit={this.setLimit}
+                      setPage={this.setPage}
+                      activePage={this.state.page}
+                      limit={this.state.limit}
+                    />
+                  </div>
+                </Sticky>
 
                 <div className="row">
                   <div className="col-md-12">
                     <PaginationGrid
+                      topOffset={114}
                       spec={specObj}
                       data={dataObj}
                       isLoading={isLoading}
@@ -110,40 +107,40 @@ class Viewer extends Component {
               </div>
 
               <div className="col-md-3">
-                <div className="row">
-                  <Sticky>
-                    <div className="col-md-12 btn-group-vertical">
-                      <Button><NavLink to="collections" faName="times-circle-o">Close View</NavLink></Button>
-                      <Button>
-                        <NavLink to={`collections/entry/${collectionName}`} faName="arrow-circle-o-right">
-                          Entry View
-                        </NavLink>
-                      </Button>
-                      <div className={styles.divider}/>
-                      <Modal
-                        modalTitle="Edit Template"
-                        faName="edit"
-                        caption="Edit Template"
-                        show={this.state.showModal}
-                        showModal={e => this.setState({ showModal : true })}
-                        hideModal={e => this.setState({ showModal : false })}
-                        block
-                      >
-                        <EditTemplateForm
-                          state={{}} submitForm={() => {}}
-                          toggleModal={e => this.setState({ showModal : false })}
-                        />
-                      </Modal>
-                      <Button faName="times" block>Delete Template</Button>
-                      <Button block>Make Favorite <FavoriteCell value inheritSize/></Button>
-                      <div className={styles.divider}/>
-                      <div>Created By :</div>
-                      <div>Created At :</div>
-                      <div>Last Modified :</div>
-                      <div>Belongs to :</div>
-                    </div>
-                  </Sticky>
-                </div>
+                <Sticky stickyStyle={{ paddingTop : 8 }}>
+                  <div className="btn-block btn-group-vertical">
+                    <Button><NavLink to="collections" faName="times-circle-o">Close View</NavLink></Button>
+                    <Button>
+                      <NavLink to={`collections/entry/${collectionName}`} faName="arrow-circle-o-right">
+                        Entry View
+                      </NavLink>
+                    </Button>
+                  </div>
+
+                  <div className={styles.divider}/>
+                  <Modal
+                    modalTitle="Edit Template"
+                    faName="edit"
+                    caption="Edit Template"
+                    show={this.state.showModal}
+                    showModal={e => this.setState({ showModal : true })}
+                    hideModal={e => this.setState({ showModal : false })}
+                    block
+                  >
+                    <EditTemplateForm
+                      state={{}} submitForm={() => {}}
+                      toggleModal={e => this.setState({ showModal : false })}
+                    />
+                  </Modal>
+                  <Button faName="times" block>Delete Template</Button>
+                  <Button block>Make Favorite <FavoriteCell value inheritSize/></Button>
+
+                  <div className={styles.divider}/>
+                  <div>Created By :</div>
+                  <div>Created At :</div>
+                  <div>Last Modified :</div>
+                  <div>Belongs to :</div>
+                </Sticky>
               </div>
             </div>
           </StickyContainer>

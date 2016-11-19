@@ -4,6 +4,7 @@ import { Sticky } from "react-sticky";
 import { PGHeaderRow } from "./PGHeaderRow";
 import { PGBody } from "./PGBody";
 import calcColWidths from "../calculateColWidths";
+import { white } from "../_styles/colors";
 import cx from "classnames";
 import styles from "./common.less";
 
@@ -25,42 +26,47 @@ class PaginationGrid extends Component {
   }
 
   renderContent() {
-    const { isLoading, spec, data, topOffset } = this.props;
+    const { isLoading, spec, data } = this.props;
     const colWidths = calcColWidths(spec, data);
-    let PGBodyElement = null;
 
     if (isLoading) {
-      PGBodyElement = <i className={cx("fa fa-spinner fa-2x", styles.spinner)}/>;
-    } else if (_.isEmpty(data)) {
-      PGBodyElement = <div className={styles.egBody}>No Data Present</div>;
-    } else {
-      PGBodyElement = (
-        <PGBody
-          cols={spec}
-          rows={data}
-          colWidths={colWidths}
-          reportScrollLeftFn={this.reportScrollLeftFn}
-        />
-      );
+      return <i className={cx("fa fa-spinner fa-2x", styles.spinner)}/>;
+    }
+
+    if (_.isEmpty(data)) {
+      return <div className={styles.egBody}>No Data Present</div>;
     }
 
     return (
-      <div className={styles.tableContainer}>
-        <Sticky topOffset={-topOffset} stickyStyle={{ zIndex : 100, marginTop : topOffset }}>
+      <PGBody
+        cols={spec}
+        rows={data}
+        colWidths={colWidths}
+        reportScrollLeftFn={this.reportScrollLeftFn}
+      />
+    );
+  }
+
+  render() {
+    const { spec, topOffset, data } = this.props;
+    const colWidths = calcColWidths(spec, data);
+
+    return (
+      <div className={styles.tableContainer} style={{ overflow : "hidden", backgroundColor : white }}>
+        <Sticky topOffset={-topOffset}
+                stickyStyle={{
+                  zIndex         : 100,
+                  marginTop      : topOffset,
+                  borderTopWidth : 1,
+                  borderTopStyle : "solid",
+                  borderTopColor : "#e0e0e0",
+                }}>
           <PGHeaderRow
             cols={spec}
             colWidths={colWidths}
             scrollLeft={this.state.scrollLeft}
           />
         </Sticky>
-        {PGBodyElement}
-      </div>
-    );
-  }
-
-  render() {
-    return (
-      <div>
         {this.renderContent()}
       </div>
     );

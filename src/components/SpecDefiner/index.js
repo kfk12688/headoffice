@@ -1,4 +1,5 @@
 import React from "react";
+import { Sticky } from "react-sticky";
 import { Button } from "components";
 import { SDHeaderRow } from "./SDHeaderRow";
 import { SDBody } from "./SDBody";
@@ -38,10 +39,12 @@ class SpecDefiner extends React.Component {
         <div className="row">
           <div className="col-md-12">
             <div className={styles.tableContainer}>
-              <SDHeaderRow
-                cols={colSpec}
-                colWidths={this.state.colWidths}
-              />
+              <Sticky>
+                <SDHeaderRow
+                  cols={colSpec}
+                  colWidths={this.state.colWidths}
+                />
+              </Sticky>
 
               {
                 isLoading ?
@@ -74,7 +77,7 @@ class SpecDefiner extends React.Component {
 
     return (
       <div className={className}>
-        <div>
+        <Sticky>
           <div className={cx("row", styles.metaContainer)}>
             <div className="col-md-12">
               <h4>{name}&nbsp;
@@ -89,8 +92,8 @@ class SpecDefiner extends React.Component {
               </h4>
             </div>
           </div>
-          {this.renderContent(this.state.mode)}
-        </div>
+        </Sticky>
+        {this.renderContent(this.state.mode)}
       </div>
     );
   }

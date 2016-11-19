@@ -66,9 +66,10 @@ class Editor extends Component {
       <div className="row">
         <div className="col-md-10 offset-md-1">
           <StickyContainer>
-            <div style={{ marginTop : "1rem" }} className="row">
+            <div className="row">
               <SpecDefiner
                 className={"col-md-9"}
+                style={{ marginTop : "1rem" }}
                 colSpec={this.colSpec}
                 colWidths={this.colWidths}
                 data={userSchema}
@@ -79,7 +80,7 @@ class Editor extends Component {
                 <div>
                   <div className="row">
                     <Sticky>
-                      <div className={"col-md-12 btn-group-vertical"}>
+                      <div className={"col-md-12 btn-group-vertical"} style={{ marginTop : "1rem" }}>
                         <Button onClick={this.saveUserSchema}>Update Schema</Button>
                         <Button>Undo</Button>
                         <Button>Redo</Button>

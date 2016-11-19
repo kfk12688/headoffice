@@ -1,6 +1,6 @@
 import _ from "underscore";
 import React, { Component, PropTypes } from "react";
-import  { StickyContainer, Sticky } from "react-sticky";
+import  { Sticky } from "react-sticky";
 import { DGHeaderRow } from "./DGHeaderRow";
 import { DGBody } from "./DGBody";
 import { white } from "../_styles/colors";
@@ -64,7 +64,7 @@ class DataGrid extends Component {
 
     return (
       <div style={{ overflow : "hidden", backgroundColor : white }}>
-        <Sticky stickyStyle={{ overflow : "hidden", backgroundColor : white }}>
+        <Sticky stickyStyle={{ overflow : "hidden", zIndex : 100 }}>
           <DGHeaderRow
             cols={cols}
             colWidths={this.state.colWidths}

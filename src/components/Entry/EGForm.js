@@ -75,10 +75,7 @@ class EGForm extends Component {
 
   submitForm(e) {
     e.preventDefault();
-
-    const { handleSubmit } = this.props;
-    handleSubmit();
-
+    this.props.handleSubmit();
     this.props.reset();
   }
 

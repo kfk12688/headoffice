@@ -81,10 +81,10 @@ class Editor extends Component {
               <div className={"col-md-3"}>
                 <Sticky stickyStyle={{ paddingTop : 8 }}>
                   <div className="btn-group-vertical btn-block">
-                    <Button onClick={this.saveUserSchema}>Update Schema</Button>
+                    <Button onClick={this.updateSchema}>Update Schema</Button>
                     <Button>Undo</Button>
                     <Button>Redo</Button>
-                    <Button onClick={this.loadSchema}>Reset Schema</Button>
+                    <Button onClick={e => this.props.getTemplate(collectionName)}>Reset Schema</Button>
                   </div>
 
                   <div className={styles.divider}/>

@@ -51,7 +51,8 @@ class Editor extends Component {
     this.props.getTemplate(collectionName);
   }
 
-  updateSchema() {
+  updateSchema(e) {
+    e.preventDefault();
     const { collectionName } = this.props.params;
     const { userSchema } = this.props.editor[collectionName];
     this.props.updateSchema(collectionName, userSchema);
@@ -59,7 +60,7 @@ class Editor extends Component {
 
   render() {
     const { collectionName } = this.props.params;
-    const { userSchema, isLoading } = this.props.editor[collectionName] || {};
+    const { userSchema, isLoading, templateName = "" } = this.props.editor[collectionName] || {};
 
     return (
       <div className="row">
@@ -69,6 +70,7 @@ class Editor extends Component {
               className={"col-md-9"}
               colSpec={this.colSpec}
               colWidths={this.colWidths}
+              name={templateName}
               data={userSchema}
               isLoading={isLoading}
               onSubmit={field => this.props.addField(collectionName, field)}
@@ -77,10 +79,10 @@ class Editor extends Component {
               <StickySidebar top={171}>
                 <div className="row">
                   <div className={"col-md-12 btn-group-vertical"}>
-                    <Button onClick={this.saveUserSchema}>Update Schema</Button>
+                    <Button onClick={this.updateSchema}>Update Schema</Button>
                     <Button>Undo</Button>
                     <Button>Redo</Button>
-                    <Button onClick={this.loadSchema}>Reset Schema</Button>
+                    <Button onClick={e => this.props.getTemplate(collectionName)}>Reset Schema</Button>
                   </div>
                 </div>
 

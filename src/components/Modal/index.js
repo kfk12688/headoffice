@@ -7,12 +7,11 @@ import cx from "classnames";
 const store = configureStore();
 
 export class Modal extends React.Component {
-  constructor(props) {
+  constructor() {
     super();
     this.renderModal = this.renderModal.bind(this);
     this.hideModalOnOutsideClick = this.hideModalOnOutsideClick.bind(this);
     this.hideModalOnEsc = this.hideModalOnEsc.bind(this);
-    this.children = props.children;
   }
 
   shouldComponentUpdate(nextProps) {

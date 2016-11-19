@@ -70,7 +70,7 @@ class Viewer extends Component {
     return (
       <div className="row">
         <div className="col-md-10 offset-md-1">
-          <div className="row">
+          <div className="row" style={{ marginTop : "1rem" }}>
             <div className="col-md-9">
               <h4>{templateName || collectionName}&nbsp;
                 <small className="text-muted">({count || 0} Entries)</small>

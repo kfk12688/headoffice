@@ -35,50 +35,32 @@ class SpecDefiner extends React.Component {
 
     if (mode === VIEW_MODE) {
       return (
-        <div>
-          <div className={cx("row", styles.metaContainer)}>
-            <div className="col-md-6">{data && data.length} Fields</div>
-            <div className="col-md-6 text-md-right">
-              <Button faName="plus" style="primary" onClick={this.toggleAddMode}>Add new Field</Button> 
-            </div>
-          </div>
+        <div className="row">
+          <div className="col-md-12">
+            <div className={styles.tableContainer}>
+              <SDHeaderRow
+                cols={colSpec}
+                colWidths={this.state.colWidths}
+              />
 
-          <div className="row">
-            <div className="col-md-12">
-              <div className={styles.tableContainer}>
-                <SDHeaderRow
+              {
+                isLoading ?
+                <i className={cx("fa fa-spinner fa-2x", styles.spinner)}/> :
+                <SDBody
                   cols={colSpec}
                   colWidths={this.state.colWidths}
+                  rows={data}
                 />
-
-                {
-                  isLoading ?
-                  <i className={cx("fa fa-spinner fa-2x", styles.spinner)}/> :
-                  <SDBody
-                    cols={colSpec}
-                    colWidths={this.state.colWidths}
-                    rows={data}
-                  />
-                }
-              </div>
+              }
             </div>
           </div>
         </div>
       );
     } else if (mode === ADD_MODE) {
       return (
-        <div>
-          <div className={cx("row", styles.metaContainer)}>
-            <div className="col-md-6">{data && data.length} Fields</div>
-            <div className="col-md-6 text-md-right">
-              <Button style="primary" faName="long-arrow-left" onClick={this.toggleViewMode}>Go Back</Button>
-            </div>
-          </div>
-
-          <div className={cx("row", styles.metaContainer)}>
-            <div className="col-md-12">
-              <SDForm onSubmit={onSubmit}/>
-            </div>
+        <div className={cx("row", styles.metaContainer)}>
+          <div className="col-md-12">
+            <SDForm onSubmit={onSubmit}/>
           </div>
         </div>
       );
@@ -88,11 +70,27 @@ class SpecDefiner extends React.Component {
   }
 
   render() {
-    const { className } = this.props;
+    const { className, data, name } = this.props;
 
     return (
       <div className={className}>
-        {this.renderContent(this.state.mode)}
+        <div>
+          <div className={cx("row", styles.metaContainer)}>
+            <div className="col-md-12">
+              <h4>{name}&nbsp;
+                <small className="text-muted">({data && data.length || 0} Fields)</small>
+                <div className="pull-right">
+                  {
+                    this.state.mode === VIEW_MODE ?
+                    <Button faName="plus" style="primary" onClick={this.toggleAddMode}>Add new Field</Button> :
+                    <Button style="primary" faName="long-arrow-left" onClick={this.toggleViewMode}>Go Back</Button>
+                  }
+                </div>
+              </h4>
+            </div>
+          </div>
+          {this.renderContent(this.state.mode)}
+        </div>
       </div>
     );
   }
@@ -100,6 +98,7 @@ class SpecDefiner extends React.Component {
 
 SpecDefiner.propTypes = {
   className : React.PropTypes.string,
+  name      : React.PropTypes.string,
   colWidths : React.PropTypes.object.isRequired,
   colSpec   : React.PropTypes.object.isRequired,
   data      : React.PropTypes.arrayOf(React.PropTypes.object),

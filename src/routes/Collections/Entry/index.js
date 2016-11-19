@@ -28,19 +28,30 @@ class EntryForm extends Component {
   }
 
   render() {
-    const { collectionName } = this.props.params;
+    const { collectionName, templateName="" } = this.props.params;
     const { spec = [], isLoading } = this.props.entryStore[collectionName] || {};
 
     return (
       <div className="row">
         <div className="col-md-10 offset-md-1">
-          <div className="row">
-            <Entry
-              className="col-md-9"
-              spec={spec}
-              isLoading={isLoading}
-              onSubmit={this.addRow}
-            />
+          <div className="row" style={{ marginTop : "1rem" }}>
+            <div className="col-md-9">
+              <div className="row">
+                <div className="col-md-12">
+                  <h4>{collectionName}</h4>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col-md-12">
+                  <Entry
+                    spec={spec}
+                    isLoading={isLoading}
+                    onSubmit={this.addRow}
+                  />
+                </div>
+              </div>
+            </div>
 
             <div className="col-md-3">
               <StickySidebar top={150}>

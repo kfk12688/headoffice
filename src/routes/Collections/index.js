@@ -1,7 +1,8 @@
 import _ from "underscore";
 import React, { Component } from "react";
+import { StickyContainer, Sticky } from "react-sticky";
 import { connect } from "react-redux";
-import { SearchBar, DataGrid, StickySidebar } from "components";
+import { SearchBar, DataGrid } from "components";
 import { toggleSelection } from "dataflow/menu/actions";
 import { getTemplates } from "dataflow/collections/actions";
 import { setDateModifiedEnd, setDateModifiedStart, setOwner, setIsRecent, setIsStarred } from "dataflow/filter/actions";
@@ -179,29 +180,31 @@ class Data extends Component {
             actions={this.actionsCollection}
           />
 
-          <div className="row">
-            {
-              menuStore.showSidebar &&
-              <div className="col-md-3">
-                <StickySidebar top={113} width={236}>
-                  <SearchBar config={searchConfig}/>
-                </StickySidebar>
-              </div>
-            }
+          <StickyContainer>
+            <div className="row">
+              {
+                menuStore.showSidebar &&
+                <div className="col-md-3">
+                  <Sticky>
+                    <SearchBar config={searchConfig}/>
+                  </Sticky>
+                </div>
+              }
 
-            <div className={cx({ "col-md-9" : menuStore.showSidebar, "col-md-12" : !menuStore.showSidebar })}>
-              <DataGrid
-                isLoading={isLoading}
-                cols={this.colSpec}
-                colWidths={this.colWidths}
-                rows={data}
-                sortKey={filterStore.sortKey}
-                sortAscending={filterStore.sortAscending}
-                selectedKeys={menuStore.selectedKeys}
-                onRowClick={this.props.toggleSelection}
-              />
+              <div className={cx({ "col-md-9" : menuStore.showSidebar, "col-md-12" : !menuStore.showSidebar })}>
+                <DataGrid
+                  isLoading={isLoading}
+                  cols={this.colSpec}
+                  colWidths={this.colWidths}
+                  rows={data}
+                  sortKey={filterStore.sortKey}
+                  sortAscending={filterStore.sortAscending}
+                  selectedKeys={menuStore.selectedKeys}
+                  onRowClick={this.props.toggleSelection}
+                />
+              </div>
             </div>
-          </div>
+          </StickyContainer>
         </div>
       </div>
     );

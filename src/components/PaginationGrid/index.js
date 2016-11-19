@@ -1,5 +1,6 @@
 import _ from "underscore";
 import React, { Component } from "react";
+import  { Sticky } from "react-sticky";
 import { PGHeaderRow } from "./PGHeaderRow";
 import { PGBody } from "./PGBody";
 import calcColWidths from "../calculateColWidths";
@@ -45,11 +46,13 @@ class PaginationGrid extends Component {
 
     return (
       <div className={styles.tableContainer}>
-        <PGHeaderRow
-          cols={spec}
-          colWidths={colWidths}
-          scrollLeft={this.state.scrollLeft}
-        />
+        <Sticky stickyStyle={{ overflow : "hidden", zIndex : 100 }}>
+          <PGHeaderRow
+            cols={spec}
+            colWidths={colWidths}
+            scrollLeft={this.state.scrollLeft}
+          />
+        </Sticky>
         {PGBodyElement}
       </div>
     );

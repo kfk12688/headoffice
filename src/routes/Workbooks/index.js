@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import { StickyContainer, Sticky } from "react-sticky";
 import { connect } from "react-redux";
-import { DataGrid, SearchBar, StickySidebar } from "components";
+import { DataGrid, SearchBar } from "components";
 import { ContentMenu } from "./ContentMenu";
 import { toggleSelection } from "dataflow/menu/actions";
 import { setDateModifiedEnd, setDateModifiedStart, setWorkbookName } from "dataflow/filter/actions";
@@ -119,28 +120,30 @@ class Workbooks extends Component {
             addNewWorkbook={this.props.createWorkbook}
           />
 
-          <div className="row">
-            {
-              menuStore.showSidebar &&
-              <div className="col-md-3">
-                <StickySidebar top={113} width={236}>
-                  <SearchBar config={searchConfig}/>
-                </StickySidebar>
-              </div>
-            }
+          <StickyContainer>
+            <div className="row">
+              {
+                menuStore.showSidebar &&
+                <div className="col-md-3">
+                  <Sticky>
+                    <SearchBar config={searchConfig}/>
+                  </Sticky>
+                </div>
+              }
 
-            <div className={cx({ "col-md-9" : menuStore.showSidebar, "col-md-12" : !menuStore.showSidebar })}>
-              <DataGrid
-                style={{ left : !menuStore.showSidebar && 0 }}
-                isLoading={isLoading}
-                rows={data}
-                cols={this.colSpec}
-                colWidths={this.colWidths}
-                selectedKeys={menuStore.selectedKeys}
-                onRowClick={toggleRow}
-              />
+              <div className={cx({ "col-md-9" : menuStore.showSidebar, "col-md-12" : !menuStore.showSidebar })}>
+                <DataGrid
+                  style={{ left : !menuStore.showSidebar && 0 }}
+                  isLoading={isLoading}
+                  rows={data}
+                  cols={this.colSpec}
+                  colWidths={this.colWidths}
+                  selectedKeys={menuStore.selectedKeys}
+                  onRowClick={toggleRow}
+                />
+              </div>
             </div>
-          </div>
+          </StickyContainer>
         </div>
       </div>
     );

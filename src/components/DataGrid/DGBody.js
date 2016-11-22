@@ -51,11 +51,14 @@ class DGBody extends Component {
         style={bodyStyle}
         onScroll={this.reportScrollLeftFn}
       >
-        <span className={styles.cols}>{this.getRows()}</span>
+        <div className={styles.row}>
+          <span >
+            {this.getRows()}
+          </span>
+        </div>
       </div>
     );
   }
-
 }
 
 DGBody.propTypes = {

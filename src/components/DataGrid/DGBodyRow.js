@@ -53,7 +53,7 @@ class DGBodyRow extends Component {
     return (
       <div
         style={rowStyle}
-        className={styles.row}
+        className={styles.col}
         onMouseEnter={() => this.setState({ hovered : true })}
         onMouseLeave={() => this.setState({ hovered : false })}
         onClick={this.clickHandler}

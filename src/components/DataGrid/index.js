@@ -51,8 +51,9 @@ class DataGrid extends Component {
       <DGBody
         cols={cols}
         colWidths={this.state.colWidths}
-        rows={rows}
         selectedKeys={selectedKeys}
+        rows={rows}
+        onDrag={this.resize}
         onRowClick={onRowClick}
         reportScrollLeftFn={this.reportScrollLeftFn}
       />

@@ -52,10 +52,11 @@ class PaginationGrid extends Component {
     const colWidths = calcColWidths(spec, data);
 
     return (
-      <div className={styles.tableContainer} style={{ overflow : "hidden", backgroundColor : white }}>
+      <div style={{ overflow : "auto", backgroundColor : white }}>
         <Sticky topOffset={-topOffset}
                 stickyStyle={{
                   zIndex         : 100,
+                  overflow       : "auto",
                   marginTop      : topOffset,
                   borderTopWidth : 1,
                   borderTopStyle : "solid",

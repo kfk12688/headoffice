@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { PGHeaderRow } from "./PGHeaderRow";
 import { PGBody } from "./PGBody";
 import calcColWidths from "../calculateColWidths";
-import cx from "classnames";
 import styles from "./common.less";
 
 class PaginationGrid extends Component {
@@ -28,10 +27,8 @@ class PaginationGrid extends Component {
     const colWidths = calcColWidths(spec, data);
 
     if (isLoading) {
-      return <i className={cx("fa fa-spinner fa-2x", styles.spinner)}/>;
-    }
-
-    if (_.isEmpty(data)) {
+      return <div className={styles.spinner}><i className="fa fa-spinner fa-spin fa-2x fa-fw"/></div>;
+    } else if (_.isEmpty(data)) {
       return <div className={styles.noData}>No Data Present</div>;
     }
 

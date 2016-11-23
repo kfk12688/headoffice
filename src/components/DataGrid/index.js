@@ -2,7 +2,6 @@ import _ from "underscore";
 import React, { Component, PropTypes } from "react";
 import { DGHeaderRow } from "./DGHeaderRow";
 import { DGBody } from "./DGBody";
-import cx from "classnames";
 import styles from "./common.less";
 
 class DataGrid extends Component {
@@ -37,12 +36,10 @@ class DataGrid extends Component {
   renderContent() {
     const { isLoading, rows, cols, onRowClick, selectedKeys } = this.props;
 
-    if (_.isEmpty(rows)) {
-      return <div className={styles.dgBody}>No Data Present</div>;
-    }
-
     if (isLoading) {
-      return <i className={cx("fa fa-spinner fa-2x", styles.spinner)}/>;
+      return <div className={styles.spinner}><i className="fa fa-spinner fa-spin fa-2x fa-fw"/></div>;
+    } else if (_.isEmpty(rows)) {
+      return <div className={styles.noData}>No Data Present</div>;
     }
 
     return (

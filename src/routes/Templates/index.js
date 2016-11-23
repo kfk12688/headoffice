@@ -1,6 +1,6 @@
 import _ from "underscore";
 import React, { Component } from "react";
-import  { StickyContainer, Sticky } from "react-sticky";
+import { StickyContainer, Sticky } from "react-sticky";
 import { connect } from "react-redux";
 import { setDateModifiedStart, setDateModifiedEnd, setIsRecent, setIsStarred, setOwner } from "dataflow/filter/actions";
 import { toggleSelection } from "dataflow/menu/actions";
@@ -55,7 +55,7 @@ class Template extends Component {
         text       : "Created By",
       },
       {
-        dataKey    : "workBook.name",
+        dataKey    : "workbook.name",
         name       : "workbook-col",
         renderType : "text",
         text       : "Work Book",
@@ -194,7 +194,7 @@ class Template extends Component {
           <ContentMenu
             dataKeys={Object.keys(data)}
             actions={this.actionsCollection}
-            addTemplate={this.props.createTemplate}
+            createTemplate={this.props.createTemplate}
           />
 
           <StickyContainer>

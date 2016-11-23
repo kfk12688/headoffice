@@ -4,7 +4,7 @@ import {
   EDIT_TEMPLATE_FAILURE, EDIT_TEMPLATE_REQUEST, EDIT_TEMPLATE_SUCCESS, EDIT_SCHEMA_FAILURE, EDIT_SCHEMA_REQUEST,
   EDIT_SCHEMA_SUCCESS, GET_TEMPLATES_REQUEST, GET_TEMPLATES_SUCCESS, GET_TEMPLATES_FAILURE, ADD_TEMPLATE_REQUEST,
   ADD_TEMPLATE_SUCCESS, ADD_TEMPLATE_FAILURE, DELETE_TEMPLATE_REQUEST, DELETE_TEMPLATE_SUCCESS, GET_TEMPLATE_REQUEST,
-  GET_TEMPLATE_SUCCESS, GET_TEMPLATE_FAILURE, DELETE_TEMPLATE_FAILURE, ADD_USER_SCHEMA_FIELD
+  GET_TEMPLATE_SUCCESS, GET_TEMPLATE_FAILURE, DELETE_TEMPLATE_FAILURE, ADD_USER_SCHEMA_FIELD, STAR_TEMPLATE_SUCCESS
 } from "./types";
 import { clearFilterState } from "../filter/actions";
 import { clearMenuState } from "../menu/actions";
@@ -35,7 +35,10 @@ export function getTemplates() {
  * Create a new table template
  */
 const createTemplateRequest = createAction(ADD_TEMPLATE_REQUEST);
-const createTemplateSuccess = createAction(ADD_TEMPLATE_SUCCESS, (template) => ({ template }));
+const createTemplateSuccess = createAction(ADD_TEMPLATE_SUCCESS, (json) => ({
+  template : json.data,
+  message  : json.message,
+}));
 const createTemplateFailure = createAction(ADD_TEMPLATE_FAILURE, (error) => ({ error }));
 export function createTemplate(data) {
   return dispatch => {
@@ -51,16 +54,23 @@ export function createTemplate(data) {
 /**
  * Update a template
  */
-const updateTemplateRequest = createAction(EDIT_TEMPLATE_REQUEST);
-const updateTemplateSuccess = createAction(EDIT_TEMPLATE_SUCCESS, (template) => ({ template }));
-const updateTemplateFailure = createAction(EDIT_TEMPLATE_FAILURE, (error) => ({ error }));
+const updateTemplateRequest = createAction(EDIT_TEMPLATE_REQUEST, (collectionName) => ({ collectionName }));
+const updateTemplateSuccess = createAction(EDIT_TEMPLATE_SUCCESS, (collectionName, json) => ({
+  collectionName,
+  template : json.data,
+  message  : json.message,
+}));
+const updateTemplateFailure = createAction(EDIT_TEMPLATE_FAILURE, (collectionName, error) => ({
+  collectionName,
+  error : JSON.parse(JSON.stringify(error)),
+}));
 export function updateTemplate(collectionName, data) {
   return dispatch => {
-    dispatch(updateTemplateRequest());
+    dispatch(updateTemplateRequest(collectionName));
     return fetch("PUT", `api/templates/${collectionName}`, data)
       .then(res => res.json())
-      .then(template => dispatch(updateTemplateSuccess(template)))
-      .catch(err => dispatch(updateTemplateFailure(err)));
+      .then(json => dispatch(updateTemplateSuccess(collectionName, json)))
+      .catch(err => dispatch(updateTemplateFailure(collectionName, err)));
   };
 }
 
@@ -68,16 +78,39 @@ export function updateTemplate(collectionName, data) {
  * Delete an existing table template from db
  */
 const deleteTemplateRequest = createAction(DELETE_TEMPLATE_REQUEST);
-const deleteTemplateSuccess = createAction(DELETE_TEMPLATE_SUCCESS, (template) => ({ template }));
-const deleteTemplateFailure = createAction(DELETE_TEMPLATE_FAILURE, (error) => ({ error }));
+const deleteTemplateSuccess = createAction(DELETE_TEMPLATE_SUCCESS, (collectionName, json) => ({
+  collectionName,
+  template : json.data,
+  message  : json.message,
+}));
+const deleteTemplateFailure = createAction(DELETE_TEMPLATE_FAILURE, (collectionName, error) => ({
+  collectionName,
+  error,
+}));
 export function deleteTemplate(collectionName) {
   return dispatch => {
     dispatch(deleteTemplateRequest(collectionName));
 
     return fetch("DELETE", `api/templates/${collectionName}`)
       .then(res => res.json())
-      .then(template => dispatch(deleteTemplateSuccess(template)))
-      .catch(err => dispatch(deleteTemplateFailure(err)));
+      .then(json => dispatch(deleteTemplateSuccess(collectionName, json)))
+      .catch(err => dispatch(deleteTemplateFailure(collectionName, err)));
+  };
+}
+
+/**
+ * Favorite/Unfavorite a template
+ */
+const starTemplateSuccess = createAction(STAR_TEMPLATE_SUCCESS, (collectionName, json) => ({
+  collectionName,
+  template : json.data,
+  message  : json.message,
+}));
+export function starTemplate(collectionName) {
+  return dispatch => {
+    return fetch("GET", `api/templates/star/${collectionName}`)
+      .then(res => res.json())
+      .then(json => dispatch(starTemplateSuccess(collectionName, json)));
   };
 }
 

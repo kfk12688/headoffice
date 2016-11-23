@@ -22,4 +22,6 @@ export const DELETE_TEMPLATE_REQUEST = "routes/templates/DELETE_TEMPLATE_REQUEST
 export const DELETE_TEMPLATE_SUCCESS = "routes/templates/DELETE_TEMPLATE_SUCCESS";
 export const DELETE_TEMPLATE_FAILURE = "routes/templates/DELETE_TEMPLATE_FAILURE";
 
+export const STAR_TEMPLATE_SUCCESS = "routes/templates/STAR_TEMPLATE_SUCCESS";
+
 export const ADD_USER_SCHEMA_FIELD = "routes/templates/ADD_USER_SCHEMA_FIELD";

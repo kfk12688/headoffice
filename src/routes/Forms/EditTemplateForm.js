@@ -1,11 +1,8 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
-import { Button, TextInput, ComboSearchInput } from "components";
-import { searchWorkbook as loadWorkbooks } from "dataflow/api";
-import styles from "./NewTemplateForm.less";
+import { Button, SelectInput } from "components";
 
-// FORM COMPONENT FOR Creating a new template
-class CreateForm extends Component {
+class EditTemplateForm extends Component {
   constructor() {
     super();
     this.onSubmit = this.onSubmit.bind(this);
@@ -25,23 +22,20 @@ class CreateForm extends Component {
   }
 
   render() {
-    const {pristine, submitting } = this.props;
+    const { pristine, submitting } = this.props;
 
     return (
       <form onSubmit={this.onSubmit}>
-        <div className={styles.formElement}>
-          <div className={styles.formElementTitle}>Enter the name of the template:</div>
-          <Field className={styles.formElementInput} name="templateName" component={TextInput}/>
-        </div>
-
-        <div className={styles.formElement}>
-          <div className={styles.formElementTitle}>Workbook</div>
-          <Field className={styles.formElementInput} name="workBookId" component={ComboSearchInput}
-                 loadOptions={loadWorkbooks}
+        <div className="form-group">
+          <label>Workbook</label>
+          <Field
+            name="workbook"
+            component={SelectInput}
+            api={"api/list/workbooks"}
           />
         </div>
 
-        <div className={styles.addContentBtnGroup}>
+        <div className="form-group" style={{ textAlign : "right" }}>
           <Button style="success" disabled={pristine || submitting} type="submit">Save</Button>
           <Button onClick={this.resetForm}>Cancel</Button>
         </div>
@@ -50,7 +44,7 @@ class CreateForm extends Component {
   }
 }
 
-CreateForm.propTypes = {
+EditTemplateForm.propTypes = {
   // redux-form injected props
   pristine     : React.PropTypes.bool,
   submitting   : React.PropTypes.bool,
@@ -61,5 +55,5 @@ CreateForm.propTypes = {
 };
 
 export default reduxForm({
-  form : "newTemplate",
-})(CreateForm);
+  form : "editTemplate",
+})(EditTemplateForm);

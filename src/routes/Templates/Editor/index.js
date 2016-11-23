@@ -2,9 +2,12 @@ import React, { Component } from "react";
 import { StickyContainer, Sticky } from "react-sticky";
 import { connect } from "react-redux";
 import { SpecDefiner, Button, Modal, FavoriteCell } from "components";
-import { getTemplate, updateSchema, addField } from "dataflow/templates/actions";
-import EditTemplateForm from "../../Forms/NewTemplateForm";
+import {
+  getTemplate, updateSchema, addField, deleteTemplate, starTemplate, updateTemplate
+} from "dataflow/templates/actions";
+import EditTemplateForm from "../../Forms/EditTemplateForm";
 import styles from "./index.less";
+import moment from "moment";
 
 class Editor extends Component {
   constructor(props) {
@@ -13,6 +16,9 @@ class Editor extends Component {
       showModal : false,
     };
     this.updateSchema = this.updateSchema.bind(this);
+    this.deleteTemplate = this.deleteTemplate.bind(this);
+    this.updateTemplate = this.updateTemplate.bind(this);
+    this.starTemplate = this.starTemplate.bind(this);
 
     this.colSpec = {
       "action"      : {
@@ -59,9 +65,31 @@ class Editor extends Component {
     this.props.updateSchema(collectionName, userSchema);
   }
 
+  deleteTemplate(e) {
+    e.preventDefault();
+    const confirmationFlag = window.confirm("Are you sure you want to delete this template?");
+    if (confirmationFlag) {
+      const { collectionName } = this.props.params;
+      this.props.deleteTemplate(collectionName).then(this.context.router.push("/templates"));
+    }
+  }
+
+  starTemplate(e) {
+    e.preventDefault();
+    const { collectionName } = this.props.params;
+    this.props.starTemplate(collectionName);
+  }
+
+  updateTemplate(data) {
+    const { collectionName } = this.props.params;
+    this.props.updateTemplate(collectionName, data);
+  }
+
   render() {
     const { collectionName } = this.props.params;
-    const { userSchema, isLoading, templateName = "" } = this.props.editor[collectionName] || {};
+    const { userSchema, isLoading, templateName = "", workbook, modifiedAt, createdAt, createdBy, isFavorite } = this.props.editor[collectionName] || {};
+    const workbookName = !!workbook && !!workbook.name && workbook.name || "";
+    const createdByUser = !!createdBy && !!createdBy.name && createdBy.name || "";
 
     return (
       <div className="row">
@@ -78,7 +106,7 @@ class Editor extends Component {
                 onSubmit={field => this.props.addField(collectionName, field)}
               />
 
-              <div className={"col-md-3"}>
+              <div className="col-md-3">
                 <Sticky stickyStyle={{ paddingTop : 8 }}>
                   <div className="btn-group-vertical btn-block">
                     <Button onClick={this.updateSchema}>Update Schema</Button>
@@ -89,7 +117,6 @@ class Editor extends Component {
 
                   <div className={styles.divider}/>
                   <Modal
-                    modalTitle="Edit Template"
                     faName="edit"
                     caption="Edit Template"
                     show={this.state.showModal}
@@ -98,18 +125,20 @@ class Editor extends Component {
                     block
                   >
                     <EditTemplateForm
-                      state={{}} submitForm={() => {}}
+                      onSubmit={this.updateTemplate}
                       toggleModal={e => this.setState({ showModal : false })}
                     />
                   </Modal>
-                  <Button faName="times" block>Delete Template</Button>
-                  <Button block>Make Favorite <FavoriteCell value inheritSize/></Button>
+                  <Button faName="times" block onClick={this.deleteTemplate}>Delete Template</Button>
+                  <Button block onClick={this.starTemplate}>Make Favorite <FavoriteCell value={isFavorite} inheritSize/></Button>
 
                   <div className={styles.divider}/>
-                  <div>Created By :</div>
-                  <div>Created At :</div>
-                  <div>Last Modified :</div>
-                  <div>Belongs to :</div>
+                  <div className={styles.attributes}>
+                    <div>Created By : <span>{createdByUser}</span></div>
+                    <div>Created At : <span>{moment(createdAt).format("DD-MM-YYYY")}</span></div>
+                    <div>Last Modified : <span>{moment(modifiedAt).format("DD-MM-YY h:m A")}</span></div>
+                    <div>Belongs to : <span>{workbookName}</span></div>
+                  </div>
                 </Sticky>
               </div>
             </div>
@@ -122,13 +151,19 @@ class Editor extends Component {
 
 Editor.propTypes = {
   // route
-  params       : React.PropTypes.object,
+  params         : React.PropTypes.object,
   // state
-  editor       : React.PropTypes.object.isRequired,
+  editor         : React.PropTypes.object.isRequired,
   // actions
-  getTemplate  : React.PropTypes.func.isRequired,
-  addField     : React.PropTypes.func.isRequired,
-  updateSchema : React.PropTypes.func.isRequired,
+  getTemplate    : React.PropTypes.func.isRequired,
+  deleteTemplate : React.PropTypes.func.isRequired,
+  starTemplate   : React.PropTypes.func.isRequired,
+  updateTemplate : React.PropTypes.func.isRequired,
+  addField       : React.PropTypes.func.isRequired,
+  updateSchema   : React.PropTypes.func.isRequired,
+};
+Editor.contextTypes = {
+  router : React.PropTypes.object
 };
 
 const mapStateToProps = state => ({
@@ -136,9 +171,12 @@ const mapStateToProps = state => ({
 });
 
 const mapDisptachToProps = dispatch => ({
-  getTemplate  : collectionName => dispatch(getTemplate(collectionName)),
-  addField     : (collectionName, field) => dispatch(addField(collectionName, field)),
-  updateSchema : (collectionName, schema) => dispatch(updateSchema(collectionName, schema)),
+  getTemplate    : collectionName => dispatch(getTemplate(collectionName)),
+  deleteTemplate : collectionName => dispatch(deleteTemplate(collectionName)),
+  starTemplate   : collectionName => dispatch(starTemplate(collectionName)),
+  updateTemplate : (collectionName, data) => dispatch(updateTemplate(collectionName, data)),
+  addField       : (collectionName, field) => dispatch(addField(collectionName, field)),
+  updateSchema   : (collectionName, schema) => dispatch(updateSchema(collectionName, schema)),
 });
 
 export default connect(mapStateToProps, mapDisptachToProps)(Editor);

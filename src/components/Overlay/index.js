@@ -12,7 +12,7 @@ export default class Overlay extends React.Component {
   componentDidMount() {
     console.log("OVERLAY COMPONENT IS MOUNTED");
     this.overlayElement = document.createElement("div");
-    this.overlayElement.style.zIndex = 1000;
+    this.overlayElement.style.zIndex = 2000;
     document.body.appendChild(this.overlayElement);
 
     this._renderLayer();

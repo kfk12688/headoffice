@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
 import { Button, TextInput, SelectInput } from "components";
-import styles from "./NewTemplateForm.less";
 
-// FORM COMPONENT FOR Creating a new template
 class CreateForm extends Component {
   constructor() {
     super();
@@ -28,19 +26,17 @@ class CreateForm extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <div className={styles.formElement}>
-          <div className={styles.formElementTitle}>Enter the name of the template:</div>
-          <Field className={styles.formElementInput} name="templateName" component={TextInput}/>
+        <div className="form-group">
+          <label>Enter the name of the template:</label>
+          <Field name="templateName" component={TextInput}/>
         </div>
 
-        <div className={styles.formElement}>
-          <div className={styles.formElementTitle}>Workbook</div>
-          <Field className={styles.formElementInput} name="workBookId" component={SelectInput}
-                 api={"api/list/workbooks"}
-          />
+        <div className="form-group">
+          <label>Workbook</label>
+          <Field name="workbook" component={SelectInput} api={"api/list/workbooks"}/>
         </div>
 
-        <div className={styles.addContentBtnGroup}>
+        <div className="form-group" style={{ textAlign : "right" }}>
           <Button style="success" disabled={pristine || submitting} type="submit">Save</Button>
           <Button onClick={this.resetForm}>Cancel</Button>
         </div>

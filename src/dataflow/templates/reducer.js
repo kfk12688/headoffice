@@ -3,7 +3,8 @@ import {
   EDIT_SCHEMA_SUCCESS, EDIT_TEMPLATE_FAILURE, EDIT_TEMPLATE_REQUEST, EDIT_TEMPLATE_SUCCESS, EDIT_SCHEMA_FAILURE,
   EDIT_SCHEMA_REQUEST, GET_TEMPLATES_REQUEST, GET_TEMPLATES_SUCCESS, GET_TEMPLATES_FAILURE, ADD_TEMPLATE_REQUEST,
   ADD_TEMPLATE_SUCCESS, ADD_TEMPLATE_FAILURE, DELETE_TEMPLATE_REQUEST, DELETE_TEMPLATE_SUCCESS,
-  DELETE_TEMPLATE_FAILURE, GET_TEMPLATE_REQUEST, GET_TEMPLATE_SUCCESS, GET_TEMPLATE_FAILURE, ADD_USER_SCHEMA_FIELD
+  DELETE_TEMPLATE_FAILURE, GET_TEMPLATE_REQUEST, GET_TEMPLATE_SUCCESS, GET_TEMPLATE_FAILURE, ADD_USER_SCHEMA_FIELD,
+  STAR_TEMPLATE_SUCCESS
 } from "./types";
 
 const initialState = {};
@@ -33,8 +34,8 @@ const reducer = handleActions({
   [ADD_TEMPLATE_REQUEST] : (state, action) => {
     return {
       ...state,
-      templates : {
-        ...state.templates,
+      list : {
+        ...state.list,
         isLoading : true,
       },
     };
@@ -43,9 +44,13 @@ const reducer = handleActions({
     const { template } = action.payload;
     return {
       ...state,
-      templates : {
-        ...state.templates,
-        ...template,
+      list : {
+        ...state.list,
+        data      : {
+          ...state.list.data,
+          [template.id] : template,
+        },
+        isLoading : false,
       },
     };
   },
@@ -53,39 +58,58 @@ const reducer = handleActions({
     const { error } = action.payload;
     return {
       ...state,
-      templates : {
-        ...state.templates,
+      isLoading : false,
+      list      : {
+        ...state.list,
         error,
       },
     };
   },
 
   [EDIT_TEMPLATE_REQUEST] : (state, action) => {
+    const { collectionName } = action.payload;
     return {
       ...state,
-      templates : {
-        ...state.templates,
+      [collectionName] : {
+        ...state[collectionName],
+        isLoading : true,
+      },
+      list             : {
+        ...state.list,
         isLoading : true,
       },
     };
   },
   [EDIT_TEMPLATE_SUCCESS] : (state, action) => {
-    const { template } = action.payload;
+    const { collectionName, template } = action.payload;
     return {
       ...state,
-      templates : {
-        ...state.templates,
+      list             : {
+        ...state.list,
+        data      : {
+          ...state.list.data,
+          [template.id] : template,
+        },
+        isLoading : false,
+      },
+      [collectionName] : {
+        ...state[collectionName],
         ...template,
         isLoading : false,
       },
     };
   },
   [EDIT_TEMPLATE_FAILURE] : (state, action) => {
-    const { error } = action.payload;
+    const { collectionName, error } = action.payload;
     return {
       ...state,
-      templates : {
-        ...state.templates,
+      list             : {
+        ...state.list,
+        error,
+        isLoading : false,
+      },
+      [collectionName] : {
+        ...state[collectionName],
         error,
         isLoading : false,
       },
@@ -95,21 +119,21 @@ const reducer = handleActions({
   [DELETE_TEMPLATE_REQUEST] : (state, action) => {
     return {
       ...state,
-      templates : {
-        ...state.templates,
+      list : {
+        ...state.list,
         isLoading : true,
       },
     };
   },
   [DELETE_TEMPLATE_SUCCESS] : (state, action) => {
-    const { template } = action.payload;
-    const { templates } = state;
-    delete templates[template.id];
+    const { template, collectionName } = action.payload;
+    delete state.list.data[template.id];
+    delete state[collectionName];
 
     return {
       ...state,
-      templates : {
-        ...templates,
+      list : {
+        ...list,
         isLoading : false,
       },
     };
@@ -119,8 +143,8 @@ const reducer = handleActions({
 
     return {
       ...state,
-      templates : {
-        ...state.templates,
+      list : {
+        ...state.list,
         isLoading : false,
         error,
       },
@@ -128,6 +152,7 @@ const reducer = handleActions({
   },
 
   // #####################################################
+
   [GET_TEMPLATE_REQUEST] : (state, action) => {
     const { collectionName } = action.payload;
 
@@ -191,6 +216,30 @@ const reducer = handleActions({
         ...state[collectionName],
         error,
         isLoading : false,
+      },
+    };
+  },
+
+  [STAR_TEMPLATE_SUCCESS] : (state, action) => {
+    const { template, collectionName } = action.payload;
+    const isFavorite = template.isFavorite;
+    const templateId = template.id;
+
+    return {
+      ...state,
+      list             : {
+        ...state.list,
+        data : {
+          ...state.list.data,
+          [templateId] : {
+            ...state.list.data[templateId],
+            isFavorite,
+          },
+        },
+      },
+      [collectionName] : {
+        ...state[collectionName],
+        isFavorite,
       },
     };
   },

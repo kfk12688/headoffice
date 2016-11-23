@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import _ from "underscore";
 import { DGBodyRow } from "./DGBodyRow";
-import styles from "./common.less";
 
 class DGBody extends Component {
   constructor(props) {
@@ -29,7 +28,6 @@ class DGBody extends Component {
         />
       );
     });
-
     return datagridBodyRows;
   }
 

@@ -1,9 +1,7 @@
 import _ from "underscore";
 import React, { Component, PropTypes } from "react";
-import  { Sticky } from "react-sticky";
 import { DGHeaderRow } from "./DGHeaderRow";
 import { DGBody } from "./DGBody";
-import { white } from "../_styles/colors";
 import cx from "classnames";
 import styles from "./common.less";
 
@@ -64,18 +62,16 @@ class DataGrid extends Component {
     const { cols, colSortFunction, sortKey, sortAscending } = this.props;
 
     return (
-      <div style={{ overflow : "hidden", backgroundColor : white }}>
-        <Sticky stickyStyle={{ overflow : "hidden", zIndex : 100 }}>
-          <DGHeaderRow
-            cols={cols}
-            colWidths={this.state.colWidths}
-            onClick={colSortFunction}
-            onDrag={this.resize}
-            sortKey={sortKey}
-            sortAscending={sortAscending}
-            scrollLeft={this.state.scrollLeft}
-          />
-        </Sticky>
+      <div className={styles.dgContainer}>
+        <DGHeaderRow
+          cols={cols}
+          colWidths={this.state.colWidths}
+          onClick={colSortFunction}
+          onDrag={this.resize}
+          sortKey={sortKey}
+          sortAscending={sortAscending}
+          scrollLeft={this.state.scrollLeft}
+        />
 
         {this.renderContent()}
       </div>

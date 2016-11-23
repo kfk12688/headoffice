@@ -41,7 +41,7 @@ class DGBody extends Component {
 
   render() {
     const bodyStyle = {
-      overflow  : "auto",
+      overflowX : "auto",
       minHeight : "300px",
     };
 
@@ -51,11 +51,7 @@ class DGBody extends Component {
         style={bodyStyle}
         onScroll={this.reportScrollLeftFn}
       >
-        <div className={styles.row}>
-          <span >
-            {this.getRows()}
-          </span>
-        </div>
+        {this.getRows()}
       </div>
     );
   }

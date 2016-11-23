@@ -1,12 +1,13 @@
 import React, { PropTypes } from "react";
-import { DGHeaderColumn } from "./DGHeaderColumn";
+import { DGHeaderCell } from "./DGHeaderCell";
 import styles from "./common.less";
+import { Sticky } from "react-sticky";
 
 const DGHeaderRow = ({ cols, colWidths, onClick, onDrag, sortKey, sortAscending, scrollLeft }) => {
   const dataGridHeaderColumns = cols.map((headerColumn, index) => {
     const colName = headerColumn.name;
     return (
-      <DGHeaderColumn
+      <DGHeaderCell
         key={index}
         col={headerColumn}
         colWidth={colWidths[colName]}
@@ -19,11 +20,11 @@ const DGHeaderRow = ({ cols, colWidths, onClick, onDrag, sortKey, sortAscending,
   });
 
   return (
-    <div className={styles.row}>
-      <span style={{ marginLeft : -scrollLeft }}>
+    <Sticky stickyStyle={{ overflowX : "hidden", zIndex : 100 }}>
+      <div className={styles.row} style={{ marginLeft : -scrollLeft }}>
         {dataGridHeaderColumns}
-      </span>
-    </div>
+      </div>
+    </Sticky>
   );
 };
 

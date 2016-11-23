@@ -13,12 +13,12 @@ export const PGBodyCell = (props) => {
   };
 
   return (
-    <div
+    <span
       className={styles.bodycell}
       style={{ ...hoverStyle, ...col.colStyle }}
     >
       {renderEGCell(type, row, col, colKey)}
-    </div>
+    </span>
   );
 };
 

@@ -1,7 +1,7 @@
 import React from "react";
 import _ from "underscore";
 import { PGBodyCell } from "./PGBodyCell";
-import { grey300 } from "../_styles/colors";
+import styles from "./common.less";
 
 class PGBodyRow extends React.Component {
   constructor() {
@@ -34,18 +34,10 @@ class PGBodyRow extends React.Component {
       );
     });
 
-    const rowBorder = {
-      borderBottomWidth : "1px",
-      borderBottomStyle : "solid",
-      borderBottomColor : grey300,
-      height            : "38px",
-      whiteSpace        : "nowrap",
-    };
-
     return (
       <div
+        className={styles.row}
         data-id={rowKey}
-        style={rowBorder}
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
       >

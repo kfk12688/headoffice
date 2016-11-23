@@ -36,9 +36,15 @@ class PGBody extends Component {
   }
 
   render() {
+    const bodyStyle = {
+      overflowX : "auto",
+      minHeight : "300px",
+    };
+
     return (
       <div
         ref="egBody"
+        style={bodyStyle}
         onScroll={this.reportScrollLeftFn}
       >
         <div>

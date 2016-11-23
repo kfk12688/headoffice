@@ -1,6 +1,6 @@
 import React from "react";
 import _ from "underscore";
-import { EGHeaderCol } from "./PGHeaderCol";
+import { PGHeaderCell } from "./PGHeaderCell";
 import styles from "./common.less";
 
 const PGHeaderRow = ({ cols, colWidths, scrollLeft }) => {
@@ -8,7 +8,7 @@ const PGHeaderRow = ({ cols, colWidths, scrollLeft }) => {
 
   _.forEach(cols, (col, colKey) => {
     headerRowCols.push(
-      <EGHeaderCol
+      <PGHeaderCell
         key={colKey}
         colWidth={colWidths[col.fieldName]}
         headerStyle={col.headerStyle}
@@ -18,10 +18,8 @@ const PGHeaderRow = ({ cols, colWidths, scrollLeft }) => {
   });
 
   return (
-    <div className={styles.row}>
-      <span className={styles.cols} style={{ marginLeft : -scrollLeft }}>
-        {headerRowCols}
-      </span>
+    <div className={styles.row} style={{ marginLeft : -scrollLeft }}>
+      {headerRowCols}
     </div>
   );
 };

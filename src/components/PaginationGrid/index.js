@@ -4,7 +4,6 @@ import { Sticky } from "react-sticky";
 import { PGHeaderRow } from "./PGHeaderRow";
 import { PGBody } from "./PGBody";
 import calcColWidths from "../calculateColWidths";
-import { white } from "../_styles/colors";
 import cx from "classnames";
 import styles from "./common.less";
 
@@ -52,16 +51,14 @@ class PaginationGrid extends Component {
     const colWidths = calcColWidths(spec, data);
 
     return (
-      <div style={{ overflow : "auto", backgroundColor : white }}>
+      <div className={styles.pgContainer}>
         <Sticky topOffset={-topOffset}
                 stickyStyle={{
-                  zIndex         : 100,
-                  overflow       : "auto",
-                  marginTop      : topOffset,
-                  borderTopWidth : 1,
-                  borderTopStyle : "solid",
-                  borderTopColor : "#e0e0e0",
-                }}>
+                  zIndex    : 100,
+                  overflow  : "auto",
+                  marginTop : topOffset,
+                }}
+        >
           <PGHeaderRow
             cols={spec}
             colWidths={colWidths}

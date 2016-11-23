@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
 import { Button, TextInput, DropdownInput } from "components";
-import styles from "./NewWorkbookForm.less";
 
 class CreateUserForm extends Component {
   constructor() {
@@ -26,27 +25,24 @@ class CreateUserForm extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <div className={styles.formElement}>
-          <div className={styles.formElementTitle}>Enter the name of the workbook/collection:</div>
+        <div className="form-group">
+          <label>Enter the name of the workbook/collection:</label>
           <Field
             name="name"
-            className={styles.formElementInput}
             component={TextInput}
           />
         </div>
 
-        <div className={styles.formElement}>
-          <div className={styles.formElementTitle}>Select the users who will have access to the workbook/collection:
-          </div>
+        <div className="form-group">
+          <label>Select the users who will have access to the workbook/collection:</label>
           <Field
             name="users"
-            className={styles.formElementInput}
             component={DropdownInput}
             options={["", "SuperAdmin", "Admin", "Manager", "Technician"]}
           />
         </div>
 
-        <div className={styles.addContentBtnGroup}>
+        <div className="form-group" style={{ textAlign : "right" }}>
           <Button style="success" type="submit" disabled={pristine || submitting}>Save</Button>
           <Button outline onClick={this.resetForm}>Cancel</Button>
         </div>

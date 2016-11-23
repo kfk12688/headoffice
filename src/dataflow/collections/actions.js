@@ -110,10 +110,11 @@ const addRowSuccess = createAction(ADD_ROW_SUCCESS, (collectionName, row) => ({ 
 const addRowFailure = createAction(ADD_ROW_FAILURE, (collectionName, err) => ({ collectionName, err }));
 
 export function addRow(collectionName, data) {
+  console.log(data);
   return dispatch => {
     dispatch(addRowRequest());
 
-    return fetch("POST", `api/collections/${collectionName}`, { data })
+    return fetch("POST", `api/collections/${collectionName}`, data)
       .then(res => res.json())
       .then(row => dispatch(addRowSuccess(collectionName, row)))
       .catch(err => dispatch(addRowFailure(collectionName, err)));

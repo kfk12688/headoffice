@@ -2,37 +2,6 @@
 
 @rowHeight: 38px;
 
-.row {
-  background-color: @white;
-  border-bottom: 1px solid @grey300;
-  overflow: hidden;
-}
-
-.cols {
-  display: inline-block;
-  height: @rowHeight;
-  white-space: nowrap;
-}
-
-.col {
-  height: @rowHeight;
-  display: inline-block;
-  border-right: 1px solid @grey300;
-  vertical-align: middle;
-}
-
-.tableContainer {
-  font-family: "Lucida Sans Unicode";
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: @white;
-  border: 1px solid @grey300;
-  border-radius: 1px;
-  overflow: auto;
-}
-
 .spinner {
   position: absolute;
   top: 15%;
@@ -40,30 +9,25 @@
   color: @grey500;
 }
 
-.egBody {
+.noData {
   background-color: #ffffff;
   text-align: center;
   padding: 50px;
   font-weight: 500;
 }
 
-.headercell {
-  height: @rowHeight;
-  line-height: @rowHeight;
-  padding-left: 12px;
-  padding-right: 12px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: center;
-  &:hover {
-    text-decoration: underline;
-    background-color: @grey50;
-    cursor: pointer;
-  }
+.pgContainer {
+  position: relative;
+  overflow-x: auto;
+  background-color: @white;
 }
 
-.bodycell {
+.pgBody {
+  overflow-x: auto;
+  min-height: 20rem;
+}
+
+.cell {
   height: @rowHeight;
   line-height: @rowHeight;
   font-size: 15px;
@@ -72,11 +36,38 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  border-right: 1px solid @grey300;
+  box-sizing: border-box;
+  display: inline-block;
+  &:last-child {
+    border-right: none;
+  }
 }
 
-.rowBorder {
+.row {
+  display: inline-block;
   border-bottom: 1px solid @grey300;
   height: @rowHeight;
+  line-height: @rowHeight;
   white-space: nowrap;
+  background-color: @white;
+}
+
+.headerCell {
+  height: @rowHeight;
+  line-height: @rowHeight;
+  font-size: 15px;
+  padding-left: 12px;
+  padding-right: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+  display: inline-block;
+  border-right: 1px solid @grey300;
+  &:last-child {
+    border-right: none;
+  }
+  &Title {
+    font-weight: 600;
+  }
 }

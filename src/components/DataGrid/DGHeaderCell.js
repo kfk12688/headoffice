@@ -3,7 +3,7 @@ import { grey50, grey300 } from "../_styles/colors";
 import styles from "./common.less";
 import cx from "classnames";
 
-class DGHeaderColumn extends Component {
+class DGHeaderCell extends Component {
   constructor() {
     super();
     this.state = { hovered : false };
@@ -68,26 +68,26 @@ class DGHeaderColumn extends Component {
 
     return (
       <span
-        className={styles.col}
+        className={styles.headerCell}
         style={{ ...hoverStyle, ...this.props.col.headerStyle }}
         onMouseOver={isColSortable && this.handleMouseOver}
         onMouseOut={isColSortable && this.handleMouseOut}
       >
-        <div
-          className={styles.head}
+        <span
+          className={styles.headerCellTitle}
           onClick={isColSortable && this.onClick}
           ref={target => this.assignCol(col.name, target)}
         >
           <span>{col.text}</span>
-        </div>
+        </span>
         {arrow}
-        <div onDragEnd={e => this.onDrag(e, col.name)}/>
+        <span onDragEnd={e => this.onDrag(e, col.name)}/>
       </span>
     );
   }
 }
 
-DGHeaderColumn.propTypes = {
+DGHeaderCell.propTypes = {
   col           : PropTypes.object.isRequired,
   colWidth      : PropTypes.number.isRequired,
   onClick       : PropTypes.func,
@@ -96,4 +96,4 @@ DGHeaderColumn.propTypes = {
   sortAscending : PropTypes.bool,
 };
 
-export { DGHeaderColumn };
+export { DGHeaderCell };

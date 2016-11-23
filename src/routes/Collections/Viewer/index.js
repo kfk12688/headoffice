@@ -108,14 +108,13 @@ class Viewer extends Component {
 
               <div className="col-md-3">
                 <Sticky stickyStyle={{ paddingTop : 8 }}>
-                  <div className="btn-block btn-group-vertical">
-                    <Button><NavLink to="collections" faName="times-circle-o">Close View</NavLink></Button>
-                    <Button>
-                      <NavLink to={`collections/entry/${collectionName}`} faName="arrow-circle-o-right">
-                        Entry View
-                      </NavLink>
+                  <NavLink to="collections" faName="times-circle-o"><Button block>Close View</Button></NavLink>
+                  <NavLink to={`collections/entry/${collectionName}`} faName="arrow-circle-o-right">
+                    <Button block>
+                      Entry View
                     </Button>
-                  </div>
+                  </NavLink>
+
 
                   <div className={styles.divider}/>
                   <Modal

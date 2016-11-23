@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import _ from "underscore";
 import { DGBodyRow } from "./DGBodyRow";
-import styles from "./common.less";
 
 class DGBody extends Component {
   constructor(props) {
@@ -29,7 +28,6 @@ class DGBody extends Component {
         />
       );
     });
-
     return datagridBodyRows;
   }
 
@@ -41,7 +39,7 @@ class DGBody extends Component {
 
   render() {
     const bodyStyle = {
-      overflow  : "auto",
+      overflowX : "auto",
       minHeight : "300px",
     };
 
@@ -51,11 +49,10 @@ class DGBody extends Component {
         style={bodyStyle}
         onScroll={this.reportScrollLeftFn}
       >
-        <span className={styles.cols}>{this.getRows()}</span>
+        {this.getRows()}
       </div>
     );
   }
-
 }
 
 DGBody.propTypes = {

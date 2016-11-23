@@ -3,12 +3,12 @@ import styles from "./common.less";
 import { renderDGCell } from "../DisplayElems";
 
 const DGBodyCell = ({ col, row, colWidth }) =>
-  <div
+  <span
     className={styles.cell}
     style={{ width : colWidth }}
   >
     {renderDGCell(col.renderType, row, col)}
-  </div>;
+  </span>;
 
 DGBodyCell.propTypes = {
   row      : React.PropTypes.object.isRequired,

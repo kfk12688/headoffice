@@ -1,6 +1,5 @@
 import _ from "underscore";
 import React, { Component } from "react";
-import { Sticky } from "react-sticky";
 import { PGHeaderRow } from "./PGHeaderRow";
 import { PGBody } from "./PGBody";
 import calcColWidths from "../calculateColWidths";
@@ -25,42 +24,39 @@ class PaginationGrid extends Component {
   }
 
   renderContent() {
-    const { isLoading, spec, data, topOffset } = this.props;
+    const { isLoading, spec, data } = this.props;
     const colWidths = calcColWidths(spec, data);
-    let PGBodyElement = null;
 
     if (isLoading) {
-      PGBodyElement = <i className={cx("fa fa-spinner fa-2x", styles.spinner)}/>;
-    } else if (_.isEmpty(data)) {
-      PGBodyElement = <div className={styles.egBody}>No Data Present</div>;
-    } else {
-      PGBodyElement = (
-        <PGBody
-          cols={spec}
-          rows={data}
-          colWidths={colWidths}
-          reportScrollLeftFn={this.reportScrollLeftFn}
-        />
-      );
+      return <i className={cx("fa fa-spinner fa-2x", styles.spinner)}/>;
+    }
+
+    if (_.isEmpty(data)) {
+      return <div className={styles.noData}>No Data Present</div>;
     }
 
     return (
-      <div className={styles.tableContainer}>
-        <Sticky topOffset={-topOffset} stickyStyle={{ zIndex : 100, marginTop : topOffset }}>
-          <PGHeaderRow
-            cols={spec}
-            colWidths={colWidths}
-            scrollLeft={this.state.scrollLeft}
-          />
-        </Sticky>
-        {PGBodyElement}
-      </div>
+      <PGBody
+        cols={spec}
+        rows={data}
+        colWidths={colWidths}
+        reportScrollLeftFn={this.reportScrollLeftFn}
+      />
     );
   }
 
   render() {
+    const { spec, topOffset, data } = this.props;
+    const colWidths = calcColWidths(spec, data);
+
     return (
-      <div>
+      <div className={styles.pgContainer}>
+        <PGHeaderRow
+          cols={spec}
+          colWidths={colWidths}
+          scrollLeft={this.state.scrollLeft}
+          topOffset={topOffset}
+        />
         {this.renderContent()}
       </div>
     );

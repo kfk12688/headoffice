@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { selectAll, clearSelection, toggleMenuSidebar } from "dataflow/menu/actions";
-import { Button, Modal, PopupButton } from "components";
+import { Button, Modal, Dropdown } from "components";
 import NewWorkbookForm from "../Forms/NewWorkbookForm";
 import cx from "classnames";
 import styles from "./ContentMenu.less";
@@ -24,9 +24,9 @@ class ContentMenu extends Component {
     return (
       <span>
         <span className={styles.actionsSeperator}/>
-        <PopupButton label="Actions">
+        <Dropdown label="Actions">
           {actionsMenuContent}
-        </PopupButton>
+        </Dropdown>
       </span>
     );
   }
@@ -67,10 +67,10 @@ class ContentMenu extends Component {
             >
               <NewWorkbookForm onSubmit={this.props.createWorkbook} toggleModal={this.toggleModal}/>
             </Modal>
-            <PopupButton label={`${menuStore.selectedKeys.length} selected`}>
+            <Dropdown label={`${menuStore.selectedKeys.length} selected`}>
               <div onClick={this.selectAllHandler}>Select All</div>
               <div onClick={this.props.clearSelection}>Clear selection</div>
-            </PopupButton>
+            </Dropdown>
           </span>
 
           {(menuStore.selectedKeys.length > 0) && this.getActions()}

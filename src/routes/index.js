@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { NavLink, PopupButton } from "components";
+import { NavLink, Dropdown } from "components";
 import Logo from "./_styles/logo";
 import { addCurrentUser, removeCurrentUser } from "dataflow/users/actions";
 import { clearToken, getUserClaims } from "./auth";
@@ -50,11 +50,11 @@ class App extends React.Component {
                 <NavLink className="nav-item nav-link" to="/workbooks">Workbooks</NavLink>
 
                 <div className="pull-right">
-                  <PopupButton label={site}/>
-                  <PopupButton label={name}>
+                  <Dropdown className="nav-item nav-link" label={site}/>
+                  <Dropdown className="nav-item nav-link" label={name}>
                     <div>Logged in as {username}</div>
                     <div onClick={this.logOut}>Sign Out</div>
-                  </PopupButton>
+                  </Dropdown>
                 </div>
               </div>
             </div>

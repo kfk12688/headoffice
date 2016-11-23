@@ -1,5 +1,5 @@
 import React from "react";
-import { PopupButton } from "../Button";
+import { Dropdown } from "../Button";
 
 export const ActionCell = ({ actions, className, data }) => {
   const actionsElement = actions.map(action => {
@@ -9,9 +9,9 @@ export const ActionCell = ({ actions, className, data }) => {
   });
 
   return (
-    <PopupButton className={className} label="" faName="ellipsis-v" bordered>
+    <Dropdown className={className}>
       {actionsElement}
-    </PopupButton>
+    </Dropdown>
   );
 };
 

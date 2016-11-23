@@ -6,16 +6,11 @@ export const PGBodyCell = (props) => {
   const { row, col, colWidth } = props;
   const type = col.fieldType.toLowerCase();
   const colKey = col.fieldName;
-  const hoverStyle = {
-    boxSizing : "border-box",
-    display   : "inline-block",
-    width     : colWidth,
-  };
 
   return (
     <span
-      className={styles.bodycell}
-      style={{ ...hoverStyle, ...col.colStyle }}
+      className={styles.cell}
+      style={{ ...col.colStyle, width : colWidth }}
     >
       {renderEGCell(type, row, col, colKey)}
     </span>

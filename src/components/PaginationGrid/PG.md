@@ -1,7 +1,7 @@
 #PaginationGrid
 The page to display is selected by he user using the pagination panel.
 
-![](https://github.com/Sharavanth/headoffice/blob/pagination-grid-docu/src/components/PaginationGrid/Review.png)
+![](https://github.com/Sharavanth/headoffice/blob/pagination-grid-docu/src/components/PaginationGrid/PG.png)
 
 **scrolling** : This is defined by default.
 

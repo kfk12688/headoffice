@@ -1,6 +1,5 @@
 import _ from "underscore";
 import React, { Component } from "react";
-import { Sticky } from "react-sticky";
 import { PGHeaderRow } from "./PGHeaderRow";
 import { PGBody } from "./PGBody";
 import calcColWidths from "../calculateColWidths";
@@ -33,7 +32,7 @@ class PaginationGrid extends Component {
     }
 
     if (_.isEmpty(data)) {
-      return <div className={styles.egBody}>No Data Present</div>;
+      return <div className={styles.noData}>No Data Present</div>;
     }
 
     return (
@@ -52,19 +51,12 @@ class PaginationGrid extends Component {
 
     return (
       <div className={styles.pgContainer}>
-        <Sticky topOffset={-topOffset}
-                stickyStyle={{
-                  zIndex    : 100,
-                  overflow  : "auto",
-                  marginTop : topOffset,
-                }}
-        >
-          <PGHeaderRow
-            cols={spec}
-            colWidths={colWidths}
-            scrollLeft={this.state.scrollLeft}
-          />
-        </Sticky>
+        <PGHeaderRow
+          cols={spec}
+          colWidths={colWidths}
+          scrollLeft={this.state.scrollLeft}
+          topOffset={topOffset}
+        />
         {this.renderContent()}
       </div>
     );

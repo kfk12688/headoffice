@@ -7,10 +7,10 @@ const PGHeaderCell = props => {
 
   return (
     <div
-      className={styles.col}
+      className={styles.headerCell}
       style={{ ...hoverStyle, ...headerStyle }}
     >
-      <div className={styles.headercellTitle} title={displayText}>{displayText}</div>
+      <div className={styles.headerCellTitle} title={displayText}>{displayText}</div>
     </div>
   );
 };

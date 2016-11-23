@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import _ from "underscore";
 import { PGBodyRow } from "./PGBodyRow";
+import styles from "./common.less";
 
 class PGBody extends Component {
   constructor(props) {
@@ -31,25 +32,18 @@ class PGBody extends Component {
 
   reportScrollLeftFn(e) {
     e.preventDefault();
-    const node = this.refs.egBody;
+    const node = this.refs.pgBody;
     this.props.reportScrollLeftFn(node.scrollLeft);
   }
 
   render() {
-    const bodyStyle = {
-      overflowX : "auto",
-      minHeight : "300px",
-    };
-
     return (
       <div
-        ref="egBody"
-        style={bodyStyle}
+        ref="pgBody"
+        className={styles.pgBody}
         onScroll={this.reportScrollLeftFn}
       >
-        <div>
-          {this.getRows()}
-        </div>
+        {this.getRows()}
       </div>
     );
   }

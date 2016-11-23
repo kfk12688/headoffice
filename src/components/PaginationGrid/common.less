@@ -9,7 +9,7 @@
   color: @grey500;
 }
 
-.egBody {
+.noData {
   background-color: #ffffff;
   text-align: center;
   padding: 50px;
@@ -22,7 +22,12 @@
   background-color: @white;
 }
 
-.bodycell {
+.pgBody {
+  overflow-x: auto;
+  min-height: 20rem;
+}
+
+.cell {
   height: @rowHeight;
   line-height: @rowHeight;
   font-size: 15px;
@@ -33,6 +38,9 @@
   text-overflow: ellipsis;
   box-sizing: border-box;
   display: inline-block;
+  &:last-child {
+    border-right: none;
+  }
 }
 
 .row {
@@ -44,17 +52,22 @@
   background-color: @white;
 }
 
-.col {
+.headerCell {
   height: @rowHeight;
+  line-height: @rowHeight;
+  font-size: 15px;
+  padding-left: 12px;
+  padding-right: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
   display: inline-block;
   border-right: 1px solid @grey300;
-  vertical-align: middle;
   &:last-child {
     border-right: none;
   }
-}
-
-.headercellTitle {
-  padding-left: 12px;
-  font-weight: 600;
+  &Title {
+    font-weight: 600;
+  }
 }

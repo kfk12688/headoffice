@@ -1,5 +1,5 @@
 import React from "react";
-import {render as renderToDOM, unmountComponentAtNode} from "react-dom";
+import {render as renderToDOM, unmountComponentAtNode, findDOMNode} from "react-dom";
 import { Button } from "./index";
 import { Link } from "react-router";
 import cx from "classnames";
@@ -11,6 +11,7 @@ class Dropdown extends React.Component {
     this.state = { show : false };
     this.toggleDropdown = this.toggleDropdown.bind(this);
     this.getPosition = this.getPosition.bind(this);
+    this.resizeDropDown = this.resizeDropDown.bind(this);
     this.hideDropdownOnOutsideClick = this.hideDropdownOnOutsideClick.bind(this);
   }
 
@@ -43,13 +44,23 @@ class Dropdown extends React.Component {
           {childElements}
         </div>;
 
-      renderToDOM( dropdownOverlay, this.dropdownNode);
+      this.dropdownOverlayNode = renderToDOM( dropdownOverlay, this.dropdownNode);
 
       document.addEventListener("click", this.hideDropdownOnOutsideClick);
+      window.addEventListener("resize", this.resizeDropDown);
     } else {
       document.removeEventListener("click", this.hideDropdownOnOutsideClick);
-      renderToDOM(<div></div>, this.dropdownNode);
+      window.removeEventListener("resize", this.resizeDropDown);
+      this.dropdownOverlayNode = renderToDOM(<div></div>, this.dropdownNode);
     }
+  }
+
+  resizeDropDown(event) {
+    event.preventDefault();
+
+    const {top, left, height, scrollTop} = this.getPosition();
+    this.dropdownOverlayNode.style.top = `${top + height + scrollTop}px`;
+    this.dropdownOverlayNode.style.left = `${left}px`;
   }
 
   componentWillUnmount() {
@@ -76,25 +87,30 @@ class Dropdown extends React.Component {
   }
 
   render() {
-    const { label, disabled, button, children } = this.props;
+    const { label, disabled, button, className} = this.props;
 
     if(button) {
       return (
-        <Button
+        <button
           ref="dropdownRef"
-          faName="caret-down"
+          className={cx("btn btn-sm btn-outline",className)}
+          type="button"
           disabled={disabled}
           onClick={this.toggleDropdown}
         >
-        {label}
-        </Button>
-        );
+          <span>
+            {label}
+            &nbsp;
+            <i className="fa fa-caret-down"/>
+          </span>
+        </button>
+      );
     }
 
-    return ( 
+    return (
       <span
         ref="dropdownRef"
-        className={cx(styles.plain, {[styles.plainEnabled] : !disabled, [styles.plainDisabled] : disabled})}
+        className={cx(className, {[styles.plainEnabled] : !disabled, [styles.plainDisabled] : disabled})}
         disabled={disabled}
         onClick={!disabled && this.toggleDropdown}
       >
@@ -110,12 +126,7 @@ export {Dropdown};
 
 Dropdown.propTypes = {
   className     : React.PropTypes.string,
-  style         : React.PropTypes.object,
-  bordered      : React.PropTypes.bool,
   label         : React.PropTypes.string,
-  faName        : React.PropTypes.string,
-  children      : React.PropTypes.any,
-  size          : React.PropTypes.string,
   button          : React.PropTypes.bool,
   disabled      : React.PropTypes.bool,
 };

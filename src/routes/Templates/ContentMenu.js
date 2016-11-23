@@ -24,7 +24,7 @@ class ContentMenu extends Component {
     return (
       <span>
       <span className={styles.actionsSeperator}/>
-      <Dropdown label="Actions">{actionsMenuContent}</Dropdown>
+      <Dropdown label=" &nbsp; Actions">{actionsMenuContent}</Dropdown>
       </span>
     );
   }

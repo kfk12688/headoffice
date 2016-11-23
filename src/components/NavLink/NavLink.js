@@ -1,8 +1,8 @@
 import React from "react";
-import {Link} from "react-router";
+import { Link } from "react-router";
 
 export const NavLink = (props) => {
-  const {children, className, ...rest} = props;
+  const { children, className, ...rest } = props;
 
   return (
     <Link className={className} activeClassName="active" {...rest} >{children}</Link>
@@ -10,5 +10,5 @@ export const NavLink = (props) => {
 };
 
 NavLink.propTypes = {
-  children: React.PropTypes.node.isRequired,
+  children : React.PropTypes.node.isRequired,
 };

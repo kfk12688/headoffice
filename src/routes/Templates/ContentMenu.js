@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { selectAll, clearSelection, toggleMenuSidebar } from "dataflow/menu/actions";
-import { Button, Modal, PopupButton } from "components";
+import { Button, Modal, Dropdown } from "components";
 import CreateTemplateForm from "../Forms/NewTemplateForm";
 import styles from "./ContentMenu.less";
 import cx from "classnames";
@@ -24,7 +24,7 @@ class ContentMenu extends Component {
     return (
       <span>
       <span className={styles.actionsSeperator}/>
-      <PopupButton label="Actions">{actionsMenuContent}</PopupButton>
+      <Dropdown label=" &nbsp; Actions">{actionsMenuContent}</Dropdown>
       </span>
     );
   }
@@ -66,10 +66,10 @@ class ContentMenu extends Component {
               <CreateTemplateForm onSubmit={this.props.addTemplate} toggleModal={this.toggleModal}/>
             </Modal>
 
-            <PopupButton label={`${menuStore.selectedKeys.length} selected`}>
+            <Dropdown label={`${menuStore.selectedKeys.length} selected`}>
               <div onClick={this.selectAllHandler}>Select All</div>
               <div onClick={this.props.clearSelection}>Clear selection</div>
-            </PopupButton>
+            </Dropdown>
 
             {(menuStore.selectedKeys.length >= 1) && this.getActions()}
           </div>

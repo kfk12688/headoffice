@@ -15,6 +15,6 @@ export {
   TextInput, ArrayInput, DropdownInput, CheckBoxInput, DateInput, NumericInput, SearchInput, SelectInput
 } from "./Inputs";
 
-export * from "./NavLink";
+export {NavLink} from "./NavLink";
 export * from "./Button";
 export * from "./DisplayElems";

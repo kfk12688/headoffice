@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Button, PopupButton } from "components";
+import { Button, Dropdown } from "components";
 import { selectAll, clearSelection, toggleMenuSidebar } from "dataflow/menu/actions";
 import styles from "./ContentMenu.less";
 import cx from "classnames";
@@ -24,7 +24,7 @@ class ContentMenu extends Component {
     return (
       <span>
         <span className={styles.actionsSeperator}/>
-        <PopupButton label="Actions">{actionsMenuContent}</PopupButton>
+        <Dropdown label=" &nbsp; Actions">{actionsMenuContent}</Dropdown>
       </span>
     );
   }
@@ -55,10 +55,10 @@ class ContentMenu extends Component {
               onClick={this.props.toggleMenuSidebar}
             />
 
-            <PopupButton label={`${menuStore.selectedKeys.length} selected`}>
+            <Dropdown label={`${menuStore.selectedKeys.length} selected`}>
               <div onClick={this.selectAllHandler}>Select All</div>
               <div onClick={this.props.clearSelection}>Clear selection</div>
-            </PopupButton>
+            </Dropdown>
           </span>
 
           {(menuStore.selectedKeys.length >= 1) && this.getActions()}

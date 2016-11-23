@@ -10,5 +10,6 @@ export const NavLink = (props) => {
 };
 
 NavLink.propTypes = {
-  children : React.PropTypes.node.isRequired,
+  children  : React.PropTypes.node.isRequired,
+  className : React.PropTypes.string,
 };

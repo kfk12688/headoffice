@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { StickyContainer, Sticky } from "react-sticky";
-import { Entry, NavLink, Button, Modal, FavoriteCell } from "components";
+import { Entry, Button, Modal, FavoriteCell } from "components";
+import { Link } from "react-router";
 import { loadSpec, addRow } from "dataflow/collections/actions";
 import styles from "./index.less";
 import EditTemplateForm from "../../Forms/NewTemplateForm";
@@ -59,12 +60,16 @@ class EntryForm extends Component {
 
               <div className="col-md-3">
                 <Sticky stickyStyle={{ paddingTop : 8 }}>
-                  <NavLink to="collections" faName="times-circle-o"><Button block>Close View</Button></NavLink>
-                  <NavLink to={`collections/entry/${collectionName}`} faName="arrow-circle-o-right">
-                    <Button block>
-                      Entry View
-                    </Button>
-                  </NavLink>
+                  <div className="btn-group-vertical btn-block">
+                    <Link to="collections" faName="times-circle-o" className="btn btn-secondary btn-sm">
+                      Close View
+                    </Link>
+                    <Link to={`collections/view/${collectionName}`} className="btn btn-secondary btn-sm"
+                          faName="arrow-circle-o-right"
+                    >
+                      Data View
+                    </Link>
+                  </div>
 
                   <div className={styles.divider}/>
                   <Modal

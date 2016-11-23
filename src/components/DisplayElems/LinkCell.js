@@ -8,7 +8,7 @@ export const LinkCell = ({ value, className }) => {
   url = url.replace(/ /g, "");
 
   return (
-    <NavLink className={className} to={url}>{text}</NavLink>
+    <NavLink to={url}>{text}</NavLink>
   );
 };
 

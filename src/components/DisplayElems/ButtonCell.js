@@ -1,14 +1,12 @@
 import React from "react";
-import { Button } from "../Button";
 import { NavLink } from "../NavLink";
+import cx from "classnames";
 
 export const ButtonCell = ({ className, buttonText, link }) =>
-  <NavLink className={className} to={link}>
-    <Button style="primary">{buttonText}</Button>
-  </NavLink>;
+  <NavLink role="button" className={cx(className, "btn btn-secondary btn-sm")} to={link}>{buttonText}</NavLink>;
 
 ButtonCell.propTypes = {
-  className    : React.PropTypes.string,
-  buttonText   : React.PropTypes.string.isRequired,
-  link         : React.PropTypes.string.isRequired,
+  className  : React.PropTypes.string,
+  buttonText : React.PropTypes.string.isRequired,
+  link       : React.PropTypes.string.isRequired,
 };

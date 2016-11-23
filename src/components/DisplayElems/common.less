@@ -6,56 +6,19 @@
   overflow: hidden;
 }
 
+.inlContainer {
+  position: relative;
+  &Elem {
+    position: absolute;
+    top: 7px;
+    right: 0;
+  }
+}
+
 .alignRight {
   text-align: right;
   text-overflow: ellipsis;
   overflow: hidden;
-}
-
-.linkCell {
-  position: relative;
-  &Action {
-    position: absolute;
-    right: 0;
-    top: 6px;
-    line-height: 18px;
-    padding: 1px 4px;
-  }
-  &Link {
-    position: absolute;
-    left: 0;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    width: 90%;
-  }
-}
-
-.btnCell {
-  position: relative;
-  &Action {
-    position: absolute;
-    right: 0;
-    top: 6px;
-    line-height: 18px;
-    padding: 1px 4px;
-  }
-  &Link {
-    position: absolute;
-    left: 0;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    width: 55%;
-  }
-  &AnchorButton {
-    position: absolute;
-    right: 22px;
-    &Btn {
-      font-size: 14px;
-      margin: 0;
-      min-width: auto;
-      padding: 1px 3px;
-    }
-  }
 }
 
 .labelCell {

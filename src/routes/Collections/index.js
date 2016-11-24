@@ -10,7 +10,7 @@ import { Formatter as formatter } from "../_utils";
 import { ContentMenu } from "./ContentMenu";
 import cx from "classnames";
 
-class Data extends Component {
+class Collections extends Component {
   constructor(props) {
     super(props);
     this.getActions = this.getActions.bind(this);
@@ -219,21 +219,16 @@ class Data extends Component {
   }
 }
 
-Data.propTypes = {
-  children : React.PropTypes.node,
-
+Collections.propTypes = {
+  children             : React.PropTypes.node,
   // Store
-  templates   : React.PropTypes.object.isRequired,
-  menuStore   : React.PropTypes.object.isRequired,
-  filterStore : React.PropTypes.object.isRequired,
-  rows        : React.PropTypes.object.isRequired,
-
+  templates            : React.PropTypes.object.isRequired,
+  menuStore            : React.PropTypes.object.isRequired,
+  filterStore          : React.PropTypes.object.isRequired,
   // Action types for Menu Store
-  toggleSelection : React.PropTypes.func.isRequired,
-
+  toggleSelection      : React.PropTypes.func.isRequired,
   // Action types for Data Store
-  getTemplates : React.PropTypes.func.isRequired,
-
+  getTemplates         : React.PropTypes.func.isRequired,
   // Action types for Filter Store
   filterChangeHandlers : React.PropTypes.shape({
     setDateModifiedStart : React.PropTypes.func.isRequired,
@@ -245,7 +240,7 @@ Data.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  templates   : state.collections.templates,
+  templates   : state.collections.list,
   menuStore   : state.menu,
   filterStore : state.filter,
 });
@@ -262,4 +257,4 @@ const mapDispatchToProps = (dispatch) => ({
   },
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Data);
+export default connect(mapStateToProps, mapDispatchToProps)(Collections);

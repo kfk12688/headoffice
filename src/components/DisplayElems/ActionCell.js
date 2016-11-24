@@ -9,9 +9,7 @@ export const ActionCell = ({ actions, className, data }) => {
   });
 
   return (
-    <Dropdown className={className}>
-      {actionsElement}
-    </Dropdown>
+    <Dropdown button className={className}>{actionsElement}</Dropdown>
   );
 };
 

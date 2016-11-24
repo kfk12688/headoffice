@@ -1,6 +1,6 @@
 import App from "./index";
 import templateRoute from "./Templates/route";
-import dataRoute from "./Collections/route";
+import collectionsRoute from "./Collections/route";
 import workbooksRoute from "./Workbooks/route";
 import callbackRoute from "./Callback/route";
 
@@ -9,7 +9,7 @@ const RootRoute = {
   component   : App,
   childRoutes : [
     templateRoute,
-    dataRoute,
+    collectionsRoute,
     workbooksRoute,
     callbackRoute,
   ],

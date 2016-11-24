@@ -29,8 +29,8 @@ export const LabelCell = ({ value: array }) => {
 };
 
 LabelCell.propTypes = {
-  value : React.PropTypes.oneOfType(
+  value : React.PropTypes.oneOfType([
     React.PropTypes.object,
     React.PropTypes.array
-  ),
+  ]),
 };

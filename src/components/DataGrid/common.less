@@ -5,10 +5,15 @@
   position: relative;
   overflow-x: hidden;
   background-color: @white;
+  min-height: 300px;
+}
+
+.dgBody {
+  overflow-x: auto;
 }
 
 .row {
-  display: inline-block;
+  display: inline-flex;
   border-bottom: 1px solid @grey300;
   height: @rowHeight;
   line-height: @rowHeight;
@@ -45,13 +50,22 @@
 
 .spinner {
   position: absolute;
-  top: 15%;
+  top: 20%;
   left: 50%;
-  color: @grey500;
+  i {
+    color: @grey500;
+  }
 }
 
 .fa {
   position: absolute;
   right: 10px;
   top: 13px;
+}
+
+.noData {
+  background-color: #ffffff;
+  text-align: center;
+  padding: 50px;
+  font-weight: 500;
 }

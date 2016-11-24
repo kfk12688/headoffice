@@ -1,4 +1,5 @@
 import React from "react";
+import cx from "classnames";
 import { ModalCell } from "./ModalCell";
 import { ActionCell } from "./ActionCell";
 import { CheckboxCell } from "./CheckboxCell";
@@ -43,15 +44,12 @@ function getCell(transform, type, row, col) {
     const { buttonText, link } = col.button;
 
     return (
-      <div className={styles.btnCell}>
-        <LinkCell className={styles.btnCellLink} value={value}/>
-        <ButtonCell
-          className={styles.btnCellAnchorButton}
-          btnClassName={styles.btnCellAnchorButtonBtn}
-          buttonText={buttonText}
-          link={`${link.path}/${row[link.key]}`}
-        />
-        <ActionCell className={styles.btnCellAction} actions={actions}/>
+      <div className={styles.inlContainer}>
+        <LinkCell value={value}/>
+        <div className={cx("btn-group", styles.inlContainerElem)}>
+          <ButtonCell buttonText={buttonText} link={`${link.path}/${row[link.key]}`}/>
+          <ActionCell actions={actions}/>
+        </div>
       </div>
     );
   }
@@ -64,9 +62,9 @@ function getCell(transform, type, row, col) {
     const { actions = [] } = col;
 
     return (
-      <div className={styles.linkCell}>
-        <LinkCell className={styles.linkCellLink} value={value}/>
-        <ActionCell className={styles.linkCellAction} actions={actions}/>
+      <div className={styles.inlContainer}>
+        <LinkCell value={value}/>
+        <ActionCell className={styles.inlContainerElem} actions={actions}/>
       </div>
     );
   }

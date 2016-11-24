@@ -1,6 +1,6 @@
 import _ from "underscore";
 import React, { Component } from "react";
-import  { StickyContainer, Sticky } from "react-sticky";
+import { StickyContainer, Sticky } from "react-sticky";
 import { connect } from "react-redux";
 import { setDateModifiedStart, setDateModifiedEnd, setIsRecent, setIsStarred, setOwner } from "dataflow/filter/actions";
 import { toggleSelection } from "dataflow/menu/actions";
@@ -55,7 +55,7 @@ class Template extends Component {
         text       : "Created By",
       },
       {
-        dataKey    : "workBook.name",
+        dataKey    : "workbook.name",
         name       : "workbook-col",
         renderType : "text",
         text       : "Work Book",
@@ -194,7 +194,7 @@ class Template extends Component {
           <ContentMenu
             dataKeys={Object.keys(data)}
             actions={this.actionsCollection}
-            addTemplate={this.props.createTemplate}
+            createTemplate={this.props.createTemplate}
           />
 
           <StickyContainer>
@@ -237,21 +237,17 @@ class Template extends Component {
 }
 
 Template.propTypes = {
-  children : React.PropTypes.node,
-
+  children             : React.PropTypes.node,
   // Store
-  list        : React.PropTypes.object.isRequired,
-  menuStore   : React.PropTypes.object.isRequired,
-  filterStore : React.PropTypes.object.isRequired,
-
+  list                 : React.PropTypes.object.isRequired,
+  menuStore            : React.PropTypes.object.isRequired,
+  filterStore          : React.PropTypes.object.isRequired,
   // Action types for Menu Store
-  toggleSelection : React.PropTypes.func.isRequired,
-
+  toggleSelection      : React.PropTypes.func.isRequired,
   // Action types for Data Store
-  getTemplates   : React.PropTypes.func.isRequired,
-  deleteTemplate : React.PropTypes.func.isRequired,
-  createTemplate : React.PropTypes.func.isRequired,
-
+  getTemplates         : React.PropTypes.func.isRequired,
+  deleteTemplate       : React.PropTypes.func.isRequired,
+  createTemplate       : React.PropTypes.func.isRequired,
   // Action types for Filter Store
   filterChangeHandlers : React.PropTypes.shape({
     setDateModifiedStart : React.PropTypes.func.isRequired,

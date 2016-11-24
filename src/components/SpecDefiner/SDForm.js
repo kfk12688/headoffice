@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Row from "./Row";
 import { connect } from "react-redux";
 import { reduxForm, FieldArray, formValueSelector } from "redux-form";
-import { Button, TextInput, DropdownInput } from "components";
+import { Button, TextInput, StaticSelectInput } from "components";
 import getFields from "./getFields";
 import { SubSchemaFields } from "./SubSchemaFields";
 import styles from "./common.less";
@@ -40,7 +40,7 @@ class EditorEntryForm extends Component {
         <div className="row">
           <div className="col-md-12">
             <Row prop={fieldDefn.fieldName} component={TextInput}/>
-            <Row prop={fieldDefn.fieldType} component={DropdownInput} options={FIELD_TYPES}/>
+            <Row prop={fieldDefn.fieldType} component={StaticSelectInput} options={FIELD_TYPES}/>
             {getFields("fieldProps", fieldType, fieldProps)}
           </div>
         </div>

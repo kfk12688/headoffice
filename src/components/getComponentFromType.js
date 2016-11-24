@@ -1,7 +1,7 @@
 /**
  * Created by sharavan on 05/09/16.
  */
-import { TextInput, DateInput, NumericInput, ArrayInput, SelectInput, DropdownInput } from "./index";
+import { TextInput, DateInput, NumericInput, ArrayInput, SelectInput, StaticSelectInput } from "./index";
 
 export function getComponentFromType(type, props) {
   if (type === "Date") {
@@ -12,7 +12,7 @@ export function getComponentFromType(type, props) {
 
   if ((type === "String") && (props.enum.length !== 0)) {
     return {
-      component : DropdownInput,
+      component : StaticSelectInput,
       options   : props.enum,
     };
   }

@@ -5,7 +5,7 @@ export const FavoriteCell = ({ value: isStarred, inheritSize, style }) => {
   const faStyle = {
     ...style,
     color    : isStarred ? red500 : "inherit",
-    fontSize : inheritSize ? "inherit" : 14,
+    fontSize : inheritSize ? "inherit" : 17,
   };
 
   let starredElement = null;

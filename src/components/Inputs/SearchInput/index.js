@@ -24,7 +24,7 @@ SearchInput.propTypes = {
     React.PropTypes.string,
     React.PropTypes.bool,
   ]),
-  field       : React.PropTypes.object.isRequired,
+  field       : React.PropTypes.object,
   className   : React.PropTypes.string,
 };
 

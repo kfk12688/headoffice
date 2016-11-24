@@ -55,7 +55,7 @@ class ContentMenu extends Component {
             />
 
             <Modal
-              modalTitle="Edit Template"
+              modalTitle="Create a new Template"
               faName="plus"
               caption="Add New Content"
               show={this.state.showModal}
@@ -63,7 +63,7 @@ class ContentMenu extends Component {
               hideModal={e => this.setState({ showModal : false })}
               style="primary"
             >
-              <CreateTemplateForm onSubmit={this.props.addTemplate} toggleModal={this.toggleModal}/>
+              <CreateTemplateForm onSubmit={this.props.createTemplate} toggleModal={this.toggleModal}/>
             </Modal>
 
             <Dropdown label={`${menuStore.selectedKeys.length} selected`}>
@@ -93,7 +93,7 @@ ContentMenu.propTypes = {
   selectAllRows     : React.PropTypes.func,
   clearSelection    : React.PropTypes.func,
   toggleMenuSidebar : React.PropTypes.func,
-  addTemplate       : React.PropTypes.func,
+  createTemplate    : React.PropTypes.func,
 };
 
 const menu = connect(

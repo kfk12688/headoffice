@@ -71,9 +71,7 @@ class Dropdown extends React.Component {
 
   hideDropdownOnOutsideClick(event) {
     const ddItems = this.dropdownNode.getElementsByClassName("dropdown-item");
-    console.log(event.target, ddItems);
     const flag = [].reduce.call(ddItems, (ov, item) => {
-      console.log(ov, item === event.target);
       return ov || (item === event.target)
     }, false);
 

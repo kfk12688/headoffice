@@ -77,7 +77,7 @@ App.propTypes = {
 };
 
 App.contextTypes = {
-  router : React.PropTypes.func.isRequired,
+  router : React.PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({

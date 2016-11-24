@@ -1,6 +1,3 @@
-// Loads the font awesome css file
-import "font-awesome/css/font-awesome.css";
-
 export { DataGrid } from "./DataGrid";
 export { PaginationGrid } from "./PaginationGrid";
 export { Entry } from "./Entry";
@@ -12,9 +9,9 @@ export { Modal } from "./Modal";
 
 // replaces ComboSearchInput with SelectInput
 export {
-  TextInput, ArrayInput, DropdownInput, CheckBoxInput, DateInput, NumericInput, SearchInput, SelectInput
+  TextInput, ArrayInput, StaticSelectInput, CheckBoxInput, DateInput, NumericInput, SearchInput, SelectInput
 } from "./Inputs";
 
-export {NavLink} from "./NavLink";
-export * from "./Button";
+export { NavLink } from "./NavLink";
+export { Button, Dropdown } from "./Button";
 export * from "./DisplayElems";

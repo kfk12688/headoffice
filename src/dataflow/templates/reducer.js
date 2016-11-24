@@ -7,7 +7,12 @@ import {
   STAR_TEMPLATE_SUCCESS
 } from "./types";
 
-const initialState = {};
+const initialState = {
+  list : {
+    isLoading : false,
+    data      : {},
+  },
+};
 
 const reducer = handleActions({
   [GET_TEMPLATES_REQUEST] : (state) => ({

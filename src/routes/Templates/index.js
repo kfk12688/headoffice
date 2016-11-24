@@ -237,21 +237,17 @@ class Template extends Component {
 }
 
 Template.propTypes = {
-  children : React.PropTypes.node,
-
+  children             : React.PropTypes.node,
   // Store
-  list        : React.PropTypes.object.isRequired,
-  menuStore   : React.PropTypes.object.isRequired,
-  filterStore : React.PropTypes.object.isRequired,
-
+  list                 : React.PropTypes.object.isRequired,
+  menuStore            : React.PropTypes.object.isRequired,
+  filterStore          : React.PropTypes.object.isRequired,
   // Action types for Menu Store
-  toggleSelection : React.PropTypes.func.isRequired,
-
+  toggleSelection      : React.PropTypes.func.isRequired,
   // Action types for Data Store
-  getTemplates   : React.PropTypes.func.isRequired,
-  deleteTemplate : React.PropTypes.func.isRequired,
-  createTemplate : React.PropTypes.func.isRequired,
-
+  getTemplates         : React.PropTypes.func.isRequired,
+  deleteTemplate       : React.PropTypes.func.isRequired,
+  createTemplate       : React.PropTypes.func.isRequired,
   // Action types for Filter Store
   filterChangeHandlers : React.PropTypes.shape({
     setDateModifiedStart : React.PropTypes.func.isRequired,

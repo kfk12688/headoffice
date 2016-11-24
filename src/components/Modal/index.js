@@ -106,9 +106,9 @@ export class Modal extends React.Component {
 }
 
 Modal.propTypes = {
-  showModal  : React.PropTypes.bool.isRequired,
-  hideModal  : React.PropTypes.bool.isRequired,
-  show       : React.PropTypes.object,
+  showModal  : React.PropTypes.func.isRequired,
+  hideModal  : React.PropTypes.func.isRequired,
+  show       : React.PropTypes.bool,
   size       : React.PropTypes.string,
   style      : React.PropTypes.string,
   faName     : React.PropTypes.string,

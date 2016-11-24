@@ -1,6 +1,5 @@
 import React from "react";
 import cx from "classnames";
-import styles from "./index.less";
 
 const Pagination = ({ className, limit, activePage, setPage, setLimit }) => {
   const pageClickHandler = (e, pageIdx) => {
@@ -40,7 +39,7 @@ const Pagination = ({ className, limit, activePage, setPage, setLimit }) => {
       const pageLinks = [];
       for (let idx = 1; idx <= noPages; idx++) {
         pageLinks.push(
-          <li className={cx("page-item", { "active" : (activePage === idx) })}>
+          <li key={idx} className={cx("page-item", { "active" : (activePage === idx) })}>
             <a
               href="#"
               tabIndex="-1"
@@ -65,13 +64,14 @@ const Pagination = ({ className, limit, activePage, setPage, setLimit }) => {
   };
 
   const generateLimits = (limits) => {
-    const options = limits.map(limitVal =>
-      <option value={limitVal.toString()}>{limitVal}</option>
+    const options = limits.map((limitVal, idx) =>
+      <option key={idx} value={limitVal.toString()}>{limitVal}</option>
     );
 
     return (
       <select
-        className={cx("pull-right", styles.limitContainer)}
+        className={cx("pull-right", "custom-select")}
+        style={{ margin : "1rem 0" }}
         value={limit}
         onChange={limitChangeHandler}
         tabIndex="-1"

@@ -130,7 +130,7 @@ class Editor extends Component {
                     />
                   </Modal>
                   <Button faName="times" block onClick={this.deleteTemplate}>Delete Template</Button>
-                  <Button block onClick={this.starTemplate}>Make Favorite <FavoriteCell value={isFavorite} inheritSize/></Button>
+                  <Button block onClick={this.starTemplate}>Make Favorite <FavoriteCell value={isFavorite || false} inheritSize/></Button>
 
                   <div className={styles.divider}/>
                   <div className={styles.attributes}>

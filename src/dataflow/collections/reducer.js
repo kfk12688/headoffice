@@ -5,25 +5,30 @@ import {
   ADD_ROW_REQUEST, ADD_ROW_SUCCESS, GET_TEMPLATES_REQUEST, GET_TEMPLATES_SUCCESS, GET_TEMPLATES_FAILURE
 } from "./types";
 
-const initialState = {};
+const initialState = {
+  list : {
+    data      : {},
+    isLoading : false,
+  }
+};
 
 export default handleActions({
   [GET_TEMPLATES_REQUEST] : (state) => ({
     ...state,
-    templates : {
+    list : {
       isLoading : true,
     },
   }),
   [GET_TEMPLATES_SUCCESS] : (state, action) => ({
     ...state,
-    templates : {
+    list : {
       isLoading : false,
       data      : action.payload.data,
     },
   }),
   [GET_TEMPLATES_FAILURE] : (state, action) => ({
     ...state,
-    templates : {
+    list : {
       isLoading : false,
       error     : action.payload.err,
     },

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
 import { Button, TextInput, SelectInput } from "components";
 
-class CreateForm extends Component {
+class NewTemplateForm extends Component {
   constructor() {
     super();
     this.onSubmit = this.onSubmit.bind(this);
@@ -45,7 +45,7 @@ class CreateForm extends Component {
   }
 }
 
-CreateForm.propTypes = {
+NewTemplateForm.propTypes = {
   // redux-form injected props
   pristine     : React.PropTypes.bool,
   submitting   : React.PropTypes.bool,
@@ -57,4 +57,4 @@ CreateForm.propTypes = {
 
 export default reduxForm({
   form : "newTemplate",
-})(CreateForm);
+})(NewTemplateForm);

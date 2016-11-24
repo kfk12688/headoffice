@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { StickyContainer, Sticky } from "react-sticky";
-import { PaginationGrid, NavLink, Pagination, FavoriteCell, Button, Modal } from "components";
+import { Link } from "react-router";
+import { PaginationGrid, Pagination, FavoriteCell, Button, Modal } from "components";
 import { clearMenuState } from "dataflow/menu/actions";
 import { loadSpec, loadData } from "dataflow/collections/actions";
 import EditTemplateForm from "../../Forms/NewTemplateForm";
@@ -108,12 +109,14 @@ class Viewer extends Component {
 
               <div className="col-md-3">
                 <Sticky stickyStyle={{ paddingTop : 8 }}>
-                  <NavLink to="collections" faName="times-circle-o"><Button block>Close View</Button></NavLink>
-                  <NavLink to={`collections/entry/${collectionName}`} faName="arrow-circle-o-right">
-                    <Button block>
-                      Entry View
-                    </Button>
-                  </NavLink>
+                  <div className="btn-group-vertical btn-block">
+                    <Link to="collections" className="btn btn-secondary btn-sm" role="button">
+                      Close View&nbsp;<i className="fa fa-times-circle-o"/>
+                    </Link>
+                    <Link to={`collections/entry/${collectionName}`} className="btn btn-secondary btn-sm" role="button">
+                      Enter new data&nbsp;<i className="fa fa-arrow-circle-o-right"/>
+                    </Link>
+                  </div>
 
 
                   <div className={styles.divider}/>

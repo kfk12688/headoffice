@@ -1,7 +1,7 @@
 import React from "react";
 import _ from "underscore";
 
-const DropdownInput = ({ className, options, input, meta, ...rest }) => {
+const StaticSelectInput = ({ className, options, input, meta, ...rest }) => {
   const optionNodes = _.map(options, (item, idx) =>
     <option key={idx} value={item}>{item}</option>
   );
@@ -13,7 +13,7 @@ const DropdownInput = ({ className, options, input, meta, ...rest }) => {
   );
 };
 
-DropdownInput.propTypes = {
+StaticSelectInput.propTypes = {
   input     : React.PropTypes.shape({
     value    : React.PropTypes.any.isRequired,
     onChange : React.PropTypes.func.isRequired,
@@ -22,4 +22,4 @@ DropdownInput.propTypes = {
   options   : React.PropTypes.array,
 };
 
-export { DropdownInput };
+export { StaticSelectInput };

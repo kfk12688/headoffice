@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { reduxForm, Field } from "redux-form";
-import { Button, TextInput, DropdownInput } from "components";
+import { Button, TextInput, StaticSelectInput } from "components";
 
-class CreateUserForm extends Component {
+class NewWorkbookForm extends Component {
   constructor() {
     super();
     this.onSubmit = this.onSubmit.bind(this);
@@ -37,7 +37,7 @@ class CreateUserForm extends Component {
           <label>Select the users who will have access to the workbook/collection:</label>
           <Field
             name="users"
-            component={DropdownInput}
+            component={StaticSelectInput}
             options={["", "SuperAdmin", "Admin", "Manager", "Technician"]}
           />
         </div>
@@ -51,7 +51,7 @@ class CreateUserForm extends Component {
   }
 }
 
-CreateUserForm.propTypes = {
+NewWorkbookForm.propTypes = {
   // redux-form injected props
   pristine     : React.PropTypes.bool,
   submitting   : React.PropTypes.bool,
@@ -63,5 +63,5 @@ CreateUserForm.propTypes = {
 
 export default reduxForm({
   form : "newWorkBook",
-})(CreateUserForm);
+})(NewWorkbookForm);
 

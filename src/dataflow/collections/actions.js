@@ -6,7 +6,7 @@ import {
   SPEC_REQUEST, SPEC_SUCCESS, SPEC_FAILURE, DATA_REQUEST, DATA_SUCCESS, DATA_FAILURE, UPDATE_ROW_REQUEST,
   UPDATE_ROW_SUCCESS, UPDATE_ROW_FAILURE, DELETE_ROW_FAILURE, DELETE_ROW_REQUEST, DELETE_ROW_SUCCESS,
   GET_TEMPLATES_REQUEST, GET_TEMPLATES_SUCCESS, GET_TEMPLATES_FAILURE, ADD_ROW_REQUEST, ADD_ROW_SUCCESS,
-  ADD_ROW_FAILURE
+  ADD_ROW_FAILURE,EDIT_TEMPLATE_REQUEST, EDIT_TEMPLATE_SUCCESS, EDIT_TEMPLATE_FAILURE,
 } from "./types";
 
 /**
@@ -51,17 +51,20 @@ export function loadData(collectionName, query) {
 /**
  * Get the template specification
  */
-const specRequest = createAction(SPEC_REQUEST);
-const specSuccess = createAction(SPEC_SUCCESS, (collectionName, spec) => ({ collectionName, spec }));
+const specRequest = createAction(SPEC_REQUEST, (collectionName) => ({ collectionName }));
+const specSuccess = createAction(SPEC_SUCCESS, (collectionName, json) => ({
+  collectionName,
+  template : json,
+}));
 const specFailure = createAction(SPEC_FAILURE, (collectionName, err) => ({ collectionName, err }));
 
 export function loadSpec(collectionName) {
   return dispatch => {
-    dispatch(specRequest);
+    dispatch(specRequest(collectionName));
 
     return fetch("GET", `api/templates/${collectionName}/schema`)
       .then(res => res.json())
-      .then(spec => dispatch(specSuccess(collectionName, spec)))
+      .then(json => dispatch(specSuccess(collectionName, json)))
       .catch(err => dispatch(specFailure(collectionName, err)));
   };
 }

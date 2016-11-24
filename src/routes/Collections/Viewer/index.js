@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { StickyContainer, Sticky } from "react-sticky";
 import { Link } from "react-router";
+import moment from "moment";
 import { PaginationGrid, Pagination, FavoriteCell, Button, Modal } from "components";
 import { clearMenuState } from "dataflow/menu/actions";
+import { deleteTemplate, starTemplate, updateTemplate } from "dataflow/templates/actions";
 import { loadSpec, loadData } from "dataflow/collections/actions";
-import EditTemplateForm from "../../Forms/NewTemplateForm";
+import EditTemplateForm from "../../Forms/EditTemplateForm";
 import styles from "./index.less";
 
 class Viewer extends Component {
@@ -20,6 +22,9 @@ class Viewer extends Component {
     this.loadData = this.loadData.bind(this);
     this.setPage = this.setPage.bind(this);
     this.setLimit = this.setLimit.bind(this);
+    this.deleteTemplate = this.deleteTemplate.bind(this);
+    this.updateTemplate = this.updateTemplate.bind(this);
+    this.starTemplate = this.starTemplate.bind(this);
   }
 
   componentWillMount() {
@@ -63,11 +68,35 @@ class Viewer extends Component {
     this.props.loadData(collectionName, { page, limit });
   }
 
+  deleteTemplate(e) {
+    e.preventDefault();
+    const confirmationFlag = window.confirm("Are you sure you want to delete this template?");
+    if (confirmationFlag) {
+      const { collectionName } = this.props.params;
+      this.props.deleteTemplate(collectionName).then(this.context.router.push("/templates"));
+    }
+  }
+
+  starTemplate(e) {
+    e.preventDefault();
+    const { collectionName } = this.props.params;
+    this.props.starTemplate(collectionName);
+  }
+
+  updateTemplate(data) {
+    const { collectionName } = this.props.params;
+    this.props.updateTemplate(collectionName, data);
+  }
+
   render() {
-    const { viewStore, params : { collectionName } } = this.props;
-    const { data, spec, isLoading, count, templateName } = !!viewStore[collectionName] && viewStore[collectionName];
+    const collectionName = this.props.params.collectionName;
+    const {
+      data = {}, userSchema = [], isLoading, count, templateName,
+      workbook, modifiedAt, createdAt, createdBy, isFavorite,
+    } = this.props.viewStore[collectionName];
     let dataObj = (!!data && !!data[this.state.page]) ? data[this.state.page] : {};
-    let specObj = !!spec ? spec : [];
+    const workbookName = !!workbook && !!workbook.name && workbook.name || "";
+    const createdByUser = !!createdBy && !!createdBy.name && createdBy.name || "";
 
     return (
       <div className="row">
@@ -78,7 +107,7 @@ class Viewer extends Component {
                 <Sticky stickyStyle={{ backgroundColor : "white", zIndex : 100 }}>
                   <div className="row">
                     <div className="col-md-12">
-                      <h4>{templateName || collectionName}&nbsp;
+                      <h4>{templateName}&nbsp;
                         <small className="text-muted">({count || 0} Entries)</small>
                       </h4>
                     </div>
@@ -99,7 +128,7 @@ class Viewer extends Component {
                   <div className="col-md-12">
                     <PaginationGrid
                       topOffset={114}
-                      spec={specObj}
+                      spec={userSchema}
                       data={dataObj}
                       isLoading={isLoading}
                     />
@@ -110,6 +139,9 @@ class Viewer extends Component {
               <div className="col-md-3">
                 <Sticky stickyStyle={{ paddingTop : 8 }}>
                   <div className="btn-group-vertical btn-block">
+                    <Link to={`templates/${collectionName}`} className="btn btn-secondary btn-sm" role="button">
+                      Edit Schema&nbsp;<i className="fa fa-edit"/>
+                    </Link>
                     <Link to="collections" className="btn btn-secondary btn-sm" role="button">
                       Close View&nbsp;<i className="fa fa-times-circle-o"/>
                     </Link>
@@ -134,14 +166,20 @@ class Viewer extends Component {
                       toggleModal={e => this.setState({ showModal : false })}
                     />
                   </Modal>
-                  <Button faName="times" block>Delete Template</Button>
-                  <Button block>Make Favorite <FavoriteCell value inheritSize/></Button>
+                  <Button faName="times" block onClick={this.deleteTemplate}>Delete Template</Button>
+                  <Button block onClick={this.starTemplate}>
+                    Make Favorite
+                    &nbsp;
+                    <FavoriteCell value={isFavorite || false} inheritSize/>
+                  </Button>
 
                   <div className={styles.divider}/>
-                  <div>Created By :</div>
-                  <div>Created At :</div>
-                  <div>Last Modified :</div>
-                  <div>Belongs to :</div>
+                  <div className={styles.attributes}>
+                    <div>Created By : <span>{createdByUser}</span></div>
+                    <div>Created At : <span>{moment(createdAt).format("DD-MM-YYYY")}</span></div>
+                    <div>Last Modified : <span>{moment(modifiedAt).format("DD-MM-YY h:m A")}</span></div>
+                    <div>Belongs to : <span>{workbookName}</span></div>
+                  </div>
                 </Sticky>
               </div>
             </div>
@@ -154,15 +192,16 @@ class Viewer extends Component {
 
 Viewer.propTypes = {
   // route
-  params : React.PropTypes.object,
-
+  params         : React.PropTypes.object,
   // state
-  viewStore : React.PropTypes.object.isRequired,
-
+  viewStore      : React.PropTypes.object.isRequired,
   // actions
   clearMenuState : React.PropTypes.func.isRequired,
   loadSpec       : React.PropTypes.func,
   loadData       : React.PropTypes.func,
+  deleteTemplate : React.PropTypes.func.isRequired,
+  starTemplate   : React.PropTypes.func.isRequired,
+  updateTemplate : React.PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -173,6 +212,9 @@ const mapDisptachToProps = dispatch => ({
   clearMenuState : () => dispatch(clearMenuState()),
   loadSpec       : (collectionName) => dispatch(loadSpec(collectionName)),
   loadData       : (collectionName, query) => dispatch(loadData(collectionName, query)),
+  deleteTemplate : collectionName => dispatch(deleteTemplate(collectionName)),
+  starTemplate   : collectionName => dispatch(starTemplate(collectionName)),
+  updateTemplate : (collectionName, data) => dispatch(updateTemplate(collectionName, data)),
 });
 
 export default connect(mapStateToProps, mapDisptachToProps)(Viewer);

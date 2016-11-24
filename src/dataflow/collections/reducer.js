@@ -9,7 +9,7 @@ const initialState = {
   list : {
     data      : {},
     isLoading : false,
-  }
+  },
 };
 
 export default handleActions({
@@ -37,19 +37,25 @@ export default handleActions({
   /**
    * Specification for data entry in the table
    */
-  [SPEC_REQUEST] : state => ({
-    ...state,
-  }),
+  [SPEC_REQUEST] : (state, action) => {
+    const { collectionName } = action.payload;
+    return {
+      ...state,
+      [collectionName] : {
+        ...state[collectionName],
+        isLoading : true,
+      },
+    };
+  },
   [SPEC_SUCCESS] : (state, action) => {
-    const { spec, collectionName } = action.payload;
-    const { userSchema, id } = spec;
+    const { template, message, collectionName } = action.payload;
 
     return {
       ...state,
       [collectionName] : {
         ...state[collectionName],
-        id,
-        spec : userSchema,
+        ...template,
+        isLoading : false,
       },
     };
   },

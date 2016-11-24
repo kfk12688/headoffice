@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { StickyContainer, Sticky } from "react-sticky";
-import { Entry, Button, Modal, FavoriteCell } from "components";
-import { loadSpec, addRow } from "dataflow/collections/actions";
 import { Link } from "react-router";
+import moment from "moment";
+import { Entry, Button, Modal, FavoriteCell } from "components";
+import { loadSpec, addRow, deleteTemplate, starTemplate, updateTemplate } from "dataflow/collections/actions";
 import styles from "./index.less";
-import EditTemplateForm from "../../Forms/NewTemplateForm";
+import EditTemplateForm from "../../Forms/EditTemplateForm";
 
 class EntryForm extends Component {
   constructor(props) {
@@ -17,6 +18,9 @@ class EntryForm extends Component {
     };
 
     this.addRow = this.addRow.bind(this);
+    this.deleteTemplate = this.deleteTemplate.bind(this);
+    this.updateTemplate = this.updateTemplate.bind(this);
+    this.starTemplate = this.starTemplate.bind(this);
   }
 
   componentWillMount() {
@@ -29,9 +33,34 @@ class EntryForm extends Component {
     this.props.addRow(collectionName, rowData);
   }
 
+  deleteTemplate(e) {
+    e.preventDefault();
+    const confirmationFlag = window.confirm("Are you sure you want to delete this template?");
+    if (confirmationFlag) {
+      const { collectionName } = this.props.params;
+      this.props.deleteTemplate(collectionName).then(this.context.router.push("/templates"));
+    }
+  }
+
+  starTemplate(e) {
+    e.preventDefault();
+    const { collectionName } = this.props.params;
+    this.props.starTemplate(collectionName);
+  }
+
+  updateTemplate(data) {
+    const { collectionName } = this.props.params;
+    this.props.updateTemplate(collectionName, data);
+  }
+
   render() {
-    const { collectionName, templateName = "" } = this.props.params;
-    const { spec = [], isLoading } = this.props.entryStore[collectionName] || {};
+    const { collectionName } = this.props.params;
+    const {
+      userSchema = [], isLoading, templateName = "",
+      workbook, modifiedAt, createdAt, createdBy, isFavorite,
+    } = this.props.entryStore[collectionName] || {};
+    const workbookName = !!workbook && !!workbook.name && workbook.name || "";
+    const createdByUser = !!createdBy && !!createdBy.name && createdBy.name || "";
 
     return (
       <div className="row">
@@ -42,7 +71,7 @@ class EntryForm extends Component {
                 <Sticky stickyStyle={{ backgroundColor : "white", zIndex : 100 }}>
                   <div className="row">
                     <div className="col-md-12">
-                      <h4>{templateName || collectionName}</h4>
+                      <h4>{templateName}</h4>
                     </div>
                   </div>
                 </Sticky>
@@ -50,7 +79,7 @@ class EntryForm extends Component {
                 <div className="row">
                   <div className="col-md-12">
                     <Entry
-                      spec={spec}
+                      spec={userSchema}
                       isLoading={isLoading}
                       onSubmit={this.addRow}
                     />
@@ -61,6 +90,9 @@ class EntryForm extends Component {
               <div className="col-md-3">
                 <Sticky stickyStyle={{ paddingTop : 8 }}>
                   <div className="btn-group-vertical btn-block">
+                    <Link to={`templates/${collectionName}`} className="btn btn-secondary btn-sm" role="button">
+                      Edit Schema&nbsp;<i className="fa fa-edit"/>
+                    </Link>
                     <Link to="collections" className="btn btn-secondary btn-sm" role="button">
                       Close View&nbsp;<i className="fa fa-times-circle-o"/>
                     </Link>
@@ -84,14 +116,20 @@ class EntryForm extends Component {
                       toggleModal={e => this.setState({ showModal : false })}
                     />
                   </Modal>
-                  <Button faName="times" block>Delete Template</Button>
-                  <Button block>Make Favorite <FavoriteCell value inheritSize/></Button>
+                  <Button faName="times" block onClick={this.deleteTemplate}>Delete Template</Button>
+                  <Button block onClick={this.starTemplate}>
+                    Make Favorite
+                    &nbsp;
+                    <FavoriteCell value={isFavorite || false} inheritSize/>
+                  </Button>
 
                   <div className={styles.divider}/>
-                  <div>Created By :</div>
-                  <div>Created At :</div>
-                  <div>Last Modified :</div>
-                  <div>Belongs to :</div>
+                  <div className={styles.attributes}>
+                    <div>Created By : <span>{createdByUser}</span></div>
+                    <div>Created At : <span>{moment(createdAt).format("DD-MM-YYYY")}</span></div>
+                    <div>Last Modified : <span>{moment(modifiedAt).format("DD-MM-YY h:m A")}</span></div>
+                    <div>Belongs to : <span>{workbookName}</span></div>
+                  </div>
                 </Sticky>
               </div>
             </div>
@@ -104,14 +142,15 @@ class EntryForm extends Component {
 
 EntryForm.propTypes = {
   // route
-  params : React.PropTypes.object,
-
+  params         : React.PropTypes.object,
   // state
-  entryStore : React.PropTypes.object.isRequired,
-
+  entryStore     : React.PropTypes.object.isRequired,
   // actions
-  loadSpec : React.PropTypes.func,
-  addRow   : React.PropTypes.func,
+  loadSpec       : React.PropTypes.func,
+  addRow         : React.PropTypes.func,
+  deleteTemplate : React.PropTypes.func.isRequired,
+  starTemplate   : React.PropTypes.func.isRequired,
+  updateTemplate : React.PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -119,8 +158,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDisptachToProps = dispatch => ({
-  loadSpec : (collectionName) => dispatch(loadSpec(collectionName)),
-  addRow   : (collectionName, data) => dispatch(addRow(collectionName, data)),
+  loadSpec       : (collectionName) => dispatch(loadSpec(collectionName)),
+  addRow         : (collectionName, data) => dispatch(addRow(collectionName, data)),
+  deleteTemplate : collectionName => dispatch(deleteTemplate(collectionName)),
+  starTemplate   : collectionName => dispatch(starTemplate(collectionName)),
+  updateTemplate : (collectionName, data) => dispatch(updateTemplate(collectionName, data)),
 });
 
 export default connect(mapStateToProps, mapDisptachToProps)(EntryForm);

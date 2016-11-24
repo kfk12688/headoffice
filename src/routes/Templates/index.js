@@ -46,7 +46,7 @@ class Template extends Component {
         name       : "name-col",
         renderType : "link",
         text       : "Name",
-        "actions"  : this.actionsCollection,
+        actions    : this.actionsCollection,
       },
       {
         dataKey    : "createdBy.username",

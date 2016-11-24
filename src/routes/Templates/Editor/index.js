@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { StickyContainer, Sticky } from "react-sticky";
 import { connect } from "react-redux";
+import { Link } from "react-router";
 import { SpecDefiner, Button, Modal, FavoriteCell } from "components";
 import {
   getTemplate, updateSchema, addField, deleteTemplate, starTemplate, updateTemplate
@@ -116,6 +117,16 @@ class Editor extends Component {
                   </div>
 
                   <div className={styles.divider}/>
+                  <div className="btn-group-vertical btn-block">
+                    <Link to={`collections/entry/${collectionName}`} className="btn btn-secondary btn-sm" role="button">
+                      Enter Data&nbsp;<i className="fa fa-times-circle-o"/>
+                    </Link>
+                    <Link to={`collections/view/${collectionName}`} className="btn btn-secondary btn-sm" role="button">
+                      View entered data&nbsp;<i className="fa fa-arrow-circle-o-right"/>
+                    </Link>
+                  </div>
+
+                  <div className={styles.divider}/>
                   <Modal
                     faName="edit"
                     caption="Edit Template"
@@ -130,7 +141,8 @@ class Editor extends Component {
                     />
                   </Modal>
                   <Button faName="times" block onClick={this.deleteTemplate}>Delete Template</Button>
-                  <Button block onClick={this.starTemplate}>Make Favorite <FavoriteCell value={isFavorite || false} inheritSize/></Button>
+                  <Button block onClick={this.starTemplate}>Make Favorite <FavoriteCell value={isFavorite || false}
+                                                                                        inheritSize/></Button>
 
                   <div className={styles.divider}/>
                   <div className={styles.attributes}>

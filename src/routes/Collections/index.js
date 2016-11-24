@@ -52,7 +52,7 @@ class Collections extends Component {
         "actions"  : this.actionsCollection,
       },
       {
-        dataKey    : "workBook.name",
+        dataKey    : "workbook.name",
         name       : "workbook-col",
         renderType : "text",
         text       : "Work Book",
@@ -76,8 +76,8 @@ class Collections extends Component {
     this.colWidths = {
       "checkbox-col"   : 38,
       "favorite-col"   : 38,
-      "name-col"       : 250,
-      "workbook-col"   : 170,
+      "name-col"       : 270,
+      "workbook-col"   : 220,
       "created-at-col" : 120,
       "updated-at-col" : 150,
     };

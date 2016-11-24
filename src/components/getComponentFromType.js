@@ -1,6 +1,3 @@
-/**
- * Created by sharavan on 05/09/16.
- */
 import { TextInput, DateInput, NumericInput, ArrayInput, SelectInput, DropdownInput } from "./index";
 
 export function getComponentFromType(type, props) {

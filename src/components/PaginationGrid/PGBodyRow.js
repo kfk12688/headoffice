@@ -9,6 +9,7 @@ import styles from "./common.less";
 import { Provider } from "react-redux";
 import configureStore from "../../dataflow/configureStore";
 import cx from "classnames";
+
 const store = configureStore();
 
 class PGBodyRow extends React.Component {
@@ -35,11 +36,20 @@ class PGBodyRow extends React.Component {
     this.removeModal();
   }
 
-  deleteRow(e) {
-    e.preventDefault();
-    if (window.confirm(`Are you sure you want to delete the row?\nID : ${this.props.rowKey}`)) {
-      this.props.deleteRow(this.props.rowKey);
-    }
+  getFormFields() {
+    return _.map(this.props.cols, col => {
+      const { fieldName, fieldSchema, fieldType, fieldProps, displayText } = col;
+      let fieldSub = undefined;
+      if (Array.isArray(fieldSchema) && (fieldSchema.length !== 0)) fieldSub = this.getFormFields(fieldSchema);
+
+      return {
+        key   : fieldName,
+        type  : fieldType,
+        title : displayText,
+        props : fieldProps,
+        sub   : fieldSub,
+      };
+    });
   }
 
   handleMouseEnter() {
@@ -81,15 +91,11 @@ class PGBodyRow extends React.Component {
     renderToDOM(<div></div>, document.getElementById("Modal"));
   }
 
-  getFormFields() {
-    const { cols, row, rowKey } = this.props;
-
-    return _.map(cols, col => ({
-      displayText : col.displayText,
-      fieldName   : col.fieldName,
-      fieldType   : col.fieldType,
-      value       : row[col.fieldName],
-    }));
+  deleteRow(e) {
+    e.preventDefault();
+    if (window.confirm(`Are you sure you want to delete the row?\nID : ${this.props.rowKey}`)) {
+      this.props.deleteRow(this.props.rowKey);
+    }
   }
 
   renderModal(showModal) {
@@ -101,6 +107,7 @@ class PGBodyRow extends React.Component {
     };
 
     if (showModal) {
+      document.body.style.overflow = "hidden";
       document.getElementById("Modal").addEventListener("click", this.hideModalOnOutsideClick);
       window.addEventListener("keyup", this.hideModalOnEsc);
 
@@ -115,8 +122,11 @@ class PGBodyRow extends React.Component {
                   <h5 className="modal-title">{"Edit Collection Row Form"}</h5>
                 </div>
                 <div className="modal-body">
-                  <EditCollectionRowForm fields={this.getFormFields()} state={{}} submitForm={() => {}}
-                                         toggleModal={e => this.setState({ showModal : false })}/>
+                  <EditCollectionRowForm
+                    initialValues={this.props.row}
+                    fields={this.getFormFields()}
+                    toggleModal={e => this.setState({ showModal : false })}
+                  />
                 </div>
               </div>
             </div>
@@ -125,6 +135,7 @@ class PGBodyRow extends React.Component {
         document.getElementById("Modal")
       );
     } else {
+      document.body.style.overflow = "auto";
       document.getElementById("Modal").removeEventListener("click", this.hideModalOnOutsideClick);
       window.removeEventListener("keyup", this.hideModalOnEsc);
       this.removeModal();
@@ -170,12 +181,11 @@ class PGBodyRow extends React.Component {
 }
 
 PGBodyRow.propTypes = {
-  hideModal : React.PropTypes.bool.isRequired,
-  cols      : React.PropTypes.array.isRequired,
-  colWidths : React.PropTypes.object.isRequired,
-  row       : React.PropTypes.object.isRequired,
-  rowKey    : React.PropTypes.string,
-
+  hideModal   : React.PropTypes.bool.isRequired,
+  cols        : React.PropTypes.array.isRequired,
+  colWidths   : React.PropTypes.object.isRequired,
+  row         : React.PropTypes.object.isRequired,
+  rowKey      : React.PropTypes.string,
   toggleModal : React.PropTypes.func,
 };
 

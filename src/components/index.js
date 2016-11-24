@@ -18,3 +18,4 @@ export {
 export * from "./NavLink";
 export * from "./Button";
 export * from "./DisplayElems";
+export { getComponentFromType } from "./getComponentFromType";

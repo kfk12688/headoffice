@@ -15,3 +15,4 @@ export {
 export { NavLink } from "./NavLink";
 export { Button, Dropdown } from "./Button";
 export * from "./DisplayElems";
+export { getComponentFromType } from "./getComponentFromType";

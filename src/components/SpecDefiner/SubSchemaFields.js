@@ -29,8 +29,8 @@ export const SubSchemaFields = ({ fields, fieldSchema, className }) => {
 
         <div className="col-md-11">
           <h6 className={styles.headers}>{`Sub-Field-${idx + 1}`}</h6>
-          <Row prop={fieldDefn.fieldName} component={TextInput}/>
-          <Row prop={fieldDefn.fieldType} component={StaticSelectInput}
+          <Row prop={fieldDefn.fieldName} component={TextInput} required/>
+          <Row prop={fieldDefn.fieldType} component={StaticSelectInput} required
                options={["Number", "Date", "String", "Boolean", "ObjectId"]}
           />
           {

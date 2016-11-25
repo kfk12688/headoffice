@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { selectAll, clearSelection, toggleMenuSidebar } from "dataflow/menu/actions";
 import { Button, Modal, Dropdown } from "components";
-import NewWorkbookForm from "../Forms/NewWorkbookForm";
+import CreateWorkbookForm from "../Forms/CreateWorkbookForm";
 import cx from "classnames";
 import styles from "./ContentMenu.less";
 
@@ -65,7 +65,7 @@ class ContentMenu extends Component {
               hideModal={e => this.setState({ showModal : false })}
               style="primary"
             >
-              <NewWorkbookForm onSubmit={this.props.createWorkbook} toggleModal={this.toggleModal}/>
+              <CreateWorkbookForm onSubmit={this.props.createWorkbook} toggleModal={this.toggleModal}/>
             </Modal>
             <Dropdown label={`${menuStore.selectedKeys.length} selected`}>
               <div onClick={this.selectAllHandler}>Select All</div>

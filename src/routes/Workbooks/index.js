@@ -11,10 +11,12 @@ import cx from "classnames";
 class Workbooks extends Component {
   constructor(props) {
     super(props);
-    this.getActions = this.getActions.bind(this);
-    const actions = this.getActions();
     this.actionsCollection = [
-      { name : "Delete Workbook", handler : actions.deleteWorkbook },
+      {
+        name    : "Delete Workbook",
+        dataKey : "workbook.name",
+        handler : (name) => props.deleteWorkbook(name),
+      },
     ];
 
     this.colSpec = [
@@ -63,22 +65,6 @@ class Workbooks extends Component {
     this.props.getWorkbooks();
   }
 
-  getActions() {
-    const _deleteWorkbook = () => {
-      const { menuStore: { selectedKeys } } = this.props;
-
-      if (selectedKeys.length > 1) {
-        this.props.deleteWorkbook({ id : selectedKeys });
-      } else {
-        this.props.deleteWorkbook({ id : selectedKeys[0] });
-      }
-    };
-
-    return {
-      deleteWorkbook : _deleteWorkbook,
-    };
-  }
-
   renderChildren() {
     if (this.props.children) return this.props.children;
 
@@ -117,7 +103,7 @@ class Workbooks extends Component {
           <ContentMenu
             dataKeys={Object.keys(data)}
             actions={this.actionsCollection}
-            addNewWorkbook={this.props.createWorkbook}
+            createWorkbook={this.props.createWorkbook}
           />
 
           <StickyContainer>

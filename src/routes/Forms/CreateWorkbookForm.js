@@ -62,6 +62,6 @@ NewWorkbookForm.propTypes = {
 };
 
 export default reduxForm({
-  form : "newWorkBook",
+  form : "createWorkBook",
 })(NewWorkbookForm);
 

@@ -138,7 +138,7 @@ const reducer = handleActions({
     return {
       ...state,
       list : {
-        ...list,
+        ...state.list,
         isLoading : false,
       },
     };

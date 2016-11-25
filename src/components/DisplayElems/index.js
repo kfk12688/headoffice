@@ -59,12 +59,12 @@ function getCell(transform, type, row, col) {
       urlKey : row[col.linkRef.urlKey],
       path   : col.linkRef.path,
     };
-    const { actions = [] } = col;
+    const actions = col.actions || [];
 
     return (
       <div className={styles.inlContainer}>
         <LinkCell value={value}/>
-        <ActionCell className={styles.inlContainerElem} actions={actions}/>
+        <ActionCell className={styles.inlContainerElem} actions={actions} data={value.text}/>
       </div>
     );
   }

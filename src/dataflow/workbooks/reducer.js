@@ -1,13 +1,19 @@
 import { handleActions } from "redux-actions";
 import {
-  WORKBOOK_REQUEST, WORKBOOK_SUCCESS, WORKBOOK_FAILURE, NEW_WORKBOOK_REQUEST, NEW_WORKBOOK_SUCCESS,
-  NEW_WORKBOOK_FAILURE
+  GET_WORKBOOKS_FAILURE, GET_WORKBOOKS_REQUEST, GET_WORKBOOKS_SUCCESS, CREATE_WORKBOOK_FAILURE,
+  CREATE_WORKBOOK_REQUEST, CREATE_WORKBOOK_SUCCESS, DELETE_WORKBOOK_REQUEST, DELETE_WORKBOOK_FAILURE,
+  DELETE_WORKBOOK_SUCCESS
 } from "./types";
 
-const initialState = {};
+const initialState = {
+  list : {
+    isLoading : false,
+    data      : {},
+  },
+};
 
 const reducer = handleActions({
-  [WORKBOOK_REQUEST] : (state) => {
+  [GET_WORKBOOKS_REQUEST] : (state) => {
     return {
       ...state,
       list : {
@@ -15,7 +21,7 @@ const reducer = handleActions({
       },
     };
   },
-  [WORKBOOK_SUCCESS] : (state, action) => {
+  [GET_WORKBOOKS_SUCCESS] : (state, action) => {
     const { workbooks } = action.payload;
     return {
       ...state,
@@ -25,7 +31,7 @@ const reducer = handleActions({
       },
     };
   },
-  [WORKBOOK_FAILURE] : (state, action) => {
+  [GET_WORKBOOKS_FAILURE] : (state, action) => {
     const { err } = action.payload;
     return {
       ...state,
@@ -36,7 +42,7 @@ const reducer = handleActions({
     };
   },
 
-  [NEW_WORKBOOK_REQUEST] : (state) => {
+  [CREATE_WORKBOOK_REQUEST] : (state) => {
     return {
       ...state,
       list : {
@@ -45,7 +51,7 @@ const reducer = handleActions({
       },
     };
   },
-  [NEW_WORKBOOK_SUCCESS] : (state, action) => {
+  [CREATE_WORKBOOK_SUCCESS] : (state, action) => {
     const { workbook } = action.payload;
     return {
       ...state,
@@ -55,7 +61,40 @@ const reducer = handleActions({
       },
     };
   },
-  [NEW_WORKBOOK_FAILURE] : (state, action) => {
+  [CREATE_WORKBOOK_FAILURE] : (state, action) => {
+    const { err } = action.payload;
+    return {
+      ...state,
+      list : {
+        ...state.list,
+        isLoading : false,
+        error     : err,
+      },
+    };
+  },
+
+  [DELETE_WORKBOOK_REQUEST] : (state) => {
+    return {
+      ...state,
+      list : {
+        ...state.list,
+        isLoading : true,
+      },
+    };
+  },
+  [DELETE_WORKBOOK_SUCCESS] : (state, action) => {
+    const { workbook } = action.payload;
+    delete state.list.data[workbook.id];
+
+    return {
+      ...state,
+      list : {
+        ...state.list,
+        isLoading : false,
+      },
+    };
+  },
+  [DELETE_WORKBOOK_FAILURE] : (state, action) => {
     const { err } = action.payload;
     return {
       ...state,

@@ -181,7 +181,7 @@ class PGBodyRow extends React.Component {
 }
 
 PGBodyRow.propTypes = {
-  hideModal   : React.PropTypes.bool.isRequired,
+  hideModal   : React.PropTypes.bool,
   cols        : React.PropTypes.array.isRequired,
   colWidths   : React.PropTypes.object.isRequired,
   row         : React.PropTypes.object.isRequired,

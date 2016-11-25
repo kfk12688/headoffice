@@ -79,6 +79,8 @@ class EntryForm extends Component {
                 <div className="row">
                   <div className="col-md-12">
                     <Entry
+                      templateName={templateName}
+                      collectionName={collectionName}
                       spec={userSchema}
                       isLoading={isLoading}
                       onSubmit={this.addRow}

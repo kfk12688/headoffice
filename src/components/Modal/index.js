@@ -61,6 +61,7 @@ export class Modal extends React.Component {
     };
 
     if (show) {
+      document.body.style.overflow = "hidden";
       document.getElementById("Modal").addEventListener("click", this.hideModalOnOutsideClick);
       window.addEventListener("keyup", this.hideModalOnEsc);
 
@@ -83,6 +84,7 @@ export class Modal extends React.Component {
         document.getElementById("Modal")
       );
     } else {
+      document.body.style.overflow = "auto";
       document.getElementById("Modal").removeEventListener("click", this.hideModalOnOutsideClick);
       window.removeEventListener("keyup", this.hideModalOnEsc);
       this.removeModal();

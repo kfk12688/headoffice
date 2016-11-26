@@ -39,8 +39,8 @@ class EditorEntryForm extends Component {
       <form onSubmit={this.submitForm}>
         <div className="row">
           <div className="col-md-12">
-            <Row prop={fieldDefn.fieldName} component={TextInput}/>
-            <Row prop={fieldDefn.fieldType} component={StaticSelectInput} options={FIELD_TYPES}/>
+            <Row prop={fieldDefn.fieldName} component={TextInput} required/>
+            <Row prop={fieldDefn.fieldType} component={StaticSelectInput} options={FIELD_TYPES} required/>
             {getFields("fieldProps", fieldType, fieldProps)}
           </div>
         </div>

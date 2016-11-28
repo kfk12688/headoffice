@@ -1,6 +1,5 @@
 import React from "react";
 import { Field } from "redux-form";
-import styles from "./common.less";
 
 const Row = ({ prop, component, ...rest }) =>
   <div className="form-group row">

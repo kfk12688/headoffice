@@ -49,7 +49,7 @@ class EditorEntryForm extends Component {
           ((fieldType === "SchemaArray") || (fieldType === "Schema")) &&
           <FieldArray
             name="fieldSchema"
-            className={styles.subSchemaFields}
+            style={{ marginTop : "1rem" }}
             component={SubSchemaFields}
             fieldSchema={fieldSchema}
           />

@@ -78,17 +78,19 @@ class SpecDefiner extends React.Component {
     return (
       <div className={className}>
         <Sticky stickyStyle={{ zIndex : 1040, backgroundColor : "white" }}>
-          <div style={{ paddingTop : "8px", paddingBottom : "8px" }}>
-            <h4>{name}&nbsp;
-              <small className="text-muted">({data && data.length || 0} Fields)</small>
-              <div className="pull-right">
-                {
-                  this.state.mode === VIEW_MODE ?
-                  <Button faName="plus" style="primary" onClick={this.toggleAddMode}>Add new Field</Button> :
-                  <Button style="primary" faName="long-arrow-left" onClick={this.toggleViewMode}>Go Back</Button>
-                }
-              </div>
-            </h4>
+          <div className="row" style={{ paddingTop : "8px", paddingBottom : "8px" }}>
+            <div className="col-md-12">
+              <h4>{name}&nbsp;
+                <small className="text-muted">({data && data.length || 0} Fields)</small>
+                <div className="pull-right">
+                  {
+                    this.state.mode === VIEW_MODE ?
+                    <Button faName="plus" style="primary" onClick={this.toggleAddMode}>Add new Field</Button> :
+                    <Button style="primary" faName="long-arrow-left" onClick={this.toggleViewMode}>Go Back</Button>
+                  }
+                </div>
+              </h4>
+            </div>
           </div>
         </Sticky>
         {this.renderContent(this.state.mode)}

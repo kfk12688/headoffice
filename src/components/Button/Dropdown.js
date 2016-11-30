@@ -57,7 +57,7 @@ class Dropdown extends React.Component {
   getPosition() {
     const { top, left, height } = this.refs.dropdownRef.getBoundingClientRect();
     const scrollTop = (window.pageYOffset !== undefined) ? window.pageYOffset :
-                      (document.documentElement || document.body.parentNode || document.body).scrollTop;
+      (document.documentElement || document.body.parentNode || document.body).scrollTop;
     return { left, top, height, scrollTop };
   }
 
@@ -104,14 +104,14 @@ class Dropdown extends React.Component {
     }
 
     return (
-      <span
+      <button
         ref="dropdownRef"
+        style={ { border : "none", backgroundColor : "transparent" } }
         className={cx(className, { [styles.plainEnabled] : !disabled, [styles.plainDisabled] : disabled })}
-        disabled={disabled}
         onClick={!disabled && this.toggleDropdown}
       >
         {label ? <span>{label}&nbsp;<i className="fa fa-caret-down"/></span> : <i className="fa fa-caret-down"/>}
-      </span>
+      </button>
     );
   }
 }
@@ -120,6 +120,7 @@ export { Dropdown };
 
 Dropdown.propTypes = {
   className : React.PropTypes.string,
+  BGColor   : React.PropTypes,
   label     : React.PropTypes.string,
   button    : React.PropTypes.bool,
   disabled  : React.PropTypes.bool,

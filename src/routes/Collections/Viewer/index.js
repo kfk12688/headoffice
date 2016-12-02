@@ -1,12 +1,13 @@
 import React, { Component } from "react";
+import _ from "underscore";
 import { connect } from "react-redux";
 import { StickyContainer, Sticky } from "react-sticky";
 import { Link } from "react-router";
 import moment from "moment";
-import { PaginationGrid, Pagination, FavoriteCell, Button, Modal } from "components";
+import { Entry, PaginationGrid, Pagination, FavoriteCell, Button, Modal } from "components";
 import { clearMenuState } from "dataflow/menu/actions";
 import { deleteTemplate, starTemplate, updateTemplate } from "dataflow/templates/actions";
-import { loadSpec, loadData } from "dataflow/collections/actions";
+import { loadSpec, loadData, addRow } from "dataflow/collections/actions";
 import EditTemplateForm from "../../Forms/EditTemplateForm";
 import styles from "./index.less";
 
@@ -25,6 +26,7 @@ class Viewer extends Component {
     this.deleteTemplate = this.deleteTemplate.bind(this);
     this.updateTemplate = this.updateTemplate.bind(this);
     this.starTemplate = this.starTemplate.bind(this);
+    this.addRow = this.addRow.bind(this);
   }
 
   componentWillMount() {
@@ -33,6 +35,11 @@ class Viewer extends Component {
 
     this.props.loadSpec(collectionName)
       .then(this.loadData(page, limit));
+  }
+
+  addRow(rowData) {
+    const { collectionName } = this.props.params;
+    this.props.addRow(collectionName, rowData);
   }
 
   setPage(pageIdx) {
@@ -88,13 +95,72 @@ class Viewer extends Component {
     this.props.updateTemplate(collectionName, data);
   }
 
+  renderContent() {
+    const collectionName = this.props.params.collectionName;
+    const {
+            data = {}, userSchema = [], isLoading, count, templateName,
+          }      = this.props.viewStore[collectionName];
+    let dataObj = (!!data && !!data[this.state.page]) ? data[this.state.page] : {};
+
+    if (_.isEmpty(userSchema)) {
+      return (
+        <div className="col-md-9">
+          <h4>{templateName}&nbsp;
+            <small className="text-muted">({count || 0} Entries)</small>
+          </h4>
+          <Entry
+            templateName={templateName}
+            collectionName={collectionName}
+            isLoading={isLoading}
+            spec={userSchema}
+            onSubmit={this.addRow}
+          />
+        </div>
+      );
+    }
+    else {
+      return (
+        <div className="col-md-9">
+          <Sticky stickyStyle={{ backgroundColor : "white", zIndex : 100 }}>
+            <div className="row">
+              <div className="col-md-12">
+                <h4>{templateName}&nbsp;
+                  <small className="text-muted">({count || 0} Entries)</small>
+                </h4>
+              </div>
+            </div>
+
+            <div className="row">
+              <Pagination
+                className="col-md-12"
+                setLimit={this.setLimit}
+                setPage={this.setPage}
+                activePage={this.state.page}
+                limit={this.state.limit}
+              />
+            </div>
+          </Sticky>
+
+          <div className="row">
+            <div className="col-md-12">
+              <PaginationGrid
+                topOffset={114}
+                spec={userSchema}
+                data={dataObj}
+                isLoading={isLoading}
+              />
+            </div>
+          </div>
+        </div>
+      );
+    }
+  }
+
   render() {
     const collectionName = this.props.params.collectionName;
     const {
-      data = {}, userSchema = [], isLoading, count, templateName,
-      workbook, modifiedAt, createdAt, createdBy, isFavorite,
-    } = this.props.viewStore[collectionName];
-    let dataObj = (!!data && !!data[this.state.page]) ? data[this.state.page] : {};
+            workbook, modifiedAt, createdAt, createdBy, isFavorite,
+          }      = this.props.viewStore[collectionName];
     const workbookName = !!workbook && !!workbook.name && workbook.name || "";
     const createdByUser = !!createdBy && !!createdBy.name && createdBy.name || "";
 
@@ -103,39 +169,7 @@ class Viewer extends Component {
         <div className="col-md-10 offset-md-1">
           <StickyContainer>
             <div className="row" style={{ marginTop : "1rem" }}>
-              <div className="col-md-9">
-                <Sticky stickyStyle={{ backgroundColor : "white", zIndex : 100 }}>
-                  <div className="row">
-                    <div className="col-md-12">
-                      <h4>{templateName}&nbsp;
-                        <small className="text-muted">({count || 0} Entries)</small>
-                      </h4>
-                    </div>
-                  </div>
-
-                  <div className="row">
-                    <Pagination
-                      className="col-md-12"
-                      setLimit={this.setLimit}
-                      setPage={this.setPage}
-                      activePage={this.state.page}
-                      limit={this.state.limit}
-                    />
-                  </div>
-                </Sticky>
-
-                <div className="row">
-                  <div className="col-md-12">
-                    <PaginationGrid
-                      topOffset={114}
-                      spec={userSchema}
-                      data={dataObj}
-                      isLoading={isLoading}
-                    />
-                  </div>
-                </div>
-              </div>
-
+              {this.renderContent()}
               <div className="col-md-3">
                 <Sticky stickyStyle={{ paddingTop : 8 }}>
                   <div className="btn-group-vertical btn-block">
@@ -149,7 +183,6 @@ class Viewer extends Component {
                       Enter new data&nbsp;<i className="fa fa-arrow-circle-o-right"/>
                     </Link>
                   </div>
-
 
                   <div className={styles.divider}/>
                   <Modal

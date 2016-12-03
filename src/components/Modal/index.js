@@ -71,7 +71,7 @@ export class Modal extends React.Component {
             <div className={cx("modal-dialog", `modal-${size}`)}>
               <div className="modal-content">
                 <div className="modal-header">
-                  <button type="button" className="close" onClick={hideModal}><span>&times;</span></button>
+                  <button type="button" className="close" autoFocus onClick={hideModal}><span>&times;</span></button>
                   <h5 className="modal-title">{modalTitle || caption}</h5>
                 </div>
                 <div className="modal-body">

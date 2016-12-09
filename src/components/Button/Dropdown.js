@@ -120,7 +120,6 @@ export { Dropdown };
 
 Dropdown.propTypes = {
   className : React.PropTypes.string,
-  BGColor   : React.PropTypes,
   label     : React.PropTypes.string,
   button    : React.PropTypes.bool,
   disabled  : React.PropTypes.bool,

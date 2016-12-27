@@ -62,7 +62,7 @@ export function loadSpec(collectionName) {
   return dispatch => {
     dispatch(specRequest(collectionName));
 
-    return fetch("GET", `api/templates/${collectionName}/schema`)
+    return fetch("GET", `api/templates/${collectionName}`)
       .then(res => res.json())
       .then(json => dispatch(specSuccess(collectionName, json)))
       .catch(err => dispatch(specFailure(collectionName, err)));

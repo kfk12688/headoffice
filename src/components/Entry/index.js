@@ -9,12 +9,12 @@ class Entry extends React.Component {
     this.getFormFields = this.getFormFields.bind(this);
   }
 
-  getFormFields(cols) {
+  getFormFields(schemaFields) {
     const fields = {};
 
-    _.forEach(cols, col => {
-      const { fieldName, fieldSchema, fieldType, fieldProps, displayText } = col;
-      let fieldSub = undefined;
+    _.forEach(schemaFields, field => {
+      const { fieldName, fieldSchema, fieldType, fieldProps, displayText } = field;
+      let fieldSub                                                         = undefined;
       if (Array.isArray(fieldSchema) && (fieldSchema.length !== 0)) fieldSub = this.getFormFields(fieldSchema);
 
       fields[fieldName] = {
@@ -53,11 +53,11 @@ class Entry extends React.Component {
 }
 
 Entry.propTypes = {
-  className     : React.PropTypes.string,
-  templateName  : React.PropTypes.string.isRequired,
-  collectioName : React.PropTypes.string.isRequired,
-  spec          : React.PropTypes.array.isRequired,
-  onSubmit      : React.PropTypes.func.isRequired,
+  className      : React.PropTypes.string,
+  templateName   : React.PropTypes.string.isRequired,
+  collectionName : React.PropTypes.string.isRequired,
+  spec           : React.PropTypes.array.isRequired,
+  onSubmit       : React.PropTypes.func.isRequired,
 };
 
 export { Entry };

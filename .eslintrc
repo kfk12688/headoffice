@@ -18,6 +18,7 @@
     "prefer-const": 2,
     "quotes": [ 2, "double"],
     "quote-props": [0],
+    "no-multi-spaces" : [0],
     "react/jsx-space-before-closing": [0],
     "react/jsx-indent-props": [0],
     "react/jsx-first-prop-new-line": [0],

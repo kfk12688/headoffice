@@ -7,15 +7,15 @@ import { Button } from "../Button";
 class EGForm extends Component {
   constructor(props) {
     super(props);
-    this.subFields = [];
-    this.ctrls = {};
+    this.subFields         = [];
+    this.ctrls             = {};
     this.assignFieldTarget = target => {
       this.ctrls.fieldDOM = target;
     };
 
-    this.resetForm = this.resetForm.bind(this);
-    this.submitForm = this.submitForm.bind(this);
-    this.constructFields = this.constructFields.bind(this);
+    this.resetForm          = this.resetForm.bind(this);
+    this.submitForm         = this.submitForm.bind(this);
+    this.constructFields    = this.constructFields.bind(this);
     this.constructSubFields = this.constructSubFields.bind(this);
   }
 
@@ -23,17 +23,18 @@ class EGForm extends Component {
     const fields = [];
     _.forEach(fieldProps, (field, key) => {
       const { title, type, sub, props } = field;
-      const renderComponent = getComponentFromType(type, props);
-      const name = key;
+      const renderComponent             = getComponentFromType(type, props);
+      const name                        = key;
 
       if (sub) return;
+
       fields.push(
         <div key={name}>
           <div className="form-group row">
             <label className="col-xs-3 col-form-label">
               {title}
-              {props.required && <bold><sup>*</sup></bold>}
-              {props.unique && <bold><sup>u</sup></bold>}
+              {_.hasOwnProperty(props, "required") && props.required && <bold><sup>*</sup></bold>}
+              {_.hasOwnProperty(props, "unique") && props.unique && <bold><sup>u</sup></bold>}
             </label>
             <div className="col-xs-9">
               <Field name={name} {...renderComponent}/>
@@ -50,8 +51,8 @@ class EGForm extends Component {
     const fields = [];
     _.forEach(fieldProps, (field, key) => {
       const { title, type, sub, props } = field;
-      const renderComponent = getComponentFromType(type, props);
-      const name = key;
+      const renderComponent             = getComponentFromType(type, props);
+      const name                        = key;
 
       if (sub) {
         fields.push(
@@ -80,9 +81,9 @@ class EGForm extends Component {
   }
 
   render() {
-    const { className, fieldProps } = this.props;
-    const fields = this.constructFields(fieldProps);
-    const subFields = this.constructSubFields(fieldProps);
+    const { className, fieldProps, cols } = this.props;
+    const fields                          = this.constructFields(fieldProps);
+    const subFields                       = this.constructSubFields(fieldProps);
 
     return (
       <form className={className} onSubmit={this.submitForm}>

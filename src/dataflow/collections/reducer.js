@@ -48,7 +48,7 @@ export default handleActions({
     };
   },
   [SPEC_SUCCESS] : (state, action) => {
-    const { template, message, collectionName } = action.payload;
+    const { template, collectionName } = action.payload;
 
     return {
       ...state,

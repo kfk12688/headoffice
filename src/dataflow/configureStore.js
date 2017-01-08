@@ -1,6 +1,5 @@
 import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
-import callAPI from "./middleware/callAPI";
 import rootReducer from "./reducers";
 
 export default function configureStore(preloadedState) {
@@ -8,7 +7,7 @@ export default function configureStore(preloadedState) {
     rootReducer,
     preloadedState,
     compose(
-      applyMiddleware(callAPI, thunk),
+      applyMiddleware(thunk),
       window.devToolsExtension ? window.devToolsExtension() : f => f
     )
   );

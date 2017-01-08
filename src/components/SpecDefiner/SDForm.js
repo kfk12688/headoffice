@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Row from "./Row";
+import SDRow from "./SDRow";
 import { connect } from "react-redux";
 import { reduxForm, FieldArray, formValueSelector } from "redux-form";
 import { Button, TextInput, StaticSelectInput } from "components";
@@ -39,8 +39,8 @@ class EditorEntryForm extends Component {
       <form onSubmit={this.submitForm}>
         <div className="row">
           <div className="col-md-12">
-            <Row prop={fieldDefn.fieldName} component={TextInput} required/>
-            <Row prop={fieldDefn.fieldType} component={StaticSelectInput} options={FIELD_TYPES} required/>
+            <SDRow prop={fieldDefn.fieldName} component={TextInput} required/>
+            <SDRow prop={fieldDefn.fieldType} component={StaticSelectInput} options={FIELD_TYPES} required/>
             {getFields("fieldProps", fieldType, fieldProps)}
           </div>
         </div>

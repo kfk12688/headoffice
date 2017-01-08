@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, TextInput, StaticSelectInput } from "components";
-import Row from "./Row";
+import SDRow from "./SDRow";
 import getFields from "./getFields";
 import styles from "./common.less";
 import cx from "classnames";
@@ -29,9 +29,9 @@ export const SubSchemaFields = ({ fields, fieldSchema, className }) => {
 
         <div className="col-md-11">
           <h6 className={styles.headers}>{`Sub-Field-${idx + 1}`}</h6>
-          <Row prop={fieldDefn.fieldName} component={TextInput} required/>
-          <Row prop={fieldDefn.fieldType} component={StaticSelectInput} required
-               options={["Number", "Date", "String", "Boolean", "ObjectId"]}
+          <SDRow prop={fieldDefn.fieldName} component={TextInput} required/>
+          <SDRow prop={fieldDefn.fieldType} component={StaticSelectInput} required
+                 options={["Number", "Date", "String", "Boolean", "ObjectId"]}
           />
           {
             fieldSchema && fieldSchema[idx] && fieldSchema[idx].fieldType &&

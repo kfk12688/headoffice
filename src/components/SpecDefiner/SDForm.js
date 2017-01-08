@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import SDRow from "./SDRow";
 import { connect } from "react-redux";
-import { reduxForm, FieldArray, formValueSelector } from "redux-form";
+import { reduxForm, formValueSelector } from "redux-form";
 import { Button, TextInput, StaticSelectInput } from "components";
 import getFields from "./getFields";
-import { SubSchemaFields } from "./SubSchemaFields";
 import styles from "./common.less";
 import cx from "classnames";
 
@@ -14,7 +13,7 @@ class EditorEntryForm extends Component {
   constructor(props) {
     super(props);
     this.submitForm = this.submitForm.bind(this);
-    this.resetForm = this.resetForm.bind(this);
+    this.resetForm  = this.resetForm.bind(this);
   }
 
   submitForm(e) {
@@ -29,8 +28,8 @@ class EditorEntryForm extends Component {
   }
 
   render() {
-    const { pristine, submitting, fieldType, fieldSchema, fieldProps } = this.props;
-    const fieldDefn = {
+    const { pristine, submitting, fieldType, fieldProps, fieldSchema } = this.props;
+    const fieldDefn                                                    = {
       fieldName : { key : "fieldName", displayText : "Field Name" },
       fieldType : { key : "fieldType", displayText : "Field Type" },
     };
@@ -41,19 +40,9 @@ class EditorEntryForm extends Component {
           <div className="col-md-12">
             <SDRow prop={fieldDefn.fieldName} component={TextInput} required/>
             <SDRow prop={fieldDefn.fieldType} component={StaticSelectInput} options={FIELD_TYPES} required/>
-            {getFields("fieldProps", fieldType, fieldProps)}
+            {getFields("fieldProps", fieldType, fieldProps, fieldSchema)}
           </div>
         </div>
-
-        {
-          ((fieldType === "SchemaArray") || (fieldType === "Schema")) &&
-          <FieldArray
-            name="fieldSchema"
-            className={styles.subSchemaFields}
-            component={SubSchemaFields}
-            fieldSchema={fieldSchema}
-          />
-        }
 
         <div className={cx("row", styles.submitRow)}>
           <div className="col-md-12 text-md-right">
@@ -77,12 +66,12 @@ EditorEntryForm.propTypes = {
   fieldSchema : React.PropTypes.any,
 };
 
-let form = reduxForm({
+const form = reduxForm({
   form : "SDForm",
 })(EditorEntryForm);
 
-const selector = formValueSelector("SDForm"); // <-- same as form name
-form = connect(
+const selector      = formValueSelector("SDForm"); // <-- same as form name
+const connectedForm = connect(
   state => ({
     fieldType   : selector(state, "fieldType"),
     fieldProps  : selector(state, "fieldProps"),
@@ -90,4 +79,4 @@ form = connect(
   })
 )(form);
 
-export default form;
+export default connectedForm;

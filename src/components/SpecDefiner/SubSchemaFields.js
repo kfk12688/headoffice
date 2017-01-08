@@ -5,8 +5,8 @@ import getFields from "./getFields";
 import styles from "./common.less";
 import cx from "classnames";
 
-export const SubSchemaFields = ({ fields, fieldSchema, className }) => {
-  const addSchema = (e) => {
+const SubSchemaFields = ({ fields, fieldSchema }) => {
+  const addSchema    = (e) => {
     e.preventDefault();
     fields.push({});
   };
@@ -43,7 +43,7 @@ export const SubSchemaFields = ({ fields, fieldSchema, className }) => {
   });
 
   return (
-    <div className={className}>
+    <div className={styles.subSchemaFields}>
       <h5 className={cx("pull-left", styles.headers)}>Add a new schema</h5>
 
       <div className="text-md-right">
@@ -60,7 +60,8 @@ export const SubSchemaFields = ({ fields, fieldSchema, className }) => {
 };
 
 SubSchemaFields.propTypes = {
-  className   : React.PropTypes.string,
   fields      : React.PropTypes.arrayOf(React.PropTypes.object),
   fieldSchema : React.PropTypes.array.isRequired,
 };
+
+export default SubSchemaFields;

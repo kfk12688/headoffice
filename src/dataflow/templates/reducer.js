@@ -1,3 +1,4 @@
+import R from "ramda";
 import { handleActions } from "redux-actions";
 import {
   EDIT_SCHEMA_SUCCESS, EDIT_TEMPLATE_FAILURE, EDIT_TEMPLATE_REQUEST, EDIT_TEMPLATE_SUCCESS, EDIT_SCHEMA_FAILURE,
@@ -7,6 +8,16 @@ import {
   STAR_TEMPLATE_SUCCESS
 } from "./types";
 
+const get         = R.curry((key, state) => R.compose(R.clone, R.prop(key))(state));
+const setAndMerge = R.curry((key, value, name, state, obj) => {
+  const i1 = R.assocPath([key], value, obj);
+  return R.assocPath([name], i1, state);
+});
+
+const loadingState = R.curry((name, state) =>
+  R.compose(setAndMerge("isLoading", true, name, state), get(name))(state));
+const loadingList  = loadingState("list");
+
 const initialState = {
   list : {
     isLoading : false,
@@ -15,36 +26,20 @@ const initialState = {
 };
 
 const reducer = handleActions({
-  [GET_TEMPLATES_REQUEST] : (state) => ({
-    ...state,
-    list : {
-      isLoading : true,
-    },
-  }),
-  [GET_TEMPLATES_SUCCESS] : (state, action) => ({
-    ...state,
-    list : {
-      isLoading : false,
-      data      : action.payload.templates,
-    },
-  }),
-  [GET_TEMPLATES_FAILURE] : (state, action) => ({
-    ...state,
-    list : {
-      isLoading : false,
-      error     : action.payload.error,
-    },
-  }),
-
-  [ADD_TEMPLATE_REQUEST] : (state, action) => {
+  [GET_TEMPLATES_REQUEST] : (state) => loadingList(state),
+  [GET_TEMPLATES_SUCCESS] : (state, action) => {
+    const templates = R.prop("templates", action.payload);
     return {
       ...state,
       list : {
-        ...state.list,
-        isLoading : true,
+        isLoading : false,
+        data      : templates,
       },
     };
   },
+  [GET_TEMPLATES_FAILURE] : (state, action) => {},
+
+  [ADD_TEMPLATE_REQUEST] : (state, action) => {},
   [ADD_TEMPLATE_SUCCESS] : (state, action) => {
     const { template } = action.payload;
     return {
@@ -73,17 +68,7 @@ const reducer = handleActions({
 
   [EDIT_TEMPLATE_REQUEST] : (state, action) => {
     const { collectionName } = action.payload;
-    return {
-      ...state,
-      [collectionName] : {
-        ...state[collectionName],
-        isLoading : true,
-      },
-      list             : {
-        ...state.list,
-        isLoading : true,
-      },
-    };
+    return R.compose(loadingState(collectionName), loadingList)(state);
   },
   [EDIT_TEMPLATE_SUCCESS] : (state, action) => {
     const { collectionName, template } = action.payload;
@@ -121,15 +106,7 @@ const reducer = handleActions({
     };
   },
 
-  [DELETE_TEMPLATE_REQUEST] : (state, action) => {
-    return {
-      ...state,
-      list : {
-        ...state.list,
-        isLoading : true,
-      },
-    };
-  },
+  [DELETE_TEMPLATE_REQUEST] : (state, action) => loadingList(state),
   [DELETE_TEMPLATE_SUCCESS] : (state, action) => {
     const { template, collectionName } = action.payload;
     delete state.list.data[template.id];
@@ -160,19 +137,17 @@ const reducer = handleActions({
 
   [GET_TEMPLATE_REQUEST] : (state, action) => {
     const { collectionName } = action.payload;
-
-    return {
-      ...state,
-      [collectionName] : {
-        isLoading : true,
-      },
-    };
+    return R.compose(loadingState(collectionName), loadingList)(state);
   },
   [GET_TEMPLATE_SUCCESS] : (state, action) => {
     const { collectionName, template } = action.payload;
 
     return {
       ...state,
+      list             : {
+        ...state.list,
+        isLoading : false,
+      },
       [collectionName] : {
         ...state[collectionName],
         ...template,
@@ -194,13 +169,7 @@ const reducer = handleActions({
 
   [EDIT_SCHEMA_REQUEST] : (state, action) => {
     const { collectionName } = action.payload;
-    return {
-      ...state,
-      [collectionName] : {
-        ...state[collectionName],
-        isLoading : true,
-      },
-    };
+    return R.compose(loadingState(collectionName), loadingList)(state);
   },
   [EDIT_SCHEMA_SUCCESS] : (state, action) => {
     const { collectionName, template } = action.payload;
@@ -227,8 +196,8 @@ const reducer = handleActions({
 
   [STAR_TEMPLATE_SUCCESS] : (state, action) => {
     const { template, collectionName } = action.payload;
-    const isFavorite = template.isFavorite;
-    const templateId = template.id;
+    const isFavorite                   = template.isFavorite;
+    const templateId                   = template.id;
 
     return {
       ...state,

@@ -1,6 +1,6 @@
 import R from "ramda";
 import { handleActions } from "redux-actions";
-import { set, unset, loadedState, loadState, loadCollection } from "../utils";
+import { set, unset, loaded, loading, loadCollection, setError, setMessage } from "../utils";
 import {
   EDIT_SCHEMA_SUCCESS, EDIT_TEMPLATE_FAILURE, EDIT_TEMPLATE_REQUEST, EDIT_TEMPLATE_SUCCESS, EDIT_SCHEMA_FAILURE,
   EDIT_SCHEMA_REQUEST, GET_TEMPLATES_REQUEST, GET_TEMPLATES_SUCCESS, GET_TEMPLATES_FAILURE, ADD_TEMPLATE_REQUEST,
@@ -15,46 +15,41 @@ const initialState = {
     data      : {},
   },
 };
+const setFailure   = (error, message) => R.compose(
+  setMessage(message),
+  setError(error),
+  loaded("list"),
+);
 
 const reducer = handleActions({
-  [GET_TEMPLATES_REQUEST] : (state) => loadState("list", state),
+  [GET_TEMPLATES_REQUEST] : (state) => loading("list", state),
   [GET_TEMPLATES_SUCCESS] : (state, action) => {
     const { templates } = action.payload;
     const setData       = R.compose(
       set("data", templates, "list"),
-      loadedState("list")
+      loaded("list")
     );
     return setData(state);
   },
   [GET_TEMPLATES_FAILURE] : (state, action) => {
     const { error, message } = action.payload;
-    const setError           = R.compose(
-      set("message", message, "list"),
-      set("error", error, "list"),
-      loadedState("list")
-    );
-    return setError(state);
+    return setFailure(error, message, state);
   },
 
-  [ADD_TEMPLATE_REQUEST] : (state, action) => loadState("list", state),
+  [ADD_TEMPLATE_REQUEST] : (state, action) => loading("list", state),
   [ADD_TEMPLATE_SUCCESS] : (state, action) => {
     const { template }             = action.payload;
     const { collectionName }       = template;
     const setData                  = R.compose(
       set(null, template, collectionName),
       set(["data", collectionName], template, "list"),
-      loadedState("list")
+      loaded("list")
     );
     return setData(state);
   },
   [ADD_TEMPLATE_FAILURE] : (state, action) => {
     const { error, message } = action.payload;
-    const setError           = R.compose(
-      set("message", message, "list"),
-      set("error", error, "list"),
-      loadedState("list")
-    );
-    return setError(state);
+    return setFailure(error, message, state);
   },
 
   [EDIT_TEMPLATE_REQUEST] : (state, action) => loadCollection(action.payload.collectionName, state),
@@ -63,24 +58,19 @@ const reducer = handleActions({
     const setData                      = R.compose(
       set(collectionName, template, "list"),
       set(["data", collectionName], template, "list"),
-      loadedState("list"));
+      loaded("list"));
     return setData(state);
   },
   [EDIT_TEMPLATE_FAILURE] : (state, action) => {
-    const { error, message, collectionName } = action.payload;
-    const setError                           = R.compose(
-      set("message", message, collectionName),
-      set("error", error, collectionName),
-      loadedState(collectionName),
-    );
-    return setError(state);
+    const { error, message } = action.payload;
+    return setFailure(error, message, state);
   },
 
-  [DELETE_TEMPLATE_REQUEST] : (state, action) => loadState("list", state),
+  [DELETE_TEMPLATE_REQUEST] : (state, action) => loading("list", state),
   [DELETE_TEMPLATE_SUCCESS] : (state, action) => {
     const { collectionName } = action.payload;
     const deleteTemplate     = R.compose(
-      loadedState("list"),
+      loaded("list"),
       unset(["data", collectionName], "list"),
       unset(null, collectionName),
     );
@@ -88,12 +78,7 @@ const reducer = handleActions({
   },
   [DELETE_TEMPLATE_FAILURE] : (state, action) => {
     const { error, message } = action.payload;
-    const setError           = R.compose(
-      set("message", message, "list"),
-      set("error", error, "list"),
-      loadedState("list"),
-    );
-    return setError(state);
+    return setFailure(error, message, state);
   },
 
   // #####################################################
@@ -102,20 +87,15 @@ const reducer = handleActions({
   [GET_TEMPLATE_SUCCESS] : (state, action) => {
     const { template, collectionName } = action.payload;
     const setData                      = R.compose(
-      loadedState("list"),
-      loadedState(collectionName),
+      loaded("list"),
+      loaded(collectionName),
       set(null, template, collectionName),
     );
     return setData(state);
   },
   [GET_TEMPLATE_FAILURE] : (state, action) => {
-    const { error, message, collectionName } = action.payload;
-    const setError                           = R.compose(
-      set("message", message, collectionName),
-      set("error", error, collectionName),
-      loadedState(collectionName),
-    );
-    return setError(state);
+    const { error, message } = action.payload;
+    return setFailure(error, message, state);
   },
 
   [EDIT_SCHEMA_REQUEST] : (state, action) => loadCollection(action.payload.collectionName, state),
@@ -123,17 +103,13 @@ const reducer = handleActions({
     const { collectionName, template } = action.payload;
     const onEditSuccess                = R.compose(
       set("userSchema", template.userSchema, collectionName),
-      loadedState(collectionName),
+      loaded(collectionName),
     );
     return onEditSuccess(state);
   },
   [EDIT_SCHEMA_FAILURE] : (state, action) => {
-    const { collectionName, error } = action.payload;
-    const onEditFailure             = R.compose(
-      set("error", error, collectionName),
-      loadedState(collectionName),
-    );
-    return onEditFailure(state);
+    const { error, message } = action.payload;
+    return setFailure(error, message, state);
   },
 
   [STAR_TEMPLATE_SUCCESS] : (state, action) => {

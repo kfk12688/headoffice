@@ -6,7 +6,7 @@ import {
   SPEC_REQUEST, SPEC_SUCCESS, SPEC_FAILURE, DATA_REQUEST, DATA_SUCCESS, DATA_FAILURE, UPDATE_ROW_REQUEST,
   UPDATE_ROW_SUCCESS, UPDATE_ROW_FAILURE, DELETE_ROW_FAILURE, DELETE_ROW_REQUEST, DELETE_ROW_SUCCESS,
   GET_TEMPLATES_REQUEST, GET_TEMPLATES_SUCCESS, GET_TEMPLATES_FAILURE, ADD_ROW_REQUEST, ADD_ROW_SUCCESS,
-  ADD_ROW_FAILURE,EDIT_TEMPLATE_REQUEST, EDIT_TEMPLATE_SUCCESS, EDIT_TEMPLATE_FAILURE,
+  ADD_ROW_FAILURE, EDIT_TEMPLATE_REQUEST, EDIT_TEMPLATE_SUCCESS, EDIT_TEMPLATE_FAILURE
 } from "./types";
 
 /**
@@ -72,13 +72,13 @@ export function loadSpec(collectionName) {
 /**
  * Update an existing row in the collection
  */
-const updateRowRequest = createAction(UPDATE_ROW_REQUEST);
+const updateRowRequest = createAction(UPDATE_ROW_REQUEST, (collectionName) => ({ collectionName }));
 const updateRowSuccess = createAction(UPDATE_ROW_SUCCESS, data => ({ data }));
 const updateRowFailure = createAction(UPDATE_ROW_FAILURE, err => err);
 
 export function updateRow(collectionName, id, data) {
   return dispatch => {
-    dispatch(updateRowRequest());
+    dispatch(updateRowRequest(collectionName));
 
     return fetch("PUT", `api/collections/${collectionName}/${id}`, { data })
       .then(res => res.json())
@@ -90,13 +90,13 @@ export function updateRow(collectionName, id, data) {
 /**
  * Delete an existing row from the collection
  */
-const deleteRowRequest = createAction(DELETE_ROW_REQUEST);
+const deleteRowRequest = createAction(DELETE_ROW_REQUEST, (collectionName) => ({ collectionName }));
 const deleteRowSuccess = createAction(DELETE_ROW_SUCCESS, data => data);
 const deleteRowFailure = createAction(DELETE_ROW_FAILURE, err => err);
 
 export function deleteRow(collectionName, id) {
   return dispatch => {
-    dispatch(deleteRowRequest());
+    dispatch(deleteRowRequest(collectionName));
 
     return fetch("DELETE", `api/collections/${collectionName}/${id}`)
       .then(res => res.json())
@@ -108,14 +108,13 @@ export function deleteRow(collectionName, id) {
 /**
  * Add a new row
  */
-const addRowRequest = createAction(ADD_ROW_REQUEST);
+const addRowRequest = createAction(ADD_ROW_REQUEST, (collectionName) => ({ collectionName }));
 const addRowSuccess = createAction(ADD_ROW_SUCCESS, (collectionName, row) => ({ collectionName, row }));
-const addRowFailure = createAction(ADD_ROW_FAILURE, (collectionName, err) => ({ collectionName, err }));
+const addRowFailure = createAction(ADD_ROW_FAILURE, err => err);
 
 export function addRow(collectionName, data) {
-  console.log(data);
   return dispatch => {
-    dispatch(addRowRequest());
+    dispatch(addRowRequest(collectionName));
 
     return fetch("POST", `api/collections/${collectionName}`, data)
       .then(res => res.json())

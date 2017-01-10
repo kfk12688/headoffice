@@ -1,3 +1,5 @@
+import R from "ramda";
+import { set, setError, setMessage, loaded, loading, loadCollection } from "../utils";
 import { handleActions } from "redux-actions";
 import {
   SPEC_REQUEST, SPEC_SUCCESS, SPEC_FAILURE, DATA_REQUEST, DATA_SUCCESS, DATA_FAILURE, DELETE_ROW_REQUEST,
@@ -11,80 +13,51 @@ const initialState = {
     isLoading : false,
   },
 };
+const setFailure   = (error, message) => R.compose(
+  setMessage(message),
+  setError(error),
+  loaded("list"),
+);
 
 export default handleActions({
-  [GET_TEMPLATES_REQUEST] : (state) => ({
-    ...state,
-    list : {
-      isLoading : true,
-    },
-  }),
-  [GET_TEMPLATES_SUCCESS] : (state, action) => ({
-    ...state,
-    list : {
-      isLoading : false,
-      data      : action.payload.data,
-    },
-  }),
-  [GET_TEMPLATES_FAILURE] : (state, action) => ({
-    ...state,
-    list : {
-      isLoading : false,
-      error     : action.payload.err,
-    },
-  }),
+  [GET_TEMPLATES_REQUEST] : (state) => loading("list", state),
+  [GET_TEMPLATES_SUCCESS] : (state, action) => {
+    const { data } = action.payload;
+    const setData  = R.compose(
+      set("data", data, "list"),
+      loaded("list")
+    );
+    return setData(state);
+  },
+  [GET_TEMPLATES_FAILURE] : (state, action) => {
+    const { error, message } = action.payload;
+    return setFailure(error, message, state);
+  },
 
   /**
    * Specification for data entry in the table
    */
-  [SPEC_REQUEST] : (state, action) => {
-    const { collectionName } = action.payload;
-    return {
-      ...state,
-      [collectionName] : {
-        ...state[collectionName],
-        isLoading : true,
-      },
-    };
-  },
+  [SPEC_REQUEST] : (state, action) => loadCollection(action.payload.collectionName, state),
   [SPEC_SUCCESS] : (state, action) => {
     const { template, collectionName } = action.payload;
-
-    return {
-      ...state,
-      [collectionName] : {
-        ...state[collectionName],
-        ...template,
-        isLoading : false,
-      },
-    };
+    const setData                      = R.compose(
+      set(null, template, collectionName),
+      set(["data", collectionName], template, "list"),
+      loaded("list")
+    );
+    return setData(state);
   },
   [SPEC_FAILURE] : (state, action) => {
-    const { collectionName, error } = action.payload;
-    return {
-      ...state,
-      [collectionName] : {
-        ...state[collectionName],
-        error,
-      },
-    };
+    const { error, message } = action.payload;
+    return setFailure(error, message, state);
   },
 
   /**
    * Updates server data in the store for the particular template
    */
-  [DATA_REQUEST] : (state, action) => {
-    const { collectionName } = action.payload;
-    return {
-      ...state,
-      [collectionName] : {
-        ...state[collectionName],
-        isLoading : true,
-      },
-    };
-  },
+  [DATA_REQUEST] : (state, action) => loadCollection(action.payload.collectionName, state),
   [DATA_SUCCESS] : (state, action) => {
-    const { data, collectionName } = action.payload;
+    const { data, collectionName }       = action.payload;
     const { entries, count, pagination } = data;
 
     return {
@@ -102,26 +75,17 @@ export default handleActions({
     };
   },
   [DATA_FAILURE] : (state, action) => {
-    const { collectionName, error } = action.payload;
-    return {
-      ...state,
-      [collectionName] : {
-        ...state[collectionName],
-        isLoading : false,
-        error,
-      },
-    };
+    const { error, message } = action.payload;
+    return setFailure(error, message, state);
   },
 
   /**
    * Deletes a row from the template collection
    */
-  [DELETE_ROW_REQUEST] : state => ({
-    ...state,
-  }),
+  [DELETE_ROW_REQUEST] : (state, action) => loadCollection(action.payload.collectionName, state),
   [DELETE_ROW_SUCCESS] : (state, action) => {
     const { rowId } = action.payload;
-    const data = { ...state.data };
+    const data      = { ...state.data };
     data.delete(rowId);
 
     return {
@@ -129,17 +93,15 @@ export default handleActions({
       data,
     };
   },
-  [DELETE_ROW_FAILURE] : (state, action) => ({
-    ...state,
-    error : action.payload,
-  }),
+  [DELETE_ROW_FAILURE] : (state, action) => {
+    const { error, message } = action.payload;
+    return setFailure(error, message, state);
+  },
 
   /**
    * Edits an existing row in the template collection
    */
-  [UPDATE_ROW_REQUEST] : state => ({
-    ...state,
-  }),
+  [UPDATE_ROW_REQUEST] : (state, action) => loadCollection(action.payload.collectionName, state),
   [UPDATE_ROW_SUCCESS] : (state, action) => {
     const { rowId, rowData } = action.payload;
 
@@ -151,19 +113,15 @@ export default handleActions({
       },
     };
   },
-  [UPDATE_ROW_FAILURE] : (state, action) => ({
-    ...state,
-    error : action.payload,
-  }),
+  [UPDATE_ROW_FAILURE] : (state, action) => {
+    const { error, message } = action.payload;
+    return setFailure(error, message, state);
+  },
 
   /**
    * Adds a new row into the template collection
    */
-  [ADD_ROW_REQUEST] : state => {
-    return {
-      ...state,
-    };
-  },
+  [ADD_ROW_REQUEST] : (state, action) => loadCollection(action.payload.collectionName, state),
   [ADD_ROW_SUCCESS] : (state, action) => {
     const { collectionName, data } = action.payload;
 
@@ -176,14 +134,7 @@ export default handleActions({
     };
   },
   [ADD_ROW_FAILURE] : (state, action) => {
-    const { collectionName, error } = action.payload;
-
-    return {
-      ...state,
-      [collectionName] : {
-        ...state[collectionName],
-        error,
-      },
-    };
+    const { error, message } = action.payload;
+    return setFailure(error, message, state);
   },
 }, initialState);

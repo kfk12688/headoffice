@@ -17,8 +17,11 @@ export const unset          = R.curry((path, root, data) => {
                       R.concat(convertToArray(root), convertToArray(path));
   return R.dissocPath(mergedPaths, data);
 });
-export const loadState      = set("isLoading", true);
-export const loadedState    = set("isLoading", false);
+export const loading        = set("isLoading", true);
+export const loaded         = set("isLoading", false);
 export const loadCollection = R.curry((collectionName, state) => {
-  return R.compose(loadState(collectionName), loadState("list"))(state);
+  return R.compose(loading(collectionName), loading("list"))(state);
 });
+
+export const setError = R.assoc("error");
+export const setMessage = R.assoc("message");

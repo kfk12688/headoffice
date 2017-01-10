@@ -1,5 +1,6 @@
 import _ from "underscore";
 import React from "react";
+import { Sticky } from "react-sticky";
 import { SDHeaderCol } from "./SDHeaderCol";
 import styles from "./common.less";
 
@@ -17,7 +18,11 @@ const SDHeaderRow = ({ cols, colWidths }) => {
     );
   });
 
-  return <div className={styles.row}>{headerRowCols}</div>;
+  return (
+    <Sticky topOffset={-50} stickyStyle={{ marginTop : 50 }}>
+      <div className={styles.row}>{headerRowCols}</div>
+    </Sticky>
+  );
 };
 
 SDHeaderRow.propTypes = {

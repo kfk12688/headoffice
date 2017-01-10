@@ -1,11 +1,11 @@
 import React from "react";
 import { Sticky } from "react-sticky";
 import { Button } from "components";
+import _ from "underscore";
 import { SDHeaderRow } from "./SDHeaderRow";
 import { SDBody } from "./SDBody";
 import SDForm from "./SDForm";
 import styles from "./common.less";
-import cx from "classnames";
 
 const VIEW_MODE = 0;
 const ADD_MODE = 1;
@@ -31,42 +31,44 @@ class SpecDefiner extends React.Component {
     this.setState({ mode : VIEW_MODE });
   }
 
+  renderBody() {
+    const { colSpec, data, isLoading } = this.props;
+
+    if (isLoading) {
+      return <div className={styles.spinner}><i className="fa fa-spinner fa-spin fa-2x fa-fw"/></div>;
+    } else if (_.isEmpty(data)) {
+      return <div className={styles.noData}>No Data Present</div>;
+    }
+
+    return (
+      <SDBody
+        cols={colSpec}
+        colWidths={this.state.colWidths}
+        rows={data}
+      />
+    );
+  }
+
   renderContent(mode) {
-    const { colSpec, data, isLoading, onSubmit } = this.props;
+    const { colSpec, onSubmit } = this.props;
 
     if (mode === VIEW_MODE) {
       return (
-        <div className="row">
-          <div className="col-md-12">
-            <Sticky topOffset={-50} stickyStyle={{ marginTop : 50 }}>
-              <SDHeaderRow
-                cols={colSpec}
-                colWidths={this.state.colWidths}
-              />
-            </Sticky>
-
-            {
-              isLoading ?
-              <i className={cx("fa fa-spinner fa-2x", styles.spinner)}/> :
-              <SDBody
-                cols={colSpec}
-                colWidths={this.state.colWidths}
-                rows={data}
-              />
-            }
-          </div>
+        <div className={styles.sdContainer}>
+          <SDHeaderRow
+            cols={colSpec}
+            colWidths={this.state.colWidths}
+          />
+          {this.renderBody()}
         </div>
       );
     } else if (mode === ADD_MODE) {
       return (
-        <div className="row">
-          <div className="col-md-12">
-            <SDForm onSubmit={onSubmit}/>
-          </div>
+        <div className={styles.sdContainer}>
+          <SDForm onSubmit={onSubmit}/>
         </div>
       );
     }
-
     return null;
   }
 
@@ -76,7 +78,7 @@ class SpecDefiner extends React.Component {
     return (
       <div className={className}>
         <Sticky stickyStyle={{ zIndex : 1040, backgroundColor : "white" }}>
-          <div className={cx("row", styles.metaContainer)}>
+          <div className="row" style={{ paddingTop : "8px", paddingBottom : "8px" }}>
             <div className="col-md-12">
               <h4>{name}&nbsp;
                 <small className="text-muted">({data && data.length || 0} Fields)</small>

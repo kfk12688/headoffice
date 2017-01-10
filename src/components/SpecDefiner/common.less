@@ -2,97 +2,27 @@
 
 @rowHeight: 36px;
 
-// ##################################################################
-// SubSchemaFields.js
-.subSchemaFieldRow {
-  margin-bottom: 10px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid @grey300;
-  &:last-child {
-    margin-bottom: 0px;
-    border-bottom: none;
-  }
-}
-
-.subField {
-  &:first-child {
-    margin-top: 1rem;
-  }
-  margin-bottom: 3rem;
-}
-
-// ##################################################################
-
-// ##################################################################
-// SDForm.js
-.headers {
-  padding-bottom: 6px;
-  border-bottom: 1px solid @grey800;
-}
-
-.submitRow {
-  margin-top: 10px;
-  button {
-    margin-left: 8px;
-  }
-}
-
-.subSchemaFields {
-  margin-top: 1rem;
-}
-
-// ##################################################################
-
-// ##################################################################
-// index.js
-.metaContainer {
-  padding: 8px 0;
-}
-
 .spinner {
   position: absolute;
-  top: 15%;
+  top: 20%;
   left: 50%;
-  color: @grey500;
+  i {
+    color: @grey500;
+  }
 }
 
-// ##################################################################
+.noData {
+  background-color: #ffffff;
+  text-align: center;
+  padding: 50px;
+  font-weight: 500;
+}
 
-.key {
-  min-width: 150px;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.sdContainer {
   position: relative;
-  display: inline-block;
-}
-
-.field {
-  width: 180px;
-  height: 19px;
-  display: inline-block;
-}
-
-.fields {
-  width: 60%;
-  float: left;
-  padding-right: 30px;
-  &Title {
-    margin-bottom: 8px;
-    font-weight: 600;
-    padding-bottom: 3px;
-    border-bottom: 2px solid @blueGrey700;
-  }
-}
-
-.defn {
-  width: 40%;
-  float: right;
-  &Title {
-    margin-bottom: 8px;
-    font-weight: 600;
-    padding-bottom: 3px;
-    border-bottom: 2px solid @blueGrey700;
-  }
+  overflow-x: auto;
+  background-color: @white;
+  min-height: 25rem;
 }
 
 .row {
@@ -105,10 +35,6 @@
     text-decoration: underline;
     cursor: pointer;
   }
-}
-
-.rowIsSelected {
-  background-color: @blueGrey50;
 }
 
 .col {
@@ -132,4 +58,23 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.submitRow {
+  margin-top: 10px;
+  button {
+    margin-left: 8px;
+  }
+}
+
+.subField {
+  &:first-child {
+    margin-top: 1rem;
+  }
+  margin-bottom: 3rem;
+}
+
+.headers {
+  padding-bottom: 6px;
+  border-bottom: 1px solid @grey800;
 }

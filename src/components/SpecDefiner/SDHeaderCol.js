@@ -11,12 +11,12 @@ const SDHeaderCol = ({ headerStyle, displayText, colWidth }) => {
       className={styles.col}
       style={{ ...hoverStyle, ...headerStyle }}
     >
-      <div style={{fontWeight : 700}} className={styles.cell}>
+      <div style={{ fontWeight : 700 }} className={styles.cell}>
         <span>{displayText}</span>
       </div>
     </span>
   );
-}
+};
 
 SDHeaderCol.propTypes = {
   headerStyle : React.PropTypes.object,

@@ -21,3 +21,5 @@ export const ADD_ROW_FAILURE = "routes/collections/ADD_ROW_FAILURE";
 export const GET_TEMPLATES_REQUEST = "routes/collections/GET_TEMPLATES_REQUEST";
 export const GET_TEMPLATES_SUCCESS = "routes/collections/GET_TEMPLATES_SUCCESS";
 export const GET_TEMPLATES_FAILURE = "routes/collections/GET_TEMPLATES_FAILURE";
+
+export const STAR_COLLECTION_SUCCESS = "routes/collections/STAR_COLLECTION_SUCCESS";

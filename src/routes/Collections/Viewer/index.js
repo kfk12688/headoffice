@@ -1,13 +1,12 @@
+import moment from "moment";
 import React, { Component } from "react";
-import _ from "underscore";
 import { connect } from "react-redux";
 import { StickyContainer, Sticky } from "react-sticky";
 import { Link } from "react-router";
-import moment from "moment";
-import { Entry, PaginationGrid, Pagination, FavoriteCell, Button, Modal } from "components";
-import { clearMenuState } from "dataflow/menu/actions";
-import { deleteTemplate, starTemplate, updateTemplate } from "dataflow/templates/actions";
-import { loadSpec, loadData, addRow } from "dataflow/collections/actions";
+import { PaginationGrid, Pagination, FavoriteCell, Button, Modal } from "components";
+import {
+  loadSpec, loadData, deleteRow, updateRow, deleteTemplate, updateTemplate, starCollection
+} from "dataflow/collections/actions";
 import EditTemplateForm from "../../Forms/EditTemplateForm";
 import styles from "./index.less";
 
@@ -20,30 +19,24 @@ class Viewer extends Component {
       showModal : false,
     };
 
-    this.loadData = this.loadData.bind(this);
-    this.setPage = this.setPage.bind(this);
-    this.setLimit = this.setLimit.bind(this);
+    this.loadData       = this.loadData.bind(this);
+    this.setPage        = this.setPage.bind(this);
+    this.setLimit       = this.setLimit.bind(this);
     this.deleteTemplate = this.deleteTemplate.bind(this);
     this.updateTemplate = this.updateTemplate.bind(this);
-    this.starTemplate = this.starTemplate.bind(this);
-    this.addRow = this.addRow.bind(this);
+    this.starCollection = this.starCollection.bind(this);
   }
 
   componentWillMount() {
     const { collectionName } = this.props.params;
-    const { page, limit } = this.state;
+    const { page, limit }    = this.state;
 
     this.props.loadSpec(collectionName)
       .then(this.loadData(page, limit));
   }
 
-  addRow(rowData) {
-    const { collectionName } = this.props.params;
-    this.props.addRow(collectionName, rowData);
-  }
-
   setPage(pageIdx) {
-    let newIdx = pageIdx;
+    let newIdx            = pageIdx;
     const { limit, page } = this.state;
 
     if (typeof pageIdx === "string") {
@@ -84,10 +77,10 @@ class Viewer extends Component {
     }
   }
 
-  starTemplate(e) {
+  starCollection(e) {
     e.preventDefault();
     const { collectionName } = this.props.params;
-    this.props.starTemplate(collectionName);
+    this.props.starCollection(collectionName);
   }
 
   updateTemplate(data) {
@@ -98,71 +91,53 @@ class Viewer extends Component {
   renderContent() {
     const collectionName = this.props.params.collectionName;
     const {
-            data = {}, userSchema = [], isLoading, count, templateName,
-          }      = this.props.viewStore[collectionName];
-    let dataObj = (!!data && !!data[this.state.page]) ? data[this.state.page] : {};
+            data         = {}, userSchema = [], isLoading, count, templateName,
+          }              = this.props.viewStore[collectionName];
+    let dataObj          = (!!data && !!data[this.state.page]) ? data[this.state.page] : {};
 
-    if (_.isEmpty(userSchema)) {
-      return (
-        <div className="col-md-9">
-          <h4>{templateName}&nbsp;
-            <small className="text-muted">({count || 0} Entries)</small>
-          </h4>
-          <Entry
-            templateName={templateName}
-            collectionName={collectionName}
-            isLoading={isLoading}
-            spec={userSchema}
-            onSubmit={this.addRow}
-          />
-        </div>
-      );
-    }
-    else {
-      return (
-        <div className="col-md-9">
-          <Sticky stickyStyle={{ backgroundColor : "white", zIndex : 100 }}>
-            <div className="row">
-              <div className="col-md-12">
-                <h4>{templateName}&nbsp;
-                  <small className="text-muted">({count || 0} Entries)</small>
-                </h4>
-              </div>
-            </div>
-
-            <div className="row">
-              <Pagination
-                className="col-md-12"
-                setLimit={this.setLimit}
-                setPage={this.setPage}
-                activePage={this.state.page}
-                limit={this.state.limit}
-              />
-            </div>
-          </Sticky>
-
+    return (
+      <div className="col-md-9">
+        <Sticky stickyStyle={{ backgroundColor : "white", zIndex : 100 }}>
           <div className="row">
             <div className="col-md-12">
-              <PaginationGrid
-                topOffset={114}
-                spec={userSchema}
-                data={dataObj}
-                isLoading={isLoading}
-              />
+              <h4>{templateName}&nbsp;
+                <small className="text-muted">({count || 0} Entries)</small>
+              </h4>
             </div>
           </div>
+
+          <div className="row">
+            <Pagination
+              className="col-md-12"
+              setLimit={this.setLimit}
+              setPage={this.setPage}
+              activePage={this.state.page}
+              limit={this.state.limit}
+            />
+          </div>
+        </Sticky>
+
+        <div className="row">
+          <div className="col-md-12">
+            <PaginationGrid
+              topOffset={114}
+              spec={userSchema}
+              data={dataObj}
+              isLoading={isLoading}
+            />
+          </div>
         </div>
-      );
-    }
+      </div>
+    );
   }
 
   render() {
     const collectionName = this.props.params.collectionName;
     const {
             workbook, modifiedAt, createdAt, createdBy, isFavorite,
-          }      = this.props.viewStore[collectionName];
-    const workbookName = !!workbook && !!workbook.name && workbook.name || "";
-    const createdByUser = !!createdBy && !!createdBy.name && createdBy.name || "";
+          }              = this.props.viewStore[collectionName];
+    const workbookName   = !!workbook && !!workbook.name && workbook.name || "";
+    const createdByUser  = !!createdBy && !!createdBy.name && createdBy.name || "";
 
     return (
       <div className="row">
@@ -200,7 +175,7 @@ class Viewer extends Component {
                     />
                   </Modal>
                   <Button faName="times" block onClick={this.deleteTemplate}>Delete Template</Button>
-                  <Button block onClick={this.starTemplate}>
+                  <Button block onClick={this.starCollection}>
                     Make Favorite
                     &nbsp;
                     <FavoriteCell value={isFavorite || false} inheritSize/>
@@ -229,11 +204,10 @@ Viewer.propTypes = {
   // state
   viewStore      : React.PropTypes.object.isRequired,
   // actions
-  clearMenuState : React.PropTypes.func.isRequired,
   loadSpec       : React.PropTypes.func,
   loadData       : React.PropTypes.func,
   deleteTemplate : React.PropTypes.func.isRequired,
-  starTemplate   : React.PropTypes.func.isRequired,
+  starCollection : React.PropTypes.func.isRequired,
   updateTemplate : React.PropTypes.func.isRequired,
 };
 
@@ -242,11 +216,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDisptachToProps = dispatch => ({
-  clearMenuState : () => dispatch(clearMenuState()),
   loadSpec       : (collectionName) => dispatch(loadSpec(collectionName)),
   loadData       : (collectionName, query) => dispatch(loadData(collectionName, query)),
   deleteTemplate : collectionName => dispatch(deleteTemplate(collectionName)),
-  starTemplate   : collectionName => dispatch(starTemplate(collectionName)),
+  starCollection : collectionName => dispatch(starCollection(collectionName)),
   updateTemplate : (collectionName, data) => dispatch(updateTemplate(collectionName, data)),
 });
 

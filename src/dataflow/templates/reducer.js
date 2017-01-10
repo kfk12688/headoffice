@@ -1,5 +1,6 @@
 import R from "ramda";
 import { handleActions } from "redux-actions";
+import { set, unset, loadedState, loadState, loadCollection } from "../utils";
 import {
   EDIT_SCHEMA_SUCCESS, EDIT_TEMPLATE_FAILURE, EDIT_TEMPLATE_REQUEST, EDIT_TEMPLATE_SUCCESS, EDIT_SCHEMA_FAILURE,
   EDIT_SCHEMA_REQUEST, GET_TEMPLATES_REQUEST, GET_TEMPLATES_SUCCESS, GET_TEMPLATES_FAILURE, ADD_TEMPLATE_REQUEST,
@@ -7,21 +8,6 @@ import {
   DELETE_TEMPLATE_FAILURE, GET_TEMPLATE_REQUEST, GET_TEMPLATE_SUCCESS, GET_TEMPLATE_FAILURE, ADD_USER_SCHEMA_FIELD,
   STAR_TEMPLATE_SUCCESS
 } from "./types";
-
-const convertToArray    = ar => {
-  if (R.is(Array, ar)) return ar;
-  return [ar];
-};
-const set               = R.curry((path, value, root, data) => {
-  const mergedPaths = R.concat(convertToArray(root), convertToArray(path));
-  return R.assocPath(mergedPaths, value, data);
-});
-const loadingState      = set("isLoading", true);
-const loadingList       = loadingState("list");
-const loadingCollection = R.curry((name, state) => {
-  return R.compose(loadingState(name), loadingList)(state);
-});
-const loadedState       = set("isLoading", false);
 
 const initialState = {
   list : {
@@ -31,19 +17,18 @@ const initialState = {
 };
 
 const reducer = handleActions({
-  [GET_TEMPLATES_REQUEST] : (state) => loadingList(state),
+  [GET_TEMPLATES_REQUEST] : (state) => loadState("list", state),
   [GET_TEMPLATES_SUCCESS] : (state, action) => {
-    const templates = R.prop("templates", action.payload);
-    const setData   = R.compose(
+    const { templates } = action.payload;
+    const setData       = R.compose(
       set("data", templates, "list"),
       loadedState("list")
     );
     return setData(state);
   },
   [GET_TEMPLATES_FAILURE] : (state, action) => {
-    const error    = R.prop("error", action.payload);
-    const message  = R.prop("message", action.payload);
-    const setError = R.compose(
+    const { error, message } = action.payload;
+    const setError           = R.compose(
       set("message", message, "list"),
       set("error", error, "list"),
       loadedState("list")
@@ -51,20 +36,20 @@ const reducer = handleActions({
     return setError(state);
   },
 
-  [ADD_TEMPLATE_REQUEST] : (state, action) => {},
+  [ADD_TEMPLATE_REQUEST] : (state, action) => loadState("list", state),
   [ADD_TEMPLATE_SUCCESS] : (state, action) => {
-    const template = R.prop("template", action.payload);
-    const id       = R.prop("id", template);
-    const setData  = R.compose(
-      set(["data", id], template, "list"),
+    const { template }             = action.payload;
+    const { collectionName }       = template;
+    const setData                  = R.compose(
+      set(null, template, collectionName),
+      set(["data", collectionName], template, "list"),
       loadedState("list")
     );
     return setData(state);
   },
   [ADD_TEMPLATE_FAILURE] : (state, action) => {
-    const error    = R.prop("error", action.payload);
-    const message  = R.prop("message", action.payload);
-    const setError = R.compose(
+    const { error, message } = action.payload;
+    const setError           = R.compose(
       set("message", message, "list"),
       set("error", error, "list"),
       loadedState("list")
@@ -72,138 +57,93 @@ const reducer = handleActions({
     return setError(state);
   },
 
-  [EDIT_TEMPLATE_REQUEST] : (state, action) => loadingCollection(action.payload.collectionName, state),
+  [EDIT_TEMPLATE_REQUEST] : (state, action) => loadCollection(action.payload.collectionName, state),
   [EDIT_TEMPLATE_SUCCESS] : (state, action) => {
-    const collectionName = R.prop("collectionName", action.payload);
-    const template = R.prop("template", action.payload);
-    const templateID = R.prop("id", template);
-    const setData  = R.compose(
+    const { template, collectionName } = action.payload;
+    const setData                      = R.compose(
       set(collectionName, template, "list"),
-      set(["data", templateID], template, "list"),
+      set(["data", collectionName], template, "list"),
       loadedState("list"));
     return setData(state);
   },
   [EDIT_TEMPLATE_FAILURE] : (state, action) => {
-    const { collectionName, error } = action.payload;
-    return {
-      ...state,
-      list             : {
-        ...state.list,
-        error,
-        isLoading : false,
-      },
-      [collectionName] : {
-        ...state[collectionName],
-        error,
-        isLoading : false,
-      },
-    };
+    const { error, message, collectionName } = action.payload;
+    const setError                           = R.compose(
+      set("message", message, collectionName),
+      set("error", error, collectionName),
+      loadedState(collectionName),
+    );
+    return setError(state);
   },
 
-  [DELETE_TEMPLATE_REQUEST] : (state, action) => loadingList(state),
+  [DELETE_TEMPLATE_REQUEST] : (state, action) => loadState("list", state),
   [DELETE_TEMPLATE_SUCCESS] : (state, action) => {
-    const { template, collectionName } = action.payload;
-    delete state.list.data[template.id];
-    delete state[collectionName];
-
-    return {
-      ...state,
-      list : {
-        ...state.list,
-        isLoading : false,
-      },
-    };
+    const { collectionName } = action.payload;
+    const deleteTemplate     = R.compose(
+      loadedState("list"),
+      unset(["data", collectionName], "list"),
+      unset(null, collectionName),
+    );
+    return deleteTemplate(state);
   },
   [DELETE_TEMPLATE_FAILURE] : (state, action) => {
-    const { error } = action.payload;
-
-    return {
-      ...state,
-      list : {
-        ...state.list,
-        isLoading : false,
-        error,
-      },
-    };
+    const { error, message } = action.payload;
+    const setError           = R.compose(
+      set("message", message, "list"),
+      set("error", error, "list"),
+      loadedState("list"),
+    );
+    return setError(state);
   },
 
   // #####################################################
 
-  [GET_TEMPLATE_REQUEST] : (state, action) => loadingCollection(action.payload.collectionName, state),
+  [GET_TEMPLATE_REQUEST] : (state, action) => loadCollection(action.payload.collectionName, state),
   [GET_TEMPLATE_SUCCESS] : (state, action) => {
-    const { collectionName, template } = action.payload;
-
-    return {
-      ...state,
-      list             : {
-        ...state.list,
-        isLoading : false,
-      },
-      [collectionName] : {
-        ...state[collectionName],
-        ...template,
-        isLoading : false,
-      },
-    };
+    const { template, collectionName } = action.payload;
+    const setData                      = R.compose(
+      loadedState("list"),
+      loadedState(collectionName),
+      set(null, template, collectionName),
+    );
+    return setData(state);
   },
   [GET_TEMPLATE_FAILURE] : (state, action) => {
-    const { collectionName, error } = action.payload;
-    return {
-      ...state,
-      [collectionName] : {
-        ...state[collectionName],
-        isLoading : false,
-        error,
-      },
-    };
+    const { error, message, collectionName } = action.payload;
+    const setError                           = R.compose(
+      set("message", message, collectionName),
+      set("error", error, collectionName),
+      loadedState(collectionName),
+    );
+    return setError(state);
   },
 
-  [EDIT_SCHEMA_REQUEST] : (state, action) => loadingCollection(action.payload.collectionName, state),
+  [EDIT_SCHEMA_REQUEST] : (state, action) => loadCollection(action.payload.collectionName, state),
   [EDIT_SCHEMA_SUCCESS] : (state, action) => {
     const { collectionName, template } = action.payload;
-    return {
-      ...state,
-      [collectionName] : {
-        ...state[collectionName],
-        userSchema : template.userSchema,
-        isLoading  : false,
-      },
-    };
+    const onEditSuccess                = R.compose(
+      set("userSchema", template.userSchema, collectionName),
+      loadedState(collectionName),
+    );
+    return onEditSuccess(state);
   },
   [EDIT_SCHEMA_FAILURE] : (state, action) => {
     const { collectionName, error } = action.payload;
-    return {
-      ...state,
-      [collectionName] : {
-        ...state[collectionName],
-        error,
-        isLoading : false,
-      },
-    };
+    const onEditFailure             = R.compose(
+      set("error", error, collectionName),
+      loadedState(collectionName),
+    );
+    return onEditFailure(state);
   },
 
   [STAR_TEMPLATE_SUCCESS] : (state, action) => {
     const { template, collectionName } = action.payload;
     const isFavorite                   = template.isFavorite;
-    const templateId                   = template.id;
-
-    return {
-      ...state,
-      list             : {
-        ...state.list,
-        data : {
-          ...state.list.data,
-          [templateId] : {
-            ...state.list.data[templateId],
-            isFavorite,
-          },
-        },
-      },
-      [collectionName] : {
-        ...state[collectionName],
-        isFavorite,
-      },
-    };
+    const setIsFavorite                = R.compose(
+      set("isFavorite", isFavorite, collectionName),
+      set(["data", collectionName, "isFavorite"], isFavorite, "list"),
+    );
+    return setIsFavorite(state);
   },
 
   [ADD_USER_SCHEMA_FIELD] : (state, action) => {

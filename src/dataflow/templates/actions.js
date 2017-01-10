@@ -101,16 +101,15 @@ export function deleteTemplate(collectionName) {
 /**
  * Favorite/Unfavorite a template
  */
-const starTemplateSuccess = createAction(STAR_TEMPLATE_SUCCESS, (collectionName, json) => ({
+const starTemplateSuccess = createAction(STAR_TEMPLATE_SUCCESS, (collectionName, template) => ({
   collectionName,
-  template : json.data,
-  message  : json.message,
+  template,
 }));
 export function starTemplate(collectionName) {
   return dispatch => {
     return fetch("GET", `api/templates/star/${collectionName}`)
       .then(res => res.json())
-      .then(json => dispatch(starTemplateSuccess(collectionName, json)));
+      .then(template => dispatch(starTemplateSuccess(collectionName, template)));
   };
 }
 

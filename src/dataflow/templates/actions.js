@@ -159,3 +159,5 @@ export function updateSchema(collectionName, schema) {
  * Add a schema field to the redux store
  */
 export const addField = createAction(ADD_USER_SCHEMA_FIELD, (collectionName, field) => ({ collectionName, field }));
+
+export { toggleSelection, selectAll, clearSelection, toggleMenuSidebar } from "../menu/actions";

@@ -1,21 +1,21 @@
-import React, { Component } from "react";
+import cx from "classnames";
 import { connect } from "react-redux";
-import { selectAll, clearSelection, toggleMenuSidebar } from "dataflow/menu/actions";
+import styles from "./ContentMenu.less";
+import React, { Component } from "react";
 import { Button, Modal, Dropdown } from "components";
 import CreateTemplateForm from "../Forms/NewTemplateForm";
-import styles from "./ContentMenu.less";
-import cx from "classnames";
+import { selectAll, clearSelection, toggleMenuSidebar } from "dataflow/templates/actions";
 
 class ContentMenu extends Component {
   constructor(props) {
     super(props);
-    this.state = { showModal : false };
-    this.toggleModal = this.toggleModal.bind(this);
+    this.state            = { showModal : false };
+    this.toggleModal      = this.toggleModal.bind(this);
     this.selectAllHandler = this.selectAllHandler.bind(this);
   }
 
   getActions() {
-    const { actions } = this.props;
+    const { actions }        = this.props;
     const actionsMenuContent = actions.map(action => {
       const key = action.name.replace(/ /, "").toLowerCase();
       return <div key={key} onClick={action.handler}>{action.name}</div>;

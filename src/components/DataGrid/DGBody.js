@@ -1,5 +1,5 @@
-import React, { Component } from "react";
 import _ from "underscore";
+import React, { Component } from "react";
 import { DGBodyRow } from "./DGBodyRow";
 import styles from "./common.less";
 
@@ -14,13 +14,13 @@ class DGBody extends Component {
     const { rows, cols, colWidths, selectedKeys, onRowClick } = this.props;
     const datagridBodyRows = [];
 
-    _.forEach(rows, row => {
-      const selectedKeyIdx = selectedKeys.findIndex((key) => key === row.id);
+    _.forEach(rows, (row, key) => {
+      const selectedKeyIdx = selectedKeys.findIndex(k => k === key);
 
       datagridBodyRows.push(
         <DGBodyRow
-          key={row.id}
-          rowKey={row.id}
+          key={key}
+          rowKey={key}
           cols={cols}
           row={row}
           colWidths={colWidths}

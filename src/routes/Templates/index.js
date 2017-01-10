@@ -1,10 +1,7 @@
-import _ from "underscore";
 import React, { Component } from "react";
 import { StickyContainer, Sticky } from "react-sticky";
 import { connect } from "react-redux";
-import { setDateModifiedStart, setDateModifiedEnd, setIsRecent, setIsStarred, setOwner } from "dataflow/filter/actions";
-import { toggleSelection } from "dataflow/menu/actions";
-import { getTemplates, deleteTemplate, createTemplate } from "dataflow/templates/actions";
+import { toggleSelection, getTemplates, deleteTemplate, createTemplate } from "dataflow/templates/actions";
 import { SearchBar, DataGrid } from "components";
 import { ContentMenu } from "./ContentMenu";
 import { Formatter as formatter } from "../_utils";
@@ -14,13 +11,35 @@ class Template extends Component {
   constructor(props) {
     super(props);
     this.getActions = this.getActions.bind(this);
-    const actions = this.getActions();
+    const actions   = this.getActions();
+
     // fixme
     this.actionsCollection = [
       { name : "Delete Template", handler : actions.deleteTemplate },
     ];
-
-    this.colSpec = [
+    this.searchConfig      = [
+      {
+        label : "Owner",
+        type  : "searchbox",
+      },
+      {
+        label : "Created on or after",
+        type  : "datebox",
+      },
+      {
+        label : "Created on or before",
+        type  : "datebox",
+      },
+      {
+        label : "Show starred only",
+        type  : "checkbox",
+      },
+      {
+        label : "Recents only",
+        type  : "checkbox",
+      },
+    ];
+    this.colSpec           = [
       {
         dataKey     : "isSelected",
         headerStyle : { borderRight : 0 },
@@ -76,7 +95,7 @@ class Template extends Component {
         text          : "Updated At",
       },
     ];
-    this.colWidths = {
+    this.colWidths         = {
       "checkbox-col"   : 38,
       "favorite-col"   : 38,
       "name-col"       : 230,
@@ -85,8 +104,6 @@ class Template extends Component {
       "created-at-col" : 150,
       "updated-at-col" : 150,
     };
-
-    this.colSortItems = this.getColumnSortList();
   }
 
   componentWillMount() {
@@ -110,84 +127,11 @@ class Template extends Component {
     };
   }
 
-  getColumnSortList() {
-    const sortOrders = [
-      {
-        date   : "New - Old",
-        number : "Least - Most",
-        order  : "asc",
-        text   : "A-Z",
-        link   : "A-Z",
-      }, {
-        date   : "Old - New",
-        number : "Most - Least",
-        order  : "desc",
-        text   : "Z-A",
-        link   : "Z-A",
-      },
-    ];
-    const items = [];
-    const displayText = {};
-    const cols = this.colSpec;
-
-    _.forEach(cols, (col, key) => {
-      const isColSortable = (col.sortable === undefined) || col.sortable;
-
-      if (isColSortable) {
-        const colRenderType = (col.renderType === undefined) ? "text" : col.renderType;
-        displayText[col.dataKey] = {};
-        for (let i = 0; i < 2; i++) {
-          const name = `${col.text} (${sortOrders[i][colRenderType]})`;
-          items.push(<div key={`${key}${i}`}>{name}</div>);
-          displayText[col.dataKey][i] = name;
-        }
-      }
-    });
-
-    return {
-      items,
-      displayText,
-    };
-  }
-
   renderChildren() {
     if (this.props.children) return this.props.children;
 
-    const { filterChangeHandlers, filterStore, menuStore } = this.props;
-    const { data = {}, isLoading } = this.props.list || {};
-    const searchConfig = [
-      {
-        label         : "Owner",
-        data          : filterStore.owner,
-        changeHandler : filterChangeHandlers.setOwner,
-        type          : "searchbox",
-      },
-      {
-        label         : "Created on or after",
-        data          : filterStore.dateModifiedStart,
-        changeHandler : filterChangeHandlers.setDateModifiedStart,
-        type          : "datebox",
-      },
-      {
-        label         : "Created on or before",
-        data          : filterStore.dateModifiedEnd,
-        changeHandler : filterChangeHandlers.setDateModifiedEnd,
-        type          : "datebox",
-      },
-      {
-        label         : "Show starred only",
-        data          : filterStore.isStarred,
-        changeHandler : filterChangeHandlers.setIsStarred,
-        type          : "checkbox",
-      },
-      {
-        label         : "Recents only",
-        data          : filterStore.isRecent,
-        changeHandler : filterChangeHandlers.setIsRecent,
-        type          : "checkbox",
-      },
-    ];
-
+    const { menuStore } = this.props;
+    const { data        = {}, isLoading } = this.props.list || {};
     return (
       <div className="row">
         <div className="col-md-10 offset-md-1">
@@ -203,7 +147,7 @@ class Template extends Component {
                 menuStore.showSidebar &&
                 <div className="col-md-3">
                   <Sticky topOffset={-15}>
-                    <SearchBar config={searchConfig}/>
+                    <SearchBar config={this.searchConfig}/>
                   </Sticky>
                 </div>
               }
@@ -214,8 +158,6 @@ class Template extends Component {
                   cols={this.colSpec}
                   colWidths={this.colWidths}
                   rows={data}
-                  sortKey={filterStore.sortKey}
-                  sortAscending={filterStore.sortAscending}
                   onRowClick={this.props.toggleSelection}
                   selectedKeys={menuStore.selectedKeys}
                 />
@@ -237,25 +179,17 @@ class Template extends Component {
 }
 
 Template.propTypes = {
-  children             : React.PropTypes.node,
+  children        : React.PropTypes.node,
   // Store
-  list                 : React.PropTypes.object.isRequired,
-  menuStore            : React.PropTypes.object.isRequired,
-  filterStore          : React.PropTypes.object.isRequired,
+  list            : React.PropTypes.object.isRequired,
+  menuStore       : React.PropTypes.object.isRequired,
+  filterStore     : React.PropTypes.object.isRequired,
   // Action types for Menu Store
-  toggleSelection      : React.PropTypes.func.isRequired,
+  toggleSelection : React.PropTypes.func.isRequired,
   // Action types for Data Store
-  getTemplates         : React.PropTypes.func.isRequired,
-  deleteTemplate       : React.PropTypes.func.isRequired,
-  createTemplate       : React.PropTypes.func.isRequired,
-  // Action types for Filter Store
-  filterChangeHandlers : React.PropTypes.shape({
-    setDateModifiedStart : React.PropTypes.func.isRequired,
-    setDateModifiedEnd   : React.PropTypes.func.isRequired,
-    setOwner             : React.PropTypes.func.isRequired,
-    setIsRecent          : React.PropTypes.func.isRequired,
-    setIsStarred         : React.PropTypes.func.isRequired,
-  }),
+  getTemplates    : React.PropTypes.func.isRequired,
+  deleteTemplate  : React.PropTypes.func.isRequired,
+  createTemplate  : React.PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -265,17 +199,10 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  toggleSelection      : (index) => dispatch(toggleSelection(index)),
-  getTemplates         : (params) => dispatch(getTemplates(params)),
-  deleteTemplate       : (params) => dispatch(deleteTemplate(params)),
-  createTemplate       : (params) => dispatch(createTemplate(params)),
-  filterChangeHandlers : {
-    setDateModifiedStart : (e) => dispatch(setDateModifiedStart(e)),
-    setDateModifiedEnd   : (e) => dispatch(setDateModifiedEnd(e)),
-    setOwner             : (e) => dispatch(setOwner(e)),
-    setIsRecent          : (e) => dispatch(setIsRecent(e)),
-    setIsStarred         : (e) => dispatch(setIsStarred(e)),
-  },
+  toggleSelection : (index) => dispatch(toggleSelection(index)),
+  getTemplates    : (params) => dispatch(getTemplates(params)),
+  deleteTemplate  : (params) => dispatch(deleteTemplate(params)),
+  createTemplate  : (params) => dispatch(createTemplate(params)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Template);

@@ -1,3 +1,4 @@
+import R from "ramda";
 import React, { Component } from "react";
 import { StickyContainer, Sticky } from "react-sticky";
 import { connect } from "react-redux";
@@ -7,13 +8,23 @@ import { ContentMenu } from "./ContentMenu";
 import { Formatter as formatter } from "../_utils";
 import cx from "classnames";
 
+const exec = R.curry((delFn, name) => delFn(name));
+
 class Template extends Component {
   constructor(props) {
     super(props);
-    this.getActions = this.getActions.bind(this);
-    const actions   = this.getActions();
+    const actions = {
+      deleteTemplate : () => {
+        const { menuStore: { selectedKeys } } = this.props;
+        const del                             = exec(this.props.deleteTemplate);
+        if (selectedKeys.length > 1) {
+          R.map(del, selectedKeys);
+        } else {
+          del(selectedKeys[0]);
+        }
+      },
+    };
 
-    // fixme
     this.actionsCollection = [
       { name : "Delete Template", handler : actions.deleteTemplate },
     ];
@@ -108,23 +119,6 @@ class Template extends Component {
 
   componentWillMount() {
     this.props.getTemplates();
-  }
-
-  getActions() {
-    const _deleteTemplate = () => {
-      const { menuStore: { selectedKeys } } = this.props;
-
-      if (selectedKeys.length > 1) {
-        const objs = selectedKeys.map(key => ({ id : key }));
-        this.props.deleteTemplate(objs);
-      } else {
-        this.props.deleteTemplate({ id : selectedKeys[0] });
-      }
-    };
-
-    return {
-      deleteTemplate : _deleteTemplate,
-    };
   }
 
   renderChildren() {

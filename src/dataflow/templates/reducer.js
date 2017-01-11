@@ -38,9 +38,10 @@ const reducer = handleActions({
 
   [ADD_TEMPLATE_REQUEST] : (state, action) => loading("list", state),
   [ADD_TEMPLATE_SUCCESS] : (state, action) => {
-    const { template }             = action.payload;
-    const { collectionName }       = template;
-    const setData                  = R.compose(
+    const { template, message }             = action.payload;
+    const { collectionName }                = template;
+    const setData                           = R.compose(
+      setMessage(message),
       set(null, template, collectionName),
       set(["data", collectionName], template, "list"),
       loaded("list")
@@ -54,8 +55,9 @@ const reducer = handleActions({
 
   [EDIT_TEMPLATE_REQUEST] : (state, action) => loadCollection(action.payload.collectionName, state),
   [EDIT_TEMPLATE_SUCCESS] : (state, action) => {
-    const { template, collectionName } = action.payload;
-    const setData                      = R.compose(
+    const { template, collectionName, message } = action.payload;
+    const setData                               = R.compose(
+      setMessage(message),
       set(collectionName, template, "list"),
       set(["data", collectionName], template, "list"),
       loaded("list"));
@@ -68,9 +70,10 @@ const reducer = handleActions({
 
   [DELETE_TEMPLATE_REQUEST] : (state, action) => loading("list", state),
   [DELETE_TEMPLATE_SUCCESS] : (state, action) => {
-    const { collectionName } = action.payload;
-    const deleteTemplate     = R.compose(
+    const { collectionName, message } = action.payload;
+    const deleteTemplate              = R.compose(
       loaded("list"),
+      setMessage(message),
       unset(["data", collectionName], "list"),
       unset(null, collectionName),
     );
@@ -100,8 +103,9 @@ const reducer = handleActions({
 
   [EDIT_SCHEMA_REQUEST] : (state, action) => loadCollection(action.payload.collectionName, state),
   [EDIT_SCHEMA_SUCCESS] : (state, action) => {
-    const { collectionName, template } = action.payload;
-    const onEditSuccess                = R.compose(
+    const { collectionName, template, message } = action.payload;
+    const onEditSuccess                         = R.compose(
+      setMessage(message),
       set("userSchema", template.userSchema, collectionName),
       loaded(collectionName),
     );

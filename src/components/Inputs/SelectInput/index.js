@@ -1,7 +1,7 @@
 import React from "react";
 import _ from "underscore";
 import Overlay from "../../Overlay";
-import { cachedFetch } from "dataflow/fetchWrapper";
+import fetch from "dataflow/fetchWrapper";
 
 class SelectInput extends React.Component {
   constructor(props) {
@@ -45,7 +45,7 @@ class SelectInput extends React.Component {
   loadOptions(text) {
     const { api } = this.props;
 
-    cachedFetch("GET", api)
+    fetch("GET", api)
       .then(res => res.json())
       .then(options => {
         const content = _.map(options, (item, idx) =>

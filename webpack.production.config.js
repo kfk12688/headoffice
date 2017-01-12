@@ -1,9 +1,9 @@
-var path = require("path");
-var webpack = require("webpack");
+var path              = require("path");
+var webpack           = require("webpack");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
-var StatsPlugin = require("stats-webpack-plugin");
-var AutoPrefixer = require("autoprefixer");
+var StatsPlugin       = require("stats-webpack-plugin");
+var AutoPrefixer      = require("autoprefixer");
 
 module.exports = {
   entry   : [
@@ -13,6 +13,7 @@ module.exports = {
     root  : path.resolve(__dirname),
     alias : {
       components : path.resolve(__dirname, "src", "components"),
+      utils      : path.join(__dirname, "src", "utils.js"),
       dataflow   : path.resolve(__dirname, "src", "dataflow")
     }
   },

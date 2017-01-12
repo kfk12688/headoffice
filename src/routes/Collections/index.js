@@ -6,17 +6,17 @@ import { SearchBar, DataGrid } from "components";
 import { toggleSelection } from "dataflow/menu/actions";
 import { getTemplates } from "dataflow/collections/actions";
 import { setDateModifiedEnd, setDateModifiedStart, setOwner, setIsRecent, setIsStarred } from "dataflow/filter/actions";
-import { Formatter as formatter } from "../_utils";
+import { toDate } from "utils";
 import { ContentMenu } from "./ContentMenu";
 import cx from "classnames";
 
 class Collections extends Component {
   constructor(props) {
     super(props);
-    this.getActions = this.getActions.bind(this);
+    this.getActions        = this.getActions.bind(this);
     this.actionsCollection = [];
 
-    this.colSpec = [
+    this.colSpec   = [
       {
         dataKey     : "isSelected",
         headerStyle : { borderRight : 0 },
@@ -35,19 +35,17 @@ class Collections extends Component {
       },
       {
         dataKey    : "templateName",
-        linkRef    : {
-          path   : "collections/view",
-          urlKey : "collectionName",
+        link       : {
+          absolutePath : "collections/view",
+          key          : "collectionName",
         },
-        button     : {
-          buttonText : "Enter Data",
-          link       : {
-            path : "collections/entry",
-            key  : "collectionName",
-          },
+        buttonLink : {
+          text         : "Enter Data",
+          absolutePath : "collections/entry",
+          key          : "collectionName",
         },
         name       : "name-col",
-        renderType : "buttonLink",
+        renderType : "buttonLikeLink",
         text       : "Name",
         "actions"  : this.actionsCollection,
       },
@@ -65,7 +63,7 @@ class Collections extends Component {
         text       : "Created On",
       },
       {
-        cellFormatter : formatter.toDate.bind(undefined, "DD-MM-YY h:mm A"),
+        cellFormatter : toDate("DD-MM-YY h:mm A"),
         dataKey       : "modifiedAt",
         name          : "updated-at-col",
         renderType    : "date",
@@ -94,7 +92,7 @@ class Collections extends Component {
   }
 
   getColumnSortList() {
-    const sortOrders = [
+    const sortOrders  = [
       {
         date   : "New - Old",
         number : "Least - Most",
@@ -109,15 +107,15 @@ class Collections extends Component {
         link   : "Z-A",
       },
     ];
-    const items = [];
+    const items       = [];
     const displayText = {};
-    const cols = this.colSpec;
+    const cols        = this.colSpec;
 
     _.forEach(cols, (col, key) => {
       const isColSortable = (col.sortable === undefined) || col.sortable;
 
       if (isColSortable) {
-        const colRenderType = (col.renderType === undefined) ? "text" : col.renderType;
+        const colRenderType      = (col.renderType === undefined) ? "text" : col.renderType;
         displayText[col.dataKey] = {};
         for (let i = 0; i < 2; i++) {
           const name = `${col.text} (${sortOrders[i][colRenderType]})`;
@@ -137,9 +135,9 @@ class Collections extends Component {
     if (this.props.children) return this.props.children;
 
     const { filterChangeHandlers, filterStore, menuStore } = this.props;
-    const templates = !!this.props.templates ? this.props.templates : {};
-    const { data = {}, isLoading } = templates;
-    const searchConfig = [
+    const templates                                        = !!this.props.templates ? this.props.templates : {};
+    const { data                                           = {}, isLoading } = templates;
+    const searchConfig                                     = [
       {
         label         : "Owner",
         data          : filterStore.owner,

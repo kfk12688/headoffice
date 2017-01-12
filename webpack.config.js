@@ -1,5 +1,5 @@
-var path = require("path");
-var webpack = require("webpack");
+var path              = require("path");
+var webpack           = require("webpack");
 var HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
@@ -12,6 +12,7 @@ module.exports = {
     root  : path.join(__dirname),
     alias : {
       components : path.join(__dirname, "src", "components"),
+      utils      : path.join(__dirname, "src", "utils.js"),
       dataflow   : path.join(__dirname, "src", "dataflow")
     }
   },

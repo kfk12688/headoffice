@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { StickyContainer, Sticky } from "react-sticky";
 import { Link } from "react-router";
-import { PaginationGrid, Pagination, FavoriteCell, Button, Modal } from "components";
+import { PaginationGrid, Pagination, FavoriteIcon, Button, Modal } from "components";
 import {
   loadSpec, loadData, deleteRow, updateRow, deleteTemplate, updateTemplate, starCollection
 } from "dataflow/collections/actions";
@@ -178,7 +178,7 @@ class Viewer extends Component {
                   <Button block onClick={this.starCollection}>
                     Make Favorite
                     &nbsp;
-                    <FavoriteCell value={isFavorite || false} inheritSize/>
+                    <FavoriteIcon value={isFavorite || false} inheritSize/>
                   </Button>
 
                   <div className={styles.divider}/>

@@ -1,3 +1,4 @@
+import R from "ramda";
 import React, { Component } from "react";
 import { DGBodyCell } from "./DGBodyCell";
 import { grey50, transparent, blueGrey50 } from "../_styles/colors";
@@ -6,25 +7,25 @@ import styles from "./common.less";
 class DGBodyRow extends Component {
   constructor() {
     super();
-    this.state = { hovered : false };
+    this.state        = { hovered : false };
     this.clickHandler = this.clickHandler.bind(this);
   }
 
   getBodyCells() {
     const { cols, row, colWidths, isRowSelected } = this.props;
-    const dataGridBodyCells = cols.map((col, index) => {
-      const colName = col.name;
-
-      if (col.renderType === "checkbox") {
-        row.isSelected = isRowSelected;
-      }
+    const dataGridBodyCells                       = cols.map((col, index) => {
+      const { name, dataKey, renderType } = col;
+      let value                           = (renderType === "checkbox") ?
+                                            isRowSelected :
+                                            R.path(R.split(".", dataKey), row);
+      if (R.isNil(value)) value = false;
 
       return (
-        <DGBodyCell
-          key={`${row.id} ${index}`}
-          col={col}
-          colWidth={colWidths[colName]}
-          row={row}
+        <DGBodyCell col={col}
+                    value={value}
+                    id={row.collectionName}
+                    colWidth={colWidths[name]}
+                    key={`${row.collectionName} ${index}`}
         />
       );
     });

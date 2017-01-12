@@ -1,28 +1,31 @@
 import React from "react";
-import _ from "underscore";
-import { renderEGCell } from "../DisplayElems";
+import R from "ramda";
+import cell from "../getCell";
 import styles from "./common.less";
 
 const SDBodyRow = ({ row, cols, colWidths }) => {
   let bodyCells = [];
 
-  _.forEach(cols, (col, colKey) => {
-    const hoverStyle = {
+  R.forEach((col, colKey) => {
+    const { name, dataKey, renderType } = col;
+    const hoverStyle                    = {
       boxSizing : "border-box",
       display   : "inline-block",
-      width     : colWidths[colKey],
+      width     : colWidths[name],
     };
+    let value                           = R.path(R.split(".", dataKey), row);
+    if (R.isNil(value)) value = false;
 
     bodyCells.push(
       <div
-        key={colKey}
+        key={name}
         className={styles.cell}
         style={{ ...hoverStyle, ...col.colStyle }}
       >
-        {renderEGCell(col.renderType, row, col, colKey)}
+        {cell[renderType](value, col, undefined)}
       </div>
     );
-  });
+  })(cols);
 
   return (<div className={styles.row}>{bodyCells}</div>);
 };

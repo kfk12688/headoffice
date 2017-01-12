@@ -19,7 +19,7 @@ class Workbooks extends Component {
       },
     ];
 
-    this.colSpec = [
+    this.colSpec   = [
       {
         dataKey     : "isSelected",
         headerStyle : { borderRight : 0 },
@@ -34,9 +34,9 @@ class Workbooks extends Component {
         renderType : "link",
         actions    : this.actionsCollection,
         text       : "Display Name",
-        linkRef    : {
-          path   : "user/workbook",
-          urlKey : "id",
+        link       : {
+          absolutePath : "user/workbook",
+          key          : "id",
         },
       },
       {
@@ -69,8 +69,8 @@ class Workbooks extends Component {
     if (this.props.children) return this.props.children;
 
     const { filterStore, menuStore, filterChangeHandlers, toggleRow } = this.props;
-    const { data = {}, isLoading } = this.props.workbooks;
-    const searchConfig = [
+    const { data                                                      = {}, isLoading } = this.props.workbooks;
+    const searchConfig                                                = [
       {
         label         : "WorkBook",
         data          : filterStore.workbook,

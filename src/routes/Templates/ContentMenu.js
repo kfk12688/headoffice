@@ -1,3 +1,4 @@
+import R from "ramda";
 import cx from "classnames";
 import { connect } from "react-redux";
 import styles from "./ContentMenu.less";
@@ -15,11 +16,13 @@ class ContentMenu extends Component {
   }
 
   getActions() {
-    const { actions }        = this.props;
-    const actionsMenuContent = actions.map(action => {
+    const { actions, menuStore } = this.props;
+    const { selectedKeys }       = menuStore;
+    const renderAction           = action => {
       const key = action.name.replace(/ /, "").toLowerCase();
-      return <div key={key} onClick={action.handler}>{action.name}</div>;
-    });
+      return <div key={key} onClick={action.handler(selectedKeys)}>{action.name}</div>;
+    };
+    const actionsMenuContent     = R.compose(R.values, R.map(renderAction))(actions);
 
     return (
       <span>
@@ -84,11 +87,9 @@ class ContentMenu extends Component {
 }
 
 ContentMenu.propTypes = {
-  menuStore : React.PropTypes.any,
-
-  dataKeys : React.PropTypes.array,
-  actions  : React.PropTypes.array,
-
+  menuStore         : React.PropTypes.any,
+  dataKeys          : React.PropTypes.array,
+  actions           : React.PropTypes.object,
   // Functions
   selectAllRows     : React.PropTypes.func,
   clearSelection    : React.PropTypes.func,

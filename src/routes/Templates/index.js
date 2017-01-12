@@ -4,31 +4,26 @@ import { StickyContainer, Sticky } from "react-sticky";
 import { connect } from "react-redux";
 import { toggleSelection, getTemplates, deleteTemplate, createTemplate } from "dataflow/templates/actions";
 import { SearchBar, DataGrid } from "components";
-import { ContentMenu } from "./ContentMenu";
-import { Formatter as formatter } from "../_utils";
+import { toDate } from "utils";
 import cx from "classnames";
+import { ContentMenu } from "./ContentMenu";
 
-const exec = R.curry((delFn, name) => delFn(name));
+const exec = R.curry((fn, names) => {
+  if (R.is(Array, names)) {
+    R.map(fn, names);
+  } else {
+    fn(names);
+  }
+});
 
 class Template extends Component {
   constructor(props) {
     super(props);
-    const actions = {
-      deleteTemplate : () => {
-        const { menuStore: { selectedKeys } } = this.props;
-        const del                             = exec(this.props.deleteTemplate);
-        if (selectedKeys.length > 1) {
-          R.map(del, selectedKeys);
-        } else {
-          del(selectedKeys[0]);
-        }
-      },
+    this.actions = {
+      deleteTemplate : { name : "Delete Template", handler : exec(props.deleteTemplate) },
     };
 
-    this.actionsCollection = [
-      { name : "Delete Template", handler : actions.deleteTemplate },
-    ];
-    this.searchConfig      = [
+    this.searchConfig = [
       {
         label : "Owner",
         type  : "searchbox",
@@ -50,7 +45,7 @@ class Template extends Component {
         type  : "checkbox",
       },
     ];
-    this.colSpec           = [
+    this.colSpec      = [
       {
         dataKey     : "isSelected",
         headerStyle : { borderRight : 0 },
@@ -69,14 +64,14 @@ class Template extends Component {
       },
       {
         dataKey    : "templateName",
-        linkRef    : {
-          path   : "templates",
-          urlKey : "collectionName",
+        link       : {
+          absolutePath : "templates",
+          key          : "collectionName",
         },
         name       : "name-col",
         renderType : "link",
         text       : "Name",
-        actions    : this.actionsCollection,
+        actions    : this.actions,
       },
       {
         dataKey    : "createdBy.username",
@@ -98,7 +93,7 @@ class Template extends Component {
         text       : "Created On",
       },
       {
-        cellFormatter : formatter.toDate.bind(undefined, "DD-MM-YY h:mm A"),
+        cellFormatter : toDate("DD-MM-YY h:mm A"),
         dataKey       : "modifiedAt",
         name          : "updated-at-col",
         renderType    : "date",
@@ -106,7 +101,7 @@ class Template extends Component {
         text          : "Updated At",
       },
     ];
-    this.colWidths         = {
+    this.colWidths    = {
       "checkbox-col"   : 38,
       "favorite-col"   : 38,
       "name-col"       : 230,
@@ -131,7 +126,7 @@ class Template extends Component {
         <div className="col-md-10 offset-md-1">
           <ContentMenu
             dataKeys={Object.keys(data)}
-            actions={this.actionsCollection}
+            actions={this.actions}
             createTemplate={this.props.createTemplate}
           />
 

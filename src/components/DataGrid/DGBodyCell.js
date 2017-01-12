@@ -1,17 +1,20 @@
 import React from "react";
 import styles from "./common.less";
-import { renderDGCell } from "../DisplayElems";
+import getCell from "../getCell";
 
-const DGBodyCell = ({ col, row, colWidth }) =>
-  <span
-    className={styles.cell}
-    style={{ width : colWidth }}
-  >
-    {renderDGCell(col.renderType, row, col)}
-  </span>;
+const DGBodyCell = ({ col, colWidth, value, id }) => {
+  return (
+    <span style={{ width : colWidth }}
+          className={styles.cell}
+    >
+    {getCell[col.renderType](value, col, id)}
+  </span>
+  );
+};
 
 DGBodyCell.propTypes = {
-  row      : React.PropTypes.object.isRequired,
+  value    : React.PropTypes.any.isRequired,
+  id       : React.PropTypes.string.isRequired,
   col      : React.PropTypes.object.isRequired,
   colWidth : React.PropTypes.number.isRequired,
 };

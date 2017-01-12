@@ -1,6 +1,6 @@
 import R from "ramda";
 import { handleActions } from "redux-actions";
-import { set, unset, loaded, loading, loadCollection, setError, setMessage } from "../utils";
+import { set, unset, loaded, loading, loadCollection, setError, setMessage } from "utils";
 import {
   EDIT_SCHEMA_SUCCESS, EDIT_TEMPLATE_FAILURE, EDIT_TEMPLATE_REQUEST, EDIT_TEMPLATE_SUCCESS, EDIT_SCHEMA_FAILURE,
   EDIT_SCHEMA_REQUEST, GET_TEMPLATES_REQUEST, GET_TEMPLATES_SUCCESS, GET_TEMPLATES_FAILURE, ADD_TEMPLATE_REQUEST,

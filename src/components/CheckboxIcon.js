@@ -1,11 +1,11 @@
+import R from "ramda";
 import React from "react";
 
-export const CheckboxCell = ({ value: isSelected }) => {
-  const faStyle = {
-    fontSize   : 17,
-  };
-  let selectedElement = null;
+const CheckboxIcon = ({ value }) => {
+  const faStyle    = { fontSize : 17 };
+  const isSelected = R.isNil(value) ? false : value;
 
+  let selectedElement = null;
   if (isSelected) {
     selectedElement = <i className="fa fa-check-square" style={faStyle}/>;
   } else {
@@ -15,6 +15,8 @@ export const CheckboxCell = ({ value: isSelected }) => {
   return selectedElement;
 };
 
-CheckboxCell.propTypes = {
+CheckboxIcon.propTypes = {
   value : React.PropTypes.bool,
 };
+
+export default CheckboxIcon;

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { StickyContainer, Sticky } from "react-sticky";
 import { Link } from "react-router";
 import moment from "moment";
-import { Entry, Button, Modal, FavoriteCell } from "components";
+import { Entry, Button, Modal, FavoriteIcon } from "components";
 import { loadSpec, addRow, deleteTemplate, starTemplate, updateTemplate } from "dataflow/collections/actions";
 import styles from "./index.less";
 import EditTemplateForm from "../../Forms/EditTemplateForm";
@@ -122,7 +122,7 @@ class EntryForm extends Component {
                   <Button block onClick={this.starTemplate}>
                     Make Favorite
                     &nbsp;
-                    <FavoriteCell value={isFavorite || false} inheritSize/>
+                    <FavoriteIcon value={isFavorite || false} inheritSize/>
                   </Button>
 
                   <div className={styles.divider}/>

@@ -1,8 +1,9 @@
+import R from "ramda";
 import React, { Component } from "react";
 import { StickyContainer, Sticky } from "react-sticky";
 import { connect } from "react-redux";
 import { Link } from "react-router";
-import { SpecDefiner, Button, Modal, FavoriteCell } from "components";
+import { SpecDefiner, Button, Modal, FavoriteIcon } from "components";
 import {
   getTemplate, updateSchema, addField, deleteTemplate, starTemplate, updateTemplate
 } from "dataflow/templates/actions";
@@ -10,26 +11,35 @@ import EditTemplateForm from "../../Forms/EditTemplateForm";
 import styles from "./index.less";
 import moment from "moment";
 
+const exec = R.curry((fn, names) => {
+  if (R.is(Array, names)) {
+    R.map(fn, names);
+  } else {
+    fn(names);
+  }
+});
+
 class Editor extends Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state          = {
       showModal : false,
     };
-    this.updateSchema = this.updateSchema.bind(this);
+    this.updateSchema   = this.updateSchema.bind(this);
     this.deleteTemplate = this.deleteTemplate.bind(this);
     this.updateTemplate = this.updateTemplate.bind(this);
-    this.starTemplate = this.starTemplate.bind(this);
+    this.starTemplate   = this.starTemplate.bind(this);
+    this.actions        = {
+      editField   : { name : "Edit", handler : exec(props.deleteTemplate) },
+      deleteField : { name : "Delete", handler : exec(props.deleteTemplate) },
+    };
 
-    this.colSpec = {
+    this.colSpec   = {
       "action"      : {
         "headerStyle" : { borderLeft : 0 },
         "displayText" : "",
         "renderType"  : "action",
-        "actions"     : [
-          { name : "Edit Row", handler : props.editRow },
-          { name : "Delete Row", handler : props.deleteRow }, // fixme
-        ],
+        "actions"     : this.actions,
         "sortable"    : false,
         "insertable"  : false,
       },
@@ -62,14 +72,14 @@ class Editor extends Component {
   updateSchema(e) {
     e.preventDefault();
     const { collectionName } = this.props.params;
-    const { userSchema } = this.props.editor[collectionName];
+    const { userSchema }     = this.props.editor[collectionName];
     this.props.updateSchema(collectionName, userSchema);
   }
 
   deleteTemplate(e) {
     e.preventDefault();
-    const confirmationFlag = window.confirm("Are you sure you want to delete this template?");
-    if (confirmationFlag) {
+    const confirmed = window.confirm("Are you sure you want to delete this template?");
+    if (confirmed) {
       const { collectionName } = this.props.params;
       this.props.deleteTemplate(collectionName).then(this.context.router.push("/templates"));
     }
@@ -87,10 +97,10 @@ class Editor extends Component {
   }
 
   render() {
-    const { collectionName } = this.props.params;
+    const { collectionName }                    = this.props.params;
     const { userSchema, isLoading, templateName = "", workbook, modifiedAt, createdAt, createdBy, isFavorite } = this.props.editor[collectionName] || {};
-    const workbookName = !!workbook && !!workbook.name && workbook.name || "";
-    const createdByUser = !!createdBy && !!createdBy.name && createdBy.name || "";
+    const workbookName                          = !!workbook && !!workbook.name && workbook.name || "";
+    const createdByUser                         = !!createdBy && !!createdBy.name && createdBy.name || "";
 
     return (
       <div className="row">
@@ -118,10 +128,11 @@ class Editor extends Component {
 
                   <div className={styles.divider}/>
                   <div className="btn-group-vertical btn-block">
-                    <Link to={`collections/entry/${collectionName}`} className="btn btn-secondary btn-sm" role="button">
+                    <Link to={`/collections/entry/${collectionName}`} className="btn btn-secondary btn-sm"
+                          role="button">
                       Enter Data&nbsp;<i className="fa fa-times-circle-o"/>
                     </Link>
-                    <Link to={`collections/view/${collectionName}`} className="btn btn-secondary btn-sm" role="button">
+                    <Link to={`/collections/view/${collectionName}`} className="btn btn-secondary btn-sm" role="button">
                       View entered data&nbsp;<i className="fa fa-arrow-circle-o-right"/>
                     </Link>
                   </div>
@@ -141,8 +152,9 @@ class Editor extends Component {
                     />
                   </Modal>
                   <Button faName="times" block onClick={this.deleteTemplate}>Delete Template</Button>
-                  <Button block onClick={this.starTemplate}>Make Favorite <FavoriteCell value={isFavorite || false}
-                                                                                        inheritSize/></Button>
+                  <Button block onClick={this.starTemplate}>
+                    Make Favorite <FavoriteIcon value={isFavorite || false} inheritSize/>
+                  </Button>
 
                   <div className={styles.divider}/>
                   <div className={styles.attributes}>
@@ -161,7 +173,7 @@ class Editor extends Component {
   }
 }
 
-Editor.propTypes = {
+Editor.propTypes    = {
   // route
   params         : React.PropTypes.object,
   // state
@@ -175,7 +187,7 @@ Editor.propTypes = {
   updateSchema   : React.PropTypes.func.isRequired,
 };
 Editor.contextTypes = {
-  router : React.PropTypes.object
+  router : React.PropTypes.object,
 };
 
 const mapStateToProps = state => ({

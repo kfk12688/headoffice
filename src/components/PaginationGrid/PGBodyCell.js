@@ -1,18 +1,17 @@
 import React from "react";
-import { renderEGCell } from "../DisplayElems";
+import getCell from "../getCell";
 import styles from "./common.less";
 
 export const PGBodyCell = (props) => {
-  const { row, col, colWidth } = props;
-  const type = col.fieldType.toLowerCase();
-  const colKey = col.fieldName;
+  const { row, col, colWidth }           = props;
+  const { fieldType, fieldName }         = col;
 
   return (
     <span
       className={styles.cell}
       style={{ ...col.colStyle, width : colWidth }}
     >
-      {renderEGCell(type, row, col, colKey)}
+      {getCell[fieldType](row[fieldName], col, fieldName)}
     </span>
   );
 };

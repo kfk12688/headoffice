@@ -1,5 +1,5 @@
 import R from "ramda";
-import { set, unset, setError, setMessage, loaded, loading, loadCollection } from "../utils";
+import { set, unset, setError, setMessage, loaded, loading, loadCollection } from "utils";
 import { handleActions } from "redux-actions";
 import {
   SPEC_REQUEST, SPEC_SUCCESS, SPEC_FAILURE, DATA_REQUEST, DATA_SUCCESS, DATA_FAILURE, DELETE_ROW_REQUEST,

@@ -6,18 +6,21 @@ import styles from "./Dropdown.less";
 class Dropdown extends React.Component {
   constructor() {
     super();
-    this.state                      = { show : false };
-    this.toggleDropdown             = this.toggleDropdown.bind(this);
-    this.getPosition                = this.getPosition.bind(this);
-    this.resizeDropDown             = this.resizeDropDown.bind(this);
-    this.hideDropdownOnOutsideClick = this.hideDropdownOnOutsideClick.bind(this);
+    this.state               = { show : false };
+    this.toggleDropdown      = this.toggleDropdown.bind(this);
+    this.getPosition         = this.getPosition.bind(this);
+    this.resizeDropDown      = this.resizeDropDown.bind(this);
+    this.handleDocumentClick = this.handleDocumentClick.bind(this);
   }
 
   componentDidMount() {
-    console.log("DROPDOWN COMPONENT IS MOUNTED");
     this.dropdownNode              = document.createElement("div");
     this.dropdownNode.style.zIndex = 10000;
     document.body.appendChild(this.dropdownNode);
+  }
+
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    return (this.state.show !== nextState.show);
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -25,9 +28,9 @@ class Dropdown extends React.Component {
     const childElements = React.Children.map(children, (child, idx) => {
       return React.cloneElement(child, {
           key       : idx,
-          className : cx("dropdown-item", child.props.className)
-        }
-      )
+          className : cx("dropdown-item", child.props.className),
+        },
+      );
     });
 
     if (nextState.show) {
@@ -36,7 +39,7 @@ class Dropdown extends React.Component {
         position : "absolute",
         top      : top + height + scrollTop,
         left,
-        display  : "block"
+        display  : "block",
       };
       const dropdownOverlay                  = <div style={style} className="dropdown-menu">
         {childElements}
@@ -44,17 +47,16 @@ class Dropdown extends React.Component {
 
       this.dropdownOverlayNode = renderToDOM(dropdownOverlay, this.dropdownNode);
 
-      document.addEventListener("click", this.hideDropdownOnOutsideClick);
+      document.addEventListener("click", this.handleDocumentClick);
       window.addEventListener("resize", this.resizeDropDown);
     } else {
-      document.removeEventListener("click", this.hideDropdownOnOutsideClick);
+      document.removeEventListener("click", this.handleDocumentClick);
       window.removeEventListener("resize", this.resizeDropDown);
       this.dropdownOverlayNode = renderToDOM(<div></div>, this.dropdownNode);
     }
   }
 
   componentWillUnmount() {
-    console.log("DROPDOWN COMPONENT IS GOING TO BE UN-MOUNTED");
     unmountComponentAtNode(this.dropdownNode);
     document.body.removeChild(this.dropdownNode);
   }
@@ -74,13 +76,8 @@ class Dropdown extends React.Component {
     this.dropdownOverlayNode.style.left    = `${left}px`;
   }
 
-  hideDropdownOnOutsideClick(event) {
-    const ddItems = this.dropdownNode.getElementsByClassName("dropdown-item");
-    const flag    = [].reduce.call(ddItems, (ov, item) => {
-      return ov || (item === event.target)
-    }, false);
-
-    if (!flag) {
+  handleDocumentClick(event) {
+    if (!this.dropdownOverlayNode.contains(event.target)) {
       this.setState({ show : false });
     }
   }
@@ -101,7 +98,7 @@ class Dropdown extends React.Component {
           className={cx("btn btn-secondary btn-sm", className)}
           type="button"
           disabled={disabled}
-          onClick={this.toggleDropdown}
+          onClick={!disabled && this.toggleDropdown}
         >
           {label ? <span>{label}&nbsp;<i className="fa fa-caret-down"/></span> : <i className="fa fa-caret-down"/>}
         </button>

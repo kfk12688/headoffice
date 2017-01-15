@@ -1,3 +1,4 @@
+import R from "ramda";
 import React from "react";
 import { render as renderToDOM, unmountComponentAtNode } from "react-dom";
 import cx from "classnames";
@@ -19,18 +20,13 @@ class Dropdown extends React.Component {
     document.body.appendChild(this.dropdownNode);
   }
 
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    return (this.state.show !== nextState.show);
-  }
-
   componentWillUpdate(nextProps, nextState) {
     const { children }  = nextProps;
     const childElements = React.Children.map(children, (child, idx) => {
       return React.cloneElement(child, {
-          key       : idx,
-          className : cx("dropdown-item", child.props.className),
-        },
-      );
+        key       : idx,
+        className : cx("dropdown-item", child.props.className),
+      });
     });
 
     if (nextState.show) {
@@ -41,14 +37,10 @@ class Dropdown extends React.Component {
         left,
         display  : "block",
       };
-      const dropdownOverlay                  = <div style={style} className="dropdown-menu">
-        {childElements}
-      </div>;
-
-      this.dropdownOverlayNode = renderToDOM(dropdownOverlay, this.dropdownNode);
-
-      document.addEventListener("click", this.handleDocumentClick);
-      window.addEventListener("resize", this.resizeDropDown);
+      const dropdownOverlay                  = <div style={style} className="dropdown-menu">{childElements}</div>;
+      this.dropdownOverlayNode               = renderToDOM(dropdownOverlay, this.dropdownNode);
+      document.addEventListener("click", this.handleDocumentClick, true);
+      window.addEventListener("resize", this.resizeDropDown, true);
     } else {
       document.removeEventListener("click", this.handleDocumentClick);
       window.removeEventListener("resize", this.resizeDropDown);
@@ -90,6 +82,9 @@ class Dropdown extends React.Component {
 
   render() {
     const { label, disabled, button, className } = this.props;
+    const labelElem                              = R.isNil(label) ?
+                                                   <i className="fa fa-caret-down"/> :
+                                                   <span>{label}&nbsp;<i className="fa fa-caret-down"/></span>;
 
     if (button) {
       return (
@@ -100,7 +95,7 @@ class Dropdown extends React.Component {
           disabled={disabled}
           onClick={!disabled && this.toggleDropdown}
         >
-          {label ? <span>{label}&nbsp;<i className="fa fa-caret-down"/></span> : <i className="fa fa-caret-down"/>}
+          {labelElem}
         </button>
       );
     }
@@ -113,13 +108,11 @@ class Dropdown extends React.Component {
         className={cx(className, { [styles.plainEnabled] : !disabled, [styles.plainDisabled] : disabled })}
         onClick={!disabled && this.toggleDropdown}
       >
-        {label ? <span>{label}&nbsp;<i className="fa fa-caret-down"/></span> : <i className="fa fa-caret-down"/>}
+        {labelElem}
       </button>
     );
   }
 }
-
-export { Dropdown };
 
 Dropdown.propTypes = {
   className : React.PropTypes.string,
@@ -127,3 +120,4 @@ Dropdown.propTypes = {
   button    : React.PropTypes.bool,
   disabled  : React.PropTypes.bool,
 };
+export { Dropdown };

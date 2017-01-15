@@ -1,14 +1,13 @@
 import React from "react";
-import _ from "underscore";
+import R from "ramda";
 
-const StaticSelectInput = ({ className, options, input, meta, ...rest }) => {
-  const optionNodes = _.map(options, (item, idx) =>
-    <option key={idx + 1} value={item}>{item}</option>
-  );
+const StaticSelectInput = ({ className, options, input, ...rest }) => {
+  const getDOM      = (item, idx) => <option key={idx} value={item}>{item}</option>;
+  const optionNodes = R.compose(R.values, R.mapObjIndexed(getDOM))(options);
 
   return (
     <select {...rest} {...input} style={{ width : "100%" }} className="custom-select">
-      <option key={0} value=""></option>
+      <option value="" disabled selected>Select your option</option>
       {optionNodes}
     </select>
   );

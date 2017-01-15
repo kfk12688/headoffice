@@ -3,10 +3,11 @@ import React from "react";
 import { Dropdown, Button } from "components";
 
 const removeSpaces = (str) => str.replace(/ /g, "");
-const Actionable   = ({ actions, className }) => {
+
+const Actionable = ({ actions, className, id }) => {
   const renderAction   = action => {
     const key = R.compose(R.toLower, removeSpaces)(action.name);
-    return <Button key={key} onClick={() => action.handler()}>{action.name}</Button>;
+    return <Button key={key} onClick={() => action.handler(id)}>{action.name}</Button>;
   };
   const actionsElement = R.compose(R.values, R.map(renderAction))(actions);
 

@@ -1,22 +1,23 @@
+import R from "ramda";
 import React, { PropTypes } from "react";
 import cx from "classnames";
 
-const Button = ({ disabled, size, style, outline, block, faName, faClassName, children, isToggled, ...rest }) => {
-  if (style === undefined) style = "secondary";
+const Button = ({ disabled, size, style, outline, block, faName, faClassName, children, isToggled, className, ...rest }) => {
+  const styleTag    = R.isNil(style) ? "secondary" : style;
   const outlineFlag = outline ? "-outline" : "";
-  const faIcon = faName && <i className={cx(`fa fa-${faName}`, faClassName)}/>;
+  const faIcon      = faName && <i className={cx(`fa fa-${faName}`, faClassName)}/>;
 
-  let className = cx("btn", `btn${outlineFlag}-${style}`, "btn-sm");
-  if (size === "lg") className = cx("btn", `btn${outlineFlag}-${style}`, "btn-lg");
-  if (size === "md") className = cx("btn", `btn${outlineFlag}-${style}`, "btn-md");
-  if (block) className = cx(className, "btn-block");
-  if (disabled) className = cx(className, "disabled");
-  if (isToggled) className = cx(className, "active");
+  let defaults = cx("btn", `btn${outlineFlag}-${styleTag}`, "btn-sm");
+  if (size === "lg") defaults = cx("btn", `btn${outlineFlag}-${styleTag}`, "btn-lg");
+  if (size === "md") defaults = cx("btn", `btn${outlineFlag}-${styleTag}`, "btn-md");
+  if (block) defaults = cx(defaults, "btn-block");
+  if (disabled) defaults = cx(defaults, "disabled");
+  if (isToggled) defaults = cx(defaults, "active");
 
   return (
     <button
       type="button"
-      className={className}
+      className={cx(defaults, className)}
       disabled={disabled}
       {...rest}
     >

@@ -29,7 +29,7 @@ export const getFromURIFragment = (queryString) => {
 
   return params;
 };
-export const randomString       = (length) => {
+export const randomString    = (length) => {
   let text       = "";
   const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   for (let i = 0; i < length; i++) {
@@ -37,15 +37,19 @@ export const randomString       = (length) => {
   }
   return text;
 };
-export const objectToURI        = (obj) => {
+export const objectToURI     = (obj) => {
   const generateQueryString = R.addIndex(
     R.map,
     (key, value) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
   );
   return R.compose(R.join("&"), generateQueryString)(obj);
 };
+export const exec            = R.curry((fn, name) => fn(name));
+export const getSelectedKeys = R.compose(R.keys, R.filter(R.path(["isSelected"])));
 
-// Reducer functions
+/**
+ * Reducer functions
+ */
 const convertToArray        = ar => {
   if (R.is(Array, ar)) return ar;
   return [ar];
@@ -72,3 +76,9 @@ export const loadCollection = R.curry((collectionName, state) =>
     loading("list"),
   )(state)
 );
+
+// Menu Reducer Functions
+const select             = t => R.assoc("isSelected", true, t);
+const deselect           = t => R.assoc("isSelected", false, t);
+export const selectAll   = R.compose(R.assocPath(["list", "data"]), R.map(select));
+export const deselectAll = R.compose(R.assocPath(["list", "data"]), R.map(deselect));

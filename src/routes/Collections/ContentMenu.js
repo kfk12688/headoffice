@@ -1,30 +1,29 @@
+import R from "ramda";
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Button, Dropdown } from "components";
-import { selectAll, clearSelection, toggleMenuSidebar } from "dataflow/menu/actions";
+import { Dropdown } from "components";
 import styles from "./ContentMenu.less";
 import cx from "classnames";
 
 class ContentMenu extends Component {
   constructor(props) {
     super(props);
-    this.state = { showModal : false };
+    this.state       = { showModal : false };
     this.toggleModal = this.toggleModal.bind(this);
-    this.selectAllHandler = this.selectAllHandler.bind(this);
-    this.getActions = this.getActions.bind(this);
+    this.getActions  = this.getActions.bind(this);
   }
 
   getActions() {
-    const { actions } = this.props;
-    const actionsMenuContent = actions.map(action => {
-      const key = action.name.replace(/ /, "").toLowerCase();
-      return <div key={key} onClick={action.handler}>{action.name}</div>;
-    });
+    const { actions, selectedKeys } = this.props;
+    const renderAction              = action => {
+      const key = R.pipe(R.replace(/ /, ""), R.toLower(action.name));
+      return <div key={key} onClick={() => R.map(action.handler, selectedKeys)}>{action.name}</div>;
+    };
+    const actionsMenuContent        = R.compose(R.values, R.map(renderAction))(actions);
 
     return (
       <span>
         <span className={styles.actionsSeperator}/>
-        <Dropdown label=" &nbsp; Actions">{actionsMenuContent}</Dropdown>
+        <Dropdown label=" Actions">{actionsMenuContent}</Dropdown>
       </span>
     );
   }
@@ -37,63 +36,38 @@ class ContentMenu extends Component {
     }
   }
 
-  selectAllHandler() {
-    this.props.selectAllRows(this.props.dataKeys);
-  }
-
   render() {
-    const { menuStore } = this.props;
+    const { selectedKeys } = this.props;
 
     return (
       <div className={cx("row", styles.navbar)}>
         <div className="col-md-8">
           <div className={styles.menuButtons}>
           <span>
-            <Button
-              isToggled={menuStore.showSidebar}
-              faName="sliders"
-              onClick={this.props.toggleMenuSidebar}
-            />
-
-            <Dropdown label={`${menuStore.selectedKeys.length} selected`}>
-              <div onClick={this.selectAllHandler}>Select All</div>
-              <div onClick={this.props.clearSelection}>Clear selection</div>
+            <Dropdown label={`${selectedKeys.length} selected`}>
+              <div onClick={this.props.selectAllRows}>Select All</div>
+              <div onClick={this.props.deselectAllRows}>Clear selection</div>
             </Dropdown>
           </span>
 
-          {(menuStore.selectedKeys.length >= 1) && this.getActions()}
+            {(selectedKeys.length >= 1) && this.getActions()}
+          </div>
         </div>
-      </div>
-         <div className="col-md-4">
-            <div>Sort by :</div>
-         </div>
+        <div className="col-md-4">
+          <div>Sort by :</div>
+        </div>
       </div>
     );
   }
 }
 
 ContentMenu.propTypes = {
-  className : React.PropTypes.string,
-  menuStore : React.PropTypes.any,
-
-  dataKeys : React.PropTypes.array,
-  actions  : React.PropTypes.array,
-
+  className       : React.PropTypes.string,
+  selectedKeys    : React.PropTypes.array,
+  actions         : React.PropTypes.array,
   // Functions
-  selectAllRows     : React.PropTypes.func,
-  clearSelection    : React.PropTypes.func,
-  toggleMenuSidebar : React.PropTypes.func,
+  selectAllRows   : React.PropTypes.func,
+  deselectAllRows : React.PropTypes.func,
 };
 
-const menu = connect(
-  state => ({
-    menuStore : state.menu,
-  }),
-  dispatch => ({
-    selectAllRows     : (keys) => dispatch(selectAll(keys)),
-    clearSelection    : () => dispatch(clearSelection()),
-    toggleMenuSidebar : () => dispatch(toggleMenuSidebar()),
-  })
-)(ContentMenu);
-
-export { menu as ContentMenu };
+export { ContentMenu };

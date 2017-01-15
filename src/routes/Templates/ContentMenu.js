@@ -1,33 +1,29 @@
 import R from "ramda";
 import cx from "classnames";
-import { connect } from "react-redux";
 import styles from "./ContentMenu.less";
 import React, { Component } from "react";
-import { Button, Modal, Dropdown } from "components";
+import { Modal, Dropdown } from "components";
 import CreateTemplateForm from "../Forms/NewTemplateForm";
-import { selectAll, clearSelection, toggleMenuSidebar } from "dataflow/templates/actions";
 
 class ContentMenu extends Component {
   constructor(props) {
     super(props);
-    this.state            = { showModal : false };
-    this.toggleModal      = this.toggleModal.bind(this);
-    this.selectAllHandler = this.selectAllHandler.bind(this);
+    this.state       = { showModal : false };
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
   getActions() {
-    const { actions, menuStore } = this.props;
-    const { selectedKeys }       = menuStore;
-    const renderAction           = action => {
-      const key = action.name.replace(/ /, "").toLowerCase();
-      return <div key={key} onClick={action.handler(selectedKeys)}>{action.name}</div>;
+    const { actions, selectedKeys } = this.props;
+    const renderAction              = action => {
+      const key = R.pipe(R.replace(/ /, ""), R.toLower(action.name));
+      return <div key={key} onClick={() => R.map(action.handler, selectedKeys)}>{action.name}</div>;
     };
-    const actionsMenuContent     = R.compose(R.values, R.map(renderAction))(actions);
+    const actionsMenuContent        = R.compose(R.values, R.map(renderAction))(actions);
 
     return (
       <span>
       <span className={styles.actionsSeperator}/>
-      <Dropdown label=" &nbsp; Actions">{actionsMenuContent}</Dropdown>
+      <Dropdown label=" Actions">{actionsMenuContent}</Dropdown>
       </span>
     );
   }
@@ -40,23 +36,13 @@ class ContentMenu extends Component {
     }
   }
 
-  selectAllHandler() {
-    this.props.selectAllRows(this.props.dataKeys);
-  }
-
   render() {
-    const { menuStore } = this.props;
+    const len = R.length(this.props.selectedKeys);
 
     return (
       <div className={cx("row", styles.navbar)}>
         <div className="col-md-8">
           <div className={styles.menuButtons}>
-            <Button
-              isToggled={menuStore.showSidebar}
-              faName="sliders"
-              onClick={this.props.toggleMenuSidebar}
-            />
-
             <Modal
               modalTitle="Create a new Template"
               faName="plus"
@@ -69,12 +55,12 @@ class ContentMenu extends Component {
               <CreateTemplateForm onSubmit={this.props.createTemplate} toggleModal={this.toggleModal}/>
             </Modal>
 
-            <Dropdown label={`${menuStore.selectedKeys.length} selected`}>
-              <div onClick={this.selectAllHandler}>Select All</div>
-              <div onClick={this.props.clearSelection}>Clear selection</div>
+            <Dropdown label={`${len} selected`}>
+              <div onClick={this.props.selectAllRows}>Select All</div>
+              <div onClick={this.props.deselectAllRows}>Clear selection</div>
             </Dropdown>
 
-            {(menuStore.selectedKeys.length >= 1) && this.getActions()}
+            {(len >= 1) && this.getActions()}
           </div>
         </div>
 
@@ -87,25 +73,12 @@ class ContentMenu extends Component {
 }
 
 ContentMenu.propTypes = {
-  menuStore         : React.PropTypes.any,
-  dataKeys          : React.PropTypes.array,
-  actions           : React.PropTypes.object,
+  selectedKeys    : React.PropTypes.array,
+  actions         : React.PropTypes.object,
   // Functions
-  selectAllRows     : React.PropTypes.func,
-  clearSelection    : React.PropTypes.func,
-  toggleMenuSidebar : React.PropTypes.func,
-  createTemplate    : React.PropTypes.func,
+  selectAllRows   : React.PropTypes.func,
+  deselectAllRows : React.PropTypes.func,
+  createTemplate  : React.PropTypes.func,
 };
 
-const menu = connect(
-  state => ({
-    menuStore : state.menu,
-  }),
-  dispatch => ({
-    selectAllRows     : (keys) => dispatch(selectAll(keys)),
-    clearSelection    : () => dispatch(clearSelection()),
-    toggleMenuSidebar : () => dispatch(toggleMenuSidebar()),
-  })
-)(ContentMenu);
-
-export { menu as ContentMenu };
+export { ContentMenu };

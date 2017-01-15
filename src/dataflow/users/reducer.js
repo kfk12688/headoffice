@@ -1,5 +1,6 @@
 import { handleActions } from "redux-actions";
-import { ADD_CURRENT_USER, REMOVE_CURRENT_USER } from "./types";
+import userReducer from "./user_reducer";
+import menuReducer from "./menu_reducer";
 
 const initialState = {
   data            : {},
@@ -10,16 +11,9 @@ const initialState = {
 };
 
 const reducer = handleActions({
-  [ADD_CURRENT_USER]    : (state, action) => ({
-    ...state,
-    currentUser     : action.payload.data,
-    isAuthenticated : true,
-  }),
-  [REMOVE_CURRENT_USER] : (state, action) => ({
-    ...state,
-    currentUser     : {},
-    isAuthenticated : false,
-  }),
+  ...userReducer,
+  ...menuReducer,
 }, initialState);
 
 export default reducer;
+

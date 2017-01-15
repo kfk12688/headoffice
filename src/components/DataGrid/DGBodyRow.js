@@ -12,14 +12,11 @@ class DGBodyRow extends Component {
   }
 
   getBodyCells() {
-    const { cols, row, colWidths, isRowSelected } = this.props;
-    const dataGridBodyCells                       = cols.map((col, index) => {
-      const { name, dataKey, renderType } = col;
-      let value                           = (renderType === "checkbox") ?
-                                            isRowSelected :
-                                            R.path(R.split(".", dataKey), row);
+    const { cols, row, colWidths } = this.props;
+    const dataGridBodyCells        = cols.map((col, index) => {
+      const { name, dataKey } = col;
+      let value               = R.path(R.split(".", dataKey), row);
       if (R.isNil(value)) value = false;
-
       return (
         <DGBodyCell col={col}
                     value={value}
@@ -66,12 +63,11 @@ class DGBodyRow extends Component {
 }
 
 DGBodyRow.propTypes = {
-  onRowClick    : React.PropTypes.func,
-  rowKey        : React.PropTypes.string.isRequired,
-  isRowSelected : React.PropTypes.bool,
-  row           : React.PropTypes.object,
-  cols          : React.PropTypes.arrayOf(React.PropTypes.object),
-  colWidths     : React.PropTypes.object,
+  onRowClick : React.PropTypes.func,
+  rowKey     : React.PropTypes.string.isRequired,
+  row        : React.PropTypes.object,
+  cols       : React.PropTypes.arrayOf(React.PropTypes.object),
+  colWidths  : React.PropTypes.object,
 };
 
 export { DGBodyRow };

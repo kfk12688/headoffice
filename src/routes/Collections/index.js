@@ -1,21 +1,15 @@
-import _ from "underscore";
 import React, { Component } from "react";
 import { StickyContainer, Sticky } from "react-sticky";
 import { connect } from "react-redux";
 import { SearchBar, DataGrid } from "components";
-import { toggleSelection } from "dataflow/menu/actions";
-import { getTemplates } from "dataflow/collections/actions";
-import { setDateModifiedEnd, setDateModifiedStart, setOwner, setIsRecent, setIsStarred } from "dataflow/filter/actions";
-import { toDate } from "utils";
+import { toggleSelection, getTemplates, starCollection, selectAll, deselectAll } from "dataflow/collections/actions";
+import { toDate, exec, getSelectedKeys } from "utils";
 import { ContentMenu } from "./ContentMenu";
-import cx from "classnames";
 
 class Collections extends Component {
   constructor(props) {
     super(props);
-    this.getActions        = this.getActions.bind(this);
-    this.actionsCollection = [];
-
+    this.actions   = [];
     this.colSpec   = [
       {
         dataKey     : "isSelected",
@@ -30,6 +24,7 @@ class Collections extends Component {
         headerStyle : { borderRight : 0 },
         name        : "favorite-col",
         renderType  : "favorite",
+        action      : exec(props.starCollection),
         sortable    : false,
         text        : "",
       },
@@ -47,7 +42,7 @@ class Collections extends Component {
         name       : "name-col",
         renderType : "buttonLikeLink",
         text       : "Name",
-        "actions"  : this.actionsCollection,
+        "actions"  : this.actions,
       },
       {
         dataKey    : "workbook.name",
@@ -79,126 +74,60 @@ class Collections extends Component {
       "created-at-col" : 120,
       "updated-at-col" : 150,
     };
-
-    this.colSortItems = this.getColumnSortList();
   }
 
   componentWillMount() {
     this.props.getTemplates();
   }
 
-  getActions() {
-    return {};
-  }
-
-  getColumnSortList() {
-    const sortOrders  = [
-      {
-        date   : "New - Old",
-        number : "Least - Most",
-        order  : "asc",
-        text   : "A-Z",
-        link   : "A-Z",
-      }, {
-        date   : "Old - New",
-        number : "Most - Least",
-        order  : "desc",
-        text   : "Z-A",
-        link   : "Z-A",
-      },
-    ];
-    const items       = [];
-    const displayText = {};
-    const cols        = this.colSpec;
-
-    _.forEach(cols, (col, key) => {
-      const isColSortable = (col.sortable === undefined) || col.sortable;
-
-      if (isColSortable) {
-        const colRenderType      = (col.renderType === undefined) ? "text" : col.renderType;
-        displayText[col.dataKey] = {};
-        for (let i = 0; i < 2; i++) {
-          const name = `${col.text} (${sortOrders[i][colRenderType]})`;
-          items.push(<div key={`${key}${i}`}>{name}</div>);
-          displayText[col.dataKey][i] = name;
-        }
-      }
-    });
-
-    return {
-      items,
-      displayText,
-    };
-  }
-
   renderChildren() {
     if (this.props.children) return this.props.children;
 
-    const { filterChangeHandlers, filterStore, menuStore } = this.props;
-    const templates                                        = !!this.props.templates ? this.props.templates : {};
-    const { data                                           = {}, isLoading } = templates;
-    const searchConfig                                     = [
+    const { data, isLoading } = this.props.templates || { data : {}, isLoading : true };
+    const selectedKeys        = getSelectedKeys(data);
+    const searchConfig        = [
       {
-        label         : "Owner",
-        data          : filterStore.owner,
-        changeHandler : filterChangeHandlers.setOwner,
-        type          : "searchbox",
+        label : "Owner",
+        type  : "searchbox",
       },
       {
-        label         : "Created on or after",
-        data          : filterStore.dateModifiedStart,
-        changeHandler : filterChangeHandlers.setDateModifiedStart,
-        type          : "datebox",
+        label : "Created on or after",
+        type  : "datebox",
       },
       {
-        label         : "Created on or before",
-        data          : filterStore.dateModifiedEnd,
-        changeHandler : filterChangeHandlers.setDateModifiedEnd,
-        type          : "datebox",
+        label : "Created on or before",
+        type  : "datebox",
       },
       {
-        label         : "Show starred only",
-        data          : filterStore.isStarred,
-        changeHandler : filterChangeHandlers.setIsStarred,
-        type          : "checkbox",
+        label : "Show starred only",
+        type  : "checkbox",
       },
       {
-        label         : "Recents only",
-        data          : filterStore.isRecent,
-        changeHandler : filterChangeHandlers.setIsRecent,
-        type          : "checkbox",
+        label : "Recents only",
+        type  : "checkbox",
       },
     ];
-
     return (
       <div className="row">
         <div className="col-md-10 offset-md-1">
-          <ContentMenu
-            dataKeys={Object.keys(data)}
-            actions={this.actionsCollection}
+          <ContentMenu actions={this.actions}
+                       selectedKeys={selectedKeys}
+                       selectAllRows={this.props.selectAllRows}
+                       deselectAllRows={this.props.deselectAllRows}
           />
 
           <StickyContainer>
             <div className="row">
-              {
-                menuStore.showSidebar &&
-                <div className="col-md-3">
-                  <Sticky>
-                    <SearchBar config={searchConfig}/>
-                  </Sticky>
-                </div>
-              }
+              <div className="col-md-3">
+                <Sticky><SearchBar config={searchConfig}/></Sticky>
+              </div>
 
-              <div className={cx({ "col-md-9" : menuStore.showSidebar, "col-md-12" : !menuStore.showSidebar })}>
-                <DataGrid
-                  isLoading={isLoading}
-                  cols={this.colSpec}
-                  colWidths={this.colWidths}
-                  rows={data}
-                  sortKey={filterStore.sortKey}
-                  sortAscending={filterStore.sortAscending}
-                  selectedKeys={menuStore.selectedKeys}
-                  onRowClick={this.props.toggleSelection}
+              <div className={"col-md-9"}>
+                <DataGrid rows={data}
+                          cols={this.colSpec}
+                          isLoading={isLoading}
+                          colWidths={this.colWidths}
+                          onRowClick={this.props.toggleSelection}
                 />
               </div>
             </div>
@@ -217,42 +146,27 @@ class Collections extends Component {
   }
 }
 
-Collections.propTypes = {
-  children             : React.PropTypes.node,
+Collections.propTypes    = {
+  children        : React.PropTypes.node,
   // Store
-  templates            : React.PropTypes.object.isRequired,
-  menuStore            : React.PropTypes.object.isRequired,
-  filterStore          : React.PropTypes.object.isRequired,
+  templates       : React.PropTypes.object.isRequired,
   // Action types for Menu Store
-  toggleSelection      : React.PropTypes.func.isRequired,
+  toggleSelection : React.PropTypes.func.isRequired,
   // Action types for Data Store
-  getTemplates         : React.PropTypes.func.isRequired,
-  // Action types for Filter Store
-  filterChangeHandlers : React.PropTypes.shape({
-    setDateModifiedStart : React.PropTypes.func.isRequired,
-    setDateModifiedEnd   : React.PropTypes.func.isRequired,
-    setOwner             : React.PropTypes.func.isRequired,
-    setIsRecent          : React.PropTypes.func.isRequired,
-    setIsStarred         : React.PropTypes.func.isRequired,
-  }),
+  getTemplates    : React.PropTypes.func.isRequired,
+  starCollection  : React.PropTypes.func.isRequired,
+  selectAllRows   : React.PropTypes.func.isRequired,
+  deselectAllRows : React.PropTypes.func.isRequired,
 };
-
-const mapStateToProps = (state) => ({
-  templates   : state.collections.list,
-  menuStore   : state.menu,
-  filterStore : state.filter,
+const mapStateToProps    = (state) => ({
+  templates : state.collections.list,
 });
-
 const mapDispatchToProps = (dispatch) => ({
-  toggleSelection      : (index) => dispatch(toggleSelection(index)),
-  getTemplates         : (params) => dispatch(getTemplates(params)),
-  filterChangeHandlers : {
-    setDateModifiedStart : (e) => dispatch(setDateModifiedStart(e)),
-    setDateModifiedEnd   : (e) => dispatch(setDateModifiedEnd(e)),
-    setOwner             : (e) => dispatch(setOwner(e)),
-    setIsRecent          : (e) => dispatch(setIsRecent(e)),
-    setIsStarred         : (e) => dispatch(setIsStarred(e)),
-  },
+  getTemplates    : () => dispatch(getTemplates()),
+  toggleSelection : (collectionName) => dispatch(toggleSelection(collectionName)),
+  starCollection  : (collectionName) => dispatch(starCollection(collectionName)),
+  selectAllRows   : () => dispatch(selectAll()),
+  deselectAllRows : () => dispatch(deselectAll()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Collections);

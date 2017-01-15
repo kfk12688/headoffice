@@ -6,17 +6,15 @@ import styles from "./common.less";
 class DGBody extends Component {
   constructor(props) {
     super(props);
-    this.getRows = this.getRows.bind(this);
+    this.getRows            = this.getRows.bind(this);
     this.reportScrollLeftFn = this.reportScrollLeftFn.bind(this);
   }
 
   getRows() {
-    const { rows, cols, colWidths, selectedKeys, onRowClick } = this.props;
-    const datagridBodyRows = [];
+    const { rows, cols, colWidths, onRowClick } = this.props;
+    const datagridBodyRows                      = [];
 
     _.forEach(rows, (row, key) => {
-      const selectedKeyIdx = selectedKeys.findIndex(k => k === key);
-
       datagridBodyRows.push(
         <DGBodyRow
           key={key}
@@ -25,7 +23,6 @@ class DGBody extends Component {
           row={row}
           colWidths={colWidths}
           onRowClick={onRowClick}
-          isRowSelected={selectedKeyIdx !== -1}
         />
       );
     });
@@ -51,7 +48,6 @@ DGBody.propTypes = {
   rows               : React.PropTypes.object.isRequired,
   cols               : React.PropTypes.arrayOf(React.PropTypes.object),
   colWidths          : React.PropTypes.object.isRequired,
-  selectedKeys       : React.PropTypes.array.isRequired,
   onRowClick         : React.PropTypes.func.isRequired,
   reportScrollLeftFn : React.PropTypes.func.isRequired,
 };

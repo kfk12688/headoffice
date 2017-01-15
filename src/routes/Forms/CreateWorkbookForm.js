@@ -38,7 +38,7 @@ class NewWorkbookForm extends Component {
           <Field
             name="users"
             component={StaticSelectInput}
-            options={["", "SuperAdmin", "Admin", "Manager", "Technician"]}
+            options={["SuperAdmin", "Admin", "Manager", "Technician"]}
           />
         </div>
 

@@ -15,4 +15,10 @@ export {
 export { NavLink } from "./NavLink";
 export { Button, Dropdown } from "./Button";
 export { getComponentFromType } from "./getComponentFromType";
+
+export ActiveLink from "./ActiveLink";
+export Labels from "./Labels";
+export ButtonLikeLink from "./ButtonLikeLink";
+export Actionable from "./Actionable";
+export CheckboxIcon from "./CheckboxIcon";
 export FavoriteIcon from "./FavoriteIcon";

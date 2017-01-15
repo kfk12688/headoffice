@@ -34,7 +34,7 @@ class DataGrid extends Component {
   }
 
   renderContent() {
-    const { isLoading, rows, cols, onRowClick, selectedKeys } = this.props;
+    const { isLoading, rows, cols, onRowClick } = this.props;
 
     if (isLoading) {
       return <div className={styles.spinner}><i className="fa fa-spinner fa-spin fa-2x fa-fw"/></div>;
@@ -46,7 +46,6 @@ class DataGrid extends Component {
       <DGBody
         cols={cols}
         colWidths={this.state.colWidths}
-        selectedKeys={selectedKeys}
         rows={rows}
         onRowClick={onRowClick}
         reportScrollLeftFn={this.reportScrollLeftFn}
@@ -82,7 +81,6 @@ DataGrid.propTypes = {
   colWidths     : PropTypes.object.isRequired,
   sortKey       : PropTypes.string,
   sortAscending : PropTypes.bool,
-  selectedKeys  : PropTypes.array,
 
   // functions
   colSortFunction : PropTypes.func,

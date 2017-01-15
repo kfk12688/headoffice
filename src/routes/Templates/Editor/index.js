@@ -1,4 +1,3 @@
-import R from "ramda";
 import React, { Component } from "react";
 import { StickyContainer, Sticky } from "react-sticky";
 import { connect } from "react-redux";
@@ -10,14 +9,7 @@ import {
 import EditTemplateForm from "../../Forms/EditTemplateForm";
 import styles from "./index.less";
 import moment from "moment";
-
-const exec = R.curry((fn, names) => {
-  if (R.is(Array, names)) {
-    R.map(fn, names);
-  } else {
-    fn(names);
-  }
-});
+import { exec } from "utils";
 
 class Editor extends Component {
   constructor(props) {

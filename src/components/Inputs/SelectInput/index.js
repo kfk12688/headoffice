@@ -6,21 +6,24 @@ import fetch from "dataflow/fetchWrapper";
 class SelectInput extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state        = {
       show       : false,
       searchText : { id : "dummyID" },
       options    : [],
     };
-    this.ctrls = {};
+    this.ctrls        = {};
     this.assignTarget = target => { this.ctrls.target = target; };
 
-    this.parseInput = this.parseInput.bind(this);
+    this.parseInput  = this.parseInput.bind(this);
     this.formatInput = this.formatInput.bind(this);
     this.loadOptions = this.loadOptions.bind(this);
   }
 
   componentDidMount() {
     this.loadOptions("");
+  }
+
+  componentWillUnmount() {
   }
 
   parseInput(item) {
@@ -66,14 +69,14 @@ class SelectInput extends React.Component {
 
   render() {
     const { className } = this.props;
-    const { value } = this.props.input;
+    const { value }     = this.props.input;
 
     return (
       <div className={className} ref={this.assignTarget}>
-        <input
-          className="form-control"
-          value={this.formatInput(value)}
-          onChange={e => this.parseInput({ label : e.target.value })}
+        <input className="form-control"
+               placeholder="Search..."
+               value={this.formatInput(value)}
+               onChange={e => this.parseInput({ label : e.target.value })}
         />
 
         <Overlay

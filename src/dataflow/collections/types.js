@@ -23,3 +23,8 @@ export const GET_TEMPLATES_SUCCESS = "routes/collections/GET_TEMPLATES_SUCCESS";
 export const GET_TEMPLATES_FAILURE = "routes/collections/GET_TEMPLATES_FAILURE";
 
 export const STAR_COLLECTION_SUCCESS = "routes/collections/STAR_COLLECTION_SUCCESS";
+
+// Menu Action Types
+export const SELECT_ALL_CONTENT       = "routes/collections/SELECT_ALL_CONTENT";
+export const DESELECT_ALL_CONTENT     = "routes/collections/DESELECT_ALL_CONTENT";
+export const TOGGLE_CONTENT_SELECTION = "routes/collections/TOGGLE_CONTENT_SELECTION";

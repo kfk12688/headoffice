@@ -12,9 +12,8 @@ export {
   TextInput, ArrayInput, StaticSelectInput, CheckBoxInput, DateInput, NumericInput, SearchInput, SelectInput
 } from "./Inputs";
 
-export { NavLink } from "./NavLink";
 export { Button, Dropdown } from "./Button";
-export { getComponentFromType } from "./getComponentFromType";
+export getComponentFromType from "./getComponent";
 
 export ActiveLink from "./ActiveLink";
 export Labels from "./Labels";

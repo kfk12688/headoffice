@@ -32,7 +32,7 @@ class EditCollectionRowForm extends Component {
       <form onSubmit={this.onSubmit}>
         {
           fields.map(field => {
-            const renderComponent = getComponentFromType(field.type, field.props);
+            const renderComponent = getComponentFromType[field.type](field.props);
 
             return (
               <div className="form-group row">

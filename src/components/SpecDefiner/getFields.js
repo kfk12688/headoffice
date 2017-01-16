@@ -18,7 +18,7 @@ const getFields = (fieldName, fieldType, fieldProps, fieldSchema) => {
 
   let formElements = [];
 
-  if (fieldType === "Boolean") {
+  if (fieldType === "boolean") {
     formElements = [
       <Field name={config.default.key}
              component={CheckBoxInput}
@@ -27,7 +27,7 @@ const getFields = (fieldName, fieldType, fieldProps, fieldSchema) => {
       </Field>,
     ];
   }
-  if (fieldType === "Date") {
+  if (fieldType === "date") {
     formElements = [
       <SDRow key={`fieldProps.${config.default.key}`}
              prop={config.default}
@@ -35,7 +35,7 @@ const getFields = (fieldName, fieldType, fieldProps, fieldSchema) => {
       />,
     ];
   }
-  if (fieldType === "String") {
+  if (fieldType === "string") {
     formElements = [
       <SDRow key={`fieldProps.${config.enum.key}`}
              prop={config.enum}
@@ -47,7 +47,7 @@ const getFields = (fieldName, fieldType, fieldProps, fieldSchema) => {
       />,
     ];
   }
-  if (fieldType === "Number") {
+  if (fieldType === "number") {
     formElements = [
       <SDRow key={`fieldProps.${config.min.key}`}
              prop={config.min}
@@ -63,7 +63,7 @@ const getFields = (fieldName, fieldType, fieldProps, fieldSchema) => {
       />,
     ];
   }
-  if (fieldType === "ObjectId") {
+  if (fieldType === "objectId") {
     formElements = [
       <SDRow key={`fieldProps.${config.ref.key}`}
              prop={config.ref}
@@ -85,7 +85,7 @@ const getFields = (fieldName, fieldType, fieldProps, fieldSchema) => {
     }
   }
 
-  if (fieldType === "Schema") {
+  if (fieldType === "schema") {
     formElements = [
       ...formElements,
       <FieldArray name="fieldSchema"
@@ -93,7 +93,7 @@ const getFields = (fieldName, fieldType, fieldProps, fieldSchema) => {
                   fieldSchema={fieldSchema}
       />,
     ];
-  } else if (fieldType === "SchemaArray") {
+  } else if (fieldType === "schemaArray") {
     formElements = [
       ...formElements,
       <FieldArray name="fieldSchema"

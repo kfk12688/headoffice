@@ -1,12 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { NavLink, Dropdown } from "components";
+import { Link } from "react-router";
+import { Dropdown } from "components";
 import Logo from "./_styles/logo";
 import { addCurrentUser, removeCurrentUser } from "dataflow/users/actions";
 import { clearToken, getUserClaims } from "./auth";
 
 const isDeveloping = process.env.NODE_ENV !== "production";
-const url = isDeveloping ? "http://localhost:3002" : "http://auth.headofficeapp.in";
+const url          = isDeveloping ? "http://localhost:3002" : "http://auth.headofficeapp.in";
 
 class App extends React.Component {
   constructor(props) {
@@ -35,7 +36,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { currentUser } = this.props;
+    const { currentUser }          = this.props;
     const { username, name, site } = !!currentUser && currentUser;
 
     return (
@@ -45,9 +46,9 @@ class App extends React.Component {
             <div className="col-md-10 offset-md-1">
               <a className="navbar-brand" href="#"><Logo size="20" light/>&nbsp;HeadOfficeApp</a>
               <div className="nav navbar-nav">
-                <NavLink className="nav-item nav-link" to="/templates">Templates</NavLink>
-                <NavLink className="nav-item nav-link" to="/collections">Collections</NavLink>
-                <NavLink className="nav-item nav-link" to="/workbooks">Workbooks</NavLink>
+                <Link activeClassName="active" className="nav-item nav-link" to="/templates">Templates</Link>
+                <Link activeClassName="active" className="nav-item nav-link" to="/collections">Collections</Link>
+                <Link activeClassName="active" className="nav-item nav-link" to="/workbooks">Workbooks</Link>
 
                 <div className="pull-right">
                   <Dropdown className="nav-item nav-link" label={site}/>

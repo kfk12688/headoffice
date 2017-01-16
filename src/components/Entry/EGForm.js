@@ -1,7 +1,7 @@
 import _ from "underscore";
 import React, { Component } from "react";
 import { Field, FieldArray, reduxForm } from "redux-form";
-import { getComponentFromType } from "../getComponentFromType";
+import { getComponentFromType } from "components";
 import { Button } from "../Button";
 
 class EGForm extends Component {
@@ -23,7 +23,7 @@ class EGForm extends Component {
     const fields = [];
     _.forEach(fieldProps, (field, key) => {
       const { title, type, sub, props } = field;
-      const renderComponent             = getComponentFromType(type, props);
+      const renderComponent             = getComponentFromType[type](props);
       const name                        = key;
 
       if (sub) return;
@@ -51,7 +51,7 @@ class EGForm extends Component {
     const fields = [];
     _.forEach(fieldProps, (field, key) => {
       const { title, type, sub, props } = field;
-      const renderComponent             = getComponentFromType(type, props);
+      const renderComponent             = getComponentFromType[type](props);
       const name                        = key;
 
       if (sub) {

@@ -1,15 +1,15 @@
 import R from "ramda";
-import { imap } from "utils";
 import React from "react";
+import { imap } from "utils";
+import { Provider } from "react-redux";
 import { Button } from "components";
 import { render as renderToDOM } from "react-dom";
-import { Provider } from "react-redux";
-import cx from "classnames";
+import { EditCollectionRowForm } from "forms";
+import configureStore from "dataflow/configureStore";
 import { PGBodyCell } from "./PGBodyCell";
-import EditCollectionRowForm from "../../routes/Forms/EditCollectionRowForm";
 import { transparent, grey100 } from "../_styles/colors";
 import styles from "./common.less";
-import configureStore from "../../dataflow/configureStore";
+import cx from "classnames";
 
 const store = configureStore();
 

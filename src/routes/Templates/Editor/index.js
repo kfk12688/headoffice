@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import { StickyContainer, Sticky } from "react-sticky";
 import { connect } from "react-redux";
 import { Link } from "react-router";
+import moment from "moment";
+import { exec } from "utils";
 import { SpecDefiner, Button, Modal, FavoriteIcon } from "components";
+import { EditTemplateForm } from "forms";
 import {
   getTemplate, updateSchema, addField, deleteTemplate, starTemplate, updateTemplate
 } from "dataflow/templates/actions";
-import EditTemplateForm from "../../Forms/EditTemplateForm";
 import styles from "./index.less";
-import moment from "moment";
-import { exec } from "utils";
 
 class Editor extends Component {
   constructor(props) {

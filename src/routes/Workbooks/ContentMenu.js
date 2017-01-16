@@ -1,7 +1,7 @@
 import R from "ramda";
 import React, { Component } from "react";
 import { Modal, Dropdown } from "components";
-import CreateWorkbookForm from "../Forms/CreateWorkbookForm";
+import { CreateWorkbookForm } from "forms";
 import cx from "classnames";
 import styles from "./ContentMenu.less";
 
@@ -44,8 +44,7 @@ class ContentMenu extends Component {
         <div className="col-md-8">
           <div className={styles.menuButtons}>
           <span>
-            <Modal modalTitle="Edit Template"
-                   faName="plus"
+            <Modal faName="plus"
                    caption="Add New Workbook"
                    show={this.state.showModal}
                    showModal={e => this.setState({ showModal : true })}

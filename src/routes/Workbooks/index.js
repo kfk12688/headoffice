@@ -58,10 +58,8 @@ class Workbooks extends Component {
       "full-name-col"  : 200,
       "created-at-col" : 160,
     };
-  }
 
-  componentWillMount() {
-    this.props.getWorkbooks();
+    if (!props.children) props.getWorkbooks();
   }
 
   renderChildren() {

@@ -7,7 +7,7 @@ import { PaginationGrid, Pagination, FavoriteIcon, Button, Modal } from "compone
 import {
   loadSpec, loadData, deleteRow, updateRow, deleteTemplate, updateTemplate, starCollection
 } from "dataflow/collections/actions";
-import EditTemplateForm from "../../Forms/EditTemplateForm";
+import { EditTemplateForm } from "forms";
 import styles from "./index.less";
 
 class Viewer extends Component {

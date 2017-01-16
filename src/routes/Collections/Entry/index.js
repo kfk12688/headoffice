@@ -4,9 +4,9 @@ import { StickyContainer, Sticky } from "react-sticky";
 import { Link } from "react-router";
 import moment from "moment";
 import { Entry, Button, Modal, FavoriteIcon } from "components";
+import { EditTemplateForm } from "forms";
 import { loadSpec, addRow, deleteTemplate, starTemplate, updateTemplate } from "dataflow/collections/actions";
 import styles from "./index.less";
-import EditTemplateForm from "../../Forms/EditTemplateForm";
 
 class EntryForm extends Component {
   constructor(props) {
@@ -17,10 +17,10 @@ class EntryForm extends Component {
       showModal : false,
     };
 
-    this.addRow = this.addRow.bind(this);
+    this.addRow         = this.addRow.bind(this);
     this.deleteTemplate = this.deleteTemplate.bind(this);
     this.updateTemplate = this.updateTemplate.bind(this);
-    this.starTemplate = this.starTemplate.bind(this);
+    this.starTemplate   = this.starTemplate.bind(this);
   }
 
   componentWillMount() {
@@ -56,11 +56,11 @@ class EntryForm extends Component {
   render() {
     const { collectionName } = this.props.params;
     const {
-      userSchema = [], isLoading, templateName = "",
-      workbook, modifiedAt, createdAt, createdBy, isFavorite,
-    } = this.props.entryStore[collectionName] || {};
-    const workbookName = !!workbook && !!workbook.name && workbook.name || "";
-    const createdByUser = !!createdBy && !!createdBy.name && createdBy.name || "";
+            userSchema       = [], isLoading, templateName = "",
+            workbook, modifiedAt, createdAt, createdBy, isFavorite,
+          }                  = this.props.entryStore[collectionName] || {};
+    const workbookName       = !!workbook && !!workbook.name && workbook.name || "";
+    const createdByUser      = !!createdBy && !!createdBy.name && createdBy.name || "";
 
     return (
       <div className="row">

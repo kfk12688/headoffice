@@ -1,9 +1,9 @@
 import R from "ramda";
 import cx from "classnames";
-import styles from "./ContentMenu.less";
 import React, { Component } from "react";
 import { Modal, Dropdown } from "components";
-import CreateTemplateForm from "../Forms/NewTemplateForm";
+import { NewTemplateForm } from "forms";
+import styles from "./ContentMenu.less";
 
 class ContentMenu extends Component {
   constructor(props) {
@@ -52,7 +52,7 @@ class ContentMenu extends Component {
               hideModal={e => this.setState({ showModal : false })}
               style="primary"
             >
-              <CreateTemplateForm onSubmit={this.props.createTemplate} toggleModal={this.toggleModal}/>
+              <NewTemplateForm onSubmit={this.props.createTemplate} toggleModal={this.toggleModal}/>
             </Modal>
 
             <Dropdown label={`${len} selected`}>

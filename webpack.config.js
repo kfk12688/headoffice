@@ -13,6 +13,7 @@ module.exports = {
     alias : {
       components : path.join(__dirname, "src", "components"),
       utils      : path.join(__dirname, "src", "utils.js"),
+      forms      : path.join(__dirname, "src", "forms"),
       dataflow   : path.join(__dirname, "src", "dataflow")
     }
   },

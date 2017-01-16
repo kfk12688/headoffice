@@ -120,40 +120,31 @@ const templateReducer = {
   },
 
   [ADD_USER_SCHEMA_FIELD] : (state, action) => {
-    const { collectionName, field } = action.payload;
+    const { collectionName, field }  = action.payload;
+    const { fieldName, fieldSchema } = field;
 
     // adds displayText placeholder Keys
     // these will be replaced by actual data from the db later
-    field.displayText = field.fieldName;
-    if (Array.isArray(field.fieldSchema) && (field.fieldSchema.length !== 0)) {
-      field.fieldSchema.forEach(f => {
-        f.displayText = f.fieldName;
-      });
-    }
+    const setFieldName   = R.assoc("displayText", fieldName);
+    const setFieldSchema = R.map(R.assoc("displayText", fieldName));
+    const findIndex      = R.findIndex(R.propEq("fieldName", fieldName));
+    const getUserSchema  = R.path([collectionName, "userSchema"]);
 
-    const idx = state[collectionName].userSchema.findIndex(f => f.fieldName === field.fieldName);
-
+    const userSchema = getUserSchema(state);
+    const idx        = userSchema ? findIndex(userSchema) : -1;
     if (idx === -1) {
-      return {
-        ...state,
-        [collectionName] : {
-          ...state[collectionName],
-          userSchema : [
-            ...state[collectionName].userSchema
-              .slice(0, idx + 1)
-              .concat(state[collectionName].userSchema.slice(idx + 1), [field]),
-          ],
-        },
-      };
+      let newField = setFieldName(field);
+      if (!R.isNil(fieldSchema) && R.is(Array, fieldSchema)) newField = setFieldSchema(newField);
+
+      const newUserSchema = R.append(newField, userSchema);
+      return set(["userSchema"], newUserSchema, collectionName, state);
     }
 
-    return {
-      ...state,
-      [collectionName] : {
-        ...state[collectionName],
-        error : "Field exists already. Check the Field Name input.",
-      },
-    };
+    return setFailure(
+      `Field exists already at ${idx}`,
+      "Field exists already. Check the Field Name input.",
+      state
+    );
   },
 };
 

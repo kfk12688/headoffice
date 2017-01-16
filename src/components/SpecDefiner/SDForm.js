@@ -7,7 +7,7 @@ import getFields from "./getFields";
 import styles from "./common.less";
 import cx from "classnames";
 
-const FIELD_TYPES = ["Number", "Date", "String", "Boolean", "ObjectId", "Schema", "SchemaArray"];
+const FIELD_TYPES = ["number", "date", "string", "boolean", "objectId", "schema", "schemaArray"];
 
 class EditorEntryForm extends Component {
   constructor(props) {

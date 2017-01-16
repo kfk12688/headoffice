@@ -5,7 +5,7 @@ import { Button, SelectInput } from "components";
 class EditTemplateForm extends Component {
   constructor() {
     super();
-    this.onSubmit = this.onSubmit.bind(this);
+    this.onSubmit  = this.onSubmit.bind(this);
     this.resetForm = this.resetForm.bind(this);
   }
 
@@ -53,7 +53,6 @@ EditTemplateForm.propTypes = {
 
   toggleModal : React.PropTypes.func,
 };
-
 export default reduxForm({
   form : "editTemplate",
 })(EditTemplateForm);

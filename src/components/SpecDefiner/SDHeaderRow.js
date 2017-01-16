@@ -1,26 +1,18 @@
-import _ from "underscore";
 import React from "react";
 import { Sticky } from "react-sticky";
 import { SDHeaderCol } from "./SDHeaderCol";
 import styles from "./common.less";
+import { imap } from "utils";
 
 const SDHeaderRow = ({ cols, colWidths }) => {
-  let headerRowCols = [];
-
-  _.forEach(cols, (col, colKey) => {
-    headerRowCols.push(
-      <SDHeaderCol
-        key={colKey}
-        colWidth={colWidths[colKey]}
-        headerStyle={col.headerStyle}
-        displayText={col.displayText}
-      />
-    );
-  });
+  const mapToSDHeaderCols = (col, colKey) => <SDHeaderCol key={colKey}
+                                                          colWidth={colWidths[colKey]}
+                                                          headerStyle={col.headerStyle}
+                                                          displayText={col.displayText}/>;
 
   return (
     <Sticky topOffset={-50} stickyStyle={{ marginTop : 50 }}>
-      <div className={styles.row}>{headerRowCols}</div>
+      <div className={styles.row}>{imap(mapToSDHeaderCols, cols)}</div>
     </Sticky>
   );
 };

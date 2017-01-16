@@ -1,33 +1,23 @@
 import React, { Component } from "react";
-import _ from "underscore";
 import { PGBodyRow } from "./PGBodyRow";
 import styles from "./common.less";
+import { imap } from "utils";
 
 class PGBody extends Component {
   constructor(props) {
     super(props);
-
-    this.getRows = this.getRows.bind(this);
+    this.getRows            = this.getRows.bind(this);
     this.reportScrollLeftFn = this.reportScrollLeftFn.bind(this);
   }
 
   getRows() {
     const { rows, cols, colWidths } = this.props;
-    const bodyRows = [];
-
-    _.forEach(rows, (row, rowKey) => {
-      bodyRows.push(
-        <PGBodyRow
-          key={rowKey}
-          rowKey={rowKey}
-          colWidths={colWidths}
-          cols={cols}
-          row={row}
-        />
-      );
-    });
-
-    return bodyRows;
+    const mapToPGBodyRows           = (row, rowKey) => <PGBodyRow key={rowKey}
+                                                                  row={row}
+                                                                  cols={cols}
+                                                                  rowKey={rowKey}
+                                                                  colWidths={colWidths}/>;
+    return imap(mapToPGBodyRows, rows);
   }
 
   reportScrollLeftFn(e) {

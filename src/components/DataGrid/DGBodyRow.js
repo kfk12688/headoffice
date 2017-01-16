@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { DGBodyCell } from "./DGBodyCell";
 import { grey50, transparent, blueGrey50 } from "../_styles/colors";
 import styles from "./common.less";
+import { imap } from "utils";
 
 class DGBodyRow extends Component {
   constructor() {
@@ -13,21 +14,20 @@ class DGBodyRow extends Component {
 
   getBodyCells() {
     const { cols, row, colWidths } = this.props;
-    const dataGridBodyCells        = cols.map((col, index) => {
+    const getBodyCells             = (col, index) => {
       const { name, dataKey } = col;
       let value               = R.path(R.split(".", dataKey), row);
       if (R.isNil(value)) value = false;
       return (
-        <DGBodyCell col={col}
-                    value={value}
-                    id={row.collectionName}
-                    colWidth={colWidths[name]}
+        <DGBodyCell id={row.collectionName}
+                    col={col}
                     key={`${row.collectionName} ${index}`}
+                    value={value}
+                    colWidth={colWidths[name]}
         />
       );
-    });
-
-    return dataGridBodyCells;
+    };
+    return imap(getBodyCells, cols);
   }
 
   clickHandler(e) {
@@ -49,12 +49,11 @@ class DGBodyRow extends Component {
     let rowStyle = { backgroundColor : rowColor };
 
     return (
-      <div
-        style={rowStyle}
-        className={styles.row}
-        onMouseEnter={() => this.setState({ hovered : true })}
-        onMouseLeave={() => this.setState({ hovered : false })}
-        onClick={this.clickHandler}
+      <div style={rowStyle}
+           className={styles.row}
+           onMouseEnter={() => this.setState({ hovered : true })}
+           onMouseLeave={() => this.setState({ hovered : false })}
+           onClick={this.clickHandler}
       >
         {this.getBodyCells()}
       </div>

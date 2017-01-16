@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import { getToken, clearToken, setToken } from "../auth";
-import { addCurrentUser } from "dataflow/users/actions";
 
 class Callback extends Component {
   componentDidMount() {
@@ -21,16 +19,8 @@ class Callback extends Component {
   }
 }
 
-Callback.propTypes = {
-  addCurrentUser : React.PropTypes.func,
-};
-
 Callback.contextTypes = {
   router : React.PropTypes.func.isRequired,
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  addCurrentUser : (claims) => dispatch(addCurrentUser(claims)),
-});
-
-export default connect(null, mapDispatchToProps)(Callback);
+export default Callback;

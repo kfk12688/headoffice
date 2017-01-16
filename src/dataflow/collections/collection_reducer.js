@@ -15,7 +15,7 @@ const setFailure     = (error, message) => R.compose(
 const setLoadingByID = id => set(["data", id, "isLoading"], true);
 const setLoadedByID  = id => set(["data", id, "isLoading"], false);
 
-const collecionReducer = {
+const collectionReducer = {
   [GET_TEMPLATES_REQUEST] : (state) => loading("list", state),
   [GET_TEMPLATES_SUCCESS] : (state, action) => {
     const { data } = action.payload;
@@ -55,8 +55,9 @@ const collecionReducer = {
   [DATA_SUCCESS] : (state, action) => {
     const { data, collectionName }                = action.payload;
     const { entries, count, pagination }          = data;
-    const setData                                 = R.compose(
-      set(["data", "entries"], entries, collectionName),
+
+    const setData = R.compose(
+      set("data", entries, collectionName),
       set("pagination", pagination, collectionName),
       set("count", count, collectionName),
       loaded(collectionName)
@@ -140,4 +141,4 @@ const collecionReducer = {
   },
 };
 
-export default collecionReducer;
+export default collectionReducer;

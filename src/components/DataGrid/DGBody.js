@@ -1,6 +1,6 @@
-import _ from "underscore";
 import React, { Component } from "react";
 import { DGBodyRow } from "./DGBodyRow";
+import { imap } from "utils";
 import styles from "./common.less";
 
 class DGBody extends Component {
@@ -12,21 +12,13 @@ class DGBody extends Component {
 
   getRows() {
     const { rows, cols, colWidths, onRowClick } = this.props;
-    const datagridBodyRows                      = [];
-
-    _.forEach(rows, (row, key) => {
-      datagridBodyRows.push(
-        <DGBodyRow
-          key={key}
-          rowKey={key}
-          cols={cols}
-          row={row}
-          colWidths={colWidths}
-          onRowClick={onRowClick}
-        />
-      );
-    });
-    return datagridBodyRows;
+    const rowTransformer                        = (row, key) => <DGBodyRow key={key}
+                                                                           row={row}
+                                                                           cols={cols}
+                                                                           rowKey={key}
+                                                                           colWidths={colWidths}
+                                                                           onRowClick={onRowClick}/>;
+    return imap(rowTransformer, rows);
   }
 
   reportScrollLeftFn(e) {

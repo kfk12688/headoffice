@@ -18,6 +18,10 @@ export const toDate             = R.curry((format, date) => {
   const formatString = format || "D MMM YYYY, HH:mm";
   return moment.utc(date).format(formatString);
 });
+export const toTitle            = R.compose(
+  R.join(""),
+  R.over(R.lensIndex(0), R.toUpper)
+);
 export const getFromURIFragment = (queryString) => {
   const params = {};
   const regex  = /([^&=]+)=([^&]*)/g;
@@ -29,7 +33,7 @@ export const getFromURIFragment = (queryString) => {
 
   return params;
 };
-export const randomString    = (length) => {
+export const randomString       = (length) => {
   let text       = "";
   const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   for (let i = 0; i < length; i++) {
@@ -37,15 +41,16 @@ export const randomString    = (length) => {
   }
   return text;
 };
-export const objectToURI     = (obj) => {
+export const objectToURI        = (obj) => {
   const generateQueryString = R.addIndex(
     R.map,
     (key, value) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
   );
   return R.compose(R.join("&"), generateQueryString)(obj);
 };
-export const exec            = R.curry((fn, name) => fn(name));
-export const getSelectedKeys = R.compose(R.keys, R.filter(R.path(["isSelected"])));
+export const exec               = R.curry((fn, name) => fn(name));
+export const getSelectedKeys    = R.compose(R.keys, R.filter(R.path(["isSelected"])));
+export const imap               = R.curry((mapFn,data) => R.compose(R.values, R.mapObjIndexed(mapFn))(data));
 
 /**
  * Reducer functions

@@ -28,13 +28,13 @@ export function getTemplates() {
 /**
  * Get the available data for the requested template
  */
-const dataRequest = createAction(DATA_REQUEST);
+const dataRequest = createAction(DATA_REQUEST, (collectionName) => ({ collectionName }));
 const dataSuccess = createAction(DATA_SUCCESS, (collectionName, data) => ({ collectionName, data }));
 const dataFailure = createAction(DATA_FAILURE, (collectionName, err) => ({ collectionName, err }));
 
 export function loadData(collectionName, query) {
   return dispatch => {
-    dispatch(dataRequest);
+    dispatch(dataRequest(collectionName));
 
     const { page, limit } = query;
     return fetch("GET", `api/collections/${collectionName}?page=${page}&limit=${limit}`)

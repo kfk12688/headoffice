@@ -1,13 +1,13 @@
 import React from "react";
-import R from "ramda";
+import { toTitle, imap } from "utils";
 
 const StaticSelectInput = ({ className, options, input, ...rest }) => {
-  const getDOM      = (item, idx) => <option key={idx} value={item}>{item}</option>;
-  const optionNodes = R.compose(R.values, R.mapObjIndexed(getDOM))(options);
+  const getDOM      = (item, idx) => <option key={idx} value={item}>{toTitle(item)}</option>;
+  const optionNodes = imap(getDOM, options);
 
   return (
-    <select {...rest} {...input} style={{ width : "100%" }} className="custom-select">
-      <option value="" disabled selected>Select your option</option>
+    <select {...input} {...rest} style={{ width : "100%" }} className="custom-select">
+      <option value="" disabled>Select your option</option>
       {optionNodes}
     </select>
   );

@@ -2,32 +2,30 @@ import React from "react";
 import R from "ramda";
 import cell from "../getCell";
 import styles from "./common.less";
+import { imap } from "utils";
 
 const SDBodyRow = ({ row, cols, colWidths }) => {
-  let bodyCells = [];
-
-  R.forEach((col, colKey) => {
-    const { name, dataKey, renderType } = col;
-    const hoverStyle                    = {
+  const mapCol = (col, colKey) => {
+    const { renderType } = col;
+    const style          = {
       boxSizing : "border-box",
       display   : "inline-block",
-      width     : colWidths[name],
+      width     : colWidths[colKey],
     };
-    let value                           = R.path(R.split(".", dataKey), row);
+    let value            = R.path([colKey], row);
     if (R.isNil(value)) value = false;
 
-    bodyCells.push(
-      <div
-        key={name}
-        className={styles.cell}
-        style={{ ...hoverStyle, ...col.colStyle }}
+    return (
+      <div key={colKey}
+           className={styles.cell}
+           style={{ ...style, ...col.colStyle }}
       >
-        {cell[renderType](value, col, undefined)}
+        {cell[renderType](value, col, colKey)}
       </div>
     );
-  })(cols);
+  };
 
-  return (<div className={styles.row}>{bodyCells}</div>);
+  return (<div className={styles.row}>{imap(mapCol, cols)}</div>);
 };
 
 SDBodyRow.propTypes = {

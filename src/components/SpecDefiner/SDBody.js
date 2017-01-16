@@ -1,22 +1,15 @@
 import React from "react";
-import _ from "underscore";
 import { SDBodyRow } from "./SDBodyRow";
+import { imap } from "utils";
 
 const SDBody = ({ rows, cols, colWidths }) => {
-  let bodyRows = [];
-
-  _.forEach(rows, (row, rowKey) => {
-    bodyRows.push(
-      <SDBodyRow
-        key={rowKey}
-        colWidths={colWidths}
-        cols={cols}
-        row={row}
-      />
-    );
-  });
-
-  return <div>{bodyRows}</div>;
+  const getBodyRows = (row, rowKey) =>
+    <SDBodyRow key={rowKey}
+               row={row}
+               cols={cols}
+               colWidths={colWidths}
+    />;
+  return <div>{imap(getBodyRows, rows)}</div>;
 };
 
 SDBody.propTypes = {
@@ -24,5 +17,4 @@ SDBody.propTypes = {
   cols      : React.PropTypes.object,
   colWidths : React.PropTypes.object,
 };
-
 export { SDBody };

@@ -1,32 +1,19 @@
 import React, { Component, PropTypes } from "react";
 import { grey50, grey300 } from "../_styles/colors";
 import styles from "./common.less";
-import cx from "classnames";
 
 class DGHeaderCell extends Component {
   constructor() {
     super();
     this.state = { hovered : false };
-    this.handleMouseOver = this.handleMouseOver.bind(this);
-    this.handleMouseOut = this.handleMouseOut.bind(this);
-
     this.ctrls = {};
-    this.assignCol = (dataKey, target) => {
+
+    this.handleMouseOver = this.handleMouseOver.bind(this);
+    this.handleMouseOut  = this.handleMouseOut.bind(this);
+    this.assignCol       = (dataKey, target) => {
       this.ctrls[dataKey] = target;
     };
-
-    this.onClick = this.onClick.bind(this);
-    this.onDrag = this.onDrag.bind(this);
-  }
-
-  onClick(event) {
-    const { col : { dataKey } } = this.props;
-
-    if (this.props.sortAscending) {
-      this.props.onClick(dataKey, "desc");
-    } else {
-      this.props.onClick(dataKey, "asc");
-    }
+    this.onDrag          = this.onDrag.bind(this);
   }
 
   onDrag(e, colKey) {
@@ -42,11 +29,8 @@ class DGHeaderCell extends Component {
   }
 
   render() {
-    // Props
-    const { col, colWidth, sorted } = this.props;
-
-    // Inline styles
-    const hoverStyle = {
+    const { col, colWidth } = this.props;
+    const hoverStyle        = {
       backgroundColor : this.state.hovered && grey50,
       cursor          : this.state.hovered && "pointer",
       textDecoration  : this.state.hovered && "underline",
@@ -54,33 +38,17 @@ class DGHeaderCell extends Component {
       width           : colWidth,
     };
 
-    // Local vars
-    const isColSortable = (col.sortable === undefined) || col.sortable;
-    let arrow = undefined;
-
-    if (isColSortable && sorted) {
-      if (this.props.sortAscending) {
-        arrow = <i className={cx("fa fa-long-arrow-down", styles.fa)}/>;
-      } else {
-        arrow = <i className={cx("fa fa-long-arrow-up", styles.fa)}/>;
-      }
-    }
-
     return (
-      <span
-        className={styles.headerCell}
-        style={{ ...hoverStyle, ...this.props.col.headerStyle }}
-        onMouseOver={isColSortable && this.handleMouseOver}
-        onMouseOut={isColSortable && this.handleMouseOut}
+      <span className={styles.headerCell}
+            style={{ ...hoverStyle, ...this.props.col.headerStyle }}
+            onMouseOver={this.handleMouseOver}
+            onMouseOut={this.handleMouseOut}
       >
-        <span
-          className={styles.headerCellTitle}
-          onClick={isColSortable && this.onClick}
-          ref={target => this.assignCol(col.name, target)}
+        <span className={styles.headerCellTitle}
+              ref={target => this.assignCol(col.name, target)}
         >
           <span>{col.text}</span>
         </span>
-        {arrow}
         <span onDragEnd={e => this.onDrag(e, col.name)}/>
       </span>
     );
@@ -88,12 +56,9 @@ class DGHeaderCell extends Component {
 }
 
 DGHeaderCell.propTypes = {
-  col           : PropTypes.object.isRequired,
-  colWidth      : PropTypes.number.isRequired,
-  onClick       : PropTypes.func,
-  onDrag        : PropTypes.func,
-  sorted        : PropTypes.bool,
-  sortAscending : PropTypes.bool,
+  col      : PropTypes.object.isRequired,
+  colWidth : PropTypes.number.isRequired,
+  onDrag   : PropTypes.func,
 };
 
 export { DGHeaderCell };

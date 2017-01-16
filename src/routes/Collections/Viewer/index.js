@@ -32,7 +32,7 @@ class Viewer extends Component {
     const { page, limit }    = this.state;
 
     this.props.loadSpec(collectionName)
-      .then(this.loadData(page, limit));
+      .then(() => this.props.loadData(collectionName, { page, limit }));
   }
 
   setPage(pageIdx) {
@@ -89,11 +89,9 @@ class Viewer extends Component {
   }
 
   renderContent() {
-    const collectionName = this.props.params.collectionName;
-    const {
-            data         = {}, userSchema = [], isLoading, count, templateName,
-          }              = this.props.viewStore[collectionName];
-    let dataObj          = (!!data && !!data[this.state.page]) ? data[this.state.page] : {};
+    const collectionName                                       = this.props.params.collectionName;
+    const { data, userSchema, isLoading, count, templateName } = this.props.viewStore[collectionName];
+    let dataObj                                                = !!data && data[this.state.page] || [];
 
     return (
       <div className="col-md-9">
@@ -107,23 +105,21 @@ class Viewer extends Component {
           </div>
 
           <div className="row">
-            <Pagination
-              className="col-md-12"
-              setLimit={this.setLimit}
-              setPage={this.setPage}
-              activePage={this.state.page}
-              limit={this.state.limit}
+            <Pagination className="col-md-12"
+                        setLimit={this.setLimit}
+                        setPage={this.setPage}
+                        activePage={this.state.page}
+                        limit={this.state.limit}
             />
           </div>
         </Sticky>
 
         <div className="row">
           <div className="col-md-12">
-            <PaginationGrid
-              topOffset={114}
-              spec={userSchema}
-              data={dataObj}
-              isLoading={isLoading}
+            <PaginationGrid topOffset={114}
+                            spec={userSchema}
+                            data={dataObj}
+                            isLoading={isLoading}
             />
           </div>
         </div>
@@ -132,12 +128,10 @@ class Viewer extends Component {
   }
 
   render() {
-    const collectionName = this.props.params.collectionName;
-    const {
-            workbook, modifiedAt, createdAt, createdBy, isFavorite,
-          }              = this.props.viewStore[collectionName];
-    const workbookName   = !!workbook && !!workbook.name && workbook.name || "";
-    const createdByUser  = !!createdBy && !!createdBy.name && createdBy.name || "";
+    const collectionName                                             = this.props.params.collectionName;
+    const { workbook, modifiedAt, createdAt, createdBy, isFavorite } = this.props.viewStore[collectionName];
+    const workbookName                                               = !!workbook && workbook.name || "";
+    const createdByUser                                              = !!createdBy && createdBy.name || "";
 
     return (
       <div className="row">
@@ -198,7 +192,7 @@ class Viewer extends Component {
   }
 }
 
-Viewer.propTypes = {
+Viewer.propTypes         = {
   // route
   params         : React.PropTypes.object,
   // state
@@ -210,11 +204,9 @@ Viewer.propTypes = {
   starCollection : React.PropTypes.func.isRequired,
   updateTemplate : React.PropTypes.func.isRequired,
 };
-
-const mapStateToProps = state => ({
+const mapStateToProps    = state => ({
   viewStore : state.collections,
 });
-
 const mapDisptachToProps = dispatch => ({
   loadSpec       : (collectionName) => dispatch(loadSpec(collectionName)),
   loadData       : (collectionName, query) => dispatch(loadData(collectionName, query)),

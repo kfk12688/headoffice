@@ -74,10 +74,8 @@ class Collections extends Component {
       "created-at-col" : 120,
       "updated-at-col" : 150,
     };
-  }
 
-  componentWillMount() {
-    this.props.getTemplates();
+    if (!props.children) props.getTemplates();
   }
 
   renderChildren() {

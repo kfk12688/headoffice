@@ -1,6 +1,6 @@
+import { imap } from "utils";
 import React from "react";
-import _ from "underscore";
-import Overlay from "../../Overlay";
+import Overlay from "../Overlay";
 import fetch from "dataflow/fetchWrapper";
 
 class SelectInput extends React.Component {
@@ -46,23 +46,19 @@ class SelectInput extends React.Component {
   }
 
   loadOptions(text) {
-    const { api } = this.props;
+    const { api }         = this.props;
+    const transformToDivs = (item, idx) => <div key={idx}
+                                                className="dropdown-item"
+                                                onClick={e => this.parseInput({ id : item.id, label : item.label })}
+                                                data-id={item.id}
+                                                data-value={item.label}>
+      {item.label}
+    </div>;
 
     fetch("GET", api)
       .then(res => res.json())
       .then(options => {
-        const content = _.map(options, (item, idx) =>
-          <div
-            key={idx}
-            className="dropdown-item"
-            onClick={e => this.parseInput({ id : item.id, label : item.label })}
-            data-id={item.id}
-            data-value={item.label}
-          >
-            {item.label}
-          </div>
-        );
-
+        const content = imap(transformToDivs, options);
         this.setState({ options : content });
       });
   }

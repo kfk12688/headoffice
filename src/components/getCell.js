@@ -11,12 +11,11 @@ const LAValue = ({ value }) => <div className={styles.alignLeft}><span>{value}</
 const getCell = {
   number         : (value) => <RAValue value={value}/>,
   checkbox       : (value) => <CheckboxIcon value={value}/>,
-  favorite       : (value, col, id) =>
-    <Button className={styles.favoriteBtn}
-            onClick={() => col.action(id)}
-    >
-      <FavoriteIcon value={value}/>
-    </Button>,
+  favorite       : (value, col, id) => <Button className={styles.favoriteBtn}
+                                               onClick={() => col.action(id)}
+  >
+    <FavoriteIcon value={value}/>
+  </Button>,
   buttonLikeLink : (value, col, id) => {
     const { actions, link, buttonLink } = col;
     const linkPath                      = `/${link.absolutePath}/${id}`;

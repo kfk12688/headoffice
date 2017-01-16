@@ -12,9 +12,9 @@ class DataGrid extends Component {
       scrollLeft : 0,
     };
 
-    this.resize = this.resize.bind(this);
+    this.resize             = this.resize.bind(this);
     this.reportScrollLeftFn = this.reportScrollLeftFn.bind(this);
-    this.renderContent = this.renderContent.bind(this);
+    this.renderContent      = this.renderContent.bind(this);
   }
 
   reportScrollLeftFn(spacing) {
@@ -22,10 +22,10 @@ class DataGrid extends Component {
   }
 
   resize(colKey, domElement, newPos) {
-    let colWidths = this.state.colWidths;
-    const oldPos = domElement.getBoundingClientRect();
+    let colWidths  = this.state.colWidths;
+    const oldPos   = domElement.getBoundingClientRect();
     const newWidth = colWidths[colKey] + (newPos - oldPos.right);
-    colWidths = {
+    colWidths      = {
       ...colWidths,
       [colKey] : newWidth,
     };
@@ -43,29 +43,24 @@ class DataGrid extends Component {
     }
 
     return (
-      <DGBody
-        cols={cols}
-        colWidths={this.state.colWidths}
-        rows={rows}
-        onRowClick={onRowClick}
-        reportScrollLeftFn={this.reportScrollLeftFn}
+      <DGBody cols={cols}
+              rows={rows}
+              onRowClick={onRowClick}
+              colWidths={this.state.colWidths}
+              reportScrollLeftFn={this.reportScrollLeftFn}
       />
     );
   }
 
   render() {
-    const { cols, colSortFunction, sortKey, sortAscending } = this.props;
+    const { cols } = this.props;
 
     return (
       <div className={styles.dgContainer}>
-        <DGHeaderRow
-          cols={cols}
-          colWidths={this.state.colWidths}
-          onClick={colSortFunction}
-          onDrag={this.resize}
-          sortKey={sortKey}
-          sortAscending={sortAscending}
-          scrollLeft={this.state.scrollLeft}
+        <DGHeaderRow cols={cols}
+                     colWidths={this.state.colWidths}
+                     onDrag={this.resize}
+                     scrollLeft={this.state.scrollLeft}
         />
 
         {this.renderContent()}
@@ -75,16 +70,12 @@ class DataGrid extends Component {
 }
 
 DataGrid.propTypes = {
-  isLoading     : PropTypes.bool,
-  rows          : PropTypes.object.isRequired,
-  cols          : PropTypes.arrayOf(PropTypes.object),
-  colWidths     : PropTypes.object.isRequired,
-  sortKey       : PropTypes.string,
-  sortAscending : PropTypes.bool,
-
+  isLoading  : PropTypes.bool,
+  rows       : PropTypes.object.isRequired,
+  cols       : PropTypes.arrayOf(PropTypes.object),
+  colWidths  : PropTypes.object.isRequired,
   // functions
-  colSortFunction : PropTypes.func,
-  onRowClick      : PropTypes.func,
+  onRowClick : PropTypes.func,
 };
 
 export { DataGrid };

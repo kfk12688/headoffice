@@ -1,5 +1,6 @@
+import R from "ramda";
+import { imap } from "utils";
 import React from "react";
-import _ from "underscore";
 import { Button } from "components";
 import EditCollectionRowForm from "../../routes/Forms/EditCollectionRowForm";
 import { PGBodyCell } from "./PGBodyCell";
@@ -17,15 +18,15 @@ class PGBodyRow extends React.Component {
     super();
     this.state = { hovered : false, showModal : false };
 
-    this.handleMouseEnter = this.handleMouseEnter.bind(this);
-    this.handleMouseLeave = this.handleMouseLeave.bind(this);
-    this.deleteRow = this.deleteRow.bind(this);
-    this.handleEditClick = this.handleEditClick.bind(this);
-    this.removeModal = this.removeModal.bind(this);
-    this.hideModalOnEsc = this.hideModalOnEsc.bind(this);
+    this.handleMouseEnter        = this.handleMouseEnter.bind(this);
+    this.handleMouseLeave        = this.handleMouseLeave.bind(this);
+    this.deleteRow               = this.deleteRow.bind(this);
+    this.handleEditClick         = this.handleEditClick.bind(this);
+    this.removeModal             = this.removeModal.bind(this);
+    this.hideModalOnEsc          = this.hideModalOnEsc.bind(this);
     this.hideModalOnOutsideClick = this.hideModalOnOutsideClick.bind(this);
-    this.renderModal = this.renderModal.bind(this);
-    this.getFormFields = this.getFormFields.bind(this);
+    this.renderModal             = this.renderModal.bind(this);
+    this.getFormFields           = this.getFormFields.bind(this);
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -37,9 +38,9 @@ class PGBodyRow extends React.Component {
   }
 
   getFormFields() {
-    return _.map(this.props.cols, col => {
+    const getObj = col => {
       const { fieldName, fieldSchema, fieldType, fieldProps, displayText } = col;
-      let fieldSub = undefined;
+      let fieldSub                                                         = undefined;
       if (Array.isArray(fieldSchema) && (fieldSchema.length !== 0)) fieldSub = this.getFormFields(fieldSchema);
 
       return {
@@ -49,7 +50,8 @@ class PGBodyRow extends React.Component {
         props : fieldProps,
         sub   : fieldSub,
       };
-    });
+    };
+    return R.map(getObj, this.props.cols);
   }
 
   handleMouseEnter() {
@@ -144,28 +146,19 @@ class PGBodyRow extends React.Component {
 
   render() {
     const { row, cols, colWidths, rowKey } = this.props;
-
-    let bodyCells = [];
-    _.forEach(cols, (col, colKey) => {
-      bodyCells.push(
-        <PGBodyCell
-          key={colKey}
-          col={col}
-          colWidth={colWidths[col.fieldName]}
-          row={row}
-        />
-      );
-    });
-
-    const rowStyle = { backgroundColor : this.state.hovered ? grey100 : transparent };
+    const mapToPGBodyCells                 = (col, colKey) => <PGBodyCell key={colKey}
+                                                                          col={col}
+                                                                          colWidth={colWidths[col.fieldName]}
+                                                                          row={row}/>;
+    const bodyCells                        = imap(mapToPGBodyCells, cols);
+    const rowStyle                         = { backgroundColor : this.state.hovered ? grey100 : transparent };
 
     return (
-      <div
-        style={rowStyle}
-        className={styles.row}
-        data-id={rowKey}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
+      <div style={rowStyle}
+           className={styles.row}
+           data-id={rowKey}
+           onMouseEnter={this.handleMouseEnter}
+           onMouseLeave={this.handleMouseLeave}
       >
         {bodyCells}
         {
@@ -187,6 +180,6 @@ PGBodyRow.propTypes = {
   row         : React.PropTypes.object.isRequired,
   rowKey      : React.PropTypes.string,
   toggleModal : React.PropTypes.func,
+  deleteRow   : React.PropTypes.func.isRequired,
 };
-
 export { PGBodyRow };

@@ -46,7 +46,6 @@ const SubSchemaFields = ({ fields, fieldSchema }) => {
       </div>
     );
   });
-  console.log(fields.getAll());
 
   return (
     <div className={styles.subSchemaFields}>

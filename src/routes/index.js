@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router";
-import { Dropdown } from "components";
+import { ActiveLink, Dropdown } from "components";
 import Logo from "./_styles/logo";
 import { addCurrentUser, removeCurrentUser } from "dataflow/users/actions";
 import { clearToken, getUserClaims } from "./auth";
@@ -36,8 +35,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { currentUser }          = this.props;
-    const { username, name, site } = !!currentUser && currentUser;
+    const { username, name, site } = this.props.currentUser;
 
     return (
       <div>
@@ -46,9 +44,9 @@ class App extends React.Component {
             <div className="col-md-10 offset-md-1">
               <a className="navbar-brand" href="#"><Logo size="20" light/>&nbsp;HeadOfficeApp</a>
               <div className="nav navbar-nav">
-                <Link activeClassName="active" className="nav-item nav-link" to="/templates">Templates</Link>
-                <Link activeClassName="active" className="nav-item nav-link" to="/collections">Collections</Link>
-                <Link activeClassName="active" className="nav-item nav-link" to="/workbooks">Workbooks</Link>
+                <ActiveLink className="nav-item nav-link" link="/templates">Templates</ActiveLink>
+                <ActiveLink className="nav-item nav-link" link="/collections">Collections</ActiveLink>
+                <ActiveLink className="nav-item nav-link" link="/workbooks">Workbooks</ActiveLink>
 
                 <div className="pull-right">
                   <Dropdown className="nav-item nav-link" label={site}/>

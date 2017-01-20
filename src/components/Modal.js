@@ -1,17 +1,17 @@
 import React from "react";
-import { Button } from "../Button/index";
+import { Button } from "./Button/index";
 import { render as renderToDOM } from "react-dom";
 import { Provider } from "react-redux";
-import configureStore from "../../dataflow/configureStore";
+import configureStore from "../dataflow/configureStore";
 import cx from "classnames";
 const store = configureStore();
 
-export class Modal extends React.Component {
+class Modal extends React.Component {
   constructor() {
     super();
-    this.renderModal = this.renderModal.bind(this);
+    this.renderModal             = this.renderModal.bind(this);
     this.hideModalOnOutsideClick = this.hideModalOnOutsideClick.bind(this);
-    this.hideModalOnEsc = this.hideModalOnEsc.bind(this);
+    this.hideModalOnEsc          = this.hideModalOnEsc.bind(this);
   }
 
   shouldComponentUpdate(nextProps) {
@@ -52,7 +52,7 @@ export class Modal extends React.Component {
   }
 
   renderModal() {
-    const { show, size = "md", hideModal, modalTitle, caption, children } = this.props;
+    const { show, size     = "md", hideModal, modalTitle, caption, children } = this.props;
     const modalPositionCSS = {
       display         : "block",
       backgroundColor : "rgba(0,0,0,.5)",
@@ -71,7 +71,7 @@ export class Modal extends React.Component {
             <div className={cx("modal-dialog", `modal-${size}`)}>
               <div className="modal-content">
                 <div className="modal-header">
-                  <button type="button" className="close" autoFocus onClick={hideModal}><span>&times;</span></button>
+                  <button type="button" className="close" onClick={hideModal}><span>&times;</span></button>
                   <h5 className="modal-title">{modalTitle || caption}</h5>
                 </div>
                 <div className="modal-body">
@@ -120,3 +120,5 @@ Modal.propTypes = {
   title      : React.PropTypes.string,
   block      : React.PropTypes.bool,
 };
+
+export default Modal;

@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { StickyContainer, Sticky } from "react-sticky";
 import { Link } from "react-router";
-import { PaginationGrid, Pagination, FavoriteIcon, Button, Modal } from "components";
+import { PaginationGrid, PaginationLinks, FavoriteIcon, Button, Modal } from "components";
 import {
   loadSpec, loadData, deleteRow, updateRow, deleteTemplate, updateTemplate, starCollection
 } from "dataflow/collections/actions";
@@ -105,11 +105,11 @@ class Viewer extends Component {
           </div>
 
           <div className="row">
-            <Pagination className="col-md-12"
-                        setLimit={this.setLimit}
-                        setPage={this.setPage}
-                        activePage={this.state.page}
-                        limit={this.state.limit}
+            <PaginationLinks className="col-md-12"
+                             setLimit={this.setLimit}
+                             setPage={this.setPage}
+                             activePage={this.state.page}
+                             limit={this.state.limit}
             />
           </div>
         </Sticky>

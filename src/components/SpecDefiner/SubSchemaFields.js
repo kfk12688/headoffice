@@ -29,8 +29,13 @@ const SubSchemaFields = ({ fields, fieldSchema }) => {
 
         <div className="col-md-11">
           <h6 className={styles.headers}>{`Sub-Field-${idx + 1}`}</h6>
-          <SDRow prop={fieldDefn.fieldName} component={TextInput} required/>
-          <SDRow prop={fieldDefn.fieldType} component={StaticSelectInput} required
+          <SDRow required
+                 component={TextInput}
+                 prop={fieldDefn.fieldName}
+          />
+          <SDRow required
+                 component={StaticSelectInput}
+                 prop={fieldDefn.fieldType}
                  options={["Number", "Date", "String", "Boolean", "ObjectId"]}
           />
           {
@@ -41,6 +46,7 @@ const SubSchemaFields = ({ fields, fieldSchema }) => {
       </div>
     );
   });
+  console.log(fields.getAll());
 
   return (
     <div className={styles.subSchemaFields}>

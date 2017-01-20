@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { StickyContainer, Sticky } from "react-sticky";
 import { connect } from "react-redux";
 import {
-  toggleSelection, getTemplates, deleteTemplate, createTemplate, starTemplate, selectAll, deselectAll
+  getTemplates, deleteTemplate, createTemplate, starTemplate, selectAll, deselectAll, toggleSelection
 } from "dataflow/templates/actions";
 import { SearchBar, DataGrid } from "components";
 import { toDate, exec, getSelectedKeys } from "utils";
@@ -175,13 +175,13 @@ const mapStateToProps    = (state) => ({
   list : state.templates.list,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getTemplates    : (params) => dispatch(getTemplates(params)),
-  deleteTemplate  : (params) => dispatch(deleteTemplate(params)),
+  getTemplates    : () => dispatch(getTemplates()),
+  deleteTemplate  : (key) => dispatch(deleteTemplate(key)),
   createTemplate  : (params) => dispatch(createTemplate(params)),
-  starTemplate    : (collectionName) => dispatch(starTemplate(collectionName)),
+  starTemplate    : (key) => dispatch(starTemplate(key)),
   // menubar actions
-  toggleSelection : (index) => dispatch(toggleSelection(index)),
-  selectAllRows   : (keys) => dispatch(selectAll(keys)),
+  toggleSelection : (key) => dispatch(toggleSelection(key)),
+  selectAllRows   : () => dispatch(selectAll()),
   deselectAllRows : () => dispatch(deselectAll()),
 });
 

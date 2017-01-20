@@ -1,7 +1,7 @@
 import React from "react";
 import cx from "classnames";
 
-const Pagination = ({ className, limit, activePage, setPage, setLimit }) => {
+const PaginationLinks = ({ className, limit, activePage, setPage, setLimit }) => {
   const pageClickHandler = (e, pageIdx) => {
     e.preventDefault();
     setPage(pageIdx);
@@ -90,12 +90,11 @@ const Pagination = ({ className, limit, activePage, setPage, setLimit }) => {
   );
 };
 
-Pagination.propTypes = {
+PaginationLinks.propTypes = {
   className  : React.PropTypes.string,
   limit      : React.PropTypes.number,
   activePage : React.PropTypes.number,
   setPage    : React.PropTypes.func,
   setLimit   : React.PropTypes.func,
 };
-
-export { Pagination };
+export default PaginationLinks;

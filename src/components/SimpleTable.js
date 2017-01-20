@@ -1,6 +1,6 @@
 import React from "react";
 
-const Table = ({ cols, rows, hover, size}) => {
+const Table = ({ cols, rows, hover, size }) => {
   const getRowValue = (row) =>
     cols.map((col, idx) => {
       let rowVal = row[col.key] || "";
@@ -24,10 +24,9 @@ const Table = ({ cols, rows, hover, size}) => {
 };
 
 Table.propTypes = {
-  cols      : React.PropTypes.array.isRequired,
-  rows      : React.PropTypes.array.isRequired,
-  hover     : React.PropTypes.bool,
-  size      : React.PropTypes.string,
+  cols  : React.PropTypes.array.isRequired,
+  rows  : React.PropTypes.array.isRequired,
+  hover : React.PropTypes.bool,
+  size  : React.PropTypes.string,
 };
-
-export { Table };
+export default Table;

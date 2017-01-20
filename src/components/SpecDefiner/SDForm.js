@@ -9,7 +9,7 @@ import cx from "classnames";
 
 const FIELD_TYPES = ["number", "date", "string", "boolean", "objectId", "schema", "schemaArray"];
 
-class EditorEntryForm extends Component {
+class SDForm extends Component {
   constructor(props) {
     super(props);
     this.submitForm = this.submitForm.bind(this);
@@ -20,6 +20,7 @@ class EditorEntryForm extends Component {
     e.preventDefault();
     this.props.reset();
     this.props.handleSubmit();
+    this.fieldNameNode.firstChild.focus();
   }
 
   resetForm(e) {
@@ -38,7 +39,7 @@ class EditorEntryForm extends Component {
       <form onSubmit={this.submitForm}>
         <div className="row">
           <div className="col-md-12">
-            <SDRow prop={fieldDefn.fieldName} component={TextInput} required/>
+            <SDRow refCb={node => this.fieldNameNode = node} prop={fieldDefn.fieldName} component={TextInput} required/>
             <SDRow prop={fieldDefn.fieldType} component={StaticSelectInput} options={FIELD_TYPES} required/>
             {getFields("fieldProps", fieldType, fieldProps, fieldSchema)}
           </div>
@@ -55,7 +56,7 @@ class EditorEntryForm extends Component {
   }
 }
 
-EditorEntryForm.propTypes = {
+SDForm.propTypes = {
   handleSubmit : React.PropTypes.func.isRequired,
   pristine     : React.PropTypes.bool,
   submitting   : React.PropTypes.bool,
@@ -68,7 +69,7 @@ EditorEntryForm.propTypes = {
 
 const form = reduxForm({
   form : "SDForm",
-})(EditorEntryForm);
+})(SDForm);
 
 const selector      = formValueSelector("SDForm"); // <-- same as form name
 const connectedForm = connect(

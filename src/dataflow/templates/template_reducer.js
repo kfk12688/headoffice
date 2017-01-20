@@ -125,16 +125,20 @@ const templateReducer = {
 
     // adds displayText placeholder Keys
     // these will be replaced by actual data from the db later
-    const setFieldName   = R.assoc("displayText", fieldName);
-    const setFieldSchema = R.map(R.assoc("displayText", fieldName));
-    const findIndex      = R.findIndex(R.propEq("fieldName", fieldName));
-    const getUserSchema  = R.path([collectionName, "userSchema"]);
+    const setDisplayText              = R.assoc("displayText", fieldName);
+    const setDisplayTextInFieldSchema = obj => R.compose(
+      R.assoc("fieldSchema", R.__, obj),
+      R.map(v => R.assoc("displayText", v.fieldName, v)),
+      R.prop(["fieldSchema"]),
+    )(obj);
+    const findIndex                   = R.findIndex(R.propEq("fieldName", fieldName));
+    const getUserSchema               = R.path([collectionName, "userSchema"]);
 
     const userSchema = getUserSchema(state);
     const idx        = userSchema ? findIndex(userSchema) : -1;
     if (idx === -1) {
-      let newField = setFieldName(field);
-      if (!R.isNil(fieldSchema) && R.is(Array, fieldSchema)) newField = setFieldSchema(newField);
+      let newField = setDisplayText(field);
+      if (!R.isNil(fieldSchema) && R.is(Array, fieldSchema)) newField = setDisplayTextInFieldSchema(newField);
 
       const newUserSchema = R.append(newField, userSchema);
       return set(["userSchema"], newUserSchema, collectionName, state);

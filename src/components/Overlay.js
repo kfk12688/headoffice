@@ -1,7 +1,7 @@
 import React from "react";
 import { render, unmountComponentAtNode } from "react-dom";
 
-export default class Overlay extends React.Component {
+class Overlay extends React.Component {
   constructor() {
     super();
     this._renderLayer = this._renderLayer.bind(this);
@@ -11,7 +11,7 @@ export default class Overlay extends React.Component {
 
   componentDidMount() {
     console.log("OVERLAY COMPONENT IS MOUNTED");
-    this.overlayElement = document.createElement("div");
+    this.overlayElement              = document.createElement("div");
     this.overlayElement.style.zIndex = 2000;
     document.body.appendChild(this.overlayElement);
 
@@ -50,19 +50,15 @@ export default class Overlay extends React.Component {
     }
   }
 
-  //_stopSelfClose(event) {
-  //  event.stopPropagation();
-  //}
-
   _renderLayer() {
     const { show, target } = this.props;
 
     if (show) {
-      const pos = this._getPos(target);
+      const pos                          = this._getPos(target);
       this.overlayElement.style.position = "absolute";
-      this.overlayElement.style.left = `${pos.left}px`;
-      this.overlayElement.style.top = `${pos.top}px`;
-      this.overlayElement.style.width = `${pos.width}px`;
+      this.overlayElement.style.left     = `${pos.left}px`;
+      this.overlayElement.style.top      = `${pos.top}px`;
+      this.overlayElement.style.width    = `${pos.width}px`;
 
       window.addEventListener("click", this._hideOverlay);
       window.addEventListener("resize", this._renderLayer);
@@ -89,3 +85,4 @@ Overlay.propTypes = {
   target   : React.PropTypes.any.isRequired,
   children : React.PropTypes.node,
 };
+export default Overlay;

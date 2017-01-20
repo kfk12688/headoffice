@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { StickyContainer, Sticky } from "react-sticky";
 import { connect } from "react-redux";
-import { Link } from "react-router";
 import moment from "moment";
 import { exec } from "utils";
-import { SpecDefiner, Button, Modal, FavoriteIcon } from "components";
+import { SpecDefiner, Button, Modal, FavoriteIcon, Link } from "components";
 import { EditTemplateForm } from "forms";
 import {
   getTemplate, updateSchema, addField, deleteTemplate, starTemplate, updateTemplate
@@ -120,11 +119,16 @@ class Editor extends Component {
 
                   <div className={styles.divider}/>
                   <div className="btn-group-vertical btn-block">
-                    <Link to={`/collections/entry/${collectionName}`} className="btn btn-secondary btn-sm"
-                          role="button">
+                    <Link to={`/collections/entry/${collectionName}`}
+                          className="btn btn-secondary btn-sm"
+                          role="button"
+                    >
                       Enter Data&nbsp;<i className="fa fa-times-circle-o"/>
                     </Link>
-                    <Link to={`/collections/view/${collectionName}`} className="btn btn-secondary btn-sm" role="button">
+                    <Link to={`/collections/view/${collectionName}`}
+                          className="btn btn-secondary btn-sm"
+                          role="button"
+                    >
                       View entered data&nbsp;<i className="fa fa-arrow-circle-o-right"/>
                     </Link>
                   </div>

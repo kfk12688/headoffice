@@ -1,6 +1,6 @@
 import { imap } from "utils";
 import React from "react";
-import Overlay from "../Overlay";
+import { Overlay } from "components";
 import fetch from "dataflow/fetchWrapper";
 
 class SelectInput extends React.Component {

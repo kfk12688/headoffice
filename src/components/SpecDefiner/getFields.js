@@ -20,7 +20,8 @@ const getFields = (fieldName, fieldType, fieldProps, fieldSchema) => {
 
   if (fieldType === "boolean") {
     formElements = [
-      <Field name={config.default.key}
+      <Field key={`fieldProps.${config.default.key}`}
+             name={config.default.key}
              component={CheckBoxInput}
       >
         {config.default.displayText}
@@ -88,7 +89,8 @@ const getFields = (fieldName, fieldType, fieldProps, fieldSchema) => {
   if (fieldType === "schema") {
     formElements = [
       ...formElements,
-      <FieldArray name="fieldSchema"
+      <FieldArray key="schema"
+                  name="fieldSchema"
                   component={SubSchemaFields}
                   fieldSchema={fieldSchema}
       />,
@@ -96,7 +98,8 @@ const getFields = (fieldName, fieldType, fieldProps, fieldSchema) => {
   } else if (fieldType === "schemaArray") {
     formElements = [
       ...formElements,
-      <FieldArray name="fieldSchema"
+      <FieldArray key="schemaArray"
+                  name="fieldSchema"
                   component={SubSchemaFields}
                   fieldSchema={fieldSchema}
       />,
@@ -104,12 +107,14 @@ const getFields = (fieldName, fieldType, fieldProps, fieldSchema) => {
   } else {
     formElements = [
       ...formElements,
-      <Field name={config.required.key}
+      <Field key={`fieldProps.${config.required.key}`}
+             name={config.required.key}
              component={CheckBoxInput}
       >
         {config.required.displayText}
       </Field>,
-      <Field name={config.unique.key}
+      <Field key={`fieldProps.${config.unique.key}`}
+             name={config.unique.key}
              component={CheckBoxInput}
       >
         {config.unique.displayText}

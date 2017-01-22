@@ -60,6 +60,9 @@ const getCell = {
     return <LAValue value={val}/>;
   },
   text           : (value) => <LAValue value={value}/>,
+  string         : (value) => <LAValue value={value}/>,
+  schema         : (value) => <LAValue value={value.toString()}/>,
+  schemaArray    : (value) => <LAValue value={value.toString()}/>,
 };
 
 export default getCell;

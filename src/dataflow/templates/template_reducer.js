@@ -1,5 +1,5 @@
 import R from "ramda";
-import { set, unset, loaded, loading, loadCollection, setError, setMessage } from "utils";
+import { set, unset, loaded, loading, loadCollection, setFailure, setMessage } from "utils";
 import {
   EDIT_SCHEMA_SUCCESS, EDIT_TEMPLATE_FAILURE, EDIT_TEMPLATE_REQUEST, EDIT_TEMPLATE_SUCCESS, EDIT_SCHEMA_FAILURE,
   EDIT_SCHEMA_REQUEST, GET_TEMPLATES_REQUEST, GET_TEMPLATES_SUCCESS, GET_TEMPLATES_FAILURE, ADD_TEMPLATE_REQUEST,
@@ -7,12 +7,6 @@ import {
   DELETE_TEMPLATE_FAILURE, GET_TEMPLATE_REQUEST, GET_TEMPLATE_SUCCESS, GET_TEMPLATE_FAILURE, ADD_USER_SCHEMA_FIELD,
   STAR_TEMPLATE_SUCCESS
 } from "./types";
-
-const setFailure = (error, message) => R.compose(
-  setMessage(message),
-  setError(error),
-  loaded("list"),
-);
 
 const templateReducer = {
   [GET_TEMPLATES_REQUEST] : (state) => loading("list", state),
@@ -24,10 +18,7 @@ const templateReducer = {
     );
     return setData(state);
   },
-  [GET_TEMPLATES_FAILURE] : (state, action) => {
-    const { error, message } = action.payload;
-    return setFailure(error, message, state);
-  },
+  [GET_TEMPLATES_FAILURE] : (state, action) => setFailure(action.payload.err, state),
 
   [ADD_TEMPLATE_REQUEST] : (state, action) => loading("list", state),
   [ADD_TEMPLATE_SUCCESS] : (state, action) => {
@@ -41,10 +32,7 @@ const templateReducer = {
     );
     return setData(state);
   },
-  [ADD_TEMPLATE_FAILURE] : (state, action) => {
-    const { error, message } = action.payload;
-    return setFailure(error, message, state);
-  },
+  [ADD_TEMPLATE_FAILURE] : (state, action) => setFailure(action.payload.err, state),
 
   [EDIT_TEMPLATE_REQUEST] : (state, action) => loadCollection(action.payload.collectionName, state),
   [EDIT_TEMPLATE_SUCCESS] : (state, action) => {
@@ -56,10 +44,7 @@ const templateReducer = {
       loaded("list"));
     return setData(state);
   },
-  [EDIT_TEMPLATE_FAILURE] : (state, action) => {
-    const { error, message } = action.payload;
-    return setFailure(error, message, state);
-  },
+  [EDIT_TEMPLATE_FAILURE] : (state, action) => setFailure(action.payload.err, state),
 
   [DELETE_TEMPLATE_REQUEST] : (state, action) => loading("list", state),
   [DELETE_TEMPLATE_SUCCESS] : (state, action) => {
@@ -72,10 +57,7 @@ const templateReducer = {
     );
     return deleteTemplate(state);
   },
-  [DELETE_TEMPLATE_FAILURE] : (state, action) => {
-    const { error, message } = action.payload;
-    return setFailure(error, message, state);
-  },
+  [DELETE_TEMPLATE_FAILURE] : (state, action) => setFailure(action.payload.err, state),
 
   // #####################################################
 
@@ -89,10 +71,7 @@ const templateReducer = {
     );
     return setData(state);
   },
-  [GET_TEMPLATE_FAILURE] : (state, action) => {
-    const { error, message } = action.payload;
-    return setFailure(error, message, state);
-  },
+  [GET_TEMPLATE_FAILURE] : (state, action) => setFailure(action.payload.err, state),
 
   [EDIT_SCHEMA_REQUEST] : (state, action) => loadCollection(action.payload.collectionName, state),
   [EDIT_SCHEMA_SUCCESS] : (state, action) => {
@@ -104,10 +83,7 @@ const templateReducer = {
     );
     return onEditSuccess(state);
   },
-  [EDIT_SCHEMA_FAILURE] : (state, action) => {
-    const { error, message } = action.payload;
-    return setFailure(error, message, state);
-  },
+  [EDIT_SCHEMA_FAILURE] : (state, action) => setFailure(action.payload.err, state),
 
   [STAR_TEMPLATE_SUCCESS] : (state, action) => {
     const { template, collectionName } = action.payload;

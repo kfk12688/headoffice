@@ -1,5 +1,5 @@
 import R from "ramda";
-import { set, unset, setError, setMessage, loaded, loading, loadCollection } from "utils";
+import { set, unset, setFailure, setMessage, loaded, loading, loadCollection } from "utils";
 import {
   SPEC_REQUEST, SPEC_SUCCESS, SPEC_FAILURE, DATA_REQUEST, DATA_SUCCESS, DATA_FAILURE, DELETE_ROW_REQUEST,
   DELETE_ROW_SUCCESS, DELETE_ROW_FAILURE, UPDATE_ROW_REQUEST, UPDATE_ROW_SUCCESS, UPDATE_ROW_FAILURE, ADD_ROW_FAILURE,
@@ -7,11 +7,6 @@ import {
   STAR_COLLECTION_SUCCESS
 } from "./types";
 
-const setFailure     = (error, message) => R.compose(
-  setMessage(message),
-  setError(error),
-  loaded("list"),
-);
 const setLoadingByID = id => set(["data", id, "isLoading"], true);
 const setLoadedByID  = id => set(["data", id, "isLoading"], false);
 
@@ -43,10 +38,7 @@ const collectionReducer = {
     );
     return setData(state);
   },
-  [SPEC_FAILURE] : (state, action) => {
-    const { error, message } = action.payload;
-    return setFailure(error, message, state);
-  },
+  [SPEC_FAILURE] : (state, action) => setFailure(action.payload.err, state),
 
   /**
    * Updates server data in the store for the particular template
@@ -60,17 +52,15 @@ const collectionReducer = {
       set("data", entries, collectionName),
       set("pagination", pagination, collectionName),
       set("count", count, collectionName),
-      loaded(collectionName)
+      loaded("list"),
+      loaded(collectionName),
     );
     return setData(state);
   },
-  [DATA_FAILURE] : (state, action) => {
-    const { error, message } = action.payload;
-    return setFailure(error, message, state);
-  },
+  [DATA_FAILURE] : (state, action) => setFailure(action.payload.err, state),
 
   /**
-   * Deletes a row from the template collection
+   * Deletes a row from the collection
    */
   [DELETE_ROW_REQUEST] : (state, action) => loadCollection(action.payload.collectionName, state),
   [DELETE_ROW_SUCCESS] : (state, action) => {
@@ -82,13 +72,10 @@ const collectionReducer = {
     );
     return setData(state);
   },
-  [DELETE_ROW_FAILURE] : (state, action) => {
-    const { error, message } = action.payload;
-    return setFailure(error, message, state);
-  },
+  [DELETE_ROW_FAILURE] : (state, action) => setFailure(action.payload.err, state),
 
   /**
-   * Edits an existing row in the template collection
+   * Edits an existing row in the collection
    */
   [UPDATE_ROW_REQUEST] : (state, action) => {
     const { rowID, collectionName } = action.payload;
@@ -104,13 +91,10 @@ const collectionReducer = {
     );
     return setData(state);
   },
-  [UPDATE_ROW_FAILURE] : (state, action) => {
-    const { error, message } = action.payload;
-    return setFailure(error, message, state);
-  },
+  [UPDATE_ROW_FAILURE] : (state, action) => setFailure(action.payload.err, state),
 
   /**
-   * Adds a new row into the template collection
+   * Adds a new row into the collection
    */
   [ADD_ROW_REQUEST] : (state, action) => loadCollection(action.payload.collectionName, state),
   [ADD_ROW_SUCCESS] : (state, action) => {
@@ -122,10 +106,7 @@ const collectionReducer = {
     );
     return setData(state);
   },
-  [ADD_ROW_FAILURE] : (state, action) => {
-    const { error, message } = action.payload;
-    return setFailure(error, message, state);
-  },
+  [ADD_ROW_FAILURE] : (state, action) => setFailure(action.payload.err, state),
 
   /**
    * Star/Unstar the collection's (template)

@@ -2,11 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { StickyContainer, Sticky } from "react-sticky";
 import { Link } from "react-router";
-import moment from "moment";
+import { getProps, toDate } from "utils";
 import { Entry, Button, Modal, FavoriteIcon } from "components";
 import { EditTemplateForm } from "forms";
-import { loadSpec, addRow, deleteTemplate, starTemplate, updateTemplate } from "dataflow/collections/actions";
+import { loadSpec, addRow, deleteTemplate, starCollection, updateTemplate } from "dataflow/collections/actions";
 import styles from "./index.less";
+
+const getContentValues = getProps(["userSchema", "isLoading", "templateName", "workbook.name", "modifiedAt", "createdAt", "createdBy.name", "isFavorite"]);
 
 class EntryForm extends Component {
   constructor(props) {
@@ -20,7 +22,7 @@ class EntryForm extends Component {
     this.addRow         = this.addRow.bind(this);
     this.deleteTemplate = this.deleteTemplate.bind(this);
     this.updateTemplate = this.updateTemplate.bind(this);
-    this.starTemplate   = this.starTemplate.bind(this);
+    this.starCollection = this.starCollection.bind(this);
   }
 
   componentWillMount() {
@@ -42,10 +44,10 @@ class EntryForm extends Component {
     }
   }
 
-  starTemplate(e) {
+  starCollection(e) {
     e.preventDefault();
     const { collectionName } = this.props.params;
-    this.props.starTemplate(collectionName);
+    this.props.starCollection(collectionName);
   }
 
   updateTemplate(data) {
@@ -55,12 +57,7 @@ class EntryForm extends Component {
 
   render() {
     const { collectionName } = this.props.params;
-    const {
-            userSchema       = [], isLoading, templateName = "",
-            workbook, modifiedAt, createdAt, createdBy, isFavorite,
-          }                  = this.props.entryStore[collectionName] || {};
-    const workbookName       = !!workbook && !!workbook.name && workbook.name || "";
-    const createdByUser      = !!createdBy && !!createdBy.name && createdBy.name || "";
+    const contentValues      = getContentValues(this.props.entryStore[collectionName]);
 
     return (
       <div className="row">
@@ -71,19 +68,18 @@ class EntryForm extends Component {
                 <Sticky stickyStyle={{ backgroundColor : "white", zIndex : 100 }}>
                   <div className="row">
                     <div className="col-md-12">
-                      <h4>{templateName}</h4>
+                      <h4>{contentValues.templateName}</h4>
                     </div>
                   </div>
                 </Sticky>
 
                 <div className="row">
                   <div className="col-md-12">
-                    <Entry
-                      templateName={templateName}
-                      collectionName={collectionName}
-                      spec={userSchema}
-                      isLoading={isLoading}
-                      onSubmit={this.addRow}
+                    <Entry templateName={contentValues.templateName}
+                           collectionName={collectionName}
+                           spec={contentValues.userSchema || []}
+                           isLoading={contentValues.isLoading}
+                           onSubmit={this.addRow}
                     />
                   </div>
                 </div>
@@ -119,18 +115,18 @@ class EntryForm extends Component {
                     />
                   </Modal>
                   <Button faName="times" block onClick={this.deleteTemplate}>Delete Template</Button>
-                  <Button block onClick={this.starTemplate}>
+                  <Button block onClick={this.starCollection}>
                     Make Favorite
                     &nbsp;
-                    <FavoriteIcon value={isFavorite || false} inheritSize/>
+                    <FavoriteIcon value={contentValues.isFavorite || false} inheritSize/>
                   </Button>
 
                   <div className={styles.divider}/>
                   <div className={styles.attributes}>
-                    <div>Created By : <span>{createdByUser}</span></div>
-                    <div>Created At : <span>{moment(createdAt).format("DD-MM-YYYY")}</span></div>
-                    <div>Last Modified : <span>{moment(modifiedAt).format("DD-MM-YY h:m A")}</span></div>
-                    <div>Belongs to : <span>{workbookName}</span></div>
+                    <div>Created By : <span>{contentValues.createdBy}</span></div>
+                    <div>Created At : <span>{toDate("DD-MM-YYYY", contentValues.createdAt)}</span></div>
+                    <div>Last Modified : <span>{toDate(null, contentValues.modifiedAt)}</span></div>
+                    <div>Belongs to : <span>{contentValues.workbook}</span></div>
                   </div>
                 </Sticky>
               </div>
@@ -142,7 +138,7 @@ class EntryForm extends Component {
   }
 }
 
-EntryForm.propTypes = {
+EntryForm.propTypes      = {
   // route
   params         : React.PropTypes.object,
   // state
@@ -151,19 +147,17 @@ EntryForm.propTypes = {
   loadSpec       : React.PropTypes.func,
   addRow         : React.PropTypes.func,
   deleteTemplate : React.PropTypes.func.isRequired,
-  starTemplate   : React.PropTypes.func.isRequired,
+  starCollection : React.PropTypes.func.isRequired,
   updateTemplate : React.PropTypes.func.isRequired,
 };
-
-const mapStateToProps = state => ({
+const mapStateToProps    = state => ({
   entryStore : state.collections,
 });
-
 const mapDisptachToProps = dispatch => ({
   loadSpec       : (collectionName) => dispatch(loadSpec(collectionName)),
   addRow         : (collectionName, data) => dispatch(addRow(collectionName, data)),
   deleteTemplate : collectionName => dispatch(deleteTemplate(collectionName)),
-  starTemplate   : collectionName => dispatch(starTemplate(collectionName)),
+  starCollection : collectionName => dispatch(starCollection(collectionName)),
   updateTemplate : (collectionName, data) => dispatch(updateTemplate(collectionName, data)),
 });
 

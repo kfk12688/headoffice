@@ -1,14 +1,16 @@
-import moment from "moment";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { StickyContainer, Sticky } from "react-sticky";
 import { Link } from "react-router";
+import { getProps, toDate } from "utils";
 import { PaginationGrid, PaginationLinks, FavoriteIcon, Button, Modal } from "components";
 import {
   loadSpec, loadData, deleteRow, updateRow, deleteTemplate, updateTemplate, starCollection
 } from "dataflow/collections/actions";
 import { EditTemplateForm } from "forms";
 import styles from "./index.less";
+
+const getMetaValues = getProps(["modifiedAt", "createdAt", "isFavorite", "workbook.name", "createdBy.name"]);
 
 class Viewer extends Component {
   constructor() {
@@ -89,17 +91,17 @@ class Viewer extends Component {
   }
 
   renderContent() {
-    const collectionName                                       = this.props.params.collectionName;
-    const { data, userSchema, isLoading, count, templateName } = this.props.viewStore[collectionName];
-    let dataObj                                                = !!data && data[this.state.page] || [];
+    const collectionName   = this.props.params.collectionName;
+    const getContentValues = getProps([`data.${this.state.page}`, "userSchema", "isLoading", "count", "templateName"]);
+    const contentValues    = getContentValues(this.props.viewStore[collectionName]);
 
     return (
       <div className="col-md-9">
         <Sticky stickyStyle={{ backgroundColor : "white", zIndex : 100 }}>
           <div className="row">
             <div className="col-md-12">
-              <h4>{templateName}&nbsp;
-                <small className="text-muted">({count || 0} Entries)</small>
+              <h4>{contentValues.templateName}&nbsp;
+                <small className="text-muted">({contentValues.count || 0} Entries)</small>
               </h4>
             </div>
           </div>
@@ -117,9 +119,9 @@ class Viewer extends Component {
         <div className="row">
           <div className="col-md-12">
             <PaginationGrid topOffset={114}
-                            spec={userSchema}
-                            data={dataObj}
-                            isLoading={isLoading}
+                            spec={contentValues.userSchema || []}
+                            data={contentValues.data || {}}
+                            isLoading={contentValues.isLoading}
             />
           </div>
         </div>
@@ -128,10 +130,8 @@ class Viewer extends Component {
   }
 
   render() {
-    const collectionName                                             = this.props.params.collectionName;
-    const { workbook, modifiedAt, createdAt, createdBy, isFavorite } = this.props.viewStore[collectionName];
-    const workbookName                                               = !!workbook && workbook.name || "";
-    const createdByUser                                              = !!createdBy && createdBy.name || "";
+    const collectionName = this.props.params.collectionName;
+    const metaValues     = getMetaValues(this.props.viewStore[collectionName]);
 
     return (
       <div className="row">
@@ -172,15 +172,15 @@ class Viewer extends Component {
                   <Button block onClick={this.starCollection}>
                     Make Favorite
                     &nbsp;
-                    <FavoriteIcon value={isFavorite || false} inheritSize/>
+                    <FavoriteIcon value={metaValues.isFavorite || false} inheritSize/>
                   </Button>
 
                   <div className={styles.divider}/>
                   <div className={styles.attributes}>
-                    <div>Created By : <span>{createdByUser}</span></div>
-                    <div>Created At : <span>{moment(createdAt).format("DD-MM-YYYY")}</span></div>
-                    <div>Last Modified : <span>{moment(modifiedAt).format("DD-MM-YY h:m A")}</span></div>
-                    <div>Belongs to : <span>{workbookName}</span></div>
+                    <div>Created By : <span>{metaValues.createdBy}</span></div>
+                    <div>Created At : <span>{toDate("DD-MM-YYYY", metaValues.createdAt)}</span></div>
+                    <div>Last Modified : <span>{toDate(null, metaValues.modifiedAt)}</span></div>
+                    <div>Belongs to : <span>{metaValues.workbook}</span></div>
                   </div>
                 </Sticky>
               </div>

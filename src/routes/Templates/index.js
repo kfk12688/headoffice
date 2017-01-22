@@ -5,8 +5,10 @@ import {
   getTemplates, deleteTemplate, createTemplate, starTemplate, selectAll, deselectAll, toggleSelection
 } from "dataflow/templates/actions";
 import { SearchBar, DataGrid } from "components";
-import { toDate, exec, getSelectedKeys } from "utils";
+import { toDate, exec, getSelectedKeys, getProps } from "utils";
 import { ContentMenu } from "./ContentMenu";
+
+const getValues = getProps(["data", "isLoading"]);
 
 class Template extends Component {
   constructor(props) {
@@ -113,8 +115,8 @@ class Template extends Component {
   renderChildren() {
     if (this.props.children) return this.props.children;
 
-    const { data, isLoading } = this.props.list || { data : {}, isLoading : true };
-    const selectedKeys        = getSelectedKeys(data);
+    const values       = getValues(this.props.templates);
+    const selectedKeys = getSelectedKeys(values.data);
     return (
       <div className="row">
         <div className="col-md-10 offset-md-1">
@@ -134,9 +136,9 @@ class Template extends Component {
               </div>
 
               <div className="col-md-9">
-                <DataGrid rows={data}
+                <DataGrid rows={values.data}
                           cols={this.colSpec}
-                          isLoading={isLoading}
+                          isLoading={values.isLoading}
                           colWidths={this.colWidths}
                           onRowClick={this.props.toggleSelection}
                 />
@@ -160,7 +162,7 @@ class Template extends Component {
 Template.propTypes       = {
   children        : React.PropTypes.node,
   // Store
-  list            : React.PropTypes.object.isRequired,
+  templates       : React.PropTypes.object.isRequired,
   // Action types for Data Store
   getTemplates    : React.PropTypes.func.isRequired,
   deleteTemplate  : React.PropTypes.func.isRequired,
@@ -172,7 +174,7 @@ Template.propTypes       = {
   deselectAllRows : React.PropTypes.func.isRequired,
 };
 const mapStateToProps    = (state) => ({
-  list : state.templates.list,
+  templates : state.templates.list,
 });
 const mapDispatchToProps = (dispatch) => ({
   getTemplates    : () => dispatch(getTemplates()),

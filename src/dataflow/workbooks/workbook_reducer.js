@@ -3,6 +3,7 @@ import {
   CREATE_WORKBOOK_REQUEST, CREATE_WORKBOOK_SUCCESS, DELETE_WORKBOOK_REQUEST, DELETE_WORKBOOK_FAILURE,
   DELETE_WORKBOOK_SUCCESS
 } from "./types";
+import { setFailure } from "utils";
 
 const reducer = {
   [GET_WORKBOOKS_REQUEST] : (state) => {
@@ -23,16 +24,7 @@ const reducer = {
       },
     };
   },
-  [GET_WORKBOOKS_FAILURE] : (state, action) => {
-    const { err } = action.payload;
-    return {
-      ...state,
-      list : {
-        isLoading : false,
-        error     : err,
-      },
-    };
-  },
+  [GET_WORKBOOKS_FAILURE] : (state, action) => setFailure(action.payload.err, state),
 
   [CREATE_WORKBOOK_REQUEST] : (state) => {
     return {
@@ -53,17 +45,7 @@ const reducer = {
       },
     };
   },
-  [CREATE_WORKBOOK_FAILURE] : (state, action) => {
-    const { err } = action.payload;
-    return {
-      ...state,
-      list : {
-        ...state.list,
-        isLoading : false,
-        error     : err,
-      },
-    };
-  },
+  [CREATE_WORKBOOK_FAILURE] : (state, action) => setFailure(action.payload.err, state),
 
   [DELETE_WORKBOOK_REQUEST] : (state) => {
     return {
@@ -86,17 +68,7 @@ const reducer = {
       },
     };
   },
-  [DELETE_WORKBOOK_FAILURE] : (state, action) => {
-    const { err } = action.payload;
-    return {
-      ...state,
-      list : {
-        ...state.list,
-        isLoading : false,
-        error     : err,
-      },
-    };
-  },
+  [DELETE_WORKBOOK_FAILURE] : (state, action) => setFailure(action.payload.err, state),
 };
 
 export default reducer;

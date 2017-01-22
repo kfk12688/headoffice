@@ -1,12 +1,13 @@
+import { isNonZeroArray } from "utils";
 import { TextInput, DateInput, NumericInput, ArrayInput, SelectInput, StaticSelectInput } from "./index";
 
 const getComponent = {
   date        : (props) => ({ component : DateInput }),
   number      : (props) => ({ component : NumericInput }),
   schema      : (props) => ({ component : ArrayInput }),
-  schemaArray : (props) => ({ component : DateInput }),
+  schemaArray : (props) => ({ component : ArrayInput }),
   string      : (props) => {
-    if (props.enum.length >= 1) {
+    if (props && props.enum && isNonZeroArray(props.enum)) {
       return {
         component : StaticSelectInput,
         options   : props.enum,

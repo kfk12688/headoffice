@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import { StickyContainer, Sticky } from "react-sticky";
 import { connect } from "react-redux";
-import moment from "moment";
-import { exec } from "utils";
+import { exec, getProps, toDate } from "utils";
 import { SpecDefiner, Button, Modal, FavoriteIcon, Link } from "components";
 import { EditTemplateForm } from "forms";
 import {
   getTemplate, updateSchema, addField, deleteTemplate, starTemplate, updateTemplate
 } from "dataflow/templates/actions";
 import styles from "./index.less";
+
+const getContentValues = getProps(["userSchema", "isLoading", "templateName", "workbook.name", "modifiedAt", "createdAt", "createdBy.name", "isFavorite"]);
 
 class Editor extends Component {
   constructor(props) {
@@ -88,10 +89,8 @@ class Editor extends Component {
   }
 
   render() {
-    const { collectionName }                    = this.props.params;
-    const { userSchema, isLoading, templateName = "", workbook, modifiedAt, createdAt, createdBy, isFavorite } = this.props.editor[collectionName] || {};
-    const workbookName                          = !!workbook && !!workbook.name && workbook.name || "";
-    const createdByUser                         = !!createdBy && !!createdBy.name && createdBy.name || "";
+    const { collectionName } = this.props.params;
+    const contentValues      = getContentValues(this.props.editor[collectionName]);
 
     return (
       <div className="row">
@@ -102,9 +101,9 @@ class Editor extends Component {
                 className={"col-md-9"}
                 colSpec={this.colSpec}
                 colWidths={this.colWidths}
-                name={templateName}
-                data={userSchema}
-                isLoading={isLoading}
+                name={contentValues.templateName}
+                data={contentValues.userSchema || []}
+                isLoading={contentValues.isLoading || false}
                 onSubmit={field => this.props.addField(collectionName, field)}
               />
 
@@ -149,15 +148,15 @@ class Editor extends Component {
                   </Modal>
                   <Button faName="times" block onClick={this.deleteTemplate}>Delete Template</Button>
                   <Button block onClick={this.starTemplate}>
-                    Make Favorite <FavoriteIcon value={isFavorite || false} inheritSize/>
+                    Make Favorite <FavoriteIcon value={contentValues.isFavorite || false} inheritSize/>
                   </Button>
 
                   <div className={styles.divider}/>
                   <div className={styles.attributes}>
-                    <div>Created By : <span>{createdByUser}</span></div>
-                    <div>Created At : <span>{moment(createdAt).format("DD-MM-YYYY")}</span></div>
-                    <div>Last Modified : <span>{moment(modifiedAt).format("DD-MM-YY h:m A")}</span></div>
-                    <div>Belongs to : <span>{workbookName}</span></div>
+                    <div>Created By : <span>{contentValues.createdBy}</span></div>
+                    <div>Created At : <span>{toDate("DD-MM-YYYY", contentValues.createdAt)}</span></div>
+                    <div>Last Modified : <span>{toDate(null, contentValues.modifiedAt)}</span></div>
+                    <div>Belongs to : <span>{contentValues.workbookName}</span></div>
                   </div>
                 </Sticky>
               </div>

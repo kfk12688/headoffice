@@ -2,9 +2,11 @@ import React, { Component } from "react";
 import { StickyContainer, Sticky } from "react-sticky";
 import { connect } from "react-redux";
 import { SearchBar, DataGrid } from "components";
+import { getProps, toDate, exec, getSelectedKeys } from "utils";
 import { toggleSelection, getTemplates, starCollection, selectAll, deselectAll } from "dataflow/collections/actions";
-import { toDate, exec, getSelectedKeys } from "utils";
 import { ContentMenu } from "./ContentMenu";
+
+const getValues = getProps(["data", "isLoading"]);
 
 class Collections extends Component {
   constructor(props) {
@@ -81,9 +83,9 @@ class Collections extends Component {
   renderChildren() {
     if (this.props.children) return this.props.children;
 
-    const { data, isLoading } = this.props.templates || { data : {}, isLoading : true };
-    const selectedKeys        = getSelectedKeys(data);
-    const searchConfig        = [
+    const values       = getValues(this.props.collections);
+    const selectedKeys = getSelectedKeys(values.data);
+    const searchConfig = [
       {
         label : "Owner",
         type  : "searchbox",
@@ -121,9 +123,9 @@ class Collections extends Component {
               </div>
 
               <div className={"col-md-9"}>
-                <DataGrid rows={data}
+                <DataGrid rows={values.data}
                           cols={this.colSpec}
-                          isLoading={isLoading}
+                          isLoading={values.isLoading}
                           colWidths={this.colWidths}
                           onRowClick={this.props.toggleSelection}
                 />
@@ -147,7 +149,7 @@ class Collections extends Component {
 Collections.propTypes    = {
   children        : React.PropTypes.node,
   // Store
-  templates       : React.PropTypes.object.isRequired,
+  collections     : React.PropTypes.object.isRequired,
   // Action types for Menu Store
   toggleSelection : React.PropTypes.func.isRequired,
   // Action types for Data Store
@@ -157,7 +159,7 @@ Collections.propTypes    = {
   deselectAllRows : React.PropTypes.func.isRequired,
 };
 const mapStateToProps    = (state) => ({
-  templates : state.collections.list,
+  collections : state.collections.list,
 });
 const mapDispatchToProps = (dispatch) => ({
   getTemplates    : () => dispatch(getTemplates()),

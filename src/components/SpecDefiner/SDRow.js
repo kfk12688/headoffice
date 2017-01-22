@@ -12,6 +12,7 @@ const Row = ({ prop, component, refCb, ...rest }) =>
 Row.propTypes = {
   prop      : React.PropTypes.object,
   component : React.PropTypes.func,
+  refCb     : React.PropTypes.func,
 };
 
 export default Row;

@@ -1,21 +1,20 @@
-import _ from "underscore";
 import React, { Component } from "react";
 import { PGHeaderRow } from "./PGHeaderRow";
 import { PGBody } from "./PGBody";
-import calcColWidths from "../calculateColWidths";
+import { calcColWidths, isDefined } from "utils";
 import styles from "./common.less";
 
 class PaginationGrid extends Component {
   constructor(props) {
     super(props);
     const colWidths = calcColWidths(props.spec, props.data);
-    this.state = {
+    this.state      = {
       colWidths,
       scrollLeft : 0,
     };
 
     this.reportScrollLeftFn = this.reportScrollLeftFn.bind(this);
-    this.renderContent = this.renderContent.bind(this);
+    this.renderContent      = this.renderContent.bind(this);
   }
 
   reportScrollLeftFn(spacing) {
@@ -24,11 +23,11 @@ class PaginationGrid extends Component {
 
   renderContent() {
     const { isLoading, spec, data } = this.props;
-    const colWidths = calcColWidths(spec, data);
+    const colWidths                 = calcColWidths(spec, data);
 
     if (isLoading) {
       return <div className={styles.spinner}><i className="fa fa-spinner fa-spin fa-2x fa-fw"/></div>;
-    } else if (_.isEmpty(data)) {
+    } else if (!isDefined(data)) {
       return <div className={styles.noData}>No Data Present</div>;
     }
 
@@ -44,7 +43,7 @@ class PaginationGrid extends Component {
 
   render() {
     const { spec, topOffset, data } = this.props;
-    const colWidths = calcColWidths(spec, data);
+    const colWidths                 = calcColWidths(spec, data);
 
     return (
       <div className={styles.pgContainer}>

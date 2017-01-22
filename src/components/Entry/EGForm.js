@@ -7,12 +7,7 @@ import { Button } from "../Button";
 class EGForm extends Component {
   constructor(props) {
     super(props);
-    this.subFields         = [];
-    this.ctrls             = {};
-    this.assignFieldTarget = target => {
-      this.ctrls.fieldDOM = target;
-    };
-
+    this.subFields          = [];
     this.resetForm          = this.resetForm.bind(this);
     this.submitForm         = this.submitForm.bind(this);
     this.constructFields    = this.constructFields.bind(this);
@@ -59,7 +54,7 @@ class EGForm extends Component {
           <div key={name}>
             <FieldArray name={name} subKeys={sub}
                         title={title} {...renderComponent}
-                        fieldsDOM={this.ctrls.fieldDOM}
+                        fieldsDOM={this.fieldDOM}
             />
           </div>
         );
@@ -81,13 +76,13 @@ class EGForm extends Component {
   }
 
   render() {
-    const { className, fieldProps, cols } = this.props;
-    const fields                          = this.constructFields(fieldProps);
-    const subFields                       = this.constructSubFields(fieldProps);
+    const { className, fieldProps } = this.props;
+    const fields                    = this.constructFields(fieldProps);
+    const subFields                 = this.constructSubFields(fieldProps);
 
     return (
       <form className={className} onSubmit={this.submitForm}>
-        <div ref={this.assignFieldTarget}>{fields}</div>
+        <div ref={node => this.fieldDOM = node}>{fields}</div>
         {(subFields.length !== 0) && <div>{subFields}</div>}
 
         <div className="pull-right">

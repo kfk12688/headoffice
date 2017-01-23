@@ -26,6 +26,7 @@ class SDForm extends Component {
   resetForm(e) {
     e.preventDefault();
     this.props.reset();
+    this.fieldNameNode.firstChild.focus();
   }
 
   render() {

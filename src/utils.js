@@ -16,7 +16,8 @@ export const isArray        = isOfType(Array);
 export const isObject       = isOfType(Object);
 export const isBool         = isOfType(Boolean);
 export const isNonZeroArray = R.converge(R.and, [isArray, a => R.gt(R.length(a), 0)]);
-export const isDefined      = v => !R.isNil(v);
+export const isDefined      = R.compose(R.not, R.isNil);
+export const isEmpty        = R.isEmpty;
 export const isDate         = str => {
   const momentDate = moment(str, "D/M/YYYY");
   if (R.isNil(momentDate) || !momentDate.isValid()) return false;
@@ -80,7 +81,7 @@ export const padWithZeros       = (string, size) => {
   while (retVal.length !== size) retVal = R.concat("0", retVal);
   return retVal;
 };
-const getSize                   = data => {
+const getSize               = data => {
   let size             = 0;
   const arbitraryWidth = 8;
   const compute        = val => {
@@ -102,7 +103,7 @@ const getSize                   = data => {
 
   return size;
 };
-export const calcColWidths      = (spec, data) => {
+export const calcColWidths  = (spec, data) => {
   if (!(isNonZeroArray(spec) && isNonZeroArray(data))) return {};
 
   const o          = {};
@@ -116,6 +117,7 @@ export const calcColWidths      = (spec, data) => {
 
   return R.map(v => Math.max(...v, 100), o);
 };
+export const genReactKey    = str => R.compose(R.toLower, R.replace(/ /, ""), R.toString)(str);
 
 /**
  * Reducer functions

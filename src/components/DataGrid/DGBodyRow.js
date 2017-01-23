@@ -19,9 +19,9 @@ class DGBodyRow extends Component {
       let value               = R.path(R.split(".", dataKey), row);
       if (R.isNil(value)) value = false;
       return (
-        <DGBodyCell id={row.collectionName}
+        <DGBodyCell id={row.name}
                     col={col}
-                    key={`${row.collectionName} ${index}`}
+                    key={`${row.id} ${index}`}
                     value={value}
                     colWidth={colWidths[name]}
         />
@@ -37,7 +37,7 @@ class DGBodyRow extends Component {
   }
 
   render() {
-    const { isRowSelected } = this.props;
+    const isRowSelected = this.props.row.isSelected;
 
     let rowColor = transparent;
     if (isRowSelected) {

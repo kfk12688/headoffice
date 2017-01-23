@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { StickyContainer, Sticky } from "react-sticky";
 import { Link } from "react-router";
-import { getProps, toDate } from "utils";
+import { getProps, toDate, isDefined } from "utils";
 import { PaginationGrid, PaginationLinks, FavoriteIcon, Button, Modal } from "components";
 import {
   loadSpec, loadData, deleteRow, updateRow, deleteTemplate, updateTemplate, starCollection
@@ -106,23 +106,35 @@ class Viewer extends Component {
             </div>
           </div>
 
-          <div className="row">
-            <PaginationLinks className="col-md-12"
-                             setLimit={this.setLimit}
-                             setPage={this.setPage}
-                             activePage={this.state.page}
-                             limit={this.state.limit}
-            />
-          </div>
+          {
+            isDefined(contentValues.userSchema) &&
+            <div className="row">
+              <PaginationLinks className="col-md-12"
+                               setLimit={this.setLimit}
+                               setPage={this.setPage}
+                               activePage={this.state.page}
+                               limit={this.state.limit}
+              />
+            </div>
+          }
         </Sticky>
 
         <div className="row">
           <div className="col-md-12">
-            <PaginationGrid topOffset={114}
-                            spec={contentValues.userSchema || []}
-                            data={contentValues.data || {}}
-                            isLoading={contentValues.isLoading}
-            />
+            {
+              isDefined(contentValues.userSchema) ?
+              <PaginationGrid topOffset={114}
+                              name={collectionName}
+                              spec={contentValues.userSchema || []}
+                              data={contentValues.data || {}}
+                              isLoading={contentValues.isLoading}
+              /> :
+              <div>
+                <div>No field definition is given for the template</div>
+                <div>Click <Link to={`/templates/${collectionName}`}>here</Link> to create them</div>
+              </div>
+            }
+
           </div>
         </div>
       </div>
@@ -163,9 +175,8 @@ class Viewer extends Component {
                     hideModal={e => this.setState({ showModal : false })}
                     block
                   >
-                    <EditTemplateForm
-                      state={{}} submitForm={() => {}}
-                      toggleModal={e => this.setState({ showModal : false })}
+                    <EditTemplateForm onSubmit={this.updateTemplate}
+                                      toggleModal={e => this.setState({ showModal : false })}
                     />
                   </Modal>
                   <Button faName="times" block onClick={this.deleteTemplate}>Delete Template</Button>

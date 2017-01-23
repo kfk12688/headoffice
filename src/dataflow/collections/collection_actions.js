@@ -4,7 +4,8 @@ import {
   SPEC_REQUEST, SPEC_SUCCESS, SPEC_FAILURE, DATA_REQUEST, DATA_SUCCESS, DATA_FAILURE, UPDATE_ROW_REQUEST,
   UPDATE_ROW_SUCCESS, UPDATE_ROW_FAILURE, DELETE_ROW_FAILURE, DELETE_ROW_REQUEST, DELETE_ROW_SUCCESS,
   GET_TEMPLATES_REQUEST, GET_TEMPLATES_SUCCESS, GET_TEMPLATES_FAILURE, ADD_ROW_REQUEST, ADD_ROW_SUCCESS,
-  ADD_ROW_FAILURE, STAR_COLLECTION_SUCCESS, EDIT_TEMPLATE_REQUEST, EDIT_TEMPLATE_SUCCESS, EDIT_TEMPLATE_FAILURE
+  ADD_ROW_FAILURE, STAR_COLLECTION_SUCCESS, EDIT_TEMPLATE_REQUEST, EDIT_TEMPLATE_SUCCESS, EDIT_TEMPLATE_FAILURE,
+  DELETE_TEMPLATE_REQUEST, DELETE_TEMPLATE_SUCCESS, DELETE_TEMPLATE_FAILURE
 } from "./types";
 
 /**
@@ -130,4 +131,51 @@ export function starCollection(collectionName) {
   return dispatch => fetch("GET", `api/collections/star/${collectionName}`)
     .then(res => res.json())
     .then(template => dispatch(starCollectionSuccess(collectionName, template)));
+}
+
+/**
+ * Update a template
+ */
+const updateTemplateRequest = createAction(EDIT_TEMPLATE_REQUEST, (collectionName) => ({ collectionName }));
+const updateTemplateSuccess = createAction(EDIT_TEMPLATE_SUCCESS, (collectionName, json) => ({
+  collectionName,
+  template : json.data,
+  message  : json.message,
+}));
+const updateTemplateFailure = createAction(EDIT_TEMPLATE_FAILURE, (collectionName, err) => ({
+  collectionName,
+  err,
+}));
+export function updateTemplate(collectionName, data) {
+  return dispatch => {
+    dispatch(updateTemplateRequest(collectionName));
+    return fetch("PUT", `api/collections/${collectionName}`, data)
+      .then(res => res.json())
+      .then(json => dispatch(updateTemplateSuccess(collectionName, json)))
+      .catch(err => dispatch(updateTemplateFailure(collectionName, err)));
+  };
+}
+
+/**
+ * Delete an existing table template from db
+ */
+const deleteTemplateRequest = createAction(DELETE_TEMPLATE_REQUEST);
+const deleteTemplateSuccess = createAction(DELETE_TEMPLATE_SUCCESS, (collectionName, json) => ({
+  collectionName,
+  template : json.data,
+  message  : json.message,
+}));
+const deleteTemplateFailure = createAction(DELETE_TEMPLATE_FAILURE, (collectionName, err) => ({
+  collectionName,
+  err,
+}));
+export function deleteTemplate(collectionName) {
+  return dispatch => {
+    dispatch(deleteTemplateRequest(collectionName));
+
+    return fetch("DELETE", `api/collections/${collectionName}`)
+      .then(res => res.json())
+      .then(json => dispatch(deleteTemplateSuccess(collectionName, json)))
+      .catch(err => dispatch(deleteTemplateFailure(collectionName, err)));
+  };
 }

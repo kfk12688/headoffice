@@ -3,7 +3,9 @@ import { StickyContainer, Sticky } from "react-sticky";
 import { connect } from "react-redux";
 import { SearchBar, DataGrid } from "components";
 import { getProps, toDate, exec, getSelectedKeys } from "utils";
-import { toggleSelection, getTemplates, starCollection, selectAll, deselectAll } from "dataflow/collections/actions";
+import {
+  toggleSelection, getTemplates, starCollection, deleteTemplate, selectAll, deselectAll
+} from "dataflow/collections/actions";
 import { ContentMenu } from "./ContentMenu";
 
 const getValues = getProps(["data", "isLoading"]);
@@ -11,7 +13,12 @@ const getValues = getProps(["data", "isLoading"]);
 class Collections extends Component {
   constructor(props) {
     super(props);
-    this.actions   = [];
+    this.actions   = {
+      deleteTemplate : {
+        name    : "Delete Template",
+        handler : exec(props.deleteTemplate),
+      },
+    };
     this.colSpec   = [
       {
         dataKey     : "isSelected",
@@ -72,9 +79,9 @@ class Collections extends Component {
       "checkbox-col"   : 38,
       "favorite-col"   : 38,
       "name-col"       : 270,
-      "workbook-col"   : 220,
+      "workbook-col"   : 180,
       "created-at-col" : 120,
-      "updated-at-col" : 150,
+      "updated-at-col" : 180,
     };
 
     if (!props.children) props.getTemplates();
@@ -154,6 +161,7 @@ Collections.propTypes    = {
   toggleSelection : React.PropTypes.func.isRequired,
   // Action types for Data Store
   getTemplates    : React.PropTypes.func.isRequired,
+  deleteTemplate  : React.PropTypes.func.isRequired,
   starCollection  : React.PropTypes.func.isRequired,
   selectAllRows   : React.PropTypes.func.isRequired,
   deselectAllRows : React.PropTypes.func.isRequired,
@@ -165,6 +173,7 @@ const mapDispatchToProps = (dispatch) => ({
   getTemplates    : () => dispatch(getTemplates()),
   toggleSelection : (collectionName) => dispatch(toggleSelection(collectionName)),
   starCollection  : (collectionName) => dispatch(starCollection(collectionName)),
+  deleteTemplate  : (collectionName) => dispatch(deleteTemplate(collectionName)),
   selectAllRows   : () => dispatch(selectAll()),
   deselectAllRows : () => dispatch(deselectAll()),
 });

@@ -28,3 +28,11 @@ export const STAR_COLLECTION_SUCCESS = "routes/collections/STAR_COLLECTION_SUCCE
 export const SELECT_ALL_CONTENT       = "routes/collections/SELECT_ALL_CONTENT";
 export const DESELECT_ALL_CONTENT     = "routes/collections/DESELECT_ALL_CONTENT";
 export const TOGGLE_CONTENT_SELECTION = "routes/collections/TOGGLE_CONTENT_SELECTION";
+
+export const EDIT_TEMPLATE_REQUEST = "routes/collections/EDIT_TEMPLATE_REQUEST";
+export const EDIT_TEMPLATE_SUCCESS = "routes/collections/EDIT_TEMPLATE_SUCCESS";
+export const EDIT_TEMPLATE_FAILURE = "routes/collections/EDIT_TEMPLATE_FAILURE";
+
+export const DELETE_TEMPLATE_REQUEST = "routes/collections/DELETE_TEMPLATE_REQUEST";
+export const DELETE_TEMPLATE_SUCCESS = "routes/collections/DELETE_TEMPLATE_SUCCESS";
+export const DELETE_TEMPLATE_FAILURE = "routes/collections/DELETE_TEMPLATE_FAILURE";

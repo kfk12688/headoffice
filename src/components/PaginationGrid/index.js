@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { PGHeaderRow } from "./PGHeaderRow";
 import { PGBody } from "./PGBody";
-import { calcColWidths, isDefined } from "utils";
+import { Link } from "components";
+import { calcColWidths, isDefined, isEmpty } from "utils";
 import styles from "./common.less";
 
 class PaginationGrid extends Component {
@@ -22,13 +23,20 @@ class PaginationGrid extends Component {
   }
 
   renderContent() {
-    const { isLoading, spec, data } = this.props;
-    const colWidths                 = calcColWidths(spec, data);
+    const { isLoading, spec, data, name } = this.props;
+    const colWidths                       = calcColWidths(spec, data);
 
     if (isLoading) {
       return <div className={styles.spinner}><i className="fa fa-spinner fa-spin fa-2x fa-fw"/></div>;
-    } else if (!isDefined(data)) {
-      return <div className={styles.noData}>No Data Present</div>;
+    }
+
+    if (!isDefined(data) || isEmpty(data)) {
+      return (
+        <div className={styles.noData}>
+          <div>No Data Present</div>
+          <div>Click <Link to={`/collections/entry/${name}`}>here</Link> to create them</div>
+        </div>
+      );
     }
 
     return (
@@ -60,6 +68,7 @@ class PaginationGrid extends Component {
 }
 
 PaginationGrid.propTypes = {
+  name      : React.PropTypes.string,
   topOffset : React.PropTypes.number,
   style     : React.PropTypes.object,
   className : React.PropTypes.string,

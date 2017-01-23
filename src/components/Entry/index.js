@@ -1,6 +1,5 @@
 import React from "react";
 import _ from "underscore";
-import { Link } from "react-router";
 import EGForm from "./EGForm";
 
 class Entry extends React.Component {
@@ -30,16 +29,7 @@ class Entry extends React.Component {
   }
 
   render() {
-    const { spec, onSubmit, className, templateName, collectionName } = this.props;
-
-    if (_.isEmpty(spec)) {
-      return (
-        <div>
-          <div>{`No field definition is given for ${templateName}`}</div>
-          <div>Goto <Link to={`/templates/${collectionName}`}>{templateName}</Link> to create them</div>
-        </div>
-      );
-    }
+    const { spec, onSubmit, className } = this.props;
 
     return (
       <EGForm
@@ -53,11 +43,9 @@ class Entry extends React.Component {
 }
 
 Entry.propTypes = {
-  className      : React.PropTypes.string,
-  templateName   : React.PropTypes.string.isRequired,
-  collectionName : React.PropTypes.string.isRequired,
-  spec           : React.PropTypes.array.isRequired,
-  onSubmit       : React.PropTypes.func.isRequired,
+  className : React.PropTypes.string,
+  spec      : React.PropTypes.array.isRequired,
+  onSubmit  : React.PropTypes.func.isRequired,
 };
 
 export { Entry };

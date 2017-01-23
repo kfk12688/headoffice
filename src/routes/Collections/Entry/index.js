@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { StickyContainer, Sticky } from "react-sticky";
 import { Link } from "react-router";
-import { getProps, toDate } from "utils";
+import { getProps, toDate, isDefined } from "utils";
 import { Entry, Button, Modal, FavoriteIcon } from "components";
 import { EditTemplateForm } from "forms";
 import { loadSpec, addRow, deleteTemplate, starCollection, updateTemplate } from "dataflow/collections/actions";
@@ -75,12 +75,19 @@ class EntryForm extends Component {
 
                 <div className="row">
                   <div className="col-md-12">
-                    <Entry templateName={contentValues.templateName}
-                           collectionName={collectionName}
-                           spec={contentValues.userSchema || []}
-                           isLoading={contentValues.isLoading}
-                           onSubmit={this.addRow}
-                    />
+                    {
+                      isDefined(contentValues.userSchema) ?
+                      <Entry templateName={contentValues.templateName}
+                             collectionName={collectionName}
+                             spec={contentValues.userSchema || []}
+                             isLoading={contentValues.isLoading}
+                             onSubmit={this.addRow}
+                      /> :
+                      <div>
+                        <div>No field definition is given for the template</div>
+                        <div>Click <Link to={`/templates/${collectionName}`}>here</Link> to create them</div>
+                      </div>
+                    }
                   </div>
                 </div>
               </div>
@@ -109,9 +116,8 @@ class EntryForm extends Component {
                     hideModal={e => this.setState({ showModal : false })}
                     block
                   >
-                    <EditTemplateForm
-                      state={{}} submitForm={() => {}}
-                      toggleModal={e => this.setState({ showModal : false })}
+                    <EditTemplateForm onSubmit={this.updateTemplate}
+                                      toggleModal={e => this.setState({ showModal : false })}
                     />
                   </Modal>
                   <Button faName="times" block onClick={this.deleteTemplate}>Delete Template</Button>

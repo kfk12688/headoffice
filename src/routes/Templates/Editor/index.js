@@ -141,9 +141,8 @@ class Editor extends Component {
                     hideModal={e => this.setState({ showModal : false })}
                     block
                   >
-                    <EditTemplateForm
-                      onSubmit={this.updateTemplate}
-                      toggleModal={e => this.setState({ showModal : false })}
+                    <EditTemplateForm onSubmit={this.updateTemplate}
+                                      toggleModal={e => this.setState({ showModal : false })}
                     />
                   </Modal>
                   <Button faName="times" block onClick={this.deleteTemplate}>Delete Template</Button>
@@ -156,7 +155,7 @@ class Editor extends Component {
                     <div>Created By : <span>{contentValues.createdBy}</span></div>
                     <div>Created At : <span>{toDate("DD-MM-YYYY", contentValues.createdAt)}</span></div>
                     <div>Last Modified : <span>{toDate(null, contentValues.modifiedAt)}</span></div>
-                    <div>Belongs to : <span>{contentValues.workbookName}</span></div>
+                    <div>Belongs to : <span>{contentValues.workbook}</span></div>
                   </div>
                 </Sticky>
               </div>

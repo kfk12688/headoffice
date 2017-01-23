@@ -39,9 +39,12 @@ const templateReducer = {
     const { template, collectionName, message } = action.payload;
     const setData                               = R.compose(
       setMessage(message),
+      set(null, template, collectionName),
+      loaded(collectionName),
       set(collectionName, template, "list"),
       set(["data", collectionName], template, "list"),
-      loaded("list"));
+      loaded("list"),
+    );
     return setData(state);
   },
   [EDIT_TEMPLATE_FAILURE] : (state, action) => setFailure(action.payload.err, state),

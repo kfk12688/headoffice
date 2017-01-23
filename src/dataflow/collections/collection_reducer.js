@@ -4,7 +4,8 @@ import {
   SPEC_REQUEST, SPEC_SUCCESS, SPEC_FAILURE, DATA_REQUEST, DATA_SUCCESS, DATA_FAILURE, DELETE_ROW_REQUEST,
   DELETE_ROW_SUCCESS, DELETE_ROW_FAILURE, UPDATE_ROW_REQUEST, UPDATE_ROW_SUCCESS, UPDATE_ROW_FAILURE, ADD_ROW_FAILURE,
   ADD_ROW_REQUEST, ADD_ROW_SUCCESS, GET_TEMPLATES_REQUEST, GET_TEMPLATES_SUCCESS, GET_TEMPLATES_FAILURE,
-  STAR_COLLECTION_SUCCESS
+  STAR_COLLECTION_SUCCESS, EDIT_TEMPLATE_REQUEST, EDIT_TEMPLATE_SUCCESS, EDIT_TEMPLATE_FAILURE,
+  DELETE_TEMPLATE_REQUEST, DELETE_TEMPLATE_SUCCESS, DELETE_TEMPLATE_FAILURE
 } from "./types";
 
 const setLoadingByID = id => set(["data", id, "isLoading"], true);
@@ -24,6 +25,34 @@ const collectionReducer = {
     const { error, message } = action.payload;
     return setFailure(error, message, state);
   },
+
+  [EDIT_TEMPLATE_REQUEST] : (state, action) => loadCollection(action.payload.collectionName, state),
+  [EDIT_TEMPLATE_SUCCESS] : (state, action) => {
+    const { template, collectionName, message } = action.payload;
+    const setData                               = R.compose(
+      setMessage(message),
+      set(null, template, collectionName),
+      loaded(collectionName),
+      set(collectionName, template, "list"),
+      set(["data", collectionName], template, "list"),
+      loaded("list"),
+    );
+    return setData(state);
+  },
+  [EDIT_TEMPLATE_FAILURE] : (state, action) => setFailure(action.payload.err, state),
+
+  [DELETE_TEMPLATE_REQUEST] : (state, action) => loading("list", state),
+  [DELETE_TEMPLATE_SUCCESS] : (state, action) => {
+    const { collectionName, message } = action.payload;
+    const deleteTemplate              = R.compose(
+      loaded("list"),
+      setMessage(message),
+      unset(["data", collectionName], "list"),
+      unset(null, collectionName),
+    );
+    return deleteTemplate(state);
+  },
+  [DELETE_TEMPLATE_FAILURE] : (state, action) => setFailure(action.payload.err, state),
 
   /**
    * Specification for data entry in the table

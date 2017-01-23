@@ -104,9 +104,9 @@ class Template extends Component {
       "favorite-col"   : 38,
       "name-col"       : 230,
       "user-col"       : 120,
-      "workbook-col"   : 170,
-      "created-at-col" : 150,
-      "updated-at-col" : 150,
+      "workbook-col"   : 180,
+      "created-at-col" : 120,
+      "updated-at-col" : 180,
     };
 
     if (!props.children) props.getTemplates();

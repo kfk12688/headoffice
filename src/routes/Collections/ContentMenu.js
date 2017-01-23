@@ -1,4 +1,4 @@
-import R from "ramda";
+import { genReactKey, imap } from "utils";
 import React, { Component } from "react";
 import { Dropdown } from "components";
 import styles from "./ContentMenu.less";
@@ -14,18 +14,25 @@ class ContentMenu extends Component {
 
   getActions() {
     const { actions, selectedKeys } = this.props;
-    const renderAction              = action => {
-      const key = R.pipe(R.replace(/ /, ""), R.toLower(action.name));
-      return <div key={key} onClick={() => R.map(action.handler, selectedKeys)}>{action.name}</div>;
-    };
-    const actionsMenuContent        = R.compose(R.values, R.map(renderAction))(actions);
+    const renderAction              = action =>
+      <div key={genReactKey(action.name)}
+           onClick={(e) => this.handleActionClick(e, selectedKeys, action.handler)}
+      >
+        {action.name}
+      </div>;
 
     return (
       <span>
         <span className={styles.actionsSeperator}/>
-        <Dropdown label=" Actions">{actionsMenuContent}</Dropdown>
+        <Dropdown label=" Actions">{imap(renderAction, actions)}</Dropdown>
       </span>
     );
+  }
+
+  handleActionClick(e, selectedKeys, handler) {
+    e.preventDefault();
+    e.stopPropagation();
+    selectedKeys.map(handler);
   }
 
   toggleModal() {
@@ -64,7 +71,7 @@ class ContentMenu extends Component {
 ContentMenu.propTypes = {
   className       : React.PropTypes.string,
   selectedKeys    : React.PropTypes.array,
-  actions         : React.PropTypes.array,
+  actions         : React.PropTypes.object.isRequired,
   // Functions
   selectAllRows   : React.PropTypes.func,
   deselectAllRows : React.PropTypes.func,

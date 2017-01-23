@@ -1,5 +1,5 @@
-import R from "ramda";
 import cx from "classnames";
+import { genReactKey, imap } from "utils";
 import React, { Component } from "react";
 import { Modal, Dropdown } from "components";
 import { NewTemplateForm } from "forms";
@@ -14,18 +14,25 @@ class ContentMenu extends Component {
 
   getActions() {
     const { actions, selectedKeys } = this.props;
-    const renderAction              = action => {
-      const key = R.pipe(R.replace(/ /, ""), R.toLower(action.name));
-      return <div key={key} onClick={() => R.map(action.handler, selectedKeys)}>{action.name}</div>;
-    };
-    const actionsMenuContent        = R.compose(R.values, R.map(renderAction))(actions);
+    const renderAction              = action =>
+      <div key={genReactKey(action.name)}
+           onClick={(e) => this.handleActionClick(e, selectedKeys, action.handler)}
+      >
+        {action.name}
+      </div>;
 
     return (
       <span>
-      <span className={styles.actionsSeperator}/>
-      <Dropdown label=" Actions">{actionsMenuContent}</Dropdown>
+        <span className={styles.actionsSeperator}/>
+        <Dropdown label=" Actions">{imap(renderAction, actions)}</Dropdown>
       </span>
     );
+  }
+
+  handleActionClick(e, selectedKeys, handler) {
+    e.preventDefault();
+    e.stopPropagation();
+    selectedKeys.map(handler);
   }
 
   toggleModal() {
@@ -37,7 +44,7 @@ class ContentMenu extends Component {
   }
 
   render() {
-    const len = R.length(this.props.selectedKeys);
+    const len = this.props.selectedKeys.length;
 
     return (
       <div className={cx("row", styles.navbar)}>

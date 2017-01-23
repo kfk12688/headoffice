@@ -4,8 +4,8 @@ import menuReducer from "./menu_reducer";
 
 const initialState = {
   list : {
-    data      : {},
     isLoading : false,
+    data      : {},
   },
 };
 

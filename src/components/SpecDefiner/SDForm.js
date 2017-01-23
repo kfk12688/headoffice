@@ -7,7 +7,7 @@ import getFields from "./getFields";
 import styles from "./common.less";
 import cx from "classnames";
 
-const FIELD_TYPES = ["number", "date", "string", "boolean", "objectId", "schema", "schemaArray"];
+const FIELD_TYPES = ["number", "date", "string", "boolean", "objectId", "schema", "schemaArray", "binData"];
 
 class SDForm extends Component {
   constructor(props) {
@@ -31,18 +31,24 @@ class SDForm extends Component {
 
   render() {
     const { pristine, submitting, fieldType, fieldProps, fieldSchema } = this.props;
-    const fieldDefn                                                    = {
-      fieldName : { key : "fieldName", displayText : "Field Name" },
-      fieldType : { key : "fieldType", displayText : "Field Type" },
-    };
 
     return (
       <form onSubmit={this.submitForm}>
         <div className="row">
           <div className="col-md-12">
-            <SDRow refCb={node => this.fieldNameNode = node} prop={fieldDefn.fieldName} component={TextInput} required/>
-            <SDRow prop={fieldDefn.fieldType} component={StaticSelectInput} options={FIELD_TYPES} required/>
-            {getFields("fieldProps", fieldType, fieldProps, fieldSchema)}
+            <SDRow required
+                   refCb={node => this.fieldNameNode = node}
+                   name="fieldName"
+                   displayText="Field Name"
+                   component={TextInput}
+            />
+            <SDRow required
+                   name="fieldType"
+                   displayText="Field Type"
+                   component={StaticSelectInput}
+                   options={FIELD_TYPES}
+            />
+            {fieldType && getFields[fieldType]("fieldProps", fieldProps, fieldSchema)}
           </div>
         </div>
 

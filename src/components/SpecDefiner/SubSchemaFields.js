@@ -16,10 +16,6 @@ const SubSchemaFields = ({ fields, fieldSchema }) => {
   };
 
   const subSchemaFields = fields.map((field, idx) => {
-    const fieldDefn                 = {
-      fieldName : { key : `${field}.fieldName`, displayText : "Field Name" },
-      fieldType : { key : `${field}.fieldType`, displayText : "Field Type" },
-    };
     const subFieldSchema            = fieldSchema && (fieldSchema[idx] || {});
     const { fieldType, fieldProps } = subFieldSchema;
 
@@ -28,17 +24,18 @@ const SubSchemaFields = ({ fields, fieldSchema }) => {
         <div className="col-md-11">
           <h6 className={styles.headers}>{`Sub-Field-${idx + 1}`}</h6>
           <SDRow required
+                 name={`${field}.fieldName`}
+                 displayText="Field Name"
                  component={TextInput}
-                 prop={fieldDefn.fieldName}
           />
           <SDRow required
+                 name={`${field}.fieldType`}
+                 displayText="Field Type"
                  component={StaticSelectInput}
-                 prop={fieldDefn.fieldType}
                  options={["number", "date", "string", "boolean", "objectId"]}
           />
           {
-            fieldType &&
-            getFields(`${field}.fieldProps`, fieldType, fieldProps)
+            fieldType && getFields[fieldType](`${field}.fieldProps`, fieldProps)
           }
         </div>
 

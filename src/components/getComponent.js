@@ -1,11 +1,12 @@
 import { isNonZeroArray } from "utils";
-import { TextInput, DateInput, NumericInput, ArrayInput, SelectInput, StaticSelectInput } from "./index";
+import { TextInput, DateInput, NumericInput, ArrayInput, SelectInput, StaticSelectInput, ImageInput } from "components";
 
 const getComponent = {
-  date        : (props) => ({ component : DateInput }),
-  number      : (props) => ({ component : NumericInput }),
-  schema      : (props) => ({ component : ArrayInput }),
-  schemaArray : (props) => ({ component : ArrayInput }),
+  date        : (_) => ({ component : DateInput }),
+  number      : (_) => ({ component : NumericInput }),
+  schema      : (_) => ({ component : ArrayInput, limit : true }),
+  schemaArray : (_) => ({ component : ArrayInput }),
+  binData     : (_) => ({ component : ImageInput }),
   string      : (props) => {
     if (props && props.enum && isNonZeroArray(props.enum)) {
       return {
@@ -17,7 +18,7 @@ const getComponent = {
   },
   objectId    : (props) => ({
     component : SelectInput,
-    api       : `api/list/${props.ref.id}/${props.refField.id}`,
+    api       : `api/list/${props.tableRef.id}/${props.fieldRef.id}`,
   }),
 };
 

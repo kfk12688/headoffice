@@ -28,9 +28,7 @@ export const isDate         = str => {
   return R.any(isTrue, R.map(exists, validFormats));
 };
 export const toBytes        = R.curry((bytes, decimals) => {
-  if (bytes === 0) {
-    return "0 Byte";
-  }
+  if (bytes === 0) return "0 Byte";
 
   const k     = 1000; // or 1024 for binary
   const dm    = decimals + 1 || 1;
@@ -73,7 +71,7 @@ export const objectToURI        = obj => {
   return R.compose(R.join("&"), generateQueryString)(obj);
 };
 export const exec               = R.curry((fn, name) => fn(name));
-export const getSelectedKeys    = R.compose(R.keys, R.filter(R.path(["isSelected"])));
+export const getSelectedKeys    = R.compose(R.keys, R.filter(R.path(["w"])));
 export const imap               = R.curry((mapFn, data) => R.compose(R.values, R.mapObjIndexed(mapFn))(data));
 export const padWithZeros       = (string, size) => {
   let retVal = "";
@@ -81,7 +79,7 @@ export const padWithZeros       = (string, size) => {
   while (retVal.length !== size) retVal = R.concat("0", retVal);
   return retVal;
 };
-const getSize               = data => {
+const getSize                   = data => {
   let size             = 0;
   const arbitraryWidth = 8;
   const compute        = val => {
@@ -103,7 +101,7 @@ const getSize               = data => {
 
   return size;
 };
-export const calcColWidths  = (spec, data) => {
+export const calcColWidths      = (spec, data) => {
   if (!(isNonZeroArray(spec) && isNonZeroArray(data))) return {};
 
   const o          = {};
@@ -117,7 +115,7 @@ export const calcColWidths  = (spec, data) => {
 
   return R.map(v => Math.max(...v, 100), o);
 };
-export const genReactKey    = str => R.compose(R.toLower, R.replace(/ /, ""), R.toString)(str);
+export const genReactKey        = str => R.compose(R.toLower, R.replace(/ /, ""), R.toString)(str);
 
 /**
  * Reducer functions

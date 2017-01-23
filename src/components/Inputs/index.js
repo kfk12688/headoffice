@@ -6,3 +6,4 @@ export { TextInput } from "./TextInput.js";
 export { SearchInput } from "./SearchInput";
 export { ArrayInput } from "./ArrayInput";
 export { SelectInput } from "./SelectInput";
+export { ImageInput } from "./ImageInput";

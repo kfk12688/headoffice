@@ -1,6 +1,7 @@
 // replaces ComboSearchInput with SelectInput
 export {
-  TextInput, ArrayInput, StaticSelectInput, CheckBoxInput, DateInput, NumericInput, SearchInput, SelectInput
+  TextInput, ArrayInput, StaticSelectInput, CheckBoxInput, DateInput, NumericInput, SearchInput, SelectInput,
+  ImageInput
 } from "./Inputs";
 
 export { DataGrid } from "./DataGrid";

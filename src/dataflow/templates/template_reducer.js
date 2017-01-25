@@ -1,11 +1,11 @@
 import R from "ramda";
-import { set, unset, loaded, loading, loadCollection, setFailure, setMessage } from "utils";
+import { set, unset, loaded, loading, loadCollection, setFailure, setMessage, isDefined } from "utils";
 import {
   EDIT_SCHEMA_SUCCESS, EDIT_TEMPLATE_FAILURE, EDIT_TEMPLATE_REQUEST, EDIT_TEMPLATE_SUCCESS, EDIT_SCHEMA_FAILURE,
   EDIT_SCHEMA_REQUEST, GET_TEMPLATES_REQUEST, GET_TEMPLATES_SUCCESS, GET_TEMPLATES_FAILURE, ADD_TEMPLATE_REQUEST,
   ADD_TEMPLATE_SUCCESS, ADD_TEMPLATE_FAILURE, DELETE_TEMPLATE_REQUEST, DELETE_TEMPLATE_SUCCESS,
   DELETE_TEMPLATE_FAILURE, GET_TEMPLATE_REQUEST, GET_TEMPLATE_SUCCESS, GET_TEMPLATE_FAILURE, ADD_USER_SCHEMA_FIELD,
-  STAR_TEMPLATE_SUCCESS
+  DELETE_USER_SCHEMA_FIELD, STAR_TEMPLATE_SUCCESS
 } from "./types";
 
 const templateReducer = {
@@ -98,7 +98,7 @@ const templateReducer = {
     return setIsFavorite(state);
   },
 
-  [ADD_USER_SCHEMA_FIELD] : (state, action) => {
+  [ADD_USER_SCHEMA_FIELD]    : (state, action) => {
     const { collectionName, field }  = action.payload;
     const { fieldName, fieldSchema } = field;
 
@@ -126,6 +126,25 @@ const templateReducer = {
     return setFailure(
       `Field exists already at ${idx}`,
       "Field exists already. Check the Field Name input.",
+      state
+    );
+  },
+  [DELETE_USER_SCHEMA_FIELD] : (state, action) => {
+    const { collectionName, idx }  = action.payload;
+    const userSchema               = R.path([collectionName, "userSchema"], state);
+    const isField                  = R.indexOf(idx, userSchema);
+
+    if (isDefined(isField)) {
+      const newUserSchema = R.remove(idx, 1, userSchema);
+      const setData       = R.compose(
+        set("userSchema", newUserSchema, collectionName)
+      );
+      return setData(state);
+    }
+
+    return setFailure(
+      `No field found for given ${idx}`,
+      "No index found. Check code",
       state
     );
   },

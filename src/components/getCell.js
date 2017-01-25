@@ -42,14 +42,6 @@ const getCell = {
   },
   action         : (_, col, id) => <Actionable actions={col.actions} id={id}/>,
   label          : (value) => <Labels value={value}/>,
-  join           : (value, col, id) => {
-    const values   = [];
-    const dataKeys = col.dataKey;
-    dataKeys.forEach(k => {
-      values.push(value(k));
-    });
-    return (<LAValue value={values.reduce((ov, nv) => `${ov} ${nv}`)}/>);
-  },
   date           : (value, col) => {
     let val;
     if (R.isNil(col.cellFormatter)) {

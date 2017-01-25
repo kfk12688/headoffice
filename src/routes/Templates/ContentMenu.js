@@ -14,11 +14,11 @@ class ContentMenu extends Component {
 
   getActions() {
     const { actions, selectedKeys } = this.props;
-    const renderAction              = action =>
-      <div key={genReactKey(action.name)}
-           onClick={(e) => this.handleActionClick(e, selectedKeys, action.handler)}
+    const renderAction              = ({ name, handler }) =>
+      <div key={genReactKey(name)}
+           onClick={(e) => this.handleActionClick(e, selectedKeys, handler)}
       >
-        {action.name}
+        {name}
       </div>;
 
     return (

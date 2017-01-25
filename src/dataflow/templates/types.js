@@ -22,8 +22,9 @@ export const DELETE_TEMPLATE_REQUEST = "routes/templates/DELETE_TEMPLATE_REQUEST
 export const DELETE_TEMPLATE_SUCCESS = "routes/templates/DELETE_TEMPLATE_SUCCESS";
 export const DELETE_TEMPLATE_FAILURE = "routes/templates/DELETE_TEMPLATE_FAILURE";
 
-export const STAR_TEMPLATE_SUCCESS = "routes/templates/STAR_TEMPLATE_SUCCESS";
-export const ADD_USER_SCHEMA_FIELD = "routes/templates/ADD_USER_SCHEMA_FIELD";
+export const STAR_TEMPLATE_SUCCESS    = "routes/templates/STAR_TEMPLATE_SUCCESS";
+export const ADD_USER_SCHEMA_FIELD    = "routes/templates/ADD_USER_SCHEMA_FIELD";
+export const DELETE_USER_SCHEMA_FIELD = "routes/templates/DELETE_USER_SCHEMA_FIELD";
 
 // Menu Action Types
 export const SELECT_ALL_CONTENT       = "routes/templates/SELECT_ALL_CONTENT";

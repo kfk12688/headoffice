@@ -55,7 +55,7 @@ export const getFromURIFragment = queryString => {
 
   return params;
 };
-export const randomString       = length => {
+export const randomString    = length => {
   let text       = "";
   const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   for (let i = 0; i < length; i++) {
@@ -63,23 +63,24 @@ export const randomString       = length => {
   }
   return text;
 };
-export const objectToURI        = obj => {
+export const objectToURI     = obj => {
   const generateQueryString = R.addIndex(
     R.map,
     (key, value) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
   );
   return R.compose(R.join("&"), generateQueryString)(obj);
 };
-export const exec               = R.curry((fn, name) => fn(name));
-export const getSelectedKeys    = R.compose(R.keys, R.filter(R.path(["w"])));
-export const imap               = R.curry((mapFn, data) => R.compose(R.values, R.mapObjIndexed(mapFn))(data));
-export const padWithZeros       = (string, size) => {
+export const exec            = R.curry((fn, name) => fn(name));
+export const execById        = R.curry((fn, name, id) => fn(name, id));
+export const getSelectedKeys = R.compose(R.keys, R.filter(R.path(["w"])));
+export const imap            = R.curry((mapFn, data) => R.compose(R.values, R.mapObjIndexed(mapFn))(data));
+export const padWithZeros    = (string, size) => {
   let retVal = "";
   if (!isString(string)) retVal = R.toString(string);
   while (retVal.length !== size) retVal = R.concat("0", retVal);
   return retVal;
 };
-const getSize                   = data => {
+const getSize                = data => {
   let size             = 0;
   const arbitraryWidth = 8;
   const compute        = val => {

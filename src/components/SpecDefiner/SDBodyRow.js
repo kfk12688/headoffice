@@ -4,7 +4,7 @@ import cell from "../getCell";
 import styles from "./common.less";
 import { imap } from "utils";
 
-const SDBodyRow = ({ row, cols, colWidths }) => {
+const SDBodyRow = ({ row, cols, colWidths, id }) => {
   const mapCol = (col, colKey) => {
     const { renderType } = col;
     const style          = {
@@ -20,7 +20,7 @@ const SDBodyRow = ({ row, cols, colWidths }) => {
            className={styles.cell}
            style={{ ...style, ...col.colStyle }}
       >
-        {cell[renderType](value, col, colKey)}
+        {cell[renderType](value, col, id)}
       </div>
     );
   };

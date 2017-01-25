@@ -6,6 +6,7 @@ const SDBody = ({ rows, cols, colWidths }) => {
   const getBodyRows = (row, rowKey) =>
     <SDBodyRow key={rowKey}
                row={row}
+               id={rowKey}
                cols={cols}
                colWidths={colWidths}
     />;

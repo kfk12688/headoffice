@@ -4,7 +4,8 @@ import {
   EDIT_TEMPLATE_FAILURE, EDIT_TEMPLATE_REQUEST, EDIT_TEMPLATE_SUCCESS, EDIT_SCHEMA_FAILURE, EDIT_SCHEMA_REQUEST,
   EDIT_SCHEMA_SUCCESS, GET_TEMPLATES_REQUEST, GET_TEMPLATES_SUCCESS, GET_TEMPLATES_FAILURE, ADD_TEMPLATE_REQUEST,
   ADD_TEMPLATE_SUCCESS, ADD_TEMPLATE_FAILURE, DELETE_TEMPLATE_REQUEST, DELETE_TEMPLATE_SUCCESS, GET_TEMPLATE_REQUEST,
-  GET_TEMPLATE_SUCCESS, GET_TEMPLATE_FAILURE, DELETE_TEMPLATE_FAILURE, ADD_USER_SCHEMA_FIELD, STAR_TEMPLATE_SUCCESS
+  GET_TEMPLATE_SUCCESS, GET_TEMPLATE_FAILURE, DELETE_TEMPLATE_FAILURE, ADD_USER_SCHEMA_FIELD,
+  DELETE_USER_SCHEMA_FIELD, STAR_TEMPLATE_SUCCESS
 } from "./types";
 
 // ####################################################
@@ -154,4 +155,8 @@ export function updateSchema(collectionName, schema) {
 /**
  * Add a schema field to the redux store
  */
-export const addField = createAction(ADD_USER_SCHEMA_FIELD, (collectionName, field) => ({ collectionName, field }));
+export const addField    = createAction(ADD_USER_SCHEMA_FIELD, (collectionName, field) => ({ collectionName, field }));
+/**
+ * Remove a schema field from the redux store
+ */
+export const deleteField = createAction(DELETE_USER_SCHEMA_FIELD, (collectionName, idx) => ({ collectionName, idx }));

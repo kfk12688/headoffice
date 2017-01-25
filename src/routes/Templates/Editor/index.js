@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { StickyContainer, Sticky } from "react-sticky";
 import { connect } from "react-redux";
-import { exec, getProps, toDate } from "utils";
+import { execById, getProps, toDate } from "utils";
 import { SpecDefiner, Button, Modal, FavoriteIcon, Link } from "components";
 import { EditTemplateForm } from "forms";
 import {
-  getTemplate, updateSchema, addField, deleteTemplate, starTemplate, updateTemplate
+  getTemplate, updateSchema, addField, deleteField, deleteTemplate, starTemplate, updateTemplate
 } from "dataflow/templates/actions";
 import styles from "./index.less";
 
@@ -14,16 +14,17 @@ const getContentValues = getProps(["userSchema", "isLoading", "templateName", "w
 class Editor extends Component {
   constructor(props) {
     super(props);
-    this.state          = {
+    this.state               = {
       showModal : false,
     };
-    this.updateSchema   = this.updateSchema.bind(this);
-    this.deleteTemplate = this.deleteTemplate.bind(this);
-    this.updateTemplate = this.updateTemplate.bind(this);
-    this.starTemplate   = this.starTemplate.bind(this);
-    this.actions        = {
-      editField   : { name : "Edit", handler : exec(props.deleteTemplate) },
-      deleteField : { name : "Delete", handler : exec(props.deleteTemplate) },
+    const { collectionName } = props.params;
+    this.updateSchema        = this.updateSchema.bind(this);
+    this.deleteTemplate      = this.deleteTemplate.bind(this);
+    this.updateTemplate      = this.updateTemplate.bind(this);
+    this.starTemplate        = this.starTemplate.bind(this);
+    this.actions             = {
+      editField   : { name : "Edit", handler : execById(()=> {}, collectionName) },
+      deleteField : { name : "Delete", handler : execById(props.deleteField, collectionName) },
     };
 
     this.colSpec   = {
@@ -97,14 +98,13 @@ class Editor extends Component {
         <div className="col-md-10 offset-md-1">
           <StickyContainer>
             <div style={{ marginTop : "1rem" }} className="row">
-              <SpecDefiner
-                className={"col-md-9"}
-                colSpec={this.colSpec}
-                colWidths={this.colWidths}
-                name={contentValues.templateName}
-                data={contentValues.userSchema || []}
-                isLoading={contentValues.isLoading || false}
-                onSubmit={field => this.props.addField(collectionName, field)}
+              <SpecDefiner className={"col-md-9"}
+                           colSpec={this.colSpec}
+                           colWidths={this.colWidths}
+                           name={contentValues.templateName}
+                           data={contentValues.userSchema || []}
+                           isLoading={contentValues.isLoading || false}
+                           onSubmit={field => this.props.addField(collectionName, field)}
               />
 
               <div className="col-md-3">
@@ -167,7 +167,7 @@ class Editor extends Component {
   }
 }
 
-Editor.propTypes    = {
+Editor.propTypes         = {
   // route
   params         : React.PropTypes.object,
   // state
@@ -177,24 +177,24 @@ Editor.propTypes    = {
   deleteTemplate : React.PropTypes.func.isRequired,
   starTemplate   : React.PropTypes.func.isRequired,
   updateTemplate : React.PropTypes.func.isRequired,
-  addField       : React.PropTypes.func.isRequired,
   updateSchema   : React.PropTypes.func.isRequired,
+  addField       : React.PropTypes.func.isRequired,
+  deleteField    : React.PropTypes.func.isRequired,
 };
-Editor.contextTypes = {
+Editor.contextTypes      = {
   router : React.PropTypes.object,
 };
-
-const mapStateToProps = state => ({
+const mapStateToProps    = state => ({
   editor : state.templates,
 });
-
 const mapDisptachToProps = dispatch => ({
   getTemplate    : collectionName => dispatch(getTemplate(collectionName)),
   deleteTemplate : collectionName => dispatch(deleteTemplate(collectionName)),
   starTemplate   : collectionName => dispatch(starTemplate(collectionName)),
   updateTemplate : (collectionName, data) => dispatch(updateTemplate(collectionName, data)),
-  addField       : (collectionName, field) => dispatch(addField(collectionName, field)),
   updateSchema   : (collectionName, schema) => dispatch(updateSchema(collectionName, schema)),
+  addField       : (collectionName, field) => dispatch(addField(collectionName, field)),
+  deleteField    : (collectionName, fieldId) => dispatch(deleteField(collectionName, fieldId)),
 });
 
 export default connect(mapStateToProps, mapDisptachToProps)(Editor);

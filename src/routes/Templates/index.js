@@ -63,7 +63,7 @@ class Template extends Component {
       {
         dataKey    : "templateName",
         link       : {
-          absolutePath : "templates",
+          absolutePath : "templates/view",
           key          : "collectionName",
         },
         name       : "name-col",
@@ -108,8 +108,10 @@ class Template extends Component {
       "created-at-col" : 120,
       "updated-at-col" : 180,
     };
+  }
 
-    if (!props.children) props.getTemplates();
+  componentWillMount() {
+    this.props.getTemplates();
   }
 
   renderChildren() {

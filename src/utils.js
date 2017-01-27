@@ -18,6 +18,7 @@ export const isBool         = isOfType(Boolean);
 export const isNonZeroArray = R.converge(R.and, [isArray, a => R.gt(R.length(a), 0)]);
 export const isDefined      = R.compose(R.not, R.isNil);
 export const isEmpty        = R.isEmpty;
+export const length         = R.length;
 export const isDate         = str => {
   const momentDate = moment(str, "D/M/YYYY");
   if (R.isNil(momentDate) || !momentDate.isValid()) return false;
@@ -55,32 +56,32 @@ export const getFromURIFragment = queryString => {
 
   return params;
 };
-export const randomString    = length => {
+export const randomString       = len => {
   let text       = "";
   const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  for (let i = 0; i < length; i++) {
+  for (let i = 0; i < len; i++) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   }
   return text;
 };
-export const objectToURI     = obj => {
+export const objectToURI        = obj => {
   const generateQueryString = R.addIndex(
     R.map,
     (key, value) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
   );
   return R.compose(R.join("&"), generateQueryString)(obj);
 };
-export const exec            = R.curry((fn, name) => fn(name));
-export const execById        = R.curry((fn, name, id) => fn(name, id));
-export const getSelectedKeys = R.compose(R.keys, R.filter(R.path(["w"])));
-export const imap            = R.curry((mapFn, data) => R.compose(R.values, R.mapObjIndexed(mapFn))(data));
-export const padWithZeros    = (string, size) => {
+export const exec               = R.curry((fn, name) => fn(name));
+export const execById           = R.curry((fn, name, id) => fn(name, id));
+export const getSelectedKeys    = R.compose(R.keys, R.filter(R.path(["w"])));
+export const imap               = R.curry((mapFn, data) => R.compose(R.values, R.mapObjIndexed(mapFn))(data));
+export const padWithZeros       = (string, size) => {
   let retVal = "";
   if (!isString(string)) retVal = R.toString(string);
   while (retVal.length !== size) retVal = R.concat("0", retVal);
   return retVal;
 };
-const getSize                = data => {
+const getSize                   = data => {
   let size             = 0;
   const arbitraryWidth = 8;
   const compute        = val => {
@@ -127,27 +128,27 @@ export const set            = R.curry((path, value, root, data) => {
                       R.concat(convertToArray(root), convertToArray(path));
   return R.assocPath(mergedPaths, value, data);
 });
-export const unset          = R.curry((path, root, data) => {
+export const unset              = R.curry((path, root, data) => {
   const mergedPaths = R.isNil(path) ?
                       convertToArray(root) :
                       R.concat(convertToArray(root), convertToArray(path));
   return R.dissocPath(mergedPaths, data);
 });
-export const loading        = set("isLoading", true);
-export const loaded         = set("isLoading", false);
-export const setMessage     = R.assoc("message");
-export const setFailure     = (err, state) => {
+export const loading            = set("isLoading", true);
+export const loaded             = set("isLoading", false);
+export const setMessage         = R.assoc("message");
+export const setFailure         = (err, state) => {
   return R.compose(
     setMessage(err.message),
     setError(err.stack),
     loaded("list"),
   )(state);
 };
-export const loadCollection = R.curry((collectionName, state) => {
+export const loadCollection     = R.curry((collectionName, state) => {
   return R.compose(
     loading(collectionName),
     loading("list"),
-  )(state)
+  )(state);
 });
 
 // Menu Reducer Functions

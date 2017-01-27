@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./common.less";
+import styles from "./styles.less";
 
 const SDHeaderCol = ({ headerStyle, displayText, colWidth }) => {
   const hoverStyle = {

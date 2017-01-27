@@ -1,13 +1,12 @@
-import R from "ramda";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getProps, toDate, isDefined } from "utils";
-import { EditTemplateForm } from "forms";
+import { getProps, toDate } from "utils";
 import { StickyContainer, Sticky, SDEditor, Button, Modal, FavoriteIcon, Link } from "components";
-import { getTemplate, deleteTemplate, starTemplate, updateTemplate, updateSchema } from "dataflow/templates/actions";
+import { EditTemplateForm } from "forms";
+import { getTemplate, deleteTemplate, starTemplate, updateTemplate, addSchema } from "dataflow/templates/actions";
 import styles from "./index.less";
 
-const getContentValues = getProps(["userSchema", "isLoading", "dataExists", "templateName", "workbook.name", "modifiedAt", "createdAt", "createdBy.name", "isFavorite"]);
+const getContentValues = getProps(["userSchema", "isLoading", "templateName", "workbook.name", "modifiedAt", "createdAt", "createdBy.name", "isFavorite"]);
 
 class Editor extends Component {
   constructor(props) {
@@ -15,7 +14,6 @@ class Editor extends Component {
     this.state          = {
       showModal : false,
     };
-    this.updateSchema   = this.updateSchema.bind(this);
     this.deleteTemplate = this.deleteTemplate.bind(this);
     this.updateTemplate = this.updateTemplate.bind(this);
     this.starTemplate   = this.starTemplate.bind(this);
@@ -24,11 +22,6 @@ class Editor extends Component {
   componentWillMount() {
     const { collectionName } = this.props.params;
     this.props.getTemplate(collectionName);
-  }
-
-  updateSchema(collectionName, id, field) {
-    this.props.updateSchema(collectionName, id, field);
-    this.context.router.push(`/templates/view/${collectionName}`)
   }
 
   deleteTemplate(e) {
@@ -52,19 +45,8 @@ class Editor extends Component {
   }
 
   render() {
-    const { collectionName, id } = this.props.params;
-    const contentValues          = getContentValues(this.props.editor[collectionName]);
-    if (!isDefined(contentValues.userSchema)) return null;
-    if (isDefined(contentValues.dataExists)) {
-      return (
-        <div>
-          Data has already been entered for this collection.
-          It <strong><i>cannot be edited</i></strong> at this time
-        </div>
-      );
-    }
-
-    const fieldValue = R.find(R.propEq("fieldName", id))(contentValues.userSchema);
+    const { collectionName } = this.props.params;
+    const contentValues      = getContentValues(this.props.editor[collectionName]);
 
     return (
       <div className="row">
@@ -85,8 +67,7 @@ class Editor extends Component {
                 </Sticky>
 
                 <SDEditor isLoading={contentValues.isLoading || false}
-                          initialValues={fieldValue}
-                          onSubmit={field => this.updateSchema(collectionName, id, field)}
+                          onSubmit={field => this.props.addSchema(collectionName, field)}
                 />
               </div>
 
@@ -154,13 +135,13 @@ Editor.propTypes         = {
   params         : React.PropTypes.object,
   // state
   editor         : React.PropTypes.object.isRequired,
-  // actions
+  // template actions
   getTemplate    : React.PropTypes.func.isRequired,
   deleteTemplate : React.PropTypes.func.isRequired,
   starTemplate   : React.PropTypes.func.isRequired,
   updateTemplate : React.PropTypes.func.isRequired,
   // schema actions
-  updateSchema   : React.PropTypes.func.isRequired,
+  addSchema      : React.PropTypes.func.isRequired,
 };
 Editor.contextTypes      = {
   router : React.PropTypes.object,
@@ -174,7 +155,7 @@ const mapDisptachToProps = dispatch => ({
   starTemplate   : collectionName => dispatch(starTemplate(collectionName)),
   updateTemplate : (collectionName, data) => dispatch(updateTemplate(collectionName, data)),
   // schema actions
-  updateSchema   : (collectionName, id, field) => dispatch(updateSchema(collectionName, id, field)),
+  addSchema      : (collectionName, field) => dispatch(addSchema(collectionName, field)),
 });
 
 export default connect(mapStateToProps, mapDisptachToProps)(Editor);

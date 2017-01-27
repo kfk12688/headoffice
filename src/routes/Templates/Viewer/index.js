@@ -1,34 +1,68 @@
-import R from "ramda";
 import React, { Component } from "react";
+import { StickyContainer, Sticky } from "react-sticky";
 import { connect } from "react-redux";
-import { getProps, toDate, isDefined } from "utils";
+import { execById, getProps, toDate, length } from "utils";
+import { SDTable, Button, Modal, FavoriteIcon, Link } from "components";
 import { EditTemplateForm } from "forms";
-import { StickyContainer, Sticky, SDEditor, Button, Modal, FavoriteIcon, Link } from "components";
-import { getTemplate, deleteTemplate, starTemplate, updateTemplate, updateSchema } from "dataflow/templates/actions";
+import { getTemplate, deleteTemplate, starTemplate, updateTemplate, deleteSchema } from "dataflow/templates/actions";
 import styles from "./index.less";
 
-const getContentValues = getProps(["userSchema", "isLoading", "dataExists", "templateName", "workbook.name", "modifiedAt", "createdAt", "createdBy.name", "isFavorite"]);
+const getContentValues = getProps(["userSchema", "isLoading", "templateName", "workbook.name", "modifiedAt", "createdAt", "createdBy.name", "isFavorite"]);
 
 class Editor extends Component {
   constructor(props) {
     super(props);
-    this.state          = {
+    this.state               = {
       showModal : false,
     };
-    this.updateSchema   = this.updateSchema.bind(this);
-    this.deleteTemplate = this.deleteTemplate.bind(this);
-    this.updateTemplate = this.updateTemplate.bind(this);
-    this.starTemplate   = this.starTemplate.bind(this);
+    const { collectionName } = props.params;
+    this.deleteTemplate      = this.deleteTemplate.bind(this);
+    this.updateTemplate      = this.updateTemplate.bind(this);
+    this.starTemplate        = this.starTemplate.bind(this);
+    this.actions             = {
+      editField   : {
+        name    : "Edit",
+        handler : (id) => this.context.router.push(`/templates/edit/${collectionName}/${id}`),
+      },
+      deleteField : {
+        name    : "Delete",
+        handler : execById(props.deleteSchema, collectionName),
+      },
+    };
+
+    this.colSpec   = {
+      "action"     : {
+        "headerStyle" : { borderLeft : 0 },
+        "displayText" : "",
+        "renderType"  : "action",
+        "actions"     : this.actions,
+        "sortable"    : false,
+        "insertable"  : false,
+      },
+      "fieldName"  : {
+        "displayText" : "Field Name",
+        "renderType"  : "text",
+      },
+      "fieldType"  : {
+        "displayText" : "Field Type",
+        "renderType"  : "text",
+      },
+      "fieldProps" : {
+        "displayText" : "Field Properties",
+        "renderType"  : "label",
+      },
+    };
+    this.colWidths = {
+      action     : 45,
+      fieldName  : 200,
+      fieldType  : 140,
+      fieldProps : 300,
+    };
   }
 
   componentWillMount() {
     const { collectionName } = this.props.params;
     this.props.getTemplate(collectionName);
-  }
-
-  updateSchema(collectionName, id, field) {
-    this.props.updateSchema(collectionName, id, field);
-    this.context.router.push(`/templates/view/${collectionName}`)
   }
 
   deleteTemplate(e) {
@@ -52,19 +86,9 @@ class Editor extends Component {
   }
 
   render() {
-    const { collectionName, id } = this.props.params;
-    const contentValues          = getContentValues(this.props.editor[collectionName]);
-    if (!isDefined(contentValues.userSchema)) return null;
-    if (isDefined(contentValues.dataExists)) {
-      return (
-        <div>
-          Data has already been entered for this collection.
-          It <strong><i>cannot be edited</i></strong> at this time
-        </div>
-      );
-    }
-
-    const fieldValue = R.find(R.propEq("fieldName", id))(contentValues.userSchema);
+    const { collectionName } = this.props.params;
+    const contentValues      = getContentValues(this.props.editor[collectionName]);
+    const noFields           = length(contentValues.userSchema) || 0;
 
     return (
       <div className="row">
@@ -76,17 +100,19 @@ class Editor extends Component {
                   <div className="row" style={{ paddingTop : "8px", paddingBottom : "8px" }}>
                     <div className="col-md-12">
                       <h4>{contentValues.templateName}&nbsp;
-                        <Link className="pull-right" to={`/templates/view/${collectionName}`}>
-                          <Button faName="long-arrow-left" style="primary">Go to Viewer</Button>
+                        <small className="text-muted">({noFields} Fields)</small>
+                        <Link className="pull-right" to={`/templates/new/${collectionName}`}>
+                          <Button faName="plus" style="primary">Add new Schema</Button>
                         </Link>
                       </h4>
                     </div>
                   </div>
                 </Sticky>
 
-                <SDEditor isLoading={contentValues.isLoading || false}
-                          initialValues={fieldValue}
-                          onSubmit={field => this.updateSchema(collectionName, id, field)}
+                <SDTable colSpec={this.colSpec}
+                         colWidths={this.colWidths}
+                         data={contentValues.userSchema || []}
+                         isLoading={contentValues.isLoading || false}
                 />
               </div>
 
@@ -160,7 +186,7 @@ Editor.propTypes         = {
   starTemplate   : React.PropTypes.func.isRequired,
   updateTemplate : React.PropTypes.func.isRequired,
   // schema actions
-  updateSchema   : React.PropTypes.func.isRequired,
+  deleteSchema   : React.PropTypes.func.isRequired,
 };
 Editor.contextTypes      = {
   router : React.PropTypes.object,
@@ -174,7 +200,7 @@ const mapDisptachToProps = dispatch => ({
   starTemplate   : collectionName => dispatch(starTemplate(collectionName)),
   updateTemplate : (collectionName, data) => dispatch(updateTemplate(collectionName, data)),
   // schema actions
-  updateSchema   : (collectionName, id, field) => dispatch(updateSchema(collectionName, id, field)),
+  deleteSchema   : (collectionName, id) => dispatch(deleteSchema(collectionName, id)),
 });
 
 export default connect(mapStateToProps, mapDisptachToProps)(Editor);

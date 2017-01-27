@@ -7,10 +7,10 @@ export {
 export { DataGrid } from "./DataGrid";
 export { PaginationGrid } from "./PaginationGrid";
 export { Entry } from "./Entry";
-export { SpecDefiner } from "./SpecDefiner";
+export { SDTable } from "./SDTable";
+export { SDEditor } from "./SDEditor";
 export { SearchBar } from "./SearchBar";
 export { Button, Dropdown } from "./Button";
-export { Link } from "react-router";
 export ActiveLink from "./ActiveLink";
 export Labels from "./Labels";
 export ButtonLikeLink from "./ButtonLikeLink";
@@ -23,3 +23,6 @@ export Modal from "./Modal";
 export PaginationLinks from "./PaginationLinks";
 
 export getComponentFromType from "./getComponent";
+
+export { StickyContainer, Sticky } from "react-sticky";
+export { Link } from "react-router";

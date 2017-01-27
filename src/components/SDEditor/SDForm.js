@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { reduxForm, formValueSelector } from "redux-form";
 import { Button, TextInput, StaticSelectInput } from "components";
 import getFields from "./getFields";
-import styles from "./common.less";
+import styles from "./styles.less";
 import cx from "classnames";
 
 const FIELD_TYPES = ["number", "date", "string", "boolean", "objectId", "schema", "schemaArray", "binData"];
@@ -63,7 +63,7 @@ class SDForm extends Component {
   }
 }
 
-SDForm.propTypes = {
+SDForm.propTypes    = {
   handleSubmit : React.PropTypes.func.isRequired,
   pristine     : React.PropTypes.bool,
   submitting   : React.PropTypes.bool,
@@ -73,11 +73,9 @@ SDForm.propTypes = {
   fieldProps  : React.PropTypes.any,
   fieldSchema : React.PropTypes.any,
 };
-
-const form = reduxForm({
+const form          = reduxForm({
   form : "SDForm",
 })(SDForm);
-
 const selector      = formValueSelector("SDForm"); // <-- same as form name
 const connectedForm = connect(
   state => ({

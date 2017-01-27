@@ -5,13 +5,16 @@ export {
   deleteTemplate,
   updateTemplate,
   starTemplate,
-  addField,
-  deleteField,
-  updateSchema,
 } from "./template_actions";
+
+export {
+  addSchema,
+  deleteSchema,
+  updateSchema,
+} from "./schema_actions";
 
 export {
   selectAll,
   toggleSelection,
-  deselectAll
+  deselectAll,
 } from "./menu_actions";

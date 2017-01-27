@@ -1,99 +1,91 @@
-import R from "ramda";
+import { isEmpty } from "utils";
 import React from "react";
-import { render as renderToDOM, unmountComponentAtNode } from "react-dom";
+import { render as renderToDOM } from "react-dom";
 import cx from "classnames";
 import styles from "./Dropdown.less";
 
 class Dropdown extends React.Component {
   constructor() {
     super();
-    this.state               = { show : false };
-    this.toggleDropdown      = this.toggleDropdown.bind(this);
-    this.getPosition         = this.getPosition.bind(this);
-    this.resizeDropDown      = this.resizeDropDown.bind(this);
-    this.handleDocumentClick = this.handleDocumentClick.bind(this);
+    this.getPosition        = this.getPosition.bind(this);
+    this.drawDropdown       = this.drawDropdown.bind(this);
+    this.removeDropdown     = this.removeDropdown.bind(this);
+    this.resizeDropDown     = this.resizeDropDown.bind(this);
+    this.handleOutsideClick = this.handleOutsideClick.bind(this);
+    this.ddContainer        = document.getElementById("DropDown");
   }
 
-  componentDidMount() {
-    this.dropdownNode              = document.createElement("div");
-    this.dropdownNode.style.zIndex = 10000;
-    document.body.appendChild(this.dropdownNode);
+  componentWillUnmount() {
+    this.removeDropdown();
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    const { children }  = nextProps;
-    const childElements = React.Children.map(children, (child, idx) => {
+  getPosition() {
+    const { top, left, height } = this.buttonNode.getBoundingClientRect();
+    const scrollTop             = (window.pageYOffset !== undefined) ? window.pageYOffset :
+                                  (document.documentElement || document.body.parentNode || document.body).scrollTop;
+    return { left, top, height, scrollTop };
+  }
+
+  drawDropdown() {
+    const { children }                     = this.props;
+    const childElements                    = React.Children.map(children, (child, idx) => {
       return React.cloneElement(child, {
         key       : idx,
         className : cx("dropdown-item", child.props.className),
       });
     });
+    const { top, left, height, scrollTop } = this.getPosition();
+    const style                            = {
+      position : "absolute",
+      top      : top + height + scrollTop,
+      left,
+      display  : "block",
+    };
+    const dropdown                         = (
+      <div style={style}
+           ref={node => { this.dropdownNode = node; }}
+           className="dropdown-menu"
+      >
+        {childElements}
+      </div>
+    );
 
-    if (nextState.show) {
-      const { top, left, height, scrollTop } = this.getPosition();
-      const style                            = {
-        position : "absolute",
-        top      : top + height + scrollTop,
-        left,
-        display  : "block",
-      };
-      const dropdownOverlay                  = <div style={style} className="dropdown-menu">{childElements}</div>;
-      this.dropdownOverlayNode               = renderToDOM(dropdownOverlay, this.dropdownNode);
-      document.addEventListener("click", this.handleDocumentClick, true);
-      window.addEventListener("resize", this.resizeDropDown, true);
-    } else {
-      document.removeEventListener("click", this.handleDocumentClick);
-      window.removeEventListener("resize", this.resizeDropDown);
-      this.dropdownOverlayNode = renderToDOM(<div></div>, this.dropdownNode);
-    }
+    renderToDOM(dropdown, this.ddContainer);
+    document.body.addEventListener("click", this.handleOutsideClick)
   }
 
-  componentWillUnmount() {
-    unmountComponentAtNode(this.dropdownNode);
-    document.body.removeChild(this.dropdownNode);
-  }
-
-  getPosition() {
-    const { top, left, height } = this.refs.dropdownRef.getBoundingClientRect();
-    const scrollTop             = (window.pageYOffset !== undefined) ? window.pageYOffset :
-                                  (document.documentElement || document.body.parentNode || document.body).scrollTop;
-    return { left, top, height, scrollTop };
+  removeDropdown() {
+    renderToDOM(<div></div>, this.ddContainer);
+    document.body.removeEventListener("click", this.handleOutsideClick);
   }
 
   resizeDropDown(event) {
     event.preventDefault();
 
     const { top, left, height, scrollTop } = this.getPosition();
-    this.dropdownOverlayNode.style.top     = `${top + height + scrollTop}px`;
-    this.dropdownOverlayNode.style.left    = `${left}px`;
+    this.dropdownNode.style.top            = `${top + height + scrollTop}px`;
+    this.dropdownNode.style.left           = `${left}px`;
   }
 
-  handleDocumentClick(event) {
-    if (!this.dropdownOverlayNode.contains(event.target)) {
-      this.setState({ show : false });
+  handleOutsideClick(event) {
+    if (!this.dropdownNode.contains(event.target)) {
+      this.removeDropdown();
     }
-  }
-
-  toggleDropdown(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    this.setState({ show : !this.state.show });
   }
 
   render() {
     const { label, disabled, button, className } = this.props;
-    const labelElem                              = R.isNil(label) ?
+    const labelElem                              = isEmpty(label) ?
                                                    <i className="fa fa-caret-down"/> :
                                                    <span>{label}&nbsp;<i className="fa fa-caret-down"/></span>;
 
     if (button) {
       return (
-        <button
-          ref="dropdownRef"
-          className={cx("btn btn-secondary btn-sm", className)}
-          type="button"
-          disabled={disabled}
-          onClick={!disabled && this.toggleDropdown}
+        <button ref={node => { this.buttonNode = node; }}
+                className={cx("btn btn-secondary btn-sm", className)}
+                type="button"
+                disabled={disabled}
+                onClick={!disabled && this.drawDropdown}
         >
           {labelElem}
         </button>
@@ -101,12 +93,11 @@ class Dropdown extends React.Component {
     }
 
     return (
-      <button
-        ref="dropdownRef"
-        disabled={disabled}
-        style={{ border : "none", backgroundColor : "transparent" }}
-        className={cx(className, { [styles.plainEnabled] : !disabled, [styles.plainDisabled] : disabled })}
-        onClick={!disabled && this.toggleDropdown}
+      <button ref={node => { this.buttonNode = node; }}
+              disabled={disabled}
+              style={{ border : "none", backgroundColor : "transparent" }}
+              className={cx(className, { [styles.plainEnabled] : !disabled, [styles.plainDisabled] : disabled })}
+              onClick={!disabled && this.drawDropdown}
       >
         {labelElem}
       </button>

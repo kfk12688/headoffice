@@ -1,7 +1,7 @@
 import Editor from "./";
 
 const Route = {
-  path      : ":collectionName",
+  path      : "edit/:collectionName/:id",
   component : Editor,
 };
 

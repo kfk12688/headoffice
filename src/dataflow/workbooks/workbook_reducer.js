@@ -16,7 +16,7 @@ const reducer = {
     );
     return setData(state);
   },
-  [GET_WORKBOOKS_FAILURE] : (state, action) => setFailure(action.payload.err, state),
+  [GET_WORKBOOKS_FAILURE] : (state, action) => setFailure(action.payload.error, state),
 
   [CREATE_WORKBOOK_REQUEST] : (state) => loading("list", state),
   [CREATE_WORKBOOK_SUCCESS] : (state, action) => {
@@ -28,7 +28,7 @@ const reducer = {
     );
     return setData(state);
   },
-  [CREATE_WORKBOOK_FAILURE] : (state, action) => setFailure(action.payload.err, state),
+  [CREATE_WORKBOOK_FAILURE] : (state, action) => setFailure(action.payload.error, state),
 
   [DELETE_WORKBOOK_REQUEST] : (state) => loading("list", state),
   [DELETE_WORKBOOK_SUCCESS] : (state, action) => {
@@ -40,7 +40,7 @@ const reducer = {
     );
     return setData(state);
   },
-  [DELETE_WORKBOOK_FAILURE] : (state, action) => setFailure(action.payload.err, state),
+  [DELETE_WORKBOOK_FAILURE] : (state, action) => setFailure(action.payload.error, state),
 };
 
 export default reducer;

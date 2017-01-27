@@ -1,7 +1,7 @@
 import React from "react";
 import { Sticky } from "react-sticky";
 import { SDHeaderCol } from "./SDHeaderCol";
-import styles from "./common.less";
+import styles from "./styles.less";
 import { imap } from "utils";
 
 const SDHeaderRow = ({ cols, colWidths }) => {

@@ -39,7 +39,7 @@ const collectionReducer = {
     );
     return setData(state);
   },
-  [EDIT_TEMPLATE_FAILURE] : (state, action) => setFailure(action.payload.err, state),
+  [EDIT_TEMPLATE_FAILURE] : (state, action) => setFailure(action.payload.error, state),
 
   [DELETE_TEMPLATE_REQUEST] : (state, action) => loading("list", state),
   [DELETE_TEMPLATE_SUCCESS] : (state, action) => {
@@ -52,7 +52,7 @@ const collectionReducer = {
     );
     return deleteTemplate(state);
   },
-  [DELETE_TEMPLATE_FAILURE] : (state, action) => setFailure(action.payload.err, state),
+  [DELETE_TEMPLATE_FAILURE] : (state, action) => setFailure(action.payload.error, state),
 
   /**
    * Specification for data entry in the table
@@ -67,7 +67,7 @@ const collectionReducer = {
     );
     return setData(state);
   },
-  [SPEC_FAILURE] : (state, action) => setFailure(action.payload.err, state),
+  [SPEC_FAILURE] : (state, action) => setFailure(action.payload.error, state),
 
   /**
    * Updates server data in the store for the particular template
@@ -86,7 +86,7 @@ const collectionReducer = {
     );
     return setData(state);
   },
-  [DATA_FAILURE] : (state, action) => setFailure(action.payload.err, state),
+  [DATA_FAILURE] : (state, action) => setFailure(action.payload.error, state),
 
   /**
    * Deletes a row from the collection
@@ -101,7 +101,7 @@ const collectionReducer = {
     );
     return setData(state);
   },
-  [DELETE_ROW_FAILURE] : (state, action) => setFailure(action.payload.err, state),
+  [DELETE_ROW_FAILURE] : (state, action) => setFailure(action.payload.error, state),
 
   /**
    * Edits an existing row in the collection
@@ -120,7 +120,7 @@ const collectionReducer = {
     );
     return setData(state);
   },
-  [UPDATE_ROW_FAILURE] : (state, action) => setFailure(action.payload.err, state),
+  [UPDATE_ROW_FAILURE] : (state, action) => setFailure(action.payload.error, state),
 
   /**
    * Adds a new row into the collection
@@ -135,7 +135,7 @@ const collectionReducer = {
     );
     return setData(state);
   },
-  [ADD_ROW_FAILURE] : (state, action) => setFailure(action.payload.err, state),
+  [ADD_ROW_FAILURE] : (state, action) => setFailure(action.payload.error, state),
 
   /**
    * Star/Unstar the collection's (template)

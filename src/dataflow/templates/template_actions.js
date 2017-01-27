@@ -1,11 +1,10 @@
 import fetch from "../fetchWrapper";
 import { createAction } from "redux-actions";
 import {
-  EDIT_TEMPLATE_FAILURE, EDIT_TEMPLATE_REQUEST, EDIT_TEMPLATE_SUCCESS, EDIT_SCHEMA_FAILURE, EDIT_SCHEMA_REQUEST,
-  EDIT_SCHEMA_SUCCESS, GET_TEMPLATES_REQUEST, GET_TEMPLATES_SUCCESS, GET_TEMPLATES_FAILURE, ADD_TEMPLATE_REQUEST,
-  ADD_TEMPLATE_SUCCESS, ADD_TEMPLATE_FAILURE, DELETE_TEMPLATE_REQUEST, DELETE_TEMPLATE_SUCCESS, GET_TEMPLATE_REQUEST,
-  GET_TEMPLATE_SUCCESS, GET_TEMPLATE_FAILURE, DELETE_TEMPLATE_FAILURE, ADD_USER_SCHEMA_FIELD,
-  DELETE_USER_SCHEMA_FIELD, STAR_TEMPLATE_SUCCESS
+  EDIT_TEMPLATE_FAILURE, EDIT_TEMPLATE_REQUEST, EDIT_TEMPLATE_SUCCESS, GET_TEMPLATES_REQUEST, GET_TEMPLATES_SUCCESS,
+  GET_TEMPLATES_FAILURE, ADD_TEMPLATE_REQUEST, ADD_TEMPLATE_SUCCESS, ADD_TEMPLATE_FAILURE, DELETE_TEMPLATE_REQUEST,
+  DELETE_TEMPLATE_SUCCESS, GET_TEMPLATE_REQUEST, GET_TEMPLATE_SUCCESS, GET_TEMPLATE_FAILURE, DELETE_TEMPLATE_FAILURE,
+  STAR_TEMPLATE_SUCCESS
 } from "./types";
 
 // ####################################################
@@ -132,31 +131,3 @@ export function getTemplate(collectionName) {
       .catch(err => dispatch(templateFailure(collectionName, err)));
   };
 }
-
-/**
- * Update a template's schema
- */
-const updateSchemaRequest = createAction(EDIT_SCHEMA_REQUEST, collectionName => ({ collectionName }));
-const updateSchemaSuccess = createAction(EDIT_SCHEMA_SUCCESS, (collectionName, template) => ({
-  collectionName,
-  template,
-}));
-const updateSchemaFailure = createAction(EDIT_SCHEMA_FAILURE, (collectionName, error) => ({ collectionName, error }));
-export function updateSchema(collectionName, schema) {
-  return dispatch => {
-    dispatch(updateSchemaRequest(collectionName));
-    return fetch("PUT", `api/templates/${collectionName}/schema`, schema)
-      .then(res => res.json())
-      .then(template => dispatch(updateSchemaSuccess(collectionName, template)))
-      .catch(err => dispatch(updateSchemaFailure(collectionName, err)));
-  };
-}
-
-/**
- * Add a schema field to the redux store
- */
-export const addField    = createAction(ADD_USER_SCHEMA_FIELD, (collectionName, field) => ({ collectionName, field }));
-/**
- * Remove a schema field from the redux store
- */
-export const deleteField = createAction(DELETE_USER_SCHEMA_FIELD, (collectionName, idx) => ({ collectionName, idx }));

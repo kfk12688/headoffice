@@ -1,7 +1,7 @@
 import React from "react";
 import R from "ramda";
 import cell from "../getCell";
-import styles from "./common.less";
+import styles from "./styles.less";
 import { imap } from "utils";
 
 const SDBodyRow = ({ row, cols, colWidths, id }) => {

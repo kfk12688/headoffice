@@ -2,7 +2,7 @@ import React from "react";
 import { Button, TextInput, StaticSelectInput } from "components";
 import SDRow from "./SDRow";
 import getFields from "./getFields";
-import styles from "./common.less";
+import styles from "./styles.less";
 import cx from "classnames";
 
 const SubSchemaFields = ({ fields, fieldSchema }) => {
@@ -47,7 +47,7 @@ const SubSchemaFields = ({ fields, fieldSchema }) => {
   });
 
   return (
-    <div className={styles.subSchemaFields}>
+    <div>
       <h5 className={cx("pull-left", styles.headers)}>Add a new schema</h5>
 
       <Button className="pull-right"

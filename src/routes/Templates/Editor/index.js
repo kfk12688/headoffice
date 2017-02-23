@@ -1,14 +1,12 @@
 import React, { Component } from "react";
-import { StickyContainer, Sticky } from "react-sticky";
 import { connect } from "react-redux";
-import moment from "moment";
-import { exec } from "utils";
-import { SpecDefiner, Button, Modal, FavoriteIcon, Link } from "components";
+import { compose, find, propEq, getProps, toDate, isDefined } from "utils";
 import { EditTemplateForm } from "forms";
-import {
-  getTemplate, updateSchema, addField, deleteTemplate, starTemplate, updateTemplate
-} from "dataflow/templates/actions";
+import { StickyContainer, Sticky, SDEditor, Button, Modal, FavoriteIcon, Link } from "components";
+import { getTemplate, deleteTemplate, starTemplate, updateTemplate, updateSchema } from "dataflow/templates/actions";
 import styles from "./index.less";
+
+const getContentValues = getProps(["userSchema", "isLoading", "dataExists", "templateName", "workbook.workbookName", "modifiedAt", "createdAt", "createdBy.name", "isFavorite"]);
 
 class Editor extends Component {
   constructor(props) {
@@ -20,39 +18,6 @@ class Editor extends Component {
     this.deleteTemplate = this.deleteTemplate.bind(this);
     this.updateTemplate = this.updateTemplate.bind(this);
     this.starTemplate   = this.starTemplate.bind(this);
-    this.actions        = {
-      editField   : { name : "Edit", handler : exec(props.deleteTemplate) },
-      deleteField : { name : "Delete", handler : exec(props.deleteTemplate) },
-    };
-
-    this.colSpec   = {
-      "action"      : {
-        "headerStyle" : { borderLeft : 0 },
-        "displayText" : "",
-        "renderType"  : "action",
-        "actions"     : this.actions,
-        "sortable"    : false,
-        "insertable"  : false,
-      },
-      "displayText" : {
-        "displayText" : "Field Name",
-        "renderType"  : "text",
-      },
-      "fieldType"   : {
-        "displayText" : "Field Type",
-        "renderType"  : "text",
-      },
-      "fieldProps"  : {
-        "displayText" : "Field Properties",
-        "renderType"  : "label",
-      },
-    };
-    this.colWidths = {
-      action      : 45,
-      displayText : 200,
-      fieldType   : 140,
-      fieldProps  : 300,
-    };
   }
 
   componentWillMount() {
@@ -60,11 +25,9 @@ class Editor extends Component {
     this.props.getTemplate(collectionName);
   }
 
-  updateSchema(e) {
-    e.preventDefault();
-    const { collectionName } = this.props.params;
-    const { userSchema }     = this.props.editor[collectionName];
-    this.props.updateSchema(collectionName, userSchema);
+  updateSchema(collectionName, id, field) {
+    this.props.updateSchema(collectionName, id, field);
+    this.context.router.push(`/templates/view/${collectionName}`);
   }
 
   deleteTemplate(e) {
@@ -88,30 +51,47 @@ class Editor extends Component {
   }
 
   render() {
-    const { collectionName }                    = this.props.params;
-    const { userSchema, isLoading, templateName = "", workbook, modifiedAt, createdAt, createdBy, isFavorite } = this.props.editor[collectionName] || {};
-    const workbookName                          = !!workbook && !!workbook.name && workbook.name || "";
-    const createdByUser                         = !!createdBy && !!createdBy.name && createdBy.name || "";
+    const { collectionName, id } = this.props.params;
+    const contentValues          = getContentValues(this.props.editor[collectionName]);
+    if (!isDefined(contentValues.userSchema)) return null;
+    if (isDefined(contentValues.dataExists)) {
+      return (
+        <div>
+          Data has already been entered for this collection.
+          It <strong><i>cannot be edited</i></strong> at this time
+        </div>
+      );
+    }
+
+    const fieldValue   = find(propEq("fieldName", id), contentValues.userSchema);
+    const templateName = contentValues.isLoading ?
+                         "Loading ..." :
+                         contentValues.templateName;
 
     return (
       <div className="row">
         <div className="col-md-10 offset-md-1">
           <StickyContainer>
             <div style={{ marginTop : "1rem" }} className="row">
-              <SpecDefiner
-                className={"col-md-9"}
-                colSpec={this.colSpec}
-                colWidths={this.colWidths}
-                name={templateName}
-                data={userSchema}
-                isLoading={isLoading}
-                onSubmit={field => this.props.addField(collectionName, field)}
-              />
+              <div className="col-md-9">
+                <Sticky stickyStyle={{ zIndex : 1040, backgroundColor : "white" }}>
+                  <h4 style={{ paddingTop : "8px", paddingBottom : "8px" }}>
+                    {templateName}
+                    <Link className="pull-right" to={`/templates/view/${collectionName}`}>
+                      <Button faName="long-arrow-left" style="primary">Go to Viewer</Button>
+                    </Link>
+                  </h4>
+                </Sticky>
+
+                <SDEditor isLoading={contentValues.isLoading || false}
+                          initialValues={fieldValue}
+                          onSubmit={field => this.updateSchema(collectionName, id, field)}
+                />
+              </div>
 
               <div className="col-md-3">
                 <Sticky stickyStyle={{ paddingTop : 8 }}>
                   <div className="btn-group-vertical btn-block">
-                    <Button onClick={this.updateSchema}>Update Schema</Button>
                     <Button>Undo</Button>
                     <Button>Redo</Button>
                     <Button onClick={e => this.props.getTemplate(collectionName)}>Reset Schema</Button>
@@ -119,7 +99,7 @@ class Editor extends Component {
 
                   <div className={styles.divider}/>
                   <div className="btn-group-vertical btn-block">
-                    <Link to={`/collections/entry/${collectionName}`}
+                    <Link to={`/collections/new/${collectionName}`}
                           className="btn btn-secondary btn-sm"
                           role="button"
                     >
@@ -142,22 +122,21 @@ class Editor extends Component {
                     hideModal={e => this.setState({ showModal : false })}
                     block
                   >
-                    <EditTemplateForm
-                      onSubmit={this.updateTemplate}
-                      toggleModal={e => this.setState({ showModal : false })}
+                    <EditTemplateForm onSubmit={this.updateTemplate}
+                                      toggleModal={e => this.setState({ showModal : false })}
                     />
                   </Modal>
                   <Button faName="times" block onClick={this.deleteTemplate}>Delete Template</Button>
                   <Button block onClick={this.starTemplate}>
-                    Make Favorite <FavoriteIcon value={isFavorite || false} inheritSize/>
+                    Make Favorite <FavoriteIcon value={contentValues.isFavorite || false} inheritSize/>
                   </Button>
 
                   <div className={styles.divider}/>
                   <div className={styles.attributes}>
-                    <div>Created By : <span>{createdByUser}</span></div>
-                    <div>Created At : <span>{moment(createdAt).format("DD-MM-YYYY")}</span></div>
-                    <div>Last Modified : <span>{moment(modifiedAt).format("DD-MM-YY h:m A")}</span></div>
-                    <div>Belongs to : <span>{workbookName}</span></div>
+                    <div>Created By : <span>{contentValues.createdBy}</span></div>
+                    <div>Created At : <span>{toDate("DD-MM-YYYY", contentValues.createdAt)}</span></div>
+                    <div>Last Modified : <span>{toDate(null, contentValues.modifiedAt)}</span></div>
+                    <div>Belongs to : <span>{contentValues.workbook}</span></div>
                   </div>
                 </Sticky>
               </div>
@@ -169,7 +148,7 @@ class Editor extends Component {
   }
 }
 
-Editor.propTypes    = {
+Editor.propTypes         = {
   // route
   params         : React.PropTypes.object,
   // state
@@ -179,24 +158,22 @@ Editor.propTypes    = {
   deleteTemplate : React.PropTypes.func.isRequired,
   starTemplate   : React.PropTypes.func.isRequired,
   updateTemplate : React.PropTypes.func.isRequired,
-  addField       : React.PropTypes.func.isRequired,
+  // schema actions
   updateSchema   : React.PropTypes.func.isRequired,
 };
-Editor.contextTypes = {
+Editor.contextTypes      = {
   router : React.PropTypes.object,
 };
-
-const mapStateToProps = state => ({
+const mapStateToProps    = state => ({
   editor : state.templates,
 });
-
 const mapDisptachToProps = dispatch => ({
   getTemplate    : collectionName => dispatch(getTemplate(collectionName)),
   deleteTemplate : collectionName => dispatch(deleteTemplate(collectionName)),
   starTemplate   : collectionName => dispatch(starTemplate(collectionName)),
   updateTemplate : (collectionName, data) => dispatch(updateTemplate(collectionName, data)),
-  addField       : (collectionName, field) => dispatch(addField(collectionName, field)),
-  updateSchema   : (collectionName, schema) => dispatch(updateSchema(collectionName, schema)),
+  // schema actions
+  updateSchema   : (collectionName, id, field) => dispatch(updateSchema(collectionName, id, field)),
 });
 
 export default connect(mapStateToProps, mapDisptachToProps)(Editor);

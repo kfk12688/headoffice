@@ -1,9 +1,9 @@
-import R from "ramda";
 import React from "react";
+import { isNil } from "utils";
 
 const CheckboxIcon = ({ value }) => {
   const faStyle    = { fontSize : 17 };
-  const isSelected = R.isNil(value) ? false : value;
+  const isSelected = isNil(value) ? false : value;
 
   let selectedElement = null;
   if (isSelected) {

@@ -1,11 +1,6 @@
-import R from "ramda";
 import React from "react";
+import { isArray, isObject, isBool, isString, compose, values, mapObjIndexed } from "utils";
 import styles from "./_styles/common.less";
-
-const isArray  = R.is(Array);
-const isObj    = R.is(Object);
-const isBool   = R.is(Boolean);
-const isString = R.is(String);
 
 const LabelsDOM      = ({ children }) => <span className={styles.labelCellTags}>{children}</span>;
 const convertToReact = (val, key) => {
@@ -13,14 +8,14 @@ const convertToReact = (val, key) => {
     return <LabelsDOM key={key}>{key}</LabelsDOM>;
   } else if (isArray(val) && (val.length !== 0)) {
     return <LabelsDOM key={key}>{key} : {val.toString()}</LabelsDOM>;
-  } else if (isObj(val)) {
+  } else if (isObject(val)) {
     return <LabelsDOM key={key}>{key} : {val.label}</LabelsDOM>;
   } else if (isString(val)) {
     return <LabelsDOM key={key}>{key} : <span>{val}</span></LabelsDOM>;
   }
   return null;
 };
-const labelize       = R.compose(R.values, R.mapObjIndexed(convertToReact));
+const labelize       = compose(values, mapObjIndexed(convertToReact));
 
 const Labels = ({ value }) =>
   <div className={styles.alignLeft}>

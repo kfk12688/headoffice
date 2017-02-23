@@ -43,7 +43,7 @@ module.exports = {
       query   : {
         cacheDirectory : true,
         presets        : ["react", "es2015", "stage-0", "react-hmre"],
-        plugins        : ["transform-es2015-destructuring", "transform-object-rest-spread"]
+        plugins        : ["transform-es2015-destructuring", "transform-object-rest-spread", "ramda"]
       }
     }, {
       test   : /\.(png|woff|woff2|eot|ttf|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,

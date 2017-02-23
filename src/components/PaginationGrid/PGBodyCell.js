@@ -1,17 +1,20 @@
 import React from "react";
-import getCell from "../getCell";
-import styles from "./common.less";
+import styles from "./styles.less";
+import componentsHash from "../componentsHash";
+import { isNil } from "utils";
 
 export const PGBodyCell = (props) => {
   const { row, col, colWidth }           = props;
   const { fieldType, fieldName }         = col;
-
+  const { id }                           = row;
+  const value                            = row[fieldName];
+  const renderFn                         = componentsHash[fieldType].render;
   return (
     <span
       className={styles.cell}
       style={{ ...col.colStyle, width : colWidth }}
     >
-      {getCell[fieldType](row[fieldName], col, fieldName)}
+      {renderFn(value, col, id)}
     </span>
   );
 };

@@ -2,13 +2,13 @@ import { imap } from "utils";
 import React from "react";
 import { Sticky } from "react-sticky";
 import { PGHeaderCell } from "./PGHeaderCell";
-import styles from "./common.less";
+import styles from "./styles.less";
 
 const PGHeaderRow = ({ cols, colWidths, scrollLeft, topOffset }) => {
   const mapToPGHeaderCells = (col, colKey) => <PGHeaderCell key={colKey}
                                                             colWidth={colWidths[col.fieldName]}
                                                             headerStyle={col.headerStyle}
-                                                            displayText={col.displayText}/>;
+                                                            displayText={col.displayName}/>;
 
   return (
     <Sticky topOffset={-topOffset}
@@ -18,7 +18,7 @@ const PGHeaderRow = ({ cols, colWidths, scrollLeft, topOffset }) => {
               marginTop : topOffset,
             }}
     >
-      <div className={styles.row} style={{ marginLeft : -scrollLeft }}>
+      <div className={styles.row} style={{ padding : 0, marginLeft : -scrollLeft }}>
         {imap(mapToPGHeaderCells, cols)}
       </div>
     </Sticky>

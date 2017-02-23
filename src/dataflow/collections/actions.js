@@ -1,3 +1,22 @@
-export { getTemplates, loadData, loadSpec, updateRow, deleteRow, addRow, starCollection } from "./collection_actions";
-export { deleteTemplate, updateTemplate } from "../templates/template_actions";
-export { selectAll, deselectAll, toggleSelection } from "./menu_actions";
+export {
+  getSchema,
+  getCollections,
+  getCollection,
+  updateCollection,
+  deleteCollection,
+  starCollection,
+} from "./collection_actions";
+
+export {
+  getItems,
+  getItem,
+  addItem,
+  updateItem,
+  deleteItem,
+} from "./item_actions";
+
+export {
+  selectAll,
+  deselectAll,
+  toggleSelection,
+} from "./menu_actions";

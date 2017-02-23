@@ -1,9 +1,8 @@
-import R from "ramda";
 import React, { Component } from "react";
+import { isNil, imap, path, split } from "utils";
 import { DGBodyCell } from "./DGBodyCell";
 import { grey50, transparent, blueGrey50 } from "../_styles/colors";
 import styles from "./common.less";
-import { imap } from "utils";
 
 class DGBodyRow extends Component {
   constructor() {
@@ -16,12 +15,12 @@ class DGBodyRow extends Component {
     const { cols, row, colWidths } = this.props;
     const getBodyCells             = (col, index) => {
       const { name, dataKey } = col;
-      let value               = R.path(R.split(".", dataKey), row);
-      if (R.isNil(value)) value = false;
+      let value               = path(split(".", dataKey), row);
+      if (isNil(value)) value = false;
       return (
-        <DGBodyCell id={row.collectionName}
+        <DGBodyCell id={row.name}
                     col={col}
-                    key={`${row.collectionName} ${index}`}
+                    key={`${row.id} ${index}`}
                     value={value}
                     colWidth={colWidths[name]}
         />
@@ -37,7 +36,7 @@ class DGBodyRow extends Component {
   }
 
   render() {
-    const { isRowSelected } = this.props;
+    const isRowSelected = this.props.row.isSelected;
 
     let rowColor = transparent;
     if (isRowSelected) {

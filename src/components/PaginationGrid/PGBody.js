@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { PGBodyRow } from "./PGBodyRow";
-import styles from "./common.less";
+import styles from "./styles.less";
 import { imap } from "utils";
 
 class PGBody extends Component {
@@ -16,7 +16,9 @@ class PGBody extends Component {
                                                                   row={row}
                                                                   cols={cols}
                                                                   rowKey={rowKey}
-                                                                  colWidths={colWidths}/>;
+                                                                  colWidths={colWidths}
+                                                                  editItem={this.props.editItem}
+                                                                  deleteItem={this.props.deleteItem}/>;
     return imap(mapToPGBodyRows, rows);
   }
 
@@ -28,10 +30,9 @@ class PGBody extends Component {
 
   render() {
     return (
-      <div
-        ref="pgBody"
-        className={styles.pgBody}
-        onScroll={this.reportScrollLeftFn}
+      <div ref="pgBody"
+           className={styles.pgBody}
+           onScroll={this.reportScrollLeftFn}
       >
         {this.getRows()}
       </div>
@@ -44,6 +45,8 @@ PGBody.propTypes = {
   colWidths          : React.PropTypes.object.isRequired,
   rows               : React.PropTypes.object.isRequired,
   reportScrollLeftFn : React.PropTypes.func.isRequired,
+  editItem           : React.PropTypes.func.isRequired,
+  deleteItem         : React.PropTypes.func.isRequired,
 };
 
 export { PGBody };

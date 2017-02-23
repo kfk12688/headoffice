@@ -1,0 +1,79 @@
+@import "../_styles/colors";
+
+@rowHeight: 38px;
+
+.pgContainer {
+  position: relative;
+  overflow-x: auto;
+  background-color: @white;
+  min-height: 20rem;
+}
+
+.spinner {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  i {
+    color: @grey500;
+  }
+}
+
+.noData {
+  background-color: #ffffff;
+  text-align: center;
+  padding: 50px;
+  font-weight: 500;
+}
+
+.pgBody {
+  overflow-x: auto;
+}
+
+.cell {
+  font-size: 15px;
+  padding-left: 12px;
+  padding-right: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+  display: inline-block;
+  &:last-child {
+    border-right: none;
+  }
+}
+
+.row {
+  padding: 4px 0;
+  display: inline-flex;
+  border-bottom: 1px solid @grey300;
+  min-height: @rowHeight;
+  white-space: nowrap;
+  background-color: @white;
+  min-width: 100%;
+}
+
+.headerCell {
+  height: @rowHeight;
+  line-height: @rowHeight;
+  font-size: 15px;
+  padding-left: 12px;
+  padding-right: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  box-sizing: border-box;
+  display: inline-block;
+  border-right: 1px solid @grey300;
+  &:last-child {
+    border-right: none;
+  }
+  &Title {
+    font-weight: 600;
+  }
+}
+
+.btnLink {
+  position: absolute;
+  right: 2%;
+}

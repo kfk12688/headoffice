@@ -1,4 +1,4 @@
-import R from "ramda";
+import { genReactKey, imap } from "utils";
 import React, { Component } from "react";
 import { Modal, Dropdown } from "components";
 import { CreateWorkbookForm } from "forms";
@@ -14,18 +14,25 @@ class ContentMenu extends Component {
 
   getActions() {
     const { actions, selectedKeys } = this.props;
-    const renderAction              = action => {
-      const key = R.pipe(R.replace(/ /, ""), R.toLower(action.name));
-      return <div key={key} onClick={() => R.map(action.handler, selectedKeys)}>{action.name}</div>;
-    };
-    const actionsMenuContent        = R.compose(R.values, R.map(renderAction))(actions);
+    const renderAction              = action =>
+      <div key={genReactKey(action.name)}
+           onClick={(e) => this.handleActionClick(e, selectedKeys, action.handler)}
+      >
+        {action.name}
+      </div>;
 
     return (
       <span>
         <span className={styles.actionsSeperator}/>
-        <Dropdown label=" Actions">{actionsMenuContent}</Dropdown>
+        <Dropdown label=" Actions">{imap(renderAction, actions)}</Dropdown>
       </span>
     );
+  }
+
+  handleActionClick(e, selectedKeys, handler) {
+    e.preventDefault();
+    e.stopPropagation();
+    selectedKeys.map(handler);
   }
 
   toggleModal() {
@@ -51,7 +58,7 @@ class ContentMenu extends Component {
                    hideModal={e => this.setState({ showModal : false })}
                    style="primary"
             >
-              <CreateWorkbookForm onSubmit={this.props.createWorkbook} toggleModal={this.toggleModal}/>
+              <CreateWorkbookForm onSubmit={this.props.addWorkbook} toggleModal={this.toggleModal}/>
             </Modal>
             <Dropdown label={`${selectedKeys.length} selected`}>
               <div onClick={this.props.selectAllRows}>Select All</div>
@@ -74,8 +81,8 @@ class ContentMenu extends Component {
 ContentMenu.propTypes = {
   className       : React.PropTypes.string,
   selectedKeys    : React.PropTypes.array.isRequired,
-  actions         : React.PropTypes.array.isRequired,
-  createWorkbook  : React.PropTypes.func,
+  actions         : React.PropTypes.object.isRequired,
+  addWorkbook     : React.PropTypes.func,
   selectAllRows   : React.PropTypes.func,
   deselectAllRows : React.PropTypes.func,
 };

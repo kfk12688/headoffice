@@ -4,12 +4,12 @@ const getIdToken = () => localStorage.getItem("id_token") || null;
 
 export function cachedFetch(method, api, params) {
   const expiry = 2 * 60;    // 2 min default
-  const token = getIdToken();
+  const token  = getIdToken();
   if (!token) throw Error("No token present. Login again");
   const headers = new Headers({
     authorization : `Bearer ${token}`,
   });
-  let settings = {
+  let settings  = {
     headers,
     method,
     cache : "default",
@@ -24,9 +24,9 @@ export function cachedFetch(method, api, params) {
       cache : "default",
     };
   }
-  const req = new Request(api, settings);
-  const cacheKey = api;
-  const cached = localStorage.getItem(cacheKey);
+  const req        = new Request(api, settings);
+  const cacheKey   = api;
+  const cached     = localStorage.getItem(cacheKey);
   const whenCached = localStorage.getItem(`${cacheKey}:ts`);
 
   if (cached !== null && whenCached !== null) {
@@ -55,7 +55,7 @@ export function cachedFetch(method, api, params) {
         }
         return Promise.resolve(response);
       }
-      const error = new Error(response.statusText || response.status);
+      const error    = new Error(response.statusText || response.status);
       error.response = response;
       return Promise.reject(error);
     });

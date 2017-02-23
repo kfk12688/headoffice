@@ -1,5 +1,5 @@
-import R from "ramda";
 import cx from "classnames";
+import { genReactKey, imap } from "utils";
 import React, { Component } from "react";
 import { Modal, Dropdown } from "components";
 import { NewTemplateForm } from "forms";
@@ -14,18 +14,25 @@ class ContentMenu extends Component {
 
   getActions() {
     const { actions, selectedKeys } = this.props;
-    const renderAction              = action => {
-      const key = R.pipe(R.replace(/ /, ""), R.toLower(action.name));
-      return <div key={key} onClick={() => R.map(action.handler, selectedKeys)}>{action.name}</div>;
-    };
-    const actionsMenuContent        = R.compose(R.values, R.map(renderAction))(actions);
+    const renderAction              = ({ name, handler }) =>
+      <div key={genReactKey(name)}
+           onClick={(e) => this.handleActionClick(e, selectedKeys, handler)}
+      >
+        {name}
+      </div>;
 
     return (
       <span>
-      <span className={styles.actionsSeperator}/>
-      <Dropdown label=" Actions">{actionsMenuContent}</Dropdown>
+        <span className={styles.actionsSeperator}/>
+        <Dropdown label=" Actions">{imap(renderAction, actions)}</Dropdown>
       </span>
     );
+  }
+
+  handleActionClick(e, selectedKeys, handler) {
+    e.preventDefault();
+    e.stopPropagation();
+    selectedKeys.map(handler);
   }
 
   toggleModal() {
@@ -37,7 +44,7 @@ class ContentMenu extends Component {
   }
 
   render() {
-    const len = R.length(this.props.selectedKeys);
+    const len = this.props.selectedKeys.length;
 
     return (
       <div className={cx("row", styles.navbar)}>
@@ -52,7 +59,7 @@ class ContentMenu extends Component {
               hideModal={e => this.setState({ showModal : false })}
               style="primary"
             >
-              <NewTemplateForm onSubmit={this.props.createTemplate} toggleModal={this.toggleModal}/>
+              <NewTemplateForm onSubmit={this.props.addTemplate} toggleModal={this.toggleModal}/>
             </Modal>
 
             <Dropdown label={`${len} selected`}>
@@ -78,7 +85,7 @@ ContentMenu.propTypes = {
   // Functions
   selectAllRows   : React.PropTypes.func,
   deselectAllRows : React.PropTypes.func,
-  createTemplate  : React.PropTypes.func,
+  addTemplate     : React.PropTypes.func,
 };
 
 export { ContentMenu };

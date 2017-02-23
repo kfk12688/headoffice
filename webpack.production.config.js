@@ -52,7 +52,7 @@ module.exports = {
       loader  : "babel-loader",
       query   : {
         "presets" : ["es2015", "stage-0", "react"],
-        "plugins" : ["transform-es2015-destructuring", "transform-object-rest-spread"]
+        "plugins" : ["transform-es2015-destructuring", "transform-object-rest-spread", "ramda"]
       }
     }, {
       test   : /\.json?$/,

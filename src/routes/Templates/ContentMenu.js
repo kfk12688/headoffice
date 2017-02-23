@@ -59,7 +59,7 @@ class ContentMenu extends Component {
               hideModal={e => this.setState({ showModal : false })}
               style="primary"
             >
-              <NewTemplateForm onSubmit={this.props.createTemplate} toggleModal={this.toggleModal}/>
+              <NewTemplateForm onSubmit={this.props.addTemplate} toggleModal={this.toggleModal}/>
             </Modal>
 
             <Dropdown label={`${len} selected`}>
@@ -85,7 +85,7 @@ ContentMenu.propTypes = {
   // Functions
   selectAllRows   : React.PropTypes.func,
   deselectAllRows : React.PropTypes.func,
-  createTemplate  : React.PropTypes.func,
+  addTemplate     : React.PropTypes.func,
 };
 
 export { ContentMenu };

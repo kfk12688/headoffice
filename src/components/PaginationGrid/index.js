@@ -1,21 +1,27 @@
 import React, { Component } from "react";
+import { Link } from "components";
+import { isDefined, isEmpty } from "utils";
 import { PGHeaderRow } from "./PGHeaderRow";
 import { PGBody } from "./PGBody";
-import { Link } from "components";
-import { calcColWidths, isDefined, isEmpty } from "utils";
-import styles from "./common.less";
+import { calcColWidths } from "./calcColWidths";
+import styles from "./styles.less";
 
 class PaginationGrid extends Component {
   constructor(props) {
     super(props);
     const colWidths = calcColWidths(props.spec, props.data);
     this.state      = {
-      colWidths,
       scrollLeft : 0,
+      colWidths,
     };
 
     this.reportScrollLeftFn = this.reportScrollLeftFn.bind(this);
     this.renderContent      = this.renderContent.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps, nextContext) {
+    const colWidths = calcColWidths(nextProps.spec, nextProps.data);
+    this.setState({ colWidths });
   }
 
   reportScrollLeftFn(spacing) {
@@ -24,7 +30,6 @@ class PaginationGrid extends Component {
 
   renderContent() {
     const { isLoading, spec, data, name } = this.props;
-    const colWidths                       = calcColWidths(spec, data);
 
     if (isLoading) {
       return <div className={styles.spinner}><i className="fa fa-spinner fa-spin fa-2x fa-fw"/></div>;
@@ -34,32 +39,31 @@ class PaginationGrid extends Component {
       return (
         <div className={styles.noData}>
           <div>No Data Present</div>
-          <div>Click <Link to={`/collections/entry/${name}`}>here</Link> to create them</div>
+          <div>Click <Link to={`/collections/new/${name}`}>here</Link> to create them</div>
         </div>
       );
     }
 
     return (
-      <PGBody
-        cols={spec}
-        rows={data}
-        colWidths={colWidths}
-        reportScrollLeftFn={this.reportScrollLeftFn}
+      <PGBody cols={spec}
+              rows={data}
+              editItem={this.props.editItem}
+              colWidths={this.state.colWidths}
+              deleteItem={this.props.deleteItem}
+              reportScrollLeftFn={this.reportScrollLeftFn}
       />
     );
   }
 
   render() {
-    const { spec, topOffset, data } = this.props;
-    const colWidths                 = calcColWidths(spec, data);
+    const { spec, topOffset } = this.props;
 
     return (
       <div className={styles.pgContainer}>
-        <PGHeaderRow
-          cols={spec}
-          colWidths={colWidths}
-          scrollLeft={this.state.scrollLeft}
-          topOffset={topOffset}
+        <PGHeaderRow cols={spec}
+                     topOffset={topOffset}
+                     colWidths={this.state.colWidths}
+                     scrollLeft={this.state.scrollLeft}
         />
         {this.renderContent()}
       </div>
@@ -68,13 +72,15 @@ class PaginationGrid extends Component {
 }
 
 PaginationGrid.propTypes = {
-  name      : React.PropTypes.string,
-  topOffset : React.PropTypes.number,
-  style     : React.PropTypes.object,
-  className : React.PropTypes.string,
-  isLoading : React.PropTypes.bool,
-  spec      : React.PropTypes.array.isRequired,
-  data      : React.PropTypes.object.isRequired,
+  name       : React.PropTypes.string,
+  topOffset  : React.PropTypes.number,
+  style      : React.PropTypes.object,
+  className  : React.PropTypes.string,
+  isLoading  : React.PropTypes.bool,
+  spec       : React.PropTypes.array.isRequired,
+  data       : React.PropTypes.object.isRequired,
+  editItem   : React.PropTypes.func.isRequired,
+  deleteItem : React.PropTypes.func.isRequired,
 };
 
 export { PaginationGrid };

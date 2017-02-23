@@ -7,7 +7,7 @@ import { EditTemplateForm } from "forms";
 import { getTemplate, deleteTemplate, starTemplate, updateTemplate, deleteSchema } from "dataflow/templates/actions";
 import styles from "./index.less";
 
-const getContentValues = getProps(["userSchema", "isLoading", "templateName", "workbook.name", "modifiedAt", "createdAt", "createdBy.name", "isFavorite"]);
+const getContentValues = getProps(["userSchema", "isLoading", "templateName", "workbook.workbookName", "modifiedAt", "createdAt", "createdBy.name", "isFavorite"]);
 
 class Editor extends Component {
   constructor(props) {
@@ -88,7 +88,9 @@ class Editor extends Component {
   render() {
     const { collectionName } = this.props.params;
     const contentValues      = getContentValues(this.props.editor[collectionName]);
-    const noFields           = length(contentValues.userSchema) || 0;
+    const noFields           = contentValues.isLoading ?
+                               "Loading..." :
+                               `(${length(contentValues.userSchema)} Fields)`;
 
     return (
       <div className="row">
@@ -97,16 +99,14 @@ class Editor extends Component {
             <div style={{ marginTop : "1rem" }} className="row">
               <div className="col-md-9">
                 <Sticky stickyStyle={{ zIndex : 1040, backgroundColor : "white" }}>
-                  <div className="row" style={{ paddingTop : "8px", paddingBottom : "8px" }}>
-                    <div className="col-md-12">
-                      <h4>{contentValues.templateName}&nbsp;
-                        <small className="text-muted">({noFields} Fields)</small>
-                        <Link className="pull-right" to={`/templates/new/${collectionName}`}>
-                          <Button faName="plus" style="primary">Add new Schema</Button>
-                        </Link>
-                      </h4>
-                    </div>
-                  </div>
+                  <h4 style={{ paddingTop : "8px", paddingBottom : "8px" }}>
+                    {contentValues.templateName}
+                    &nbsp;
+                    <small className="text-muted">{noFields}</small>
+                    <Link className="pull-right" to={`/templates/new/${collectionName}`}>
+                      <Button faName="plus" style="primary">Add new Schema</Button>
+                    </Link>
+                  </h4>
                 </Sticky>
 
                 <SDTable colSpec={this.colSpec}
@@ -125,8 +125,9 @@ class Editor extends Component {
                   </div>
 
                   <div className={styles.divider}/>
+
                   <div className="btn-group-vertical btn-block">
-                    <Link to={`/collections/entry/${collectionName}`}
+                    <Link to={`/collections/new/${collectionName}`}
                           className="btn btn-secondary btn-sm"
                           role="button"
                     >

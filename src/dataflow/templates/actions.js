@@ -1,7 +1,7 @@
 export {
   getTemplates,
   getTemplate,
-  createTemplate,
+  addTemplate,
   deleteTemplate,
   updateTemplate,
   starTemplate,

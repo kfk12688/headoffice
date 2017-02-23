@@ -1,9 +1,10 @@
 import React from "react";
 import { Button, TextInput, StaticSelectInput } from "components";
-import SDRow from "./SDRow";
-import getFields from "./getFields";
-import styles from "./styles.less";
 import cx from "classnames";
+import SDRow from "./SDRow";
+import styles from "./styles.less";
+import getFields from "./getFields";
+import { SUB_FIELD_TYPES } from "./fieldTypeHash";
 
 const SubSchemaFields = ({ fields, fieldSchema }) => {
   const addSchema    = (e) => {
@@ -32,7 +33,7 @@ const SubSchemaFields = ({ fields, fieldSchema }) => {
                  name={`${field}.fieldType`}
                  displayText="Field Type"
                  component={StaticSelectInput}
-                 options={["number", "date", "string", "boolean", "objectId"]}
+                 options={SUB_FIELD_TYPES}
           />
           {
             fieldType && getFields[fieldType](`${field}.fieldProps`, fieldProps)
@@ -67,8 +68,8 @@ const SubSchemaFields = ({ fields, fieldSchema }) => {
 };
 
 SubSchemaFields.propTypes = {
-  fields      : React.PropTypes.arrayOf(React.PropTypes.object),
-  fieldSchema : React.PropTypes.array.isRequired,
+  fields      : React.PropTypes.object.isRequired,
+  fieldSchema : React.PropTypes.array,
 };
 
 export default SubSchemaFields;

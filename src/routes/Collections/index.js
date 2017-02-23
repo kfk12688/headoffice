@@ -3,9 +3,7 @@ import { StickyContainer, Sticky } from "react-sticky";
 import { connect } from "react-redux";
 import { SearchBar, DataGrid } from "components";
 import { getProps, toDate, exec, getSelectedKeys } from "utils";
-import {
-  toggleSelection, getTemplates, starCollection, deleteTemplate, selectAll, deselectAll
-} from "dataflow/collections/actions";
+import { getCollections, starCollection, deleteCollection, selectAll, deselectAll, toggleSelection } from "dataflow/collections/actions";
 import { ContentMenu } from "./ContentMenu";
 
 const getValues = getProps(["data", "isLoading"]);
@@ -14,9 +12,9 @@ class Collections extends Component {
   constructor(props) {
     super(props);
     this.actions   = {
-      deleteTemplate : {
+      deleteCollection : {
         name    : "Delete Template",
-        handler : exec(props.deleteTemplate),
+        handler : exec(props.deleteCollection),
       },
     };
     this.colSpec   = [
@@ -45,7 +43,7 @@ class Collections extends Component {
         },
         buttonLink : {
           text         : "Enter Data",
-          absolutePath : "collections/entry",
+          absolutePath : "collections/new",
           key          : "collectionName",
         },
         name       : "name-col",
@@ -54,7 +52,7 @@ class Collections extends Component {
         "actions"  : this.actions,
       },
       {
-        dataKey    : "workbook.name",
+        dataKey    : "workbook.workbookName",
         name       : "workbook-col",
         renderType : "text",
         text       : "Work Book",
@@ -83,14 +81,14 @@ class Collections extends Component {
       "created-at-col" : 120,
       "updated-at-col" : 180,
     };
+  }
 
-    if (!props.children) props.getTemplates();
+  componentWillMount() {
+    this.props.getCollections();
   }
 
   renderChildren() {
-    if (this.props.children) return this.props.children;
-
-    const values       = getValues(this.props.collections);
+    const values       = getValues(this.props.collectionsList);
     const selectedKeys = getSelectedKeys(values.data);
     const searchConfig = [
       {
@@ -147,35 +145,37 @@ class Collections extends Component {
   render() {
     return (
       <div className="container-fluid">
-        {this.renderChildren()}
+        {(this.props.children) ? this.props.children : this.renderChildren()}
       </div>
     );
   }
 }
 
 Collections.propTypes    = {
-  children        : React.PropTypes.node,
+  children         : React.PropTypes.node,
   // Store
-  collections     : React.PropTypes.object.isRequired,
-  // Action types for Menu Store
-  toggleSelection : React.PropTypes.func.isRequired,
-  // Action types for Data Store
-  getTemplates    : React.PropTypes.func.isRequired,
-  deleteTemplate  : React.PropTypes.func.isRequired,
-  starCollection  : React.PropTypes.func.isRequired,
-  selectAllRows   : React.PropTypes.func.isRequired,
-  deselectAllRows : React.PropTypes.func.isRequired,
+  collectionsList  : React.PropTypes.object.isRequired,
+  // Menu Actions
+  toggleSelection  : React.PropTypes.func.isRequired,
+  selectAllRows    : React.PropTypes.func.isRequired,
+  deselectAllRows  : React.PropTypes.func.isRequired,
+  // Collection Actions
+  getCollections   : React.PropTypes.func.isRequired,
+  starCollection   : React.PropTypes.func.isRequired,
+  deleteCollection : React.PropTypes.func.isRequired,
 };
 const mapStateToProps    = (state) => ({
-  collections : state.collections.list,
+  collectionsList : state.collections.list,
 });
 const mapDispatchToProps = (dispatch) => ({
-  getTemplates    : () => dispatch(getTemplates()),
-  toggleSelection : (collectionName) => dispatch(toggleSelection(collectionName)),
-  starCollection  : (collectionName) => dispatch(starCollection(collectionName)),
-  deleteTemplate  : (collectionName) => dispatch(deleteTemplate(collectionName)),
-  selectAllRows   : () => dispatch(selectAll()),
-  deselectAllRows : () => dispatch(deselectAll()),
+  // collection actions
+  getCollections   : () => dispatch(getCollections()),
+  starCollection   : (collectionName) => dispatch(starCollection(collectionName)),
+  deleteCollection : (collectionName) => dispatch(deleteCollection(collectionName)),
+  // menu actions
+  toggleSelection  : (collectionName) => dispatch(toggleSelection(collectionName)),
+  selectAllRows    : () => dispatch(selectAll()),
+  deselectAllRows  : () => dispatch(deselectAll()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Collections);

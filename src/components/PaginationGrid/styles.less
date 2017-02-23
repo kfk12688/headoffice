@@ -30,8 +30,6 @@
 }
 
 .cell {
-  height: @rowHeight;
-  line-height: @rowHeight;
   font-size: 15px;
   padding-left: 12px;
   padding-right: 12px;
@@ -46,10 +44,10 @@
 }
 
 .row {
+  padding: 4px 0;
   display: inline-flex;
   border-bottom: 1px solid @grey300;
-  height: @rowHeight;
-  line-height: @rowHeight;
+  min-height: @rowHeight;
   white-space: nowrap;
   background-color: @white;
   min-width: 100%;
@@ -73,4 +71,9 @@
   &Title {
     font-weight: 600;
   }
+}
+
+.btnLink {
+  position: absolute;
+  right: 2%;
 }

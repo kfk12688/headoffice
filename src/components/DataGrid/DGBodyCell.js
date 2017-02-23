@@ -1,14 +1,15 @@
 import React from "react";
 import styles from "./common.less";
-import getCell from "../getCell";
+import componentsHash from "../componentsHash";
 
 const DGBodyCell = ({ col, colWidth, value, id }) => {
+  const renderFn = componentsHash[col.renderType].render;
   return (
     <span style={{ width : colWidth }}
           className={styles.cell}
     >
-    {getCell[col.renderType](value, col, id)}
-  </span>
+      {renderFn(value, col, id)}
+    </span>
   );
 };
 

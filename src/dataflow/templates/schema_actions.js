@@ -11,8 +11,8 @@ import {
 const addSchemaRequest = createAction(ADD_SCHEMA_REQUEST, (collectionName) => ({ collectionName }));
 const addSchemaSuccess = createAction(ADD_SCHEMA_SUCCESS, (collectionName, data) => ({
   collectionName,
-  message  : data.message,
-  template : data.template,
+  message : data.message,
+  data    : data.data,
 }));
 const addSchemaFailure = createAction(ADD_SCHEMA_FAILURE, (collectionName, error) => ({ collectionName, error }));
 export function addSchema(collectionName, field) {
@@ -31,8 +31,8 @@ export function addSchema(collectionName, field) {
 const deleteSchemaRequest = createAction(DELETE_SCHEMA_REQUEST, (collectionName) => ({ collectionName }));
 const deleteSchemaSuccess = createAction(DELETE_SCHEMA_SUCCESS, (collectionName, data) => ({
   collectionName,
-  message  : data.message,
-  template : data.template,
+  message : data.message,
+  data    : data.data,
 }));
 const deleteSchemaFailure = createAction(DELETE_SCHEMA_FAILURE, (collectionName, error) => ({ collectionName, error }));
 export function deleteSchema(collectionName, idx) {
@@ -51,8 +51,8 @@ export function deleteSchema(collectionName, idx) {
 const updateSchemaRequest = createAction(UPDATE_SCHEMA_REQUEST, (collectionName) => ({ collectionName }));
 const updateSchemaSuccess = createAction(UPDATE_SCHEMA_SUCCESS, (collectionName, data) => ({
   collectionName,
-  message  : data.message,
-  template : data.template,
+  message : data.message,
+  data    : data.data,
 }));
 const updateSchemaFailure = createAction(UPDATE_SCHEMA_FAILURE, (collectionName, error) => ({ collectionName, error }));
 export function updateSchema(collectionName, idx, field) {

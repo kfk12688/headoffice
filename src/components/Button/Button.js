@@ -1,11 +1,11 @@
-import R from "ramda";
 import React, { PropTypes } from "react";
+import { isNil } from "utils";
 import cx from "classnames";
 
 const Button = ({ disabled, size, style, outline, block, faName, faClassName, children, isToggled, className, ...rest }) => {
-  const styleTag    = R.isNil(style) ? "secondary" : style;
+  const styleTag    = isNil(style) ? "secondary" : style;
   const outlineFlag = outline ? "-outline" : "";
-  const faIcon      = faName && <i className={cx(`fa fa-${faName}`, faClassName)}/>;
+  const faIcon      = faName ? <i className={cx(`fa fa-${faName}`, faClassName)}/> : null;
 
   let defaults = cx("btn", `btn${outlineFlag}-${styleTag}`, "btn-sm");
   if (size === "lg") defaults = cx("btn", `btn${outlineFlag}-${styleTag}`, "btn-lg");
@@ -15,13 +15,12 @@ const Button = ({ disabled, size, style, outline, block, faName, faClassName, ch
   if (isToggled) defaults = cx(defaults, "active");
 
   return (
-    <button
-      type="button"
-      className={cx(defaults, className)}
-      disabled={disabled}
-      {...rest}
+    <button type="button"
+            className={cx(defaults, className)}
+            disabled={disabled}
+            {...rest}
     >
-      {children ? <span>{children}{"  "}{faIcon}</span> : faIcon}
+      {children ? <span>{children}&nbsp;{faIcon}</span> : faIcon}
     </button>
   );
 };

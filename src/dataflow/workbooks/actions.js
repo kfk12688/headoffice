@@ -1,5 +1,5 @@
 export {
-  createWorkbook,
+  addWorkbook,
   deleteWorkbook,
   getWorkbooks
 } from "./workbook_actions";

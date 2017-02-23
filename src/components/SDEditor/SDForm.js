@@ -1,13 +1,12 @@
 import React, { Component } from "react";
-import SDRow from "./SDRow";
 import { connect } from "react-redux";
 import { reduxForm, formValueSelector } from "redux-form";
 import { Button, TextInput, StaticSelectInput } from "components";
-import getFields from "./getFields";
-import styles from "./styles.less";
 import cx from "classnames";
-
-const FIELD_TYPES = ["number", "date", "string", "boolean", "objectId", "schema", "schemaArray", "binData"];
+import SDRow from "./SDRow";
+import styles from "./styles.less";
+import getFields from "./getFields";
+import { FIELD_TYPES } from "./fieldTypeHash";
 
 class SDForm extends Component {
   constructor(props) {
@@ -37,7 +36,7 @@ class SDForm extends Component {
         <div className="row">
           <div className="col-md-12">
             <SDRow required
-                   refCb={node => this.fieldNameNode = node}
+                   refCb={node => { this.fieldNameNode = node; }}
                    name="fieldName"
                    displayText="Field Name"
                    component={TextInput}

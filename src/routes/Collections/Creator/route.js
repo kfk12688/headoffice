@@ -1,8 +1,8 @@
-import EntryForm from "./";
+import Creator from "./";
 
 const Route = {
-  path      : "entry/:collectionName",
-  component : EntryForm,
+  path      : "new/:collectionName",
+  component : Creator,
 };
 
 export default Route;

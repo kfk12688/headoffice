@@ -1,8 +1,8 @@
-import Editor from "./";
+import Viewer from "./";
 
 const Route = {
   path      : "view/:collectionName",
-  component : Editor,
+  component : Viewer,
 };
 
 export default Route;

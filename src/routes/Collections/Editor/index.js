@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { getProps, toDate, isDefined } from "utils";
-import { StickyContainer, Sticky, Link, Button, Modal, FavoriteIcon } from "components";
+import { omit, getProps, toDate, isDefined } from "utils";
+import { Link, StickyContainer, Sticky, Button, Modal, FavoriteIcon } from "components";
 import { EditTemplateForm, CollectionEntryForm } from "forms";
-import { getSchema, addItem, deleteCollection, starCollection, updateCollection } from "dataflow/collections/actions";
+import { getSchema, updateItem, getItem, deleteCollection, starCollection, updateCollection } from "dataflow/collections/actions";
 import styles from "./index.less";
 
-const getContentValues = getProps(["userSchema", "isLoading", "templateName", "workbook.workbookName", "modifiedAt", "createdAt", "createdBy.name", "isFavorite"]);
+const getContentValues = getProps(["items", "userSchema", "isLoading", "templateName", "workbook.workbookName", "modifiedAt", "createdAt", "createdBy.name", "isFavorite"]);
 
-class Creator extends Component {
+class Editor extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,20 +17,17 @@ class Creator extends Component {
       showModal : false,
     };
 
-    this.addItem          = this.addItem.bind(this);
     this.deleteCollection = this.deleteCollection.bind(this);
     this.updateCollection = this.updateCollection.bind(this);
     this.starCollection   = this.starCollection.bind(this);
+
+    this.updateItem = this.updateItem.bind(this);
   }
 
   componentWillMount() {
-    const { collectionName } = this.props.params;
-    this.props.getSchema(collectionName);
-  }
-
-  addItem(rowData) {
-    const { collectionName } = this.props.params;
-    this.props.addItem(collectionName, rowData);
+    const { collectionName, id } = this.props.params;
+    this.props.getSchema(collectionName)
+      .then(() => this.props.getItem(collectionName, id));
   }
 
   deleteCollection(e) {
@@ -53,12 +50,22 @@ class Creator extends Component {
     this.props.updateCollection(collectionName, data);
   }
 
+  updateItem(data) {
+    const { collectionName, id } = this.props.params;
+
+    this.props.updateItem(collectionName, id, data)
+      .then(() => this.context.router.push(`/collections/view/${collectionName}`));
+  }
+
   render() {
-    const { collectionName } = this.props.params;
-    const contentValues      = getContentValues(this.props.collections[collectionName]);
-    const templateName       = contentValues.isLoading ?
-                               "Loading ..." :
-                               contentValues.templateName;
+    const { collectionName, id } = this.props.params;
+    const contentValues          = getContentValues(this.props.collections[collectionName]);
+    const item                   = isDefined(contentValues.items) ?
+                                   omit(["modifiedAt", "id"], contentValues.items[id]) :
+                                   {};
+    const templateName           = contentValues.isLoading ?
+                                   "Loading ..." :
+                                   contentValues.templateName;
 
     return (
       <div className="row">
@@ -79,8 +86,9 @@ class Creator extends Component {
                   <div className="col-md-12">
                     {
                       isDefined(contentValues.userSchema) ?
-                      <CollectionEntryForm spec={contentValues.userSchema || []}
-                                           onSubmit={this.addItem}
+                      <CollectionEntryForm spec={contentValues.userSchema}
+                                           initialValues={item}
+                                           onSubmit={this.updateItem}
                       /> :
                       <div>
                         <div>No field definition is given for the template</div>
@@ -104,6 +112,14 @@ class Creator extends Component {
                       View entered data&nbsp;<i className="fa fa-arrow-circle-o-right"/>
                     </Link>
                   </div>
+
+                  <div className={styles.divider}/>
+
+                  <Link to={`collections/new/${collectionName}`} className="btn btn-secondary btn-sm btn-block"
+                        role="button"
+                  >
+                    Add a new entry&nbsp;<i className="fa fa-plus"/>
+                  </Link>
 
                   <div className={styles.divider}/>
                   <Modal
@@ -143,30 +159,35 @@ class Creator extends Component {
   }
 }
 
-Creator.propTypes        = {
+Editor.propTypes         = {
   // route
-  params           : React.PropTypes.object.isRequired,
+  params           : React.PropTypes.object,
   // state
   collections      : React.PropTypes.object.isRequired,
-  // Collection Actions
+  // Collection actions
   getSchema        : React.PropTypes.func.isRequired,
-  updateCollection : React.PropTypes.func.isRequired,
   deleteCollection : React.PropTypes.func.isRequired,
   starCollection   : React.PropTypes.func.isRequired,
+  updateCollection : React.PropTypes.func.isRequired,
   // Item Actions
-  addItem          : React.PropTypes.func.isRequired,
+  getItem          : React.PropTypes.func.isRequired,
+  updateItem       : React.PropTypes.func.isRequired,
+};
+Editor.contextTypes      = {
+  router : React.PropTypes.object,
 };
 const mapStateToProps    = state => ({
   collections : state.collections,
 });
 const mapDisptachToProps = dispatch => ({
-  // Collection Actions
+  // Collection actions
   getSchema        : (collectionName) => dispatch(getSchema(collectionName)),
-  updateCollection : (collectionName, data) => dispatch(updateCollection(collectionName, data)),
   deleteCollection : collectionName => dispatch(deleteCollection(collectionName)),
   starCollection   : collectionName => dispatch(starCollection(collectionName)),
-  // Item Actions
-  addItem          : (collectionName, data) => dispatch(addItem(collectionName, data)),
+  updateCollection : (collectionName, data) => dispatch(updateCollection(collectionName, data)),
+  // Item actions
+  getItem          : (collectionName, id) => dispatch(getItem(collectionName, id)),
+  updateItem       : (collectionName, id, data) => dispatch(updateItem(collectionName, id, data)),
 });
 
-export default connect(mapStateToProps, mapDisptachToProps)(Creator);
+export default connect(mapStateToProps, mapDisptachToProps)(Editor);

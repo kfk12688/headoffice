@@ -58,7 +58,7 @@ class ContentMenu extends Component {
                    hideModal={e => this.setState({ showModal : false })}
                    style="primary"
             >
-              <CreateWorkbookForm onSubmit={this.props.createWorkbook} toggleModal={this.toggleModal}/>
+              <CreateWorkbookForm onSubmit={this.props.addWorkbook} toggleModal={this.toggleModal}/>
             </Modal>
             <Dropdown label={`${selectedKeys.length} selected`}>
               <div onClick={this.props.selectAllRows}>Select All</div>
@@ -82,7 +82,7 @@ ContentMenu.propTypes = {
   className       : React.PropTypes.string,
   selectedKeys    : React.PropTypes.array.isRequired,
   actions         : React.PropTypes.object.isRequired,
-  createWorkbook  : React.PropTypes.func,
+  addWorkbook     : React.PropTypes.func,
   selectAllRows   : React.PropTypes.func,
   deselectAllRows : React.PropTypes.func,
 };

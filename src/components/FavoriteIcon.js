@@ -1,11 +1,10 @@
-import R from "ramda";
 import React from "react";
+import { isNil } from "utils";
 import { red500 } from "./_styles/colors";
 
 const FavoriteIcon = ({ value, inheritSize, style }) => {
-  const isStarred = R.isNil(value) ? false : value;
-
-  const faStyle = {
+  const isStarred = isNil(value) ? false : value;
+  const faStyle   = {
     ...style,
     color    : isStarred ? red500 : "inherit",
     fontSize : inheritSize ? "inherit" : 17,

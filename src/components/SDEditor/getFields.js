@@ -2,18 +2,62 @@ import React from "react";
 import SDRow from "./SDRow";
 import SubSchemaFields from "./SubSchemaFields";
 import { Field, FieldArray } from "redux-form";
-import { TextInput, DateInput, CheckBoxInput, NumericInput, SelectInput } from "components";
+import { TextInput, DateInput, CheckBoxInput, DecimalInput, IntegerInput, SelectInput, TimeStampInput } from "../componentsHash";
 
 const getFields = {
-  boolean     : fieldName => [
-    <Field key={`${fieldName}.default`}
+  integer     : fieldName => [
+    <SDRow key={`${fieldName}.min`}
+           name={`${fieldName}.min`}
+           displayText="Enter Min Value"
+           component={IntegerInput}
+    />,
+    <SDRow key={`${fieldName}.max`}
+           name={`${fieldName}.max`}
+           displayText="Enter Max Value"
+           component={IntegerInput}
+    />,
+    <SDRow key={`${fieldName}.default`}
            name={`${fieldName}.default`}
-           component={CheckBoxInput}
-    >
-      Should default be True
-    </Field>,
+           displayText="Enter a default Value"
+           component={IntegerInput}
+    />,
     <Field key={`${fieldName}.required`}
            name={`${fieldName}.required`}
+           component={CheckBoxInput}
+    >
+      Is Required
+    </Field>,
+    <Field key={`${fieldName}.unique`}
+           name={`${fieldName}.unique`}
+           component={CheckBoxInput}
+    >
+      Is Unique
+    </Field>,
+  ],
+  decimal     : fieldName => [
+    <SDRow key={`${fieldName}.min`}
+           name={`${fieldName}.min`}
+           displayText="Enter Min Value"
+           component={DecimalInput}
+    />,
+    <SDRow key={`${fieldName}.max`}
+           name={`${fieldName}.max`}
+           displayText="Enter Max Value"
+           component={DecimalInput}
+    />,
+    <SDRow key={`${fieldName}.default`}
+           name={`${fieldName}.default`}
+           displayText="Enter a default Value"
+           component={DecimalInput}
+    />,
+    <Field key={`${fieldName}.required`}
+           name={`${fieldName}.required`}
+           component={CheckBoxInput}
+    >
+      Is Required
+    </Field>,
+    <Field key={`${fieldName}.unique`}
+           name={`${fieldName}.unique`}
            component={CheckBoxInput}
     >
       Is Unique
@@ -38,10 +82,48 @@ const getFields = {
       Is Unique
     </Field>,
   ],
-  string      : fieldName => [
-    <SDRow key={`${fieldName}.enum`}
-           name={`${fieldName}.enum`}
-           displayText="List of values"
+  time        : fieldName => [
+    <SDRow key={`${fieldName}.default`}
+           name={`${fieldName}.default`}
+           displayText="Default Value"
+           component={TimeStampInput}
+    />,
+    <Field key={`${fieldName}.required`}
+           name={`${fieldName}.required`}
+           component={CheckBoxInput}
+    >
+      Is Required
+    </Field>,
+    <Field key={`${fieldName}.unique`}
+           name={`${fieldName}.unique`}
+           component={CheckBoxInput}
+    >
+      Is Unique
+    </Field>,
+  ],
+  text        : fieldName => [
+    <SDRow key={`${fieldName}.default`}
+           name={`${fieldName}.default`}
+           displayText="Default text"
+           component={TextInput}
+    />,
+    <Field key={`${fieldName}.required`}
+           name={`${fieldName}.required`}
+           component={CheckBoxInput}
+    >
+      Is Required
+    </Field>,
+    <Field key={`${fieldName}.unique`}
+           name={`${fieldName}.unique`}
+           component={CheckBoxInput}
+    >
+      Is Unique
+    </Field>,
+  ],
+  list        : fieldName => [
+    <SDRow key={`${fieldName}.options`}
+           name={`${fieldName}.options`}
+           displayText="List of values (seperated by ,)"
            component={TextInput}
     />,
     <SDRow key={`${fieldName}.default`}
@@ -62,21 +144,11 @@ const getFields = {
       Is Unique
     </Field>,
   ],
-  number      : fieldName => [
-    <SDRow key={`${fieldName}.min`}
-           name={`${fieldName}.min`}
-           displayText="Enter Min Value"
-           component={NumericInput}
-    />,
-    <SDRow key={`${fieldName}.max`}
-           name={`${fieldName}.max`}
-           displayText="Enter Max Value"
-           component={NumericInput}
-    />,
+  longtext    : fieldName => [
     <SDRow key={`${fieldName}.default`}
            name={`${fieldName}.default`}
-           displayText="Enter a default Value"
-           component={NumericInput}
+           displayText="Default text"
+           component={TextInput}
     />,
     <Field key={`${fieldName}.required`}
            name={`${fieldName}.required`}
@@ -91,7 +163,29 @@ const getFields = {
       Is Unique
     </Field>,
   ],
-  objectId    : (fieldName, fieldProps) => {
+  boolean     : fieldName => [
+    <Field key={`${fieldName}.default`}
+           name={`${fieldName}.default`}
+           component={CheckBoxInput}
+    >
+      Should default be True
+    </Field>,
+    <Field key={`${fieldName}.required`}
+           name={`${fieldName}.required`}
+           component={CheckBoxInput}
+    >
+      Is Unique
+    </Field>,
+  ],
+  image       : fieldName => [
+    <Field key={`${fieldName}.required`}
+           name={`${fieldName}.required`}
+           component={CheckBoxInput}
+    >
+      Is Required
+    </Field>,
+  ],
+  reference   : (fieldName, fieldProps) => {
     const id = fieldProps && fieldProps.tableRef && fieldProps.tableRef.id;
     if (id) {
       return [
@@ -132,14 +226,6 @@ const getFields = {
                 component={SubSchemaFields}
                 fieldSchema={fieldSchema}
     />,
-  ],
-  binData     : fieldName => [
-    <Field key={`${fieldName}.required`}
-           name={`${fieldName}.required`}
-           component={CheckBoxInput}
-    >
-      Is Required
-    </Field>,
   ],
 };
 

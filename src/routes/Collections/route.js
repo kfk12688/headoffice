@@ -1,6 +1,7 @@
 import Data from "./";
-import DataEntry from "./Entry/route";
+import DataEntry from "./Creator/route";
 import DataViewer from "./Viewer/route";
+import DataEditor from "./Editor/route";
 import { requireAuth } from "../auth";
 
 const Route = {
@@ -10,6 +11,7 @@ const Route = {
   childRoutes : [
     DataEntry,
     DataViewer,
+    DataEditor,
   ],
 };
 

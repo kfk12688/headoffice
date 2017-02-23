@@ -82,7 +82,7 @@ class Overlay extends React.Component {
 Overlay.propTypes = {
   show     : React.PropTypes.bool.isRequired,
   onHide   : React.PropTypes.func.isRequired,
-  target   : React.PropTypes.any.isRequired,
+  target   : React.PropTypes.any,
   children : React.PropTypes.node,
 };
 export default Overlay;

@@ -1,15 +1,15 @@
 import React from "react";
 
-export const NumericInput = ({ input, meta, ...rest }) =>
+export const IntegerInput = ({ input, meta, ...rest }) =>
   <input
     {...rest}
     className="form-control"
     type="number"
-    step="any"
+    step={1}
     {...input}
   />;
 
-NumericInput.propTypes = {
+IntegerInput.propTypes = {
   input : React.PropTypes.object.isRequired,
   meta  : React.PropTypes.object,
 };

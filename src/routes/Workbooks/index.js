@@ -1,12 +1,9 @@
 import React, { Component } from "react";
-import { StickyContainer, Sticky } from "react-sticky";
 import { connect } from "react-redux";
-import { DataGrid, SearchBar } from "components";
+import { StickyContainer, Sticky, DataGrid, SearchBar } from "components";
 import { ContentMenu } from "./ContentMenu";
 import { getSelectedKeys, exec, getProps } from "utils";
-import {
-  getWorkbooks, createWorkbook, deleteWorkbook, selectAll, deselectAll, toggleSelection
-} from "dataflow/workbooks/actions";
+import { getWorkbooks, addWorkbook, deleteWorkbook, selectAll, deselectAll, toggleSelection } from "dataflow/workbooks/actions";
 
 const getValues = getProps(["data", "isLoading"]);
 
@@ -30,7 +27,7 @@ class Workbooks extends Component {
         text        : "",
       },
       {
-        dataKey    : "name",
+        dataKey    : "workbookName",
         name       : "name-col",
         renderType : "link",
         actions    : this.actions,
@@ -60,8 +57,10 @@ class Workbooks extends Component {
       "full-name-col"  : 200,
       "created-at-col" : 160,
     };
+  }
 
-    if (!props.children) props.getWorkbooks();
+  componentWillMount() {
+    this.props.getWorkbooks();
   }
 
   renderChildren() {
@@ -92,7 +91,7 @@ class Workbooks extends Component {
         <div className="col-md-10 offset-md-1">
           <ContentMenu actions={this.actions}
                        selectedKeys={selectedKeys}
-                       createWorkbook={this.props.createWorkbook}
+                       addWorkbook={this.props.addWorkbook}
                        selectAllRows={this.props.selectAll}
                        deselectAllRows={this.props.deselectAll}
           />
@@ -133,7 +132,7 @@ Workbooks.propTypes      = {
   workbooks       : React.PropTypes.object.isRequired,
   // Actions
   getWorkbooks    : React.PropTypes.func,
-  createWorkbook  : React.PropTypes.func,
+  addWorkbook     : React.PropTypes.func,
   deleteWorkbook  : React.PropTypes.func,
   toggleSelection : React.PropTypes.func.isRequired,
   selectAll       : React.PropTypes.func.isRequired,
@@ -144,7 +143,7 @@ const mapStateToProps    = (state) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
   getWorkbooks    : () => dispatch(getWorkbooks()),
-  createWorkbook  : data => dispatch(createWorkbook(data)),
+  addWorkbook     : data => dispatch(addWorkbook(data)),
   deleteWorkbook  : name => dispatch(deleteWorkbook(name)),
   selectAll       : () => dispatch(selectAll()),
   deselectAll     : () => dispatch(deselectAll()),

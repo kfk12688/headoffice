@@ -17,14 +17,12 @@ export const isObject       = isOfType(Object);
 export const isBool         = isOfType(Boolean);
 export const isNonZeroArray = R.converge(R.and, [isArray, a => R.gt(R.length(a), 0)]);
 export const isDefined      = R.compose(R.not, R.isNil);
-export const isEmpty        = R.isEmpty;
-export const length         = R.length;
 export const isDate         = str => {
   const momentDate = moment(str, "D/M/YYYY");
   if (R.isNil(momentDate) || !momentDate.isValid()) return false;
 
   const validFormats = ["D/M/YYYY", "DD/MM/YYYY", "D/M/YY", "DD/MM/YY"];
-  const exists       = f => R.indexOf(momentDate.format(f), str) >= 0
+  const exists       = f => R.indexOf(momentDate.format(f), str) >= 0;
   const isTrue       = v => isBool(v) && v === true;
   return R.any(isTrue, R.map(exists, validFormats));
 };
@@ -41,7 +39,8 @@ export const toBytes        = R.curry((bytes, decimals) => {
 });
 export const toDate         = R.curry((format, date) => {
   const formatString = format || "D MMM YYYY, HH:mm A";
-  return moment.utc(date).format(formatString);
+  if (date) return moment.utc(date).local().format(formatString);
+  return "";
 });
 export const toTitle        = R.compose(R.join(""), R.over(R.lensIndex(0), R.toUpper));
 
@@ -73,7 +72,7 @@ export const objectToURI        = obj => {
 };
 export const exec               = R.curry((fn, name) => fn(name));
 export const execById           = R.curry((fn, name, id) => fn(name, id));
-export const getSelectedKeys    = R.compose(R.keys, R.filter(R.path(["w"])));
+export const getSelectedKeys    = R.compose(R.keys, R.filter(R.prop("isSelected")));
 export const imap               = R.curry((mapFn, data) => R.compose(R.values, R.mapObjIndexed(mapFn))(data));
 export const padWithZeros       = (string, size) => {
   let retVal = "";
@@ -81,75 +80,45 @@ export const padWithZeros       = (string, size) => {
   while (retVal.length !== size) retVal = R.concat("0", retVal);
   return retVal;
 };
-const getSize                   = data => {
-  let size             = 0;
-  const arbitraryWidth = 8;
-  const compute        = val => {
-    if (isString(val)) {
-      size = Math.max(size, val.length * arbitraryWidth + 30);
-    } else if (isDate(val)) {
-      size = 250;
-    } else if (isNumber(val)) {
-      size = Math.max(size, val.toString().length * arbitraryWidth + 20);
-    } else if (isObject(val)) {
-      //size = Math.max(size, val.label.length * arbitraryWidth + 30);
-      size = 250;
-    }
-  };
-
-  if (isDefined(data)) {
-    compute(data);
-  }
-
-  return size;
-};
-export const calcColWidths      = (spec, data) => {
-  if (!(isNonZeroArray(spec) && isNonZeroArray(data))) return {};
-
-  const o          = {};
-  const fieldNames = R.map(R.prop("fieldName"), spec);
-
-  R.forEach(name => {
-    const getFieldValue = dat => getSize(R.prop(name, dat));
-
-    o[name] = R.map(getFieldValue, data);
-  }, fieldNames);
-
-  return R.map(v => Math.max(...v, 100), o);
-};
+export const round              = R.curry((numDigits, v) => {
+  if (numDigits === 0) return Math.round(v);
+  return Math.round(v * 10 * numDigits) / (10 * numDigits);
+});
 export const genReactKey        = str => R.compose(R.toLower, R.replace(/ /, ""), R.toString)(str);
 
 /**
  * Reducer functions
  */
-export const set            = R.curry((path, value, root, data) => {
+export const set               = R.curry((path, value, root, data) => {
   const mergedPaths = R.isNil(path) ?
                       convertToArray(root) :
                       R.concat(convertToArray(root), convertToArray(path));
   return R.assocPath(mergedPaths, value, data);
 });
-export const unset              = R.curry((path, root, data) => {
+export const merge             = R.curry((pathOfObjectToMerge, mergeObject, data) => {
+  const mergeTo    = R.prop(pathOfObjectToMerge, data);
+  const mergedData = R.merge(mergeObject, mergeTo);
+  return R.assocPath(convertToArray(pathOfObjectToMerge), mergedData, data);
+});
+export const unset             = R.curry((path, root, data) => {
   const mergedPaths = R.isNil(path) ?
                       convertToArray(root) :
                       R.concat(convertToArray(root), convertToArray(path));
   return R.dissocPath(mergedPaths, data);
 });
-export const loading            = set("isLoading", true);
-export const loaded             = set("isLoading", false);
-export const setMessage         = R.assoc("message");
-export const setFailure         = (err, state) => {
+export const loading           = set("isLoading", true);
+export const loaded            = set("isLoading", false);
+export const setMessage        = R.assoc("message");
+export const setFailure        = (payload, state) => {
+  const err = R.prop("err", payload) || R.prop("error", payload);
+
   return R.compose(
     setMessage(err.message),
     setError(err.stack),
     loaded("list"),
   )(state);
 };
-export const loadCollection     = R.curry((collectionName, state) => {
-  return R.compose(
-    loading(collectionName),
-    loading("list"),
-  )(state);
-});
+export const loadingCollection = R.curry((collectionName, state) => loading(collectionName)(state));
 
 // Menu Reducer Functions
 export const selectAll   = R.compose(R.assocPath(["list", "data"]), R.map(select));
@@ -163,3 +132,48 @@ export const getProps    = R.curry((keys, o) => {
   R.forEach(assignToObj(o), splitKeys);
   return obj;
 });
+
+export const dataURItoBlob = (dataURI) => {
+  // convert base64 to raw binary data held in a string
+  // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
+  const byteString = atob(dataURI.split(",")[1]);
+
+  // separate out the mime component
+  const mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
+
+  // write the bytes of the string to an ArrayBuffer
+  const ab = new ArrayBuffer(byteString.length);
+  const ia = new Uint8Array(ab);
+  for (let i = 0; i < byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
+  }
+
+  return new Blob([ab], { type : mimeString });
+};
+
+export {
+  isNil,
+  isEmpty,
+  length,
+  is,
+  assoc,
+  assocPath,
+  path,
+  prop,
+  propOr,
+  propEq,
+  props,
+  compose,
+  curry,
+  values,
+  mapObjIndexed,
+  map,
+  reduce,
+  find,
+  keys,
+  concat,
+  filter,
+  omit,
+  split,
+  has,
+} from "ramda";

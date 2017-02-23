@@ -6,7 +6,7 @@ import { EditTemplateForm } from "forms";
 import { getTemplate, deleteTemplate, starTemplate, updateTemplate, addSchema } from "dataflow/templates/actions";
 import styles from "./index.less";
 
-const getContentValues = getProps(["userSchema", "isLoading", "templateName", "workbook.name", "modifiedAt", "createdAt", "createdBy.name", "isFavorite"]);
+const getContentValues = getProps(["userSchema", "isLoading", "templateName", "workbook.workbookName", "modifiedAt", "createdAt", "createdBy.name", "isFavorite"]);
 
 class Editor extends Component {
   constructor(props) {
@@ -47,6 +47,9 @@ class Editor extends Component {
   render() {
     const { collectionName } = this.props.params;
     const contentValues      = getContentValues(this.props.editor[collectionName]);
+    const templateName       = contentValues.isLoading ?
+                               "Loading ..." :
+                               contentValues.templateName;
 
     return (
       <div className="row">
@@ -55,15 +58,12 @@ class Editor extends Component {
             <div style={{ marginTop : "1rem" }} className="row">
               <div className="col-md-9">
                 <Sticky stickyStyle={{ zIndex : 1040, backgroundColor : "white" }}>
-                  <div className="row" style={{ paddingTop : "8px", paddingBottom : "8px" }}>
-                    <div className="col-md-12">
-                      <h4>{contentValues.templateName}&nbsp;
-                        <Link className="pull-right" to={`/templates/view/${collectionName}`}>
-                          <Button faName="long-arrow-left" style="primary">Go to Viewer</Button>
-                        </Link>
-                      </h4>
-                    </div>
-                  </div>
+                  <h4 style={{ paddingTop : "8px", paddingBottom : "8px" }}>
+                    {templateName}
+                    <Link className="pull-right" to={`/templates/view/${collectionName}`}>
+                      <Button faName="long-arrow-left" style="primary">Go to Viewer</Button>
+                    </Link>
+                  </h4>
                 </Sticky>
 
                 <SDEditor isLoading={contentValues.isLoading || false}
@@ -81,7 +81,7 @@ class Editor extends Component {
 
                   <div className={styles.divider}/>
                   <div className="btn-group-vertical btn-block">
-                    <Link to={`/collections/entry/${collectionName}`}
+                    <Link to={`/collections/new/${collectionName}`}
                           className="btn btn-secondary btn-sm"
                           role="button"
                     >

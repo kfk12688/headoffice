@@ -1,8 +1,8 @@
-import { isEmpty } from "utils";
 import React from "react";
-import { render as renderToDOM } from "react-dom";
 import cx from "classnames";
+import { isNil } from "utils";
 import styles from "./Dropdown.less";
+import { render as renderToDOM } from "react-dom";
 
 class Dropdown extends React.Component {
   constructor() {
@@ -51,7 +51,7 @@ class Dropdown extends React.Component {
     );
 
     renderToDOM(dropdown, this.ddContainer);
-    document.body.addEventListener("click", this.handleOutsideClick)
+    document.body.addEventListener("click", this.handleOutsideClick);
   }
 
   removeDropdown() {
@@ -75,7 +75,7 @@ class Dropdown extends React.Component {
 
   render() {
     const { label, disabled, button, className } = this.props;
-    const labelElem                              = isEmpty(label) ?
+    const labelElem                              = isNil(label) ?
                                                    <i className="fa fa-caret-down"/> :
                                                    <span>{label}&nbsp;<i className="fa fa-caret-down"/></span>;
 
@@ -110,5 +110,6 @@ Dropdown.propTypes = {
   label     : React.PropTypes.string,
   button    : React.PropTypes.bool,
   disabled  : React.PropTypes.bool,
+  children  : React.PropTypes.node,
 };
 export { Dropdown };

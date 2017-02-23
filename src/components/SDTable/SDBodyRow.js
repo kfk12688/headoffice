@@ -1,8 +1,7 @@
 import React from "react";
-import R from "ramda";
-import cell from "../getCell";
 import styles from "./styles.less";
-import { imap } from "utils";
+import { propOr, imap } from "utils";
+import componentsHash from "../componentsHash";
 
 const SDBodyRow = ({ row, cols, colWidths, id }) => {
   const mapCol = (col, colKey) => {
@@ -12,15 +11,18 @@ const SDBodyRow = ({ row, cols, colWidths, id }) => {
       display   : "inline-block",
       width     : colWidths[colKey],
     };
-    let value            = R.path([colKey], row);
-    if (R.isNil(value)) value = false;
+    const renderFn       = componentsHash[renderType].render;
+
+    const value = (colKey === "fieldName") ?
+                  propOr("", "displayName", row) :
+                  propOr(false, colKey, row);
 
     return (
       <div key={colKey}
            className={styles.cell}
            style={{ ...style, ...col.colStyle }}
       >
-        {cell[renderType](value, col, id)}
+        {renderFn(value, col, id)}
       </div>
     );
   };
@@ -30,6 +32,7 @@ const SDBodyRow = ({ row, cols, colWidths, id }) => {
 
 SDBodyRow.propTypes = {
   row       : React.PropTypes.object,
+  id        : React.PropTypes.string,
   cols      : React.PropTypes.object,
   colWidths : React.PropTypes.object,
 };

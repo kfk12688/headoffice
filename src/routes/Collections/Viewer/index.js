@@ -1,16 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { StickyContainer, Sticky } from "react-sticky";
-import { Link } from "react-router";
 import { getProps, toDate, isDefined } from "utils";
-import { PaginationGrid, PaginationLinks, FavoriteIcon, Button, Modal } from "components";
-import {
-  loadSpec, loadData, deleteRow, updateRow, deleteTemplate, updateTemplate, starCollection
-} from "dataflow/collections/actions";
+import { StickyContainer, Sticky, Link, PaginationGrid, FavoriteIcon, Button, Modal } from "components";
+import { getCollection, getItems, deleteItem, deleteCollection, updateCollection, starCollection } from "dataflow/collections/actions";
 import { EditTemplateForm } from "forms";
 import styles from "./index.less";
 
-const getMetaValues = getProps(["modifiedAt", "createdAt", "isFavorite", "workbook.name", "createdBy.name"]);
+const getContentValues = getProps(["items", "userSchema", "isLoading", "itemCount", "templateName"]);
+const getMetaValues    = getProps(["modifiedAt", "createdAt", "isFavorite", "workbook.workbookName", "createdBy.name"]);
 
 class Viewer extends Component {
   constructor() {
@@ -21,20 +18,17 @@ class Viewer extends Component {
       showModal : false,
     };
 
-    this.loadData       = this.loadData.bind(this);
-    this.setPage        = this.setPage.bind(this);
-    this.setLimit       = this.setLimit.bind(this);
-    this.deleteTemplate = this.deleteTemplate.bind(this);
-    this.updateTemplate = this.updateTemplate.bind(this);
-    this.starCollection = this.starCollection.bind(this);
+    this.getItems         = this.getItems.bind(this);
+    this.setPage          = this.setPage.bind(this);
+    this.setLimit         = this.setLimit.bind(this);
+    this.deleteCollection = this.deleteCollection.bind(this);
+    this.updateCollection = this.updateCollection.bind(this);
+    this.starCollection   = this.starCollection.bind(this);
   }
 
   componentWillMount() {
     const { collectionName } = this.props.params;
-    const { page, limit }    = this.state;
-
-    this.props.loadSpec(collectionName)
-      .then(() => this.props.loadData(collectionName, { page, limit }));
+    this.props.getCollection(collectionName);
   }
 
   setPage(pageIdx) {
@@ -53,7 +47,7 @@ class Viewer extends Component {
       page : newIdx,
       limit,
     });
-    this.loadData(newIdx, limit);
+    this.getItems(newIdx, limit);
   }
 
   setLimit(limit) {
@@ -62,20 +56,20 @@ class Viewer extends Component {
       page,
       limit,
     });
-    this.loadData(page, limit);
+    this.getItems(page, limit);
   }
 
-  loadData(page, limit) {
+  getItems(page, limit) {
     const { collectionName } = this.props.params;
-    this.props.loadData(collectionName, { page, limit });
+    this.props.getItems(collectionName, { page, limit });
   }
 
-  deleteTemplate(e) {
+  deleteCollection(e) {
     e.preventDefault();
     const confirmationFlag = window.confirm("Are you sure you want to delete this template?");
     if (confirmationFlag) {
       const { collectionName } = this.props.params;
-      this.props.deleteTemplate(collectionName).then(this.context.router.push("/templates"));
+      this.props.deleteCollection(collectionName).then(this.context.router.push("/templates"));
     }
   }
 
@@ -85,56 +79,46 @@ class Viewer extends Component {
     this.props.starCollection(collectionName);
   }
 
-  updateTemplate(data) {
+  updateCollection(data) {
     const { collectionName } = this.props.params;
-    this.props.updateTemplate(collectionName, data);
+    this.props.updateCollection(collectionName, data);
   }
 
   renderContent() {
-    const collectionName   = this.props.params.collectionName;
-    const getContentValues = getProps([`data.${this.state.page}`, "userSchema", "isLoading", "count", "templateName"]);
-    const contentValues    = getContentValues(this.props.viewStore[collectionName]);
+    const collectionName = this.props.params.collectionName;
+    const contentValues  = getContentValues(this.props.collections[collectionName]);
+    const templateName   = contentValues.isLoading ?
+                           "Loading ..." :
+                           contentValues.templateName;
+    const itemCount      = contentValues.isLoading ?
+                           "(loading...)" :
+                           `(${contentValues.itemCount} Entries)`;
 
     return (
       <div className="col-md-9">
         <Sticky stickyStyle={{ backgroundColor : "white", zIndex : 100 }}>
-          <div className="row">
-            <div className="col-md-12">
-              <h4>{contentValues.templateName}&nbsp;
-                <small className="text-muted">({contentValues.count || 0} Entries)</small>
-              </h4>
-            </div>
-          </div>
-
-          {
-            isDefined(contentValues.userSchema) &&
-            <div className="row">
-              <PaginationLinks className="col-md-12"
-                               setLimit={this.setLimit}
-                               setPage={this.setPage}
-                               activePage={this.state.page}
-                               limit={this.state.limit}
-              />
-            </div>
-          }
+          <h4>{templateName}&nbsp;
+            <small className="text-muted">{itemCount}</small>
+          </h4>
         </Sticky>
 
         <div className="row">
           <div className="col-md-12">
             {
               isDefined(contentValues.userSchema) ?
-              <PaginationGrid topOffset={114}
+              <PaginationGrid topOffset={96}
                               name={collectionName}
                               spec={contentValues.userSchema || []}
-                              data={contentValues.data || {}}
+                              data={contentValues.items || {}}
                               isLoading={contentValues.isLoading}
+                              deleteItem={id => this.props.deleteItem(collectionName, id)}
+                              editItem={id => this.context.router.push(`/collections/edit/${collectionName}/${id}`)}
               /> :
               <div>
                 <div>No field definition is given for the template</div>
-                <div>Click <Link to={`/templates/${collectionName}`}>here</Link> to create them</div>
+                <div>Click <Link to={`/templates/new/${collectionName}`}>here</Link> to create them</div>
               </div>
             }
-
           </div>
         </div>
       </div>
@@ -143,7 +127,7 @@ class Viewer extends Component {
 
   render() {
     const collectionName = this.props.params.collectionName;
-    const metaValues     = getMetaValues(this.props.viewStore[collectionName]);
+    const metaValues     = getMetaValues(this.props.collections[collectionName]);
 
     return (
       <div className="row">
@@ -154,13 +138,13 @@ class Viewer extends Component {
               <div className="col-md-3">
                 <Sticky stickyStyle={{ paddingTop : 8 }}>
                   <div className="btn-group-vertical btn-block">
-                    <Link to={`templates/${collectionName}`} className="btn btn-secondary btn-sm" role="button">
+                    <Link to={`templates/view/${collectionName}`} className="btn btn-secondary btn-sm" role="button">
                       Edit Schema&nbsp;<i className="fa fa-edit"/>
                     </Link>
                     <Link to="collections" className="btn btn-secondary btn-sm" role="button">
                       Close View&nbsp;<i className="fa fa-times-circle-o"/>
                     </Link>
-                    <Link to={`collections/entry/${collectionName}`} className="btn btn-secondary btn-sm" role="button">
+                    <Link to={`collections/new/${collectionName}`} className="btn btn-secondary btn-sm" role="button">
                       Enter new data&nbsp;<i className="fa fa-arrow-circle-o-right"/>
                     </Link>
                   </div>
@@ -175,11 +159,11 @@ class Viewer extends Component {
                     hideModal={e => this.setState({ showModal : false })}
                     block
                   >
-                    <EditTemplateForm onSubmit={this.updateTemplate}
+                    <EditTemplateForm onSubmit={this.updateCollection}
                                       toggleModal={e => this.setState({ showModal : false })}
                     />
                   </Modal>
-                  <Button faName="times" block onClick={this.deleteTemplate}>Delete Template</Button>
+                  <Button faName="times" block onClick={this.deleteCollection}>Delete Template</Button>
                   <Button block onClick={this.starCollection}>
                     Make Favorite
                     &nbsp;
@@ -205,25 +189,33 @@ class Viewer extends Component {
 
 Viewer.propTypes         = {
   // route
-  params         : React.PropTypes.object,
+  params           : React.PropTypes.object.isRequired,
   // state
-  viewStore      : React.PropTypes.object.isRequired,
+  collections      : React.PropTypes.object.isRequired,
   // actions
-  loadSpec       : React.PropTypes.func,
-  loadData       : React.PropTypes.func,
-  deleteTemplate : React.PropTypes.func.isRequired,
-  starCollection : React.PropTypes.func.isRequired,
-  updateTemplate : React.PropTypes.func.isRequired,
+  getCollection    : React.PropTypes.func.isRequired,
+  getItems         : React.PropTypes.func.isRequired,
+  updateCollection : React.PropTypes.func.isRequired,
+  starCollection   : React.PropTypes.func.isRequired,
+  deleteCollection : React.PropTypes.func.isRequired,
+  // Item Actions
+  deleteItem       : React.PropTypes.func.isRequired,
+};
+Viewer.contextTypes      = {
+  router : React.PropTypes.object,
 };
 const mapStateToProps    = state => ({
-  viewStore : state.collections,
+  collections : state.collections,
 });
 const mapDisptachToProps = dispatch => ({
-  loadSpec       : (collectionName) => dispatch(loadSpec(collectionName)),
-  loadData       : (collectionName, query) => dispatch(loadData(collectionName, query)),
-  deleteTemplate : collectionName => dispatch(deleteTemplate(collectionName)),
-  starCollection : collectionName => dispatch(starCollection(collectionName)),
-  updateTemplate : (collectionName, data) => dispatch(updateTemplate(collectionName, data)),
+  // Collection Actions
+  getCollection    : (collectionName) => dispatch(getCollection(collectionName)),
+  getItems         : (collectionName, query) => dispatch(getItems(collectionName, query)),
+  updateCollection : (collectionName, data) => dispatch(updateCollection(collectionName, data)),
+  starCollection   : collectionName => dispatch(starCollection(collectionName)),
+  deleteCollection : collectionName => dispatch(deleteCollection(collectionName)),
+  // Item Actions
+  deleteItem       : (collectionName, id) => dispatch(deleteItem(collectionName, id)),
 });
 
 export default connect(mapStateToProps, mapDisptachToProps)(Viewer);

@@ -23,9 +23,9 @@
   },
   "homepage": "https://github.com/Sharavanth/headoffice#readme",
   "dependencies": {
-    "bootstrap": "^4.0.0-alpha.5",
+    "bootstrap": "4.0.0-alpha.5",
     "classnames": "^2.2.5",
-    "font-awesome": "^4.6.1",
+    "font-awesome": "4.6.1",
     "http-proxy": "^1.15.1",
     "isomorphic-fetch": "^2.2.1",
     "jwt-decode": "^2.1.0",

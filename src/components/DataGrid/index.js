@@ -1,4 +1,4 @@
-import _ from "underscore";
+import { isEmpty } from "utils";
 import React, { Component, PropTypes } from "react";
 import { DGHeaderRow } from "./DGHeaderRow";
 import { DGBody } from "./DGBody";
@@ -38,7 +38,7 @@ class DataGrid extends Component {
 
     if (isLoading) {
       return <div className={styles.spinner}><i className="fa fa-spinner fa-spin fa-2x fa-fw"/></div>;
-    } else if (_.isEmpty(rows)) {
+    } else if (isEmpty(rows)) {
       return <div className={styles.noData}>No Data Present</div>;
     }
 

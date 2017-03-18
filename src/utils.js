@@ -63,12 +63,13 @@ export const randomString       = len => {
   }
   return text;
 };
-export const objectToURI        = obj => {
-  const generateQueryString = R.addIndex(
-    R.map,
-    (key, value) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
-  );
-  return R.compose(R.join("&"), generateQueryString)(obj);
+export const objectToURI               = obj => {
+  const encode = (value, key) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+  return R.compose(
+    R.join("&"),
+    R.values,
+    R.mapObjIndexed(encode)
+  )(obj);
 };
 export const exec               = R.curry((fn, name) => fn(name));
 export const execById           = R.curry((fn, name, id) => fn(name, id));

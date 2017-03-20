@@ -66,8 +66,8 @@ const collectionReducer = {
   [GET_SPEC_FAILURE] : (state, action) => setFailure(action.payload, state),
 
   [STAR_COLLECTION_SUCCESS] : (state, action) => {
-    const { template, collectionName } = action.payload;
-    const isFavorite                   = template.isFavorite;
+    const { data, collectionName } = action.payload;
+    const isFavorite                   = data.isFavorite;
     const setIsFavorite                = compose(
       set("isFavorite", isFavorite, collectionName),
       set(["data", collectionName, "isFavorite"], isFavorite, "list"),

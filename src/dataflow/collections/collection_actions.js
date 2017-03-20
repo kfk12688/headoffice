@@ -100,6 +100,6 @@ export function starCollection(collectionName) {
     return fetch("GET", `api/collections/star/${collectionName}`)
       .then(res => res.json())
       .then(data => dispatch(starCollectionSuccess(collectionName, data)))
-      .catch(error => starCollectionFailure(collectionName, error));
+      .catch(error => dispatch(starCollectionFailure(collectionName, error)));
   };
 }

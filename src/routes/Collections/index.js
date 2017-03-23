@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { StickyContainer, Sticky } from "react-sticky";
 import { connect } from "react-redux";
 import { SearchBar, DataGrid } from "components";
-import { getProps, toDate, exec, getSelectedKeys } from "utils";
+import { getProps, toDate, getSelectedKeys } from "utils";
 import { getCollections, starCollection, deleteCollection, selectAll, deselectAll, toggleSelection } from "dataflow/collections/actions";
 import { ContentMenu } from "./ContentMenu";
 
@@ -14,7 +14,7 @@ class Collections extends Component {
     this.actions   = {
       deleteCollection : {
         name    : "Delete Template",
-        handler : exec(props.deleteCollection),
+        handler : props.deleteCollection,
       },
     };
     this.colSpec   = [
@@ -31,7 +31,7 @@ class Collections extends Component {
         headerStyle : { borderRight : 0 },
         name        : "favorite-col",
         renderType  : "favorite",
-        action      : exec(props.starCollection),
+        action      : props.starCollection,
         sortable    : false,
         text        : "",
       },
